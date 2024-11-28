@@ -50,7 +50,7 @@ function Splash() {
 
         {/* Buttons */}
         <footer className="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <a href="/auth/admin">
+          <a href="/auth/login">
             <button className="px-12 sm:px-16 py-2 font-medium text-white border rounded-full border-[#FBF9EB]">
               Signup
             </button>
