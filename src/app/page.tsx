@@ -1,12 +1,10 @@
-import React from 'react'
-import WelcomeScreen from '@/onboard/page'
-const Home = () => {
+import Splash from "@/components/Splash";
+import Image from "next/image";
+
+export default function Home() {
   return (
-
-      
-    <WelcomeScreen/>
-
-  )
+    <>
+    <Splash/>
+    </>
+  );
 }
-
-export default Home
