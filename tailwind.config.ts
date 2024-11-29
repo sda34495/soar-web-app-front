@@ -8,29 +8,23 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'custom-gradient': 'linear-gradient(267.36deg, #C2A171 0.09%, #D4B37E 15.51%, #FCDB9B 49.49%, #C2A171 95.32%)',
-        'gold': 'linear-gradient(267.36deg, #C2A171 0.09%, #D4B37E 15.51%, #FCDB9B 49.49%, #C2A171 95.32%)',
-         'image':'url("/bg.png")'
+      fontFamily: {
+        "Bricolage-Grotesque": ["Bricolage Grotesque ", "sans-serif"],
       },
-
-      fontFamily:{
-        'Bricolage-Grotesque': ["Bricolage Grotesque ", 'sans-serif'],
-       
-      
-                                                
-                                                
-                                                
-      },
-
 
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        golden: "#C2A171", // Add the golden color to Tailwind's color palette
+        "gray-custom": "#989898",
       },
-      
-       
-      
+      backgroundImage: {
+        "custom-gradient":
+          "linear-gradient(267.36deg, #C2A171 0.09%, #D4B37E 15.51%, #FCDB9B 49.49%, #C2A171 95.32%)",
+        "custom-gradient-hover":
+          "linear-gradient(267.36deg, #A6855B 0.09%, #B89A6A 15.51%, #E0B681 49.49%, #A6855B 95.32%)",
+        "custom-heading-gradient":
+          "linear-gradient(to bottom, #fbedd3, #c3a374)",
+        image: 'url("/bg.png")',
+      },
     },
   },
   plugins: [],

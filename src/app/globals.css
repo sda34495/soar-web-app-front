@@ -10,3 +10,31 @@
 body {
   @apply bg-zinc-900;
 }
+
+@layer base {
+  /* This will apply the focus style globally to all inputs and textareas */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none; /* Removes the default outline */
+    border-color: theme('colors.golden') !important; /* Use the golden color defined in tailwind.config.js */
+    box-shadow: 0 0 0 0px rgba(194, 161, 113, 0.4); /* Optional: Add a slight glow effect */
+  }
+}
+
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 3px; /* Width of the scrollbar */
+  }
+  ::-webkit-scrollbar-track {
+    background: #000000; /* Track color */
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #4b5563; /* Thumb color */
+    border-radius: 9999px; /* Make the scrollbar rounded */
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280; /* Thumb hover color */
+  }
+}

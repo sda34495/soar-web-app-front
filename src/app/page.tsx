@@ -1,11 +1,14 @@
-import WelcomeScreen from '@/app/onboard/welcome/page'
+import Splash from "@/components/Splash";
+import Testauth from "@/components/Testauth";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <>
+    <Splash/>
+
     
-      <WelcomeScreen />
-      
+    {/* <Testauth/> */}
     </>
   );
 }
