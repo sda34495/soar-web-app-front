@@ -6,11 +6,11 @@ import Sidebar from "../../../components/Sidebar";
 
 const MainLayout = ({children}:any) => {
   return (
-    <div className="flex justify-center bg-yellow-900 min-h-screen">
-      <div className="grid grid-cols-[1fr,4fr] max-w-screen w-full bg-white shadow-lg">
+    <div className="flex justify-center bg-yellow-900 max-w-[100rem] mx-auto">
+      <div className="grid grid-cols-[1fr,4fr]  max-w-screen w-full bg-white shadow-lg">
 
         {/* Sidebar */}
-        <div className="bg-black text-white flex  justify-center overflow-y-auto  scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700 scrollbar-thumb-rounded">
+        <div className="bg-[#121212] text-white flex justify-center overflow-y-auto  scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700 scrollbar-thumb-rounded">
           <Sidebar />
           
         </div>
