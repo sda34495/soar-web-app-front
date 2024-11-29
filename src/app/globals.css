@@ -11,6 +11,17 @@ body {
   @apply bg-black
 }
 
+@layer base {
+  /* This will apply the focus style globally to all inputs and textareas */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none; /* Removes the default outline */
+    border-color: theme('colors.golden') !important; /* Use the golden color defined in tailwind.config.js */
+    box-shadow: 0 0 0 0px rgba(194, 161, 113, 0.4); /* Optional: Add a slight glow effect */
+  }
+}
+
 
 @layer utilities {
   ::-webkit-scrollbar {
