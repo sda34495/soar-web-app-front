@@ -32,10 +32,10 @@ const Welcome = () => {
             <img
               src="/cone.png"
               alt="Cone"
-              className="w-6 h-6 mx-auto mb-2"
+              className="w-18 h-16 mx-auto mb-2"
               />
 
-            <h1 className='text-3xl'>Weclome aboard!</h1>
+            <h1 className='text-3xl'>Welcome aboard!</h1>
             <p className="mt-10 text-sm sm:text-base md:text-lg lg:text-xl text-[#DCDCDC]">
               You've taken the first step toward an exciting journey. Get ready to
               <br />
