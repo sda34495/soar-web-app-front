@@ -358,7 +358,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <aside className="w-64 h-screen bg-black text-gray-200 flex flex-col justify-between">
+    <aside className="w-64 h-screen bg-black text-gray-200 flex flex-col justify-between px-2">
       <div>
         <div className="text-gold font-bold p-6 text-xl">SOAR</div>
         <ul className="mt-1 space-y-12">
@@ -449,7 +449,7 @@ const Sidebar = () => {
       </div>
 
       {/* Support button handled separately */}
-      <div className="p-4">
+      <div className="py-4">
         <div className="mb-6 text-start">
           <Link href="/support">
             <li

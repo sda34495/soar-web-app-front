@@ -50,7 +50,7 @@ const FitnessCard = ({percentage} :any) => {
             <div className="flex items-center space-x-3">
               <input
                 type="checkbox"
-                className="h-5 w-5 text-green-500 bg-black border-gray-600 focus:ring-0"
+                className="h-5 w-5 text-green-500  bg-black border-gray-600 focus:ring-0"
               />
               <span className="text-gray-400">Fitness (morning)</span>
             </div>

@@ -9,6 +9,11 @@
 
 body {
   @apply bg-zinc-800;
+
+}
+
+*{
+  font-family: 'Satoshi', sans-serif;
 }
 
 @layer base {
