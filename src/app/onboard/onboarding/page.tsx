@@ -1,4 +1,5 @@
 'use client'
+import Link from "next/link";
 import React from "react";
 
 const Page = () => {
@@ -10,13 +11,13 @@ const Page = () => {
       <div className="flex flex-col mt-20 mx-6 sm:mx-40 lg:mx-auto">
         
         <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
-        <header className="w-full  mt-10 ml-10 bg-red">
+        <header className="w-full mt-10 ml-10 bg-red">
           <div className=" w-[120px] text-center">
-        <hr className="bg-gradient-to-b from-[#fbedd3] to-[#c3a374] w-[120px]"  />
+        <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 "  />
         <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
           SOAR
         </h1>
-        <hr className="bg-gradient-to-b from-[#fbedd3] to-[#c3a374] w-[120px]" />
+        <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
           </div>
       </header>
           <div className="mt-10 items-start">
@@ -76,10 +77,12 @@ const Page = () => {
            
 
             {/* Next Button */}
-            <button className="w-32 mt-5 bg-gradient-to-b from-[#fbedd3] to-[#c3a374]  py-2 font-medium text-black rounded-full">
-            <a href="/onboard/package">
+            <button type="submit" className="w-32 mt-5 bg-gradient-to-b from-[#fbedd3] to-[#c3a374]  py-2 font-medium text-black rounded-full">
+            
+              <Link href="/onboard/package">
               Next
-            </a>
+              </Link>
+           
             </button>
           </form>
         </div>

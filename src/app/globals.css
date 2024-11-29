@@ -11,6 +11,7 @@ body {
   @apply bg-zinc-900;
 }
 
+
 @layer base {
   /* This will apply the focus style globally to all inputs and textareas */
   input:focus,

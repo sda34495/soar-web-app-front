@@ -1,6 +1,5 @@
 import Splash from "@/components/Splash";
-import Testauth from "@/components/Testauth";
-import Image from "next/image";
+
 
 export default function Home() {
   return (
@@ -8,7 +7,7 @@ export default function Home() {
     <Splash/>
 
     
-    {/* <Testauth/> */}
+ 
     </>
   );
 }

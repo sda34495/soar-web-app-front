@@ -50,16 +50,16 @@ function Splash() {
 
         {/* Buttons */}
         <footer className="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <a href="/auth/login">
-            <button className="px-12 w-full sm:px-20 py-4   text-white font-semibold  rounded-full border-2 border-[#FBF9EB]">
+            <button type="submit" className="px-12 w-full sm:px-20 py-4   text-white font-semibold  rounded-full border-2 border-[#FBF9EB]">
+           <a href="/auth/login">
               Signup
-            </button>
           </a>
+            </button>
+            <button type="submit" className="px-12 w-full  sm:px-20 py-4 text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
           <a href="/auth/login">
-            <button className="px-12 w-full  sm:px-20 py-4 text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
               Login
-            </button>
           </a>
+            </button>
         </footer>
       </div>
     </div>
