@@ -137,16 +137,16 @@ function LoginPage() {
   return (
     <div className="bg-[#C2A171] min-h-screen text-white flex items-center justify-center px-4">
       {/* Container */}
-      <div className="py-12 relative opacity-95 overflow-hidden mt-8 mb-10 bg-gradient-to-l from-[#333333] to-[#121212] rounded-3xl max-w-4xl w-full px-8 sm:px-10 lg:px-12">
+      <div className="py-12 relative opacity-95 overflow-hidden mt-8 mb-10 bg-gradient-to-l  from-[#333333] to-[#121212] rounded-3xl max-w-4xl w-full px-8 sm:px-10 lg:px-12">
         {/* Background image */}
         <Image
           src={bgImage}
           alt="bgimage"
-          className="w-full h-full opacity-5 absolute inset-0 -z-10"
+          className="w-full h-full opacity-95 absolute inset-0 -z-10"
         />
 
         {/* Header */}
-        <div className="text-center mb-2 relative z-20">
+        <div className="text-center   mb-2 relative z-20">
           <h1 className="text-4xl z-50 md:text-5xl lg:text-8xl font-bold text-transparent bg-clip-text bg-custom-heading-gradient">
             SOAR
           </h1>

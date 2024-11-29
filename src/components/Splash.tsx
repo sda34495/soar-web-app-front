@@ -5,12 +5,12 @@ import bgImage from "../../public/bg.png";
 
 function Splash() {
   return (
-    <div className="relative w-full h-screen bg-black dark:bg-black">
+    <div className="relative w-full h-screen  bg-zinc-900 dark:bg-zinc-900" >
       {/* Background Image */}
       <Image
         src={bgImage}
         alt="bgimage"
-        className="w-full h-full opacity-10 absolute inset-0"
+        className="w-full h-full opacity-80 absolute inset-0"
       />
 
       {/* Centered Content */}
