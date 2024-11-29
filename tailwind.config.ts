@@ -10,6 +10,8 @@ export default {
     extend: {
       backgroundImage: {
         'custom-gradient': 'linear-gradient(267.36deg, #C2A171 0.09%, #D4B37E 15.51%, #FCDB9B 49.49%, #C2A171 95.32%)',
+        'gold': 'linear-gradient(267.36deg, #C2A171 0.09%, #D4B37E 15.51%, #FCDB9B 49.49%, #C2A171 95.32%)',
+         'image':'url("/bg.png")'
       },
 
       fontFamily:{
@@ -26,9 +28,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
-      backgroundImage: {
-        'image':'url("/bg.png")'
-      }
+      
+       
+      
     },
   },
   plugins: [],

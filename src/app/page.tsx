@@ -1,10 +1,11 @@
-import Splash from "@/components/Splash";
-import Image from "next/image";
+import WelcomeScreen from '@/app/onboard/welcome/page'
 
 export default function Home() {
   return (
     <>
-    <Splash/>
+    
+      <WelcomeScreen />
+      
     </>
   );
 }
