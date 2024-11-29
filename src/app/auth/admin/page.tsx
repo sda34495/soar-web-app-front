@@ -22,7 +22,7 @@ function AdminLogin() {
         <div className="text-center mb-2 relative z-20">
           {" "}
           {/* Added relative z-20 */}
-          <h1 className="text-4xl z-50 md:text-5xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
+          <h1 className="text-4xl z-50 md:text-5xl lg:text-8xl font-bold text-transparent bg-clip-text bg-custom-heading-gradient">
             SOAR
           </h1>
           <p className="text-[#F8F8F8] text-lg sm:text-xl md:text-2xl ">
@@ -39,18 +39,17 @@ function AdminLogin() {
           {/* Add relative z-20 */}
           {/* Login Form */}
           <div className="flex-1 relative justify-center w-full max-w-xs mx-auto z-20">
-            <h2 className="text-2xl mb-8 mt-4 text-center font-semibold font-Bricolage-Grotesque ">
-            Admin Login
+            <h2 className="text-3xl mb-8 mt-4 text-center font-semibold font-Bricolage-Grotesque ">
+              Admin Login
             </h2>
             <form>
-            <div className="mb-4">
+              <div className="mb-4">
                 <div className="relative">
                   <input
                     type="email"
                     name="email"
                     placeholder="Email"
-                  
-                    className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg text-sm placeholder-[#7c7c7c] font-semibold focus:outline-none  border "
+                    className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold focus:outline-none  border "
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
                     <svg
@@ -70,7 +69,6 @@ function AdminLogin() {
                     </svg>
                   </div>
                 </div>
-           
               </div>
 
               <div className="mb-4">
@@ -79,8 +77,7 @@ function AdminLogin() {
                     type="password"
                     name="password"
                     placeholder="Password"
-                    
-                    className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-70 border-[#7c7c7c] rounded-lg text-sm placeholder-[#7c7c7c] font-semibold focus:outline-none  border"
+                    className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-70 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold focus:outline-none  border"
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
                     <svg
@@ -102,22 +99,21 @@ function AdminLogin() {
                 </div>
 
                 <button
-                type="submit"
-                className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-8"
-              >
-                Login
-              </button>
-              <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
-                Forget Password
-              </p>
-                
+                  type="submit"
+                  className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-8"
+                >
+                  Login
+                </button>
+                <a href="">
+                <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
+                  Forget Password
+                </p>
+                </a>
               </div>
             </form>
           </div>
           {/* Signup Form */}
         </div>
-
-             
       </div>
     </div>
   );
