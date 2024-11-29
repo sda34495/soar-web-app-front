@@ -8,7 +8,7 @@
 
 
 body {
-  @apply bg-black
+  @apply bg-zinc-800;
 }
 
 @layer base {
