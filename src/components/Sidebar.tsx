@@ -470,7 +470,7 @@ const Sidebar = () => {
             </li>
           </Link>
         </div>
-        <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#C78526] to-[#3d3e3d] ">
+        <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#c784269b] to-[#3d3e3d] ">
           <div className="bg-black/80 rounded-2xl">
           <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
           <div className="text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">2nd</div>
