@@ -358,20 +358,26 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <aside className="w-64 h-screen bg-black text-gray-200 flex flex-col justify-between px-2">
+    <aside className="w-64 h-screen text-gray-200 flex flex-col justify-between">
       <div>
-        <div className="text-gold font-bold p-6 text-xl">SOAR</div>
-        <ul className="mt-1 space-y-12">
+      <div className="flex flex-col items-center justify-center mt-5 mb-16">
+  <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+  <div className="text-gold font-semibold text-4xl text-transparent bg-clip-text bg-custom-heading-gradient mt-1 mb-1">
+    SOAR
+  </div>
+  <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+</div>
+        <ul className=" flex flex-col space-y-1 ">
           {/* Check-in link */}
           <Link href="/check-in">
             <li
-              className={`flex items-center p-1 cursor-pointer font-semibold  ${
+              className={`flex items-center px-1 py-2  cursor-pointer font-semibold  ${
                 activeItem === "Check-in"
-                  ? "bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] rounded-lg p-1 text-black font-semibold"
-                  : "text-[#BDBDBD]"
+                  ? "bg-custom-gradient rounded-xl p-1  text-black font-semibold"
+                  : "text-[#BDBDBD] "
               }`}
             >
-              <img src="/sidebar/check.svg" alt="Check-in" className="mr-4" />
+              <img src={activeItem === "Check-in" ? '/sidebar/dark-check-in.svg' : '/sidebar/check-in.svg'} alt="Check-in" className="mr-4" />
               <p>Check-in</p>
             </li>
           </Link>
@@ -379,13 +385,13 @@ const Sidebar = () => {
           {/* Dashboard link */}
           <Link href="/dashboard">
             <li
-              className={`flex items-center p-1 cursor-pointer font-semibold  ${
+              className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
                 activeItem === "Dashboard"
-                  ? "bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] rounded-lg p-1 text-black font-semibold"
+                  ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src="/sidebar/chart.svg" alt="Dashboard" className="mr-4" />
+              <img src={activeItem === "Dashboard" ?  '/sidebar/dark-dashboard.svg' : "/sidebar/chart.svg"} alt="Dashboard" className="mr-4" />
               <p>Dashboard</p>
             </li>
           </Link>
@@ -393,13 +399,13 @@ const Sidebar = () => {
           {/* Leaderboard link */}
           <Link href="/leaderboard">
             <li
-              className={`flex items-center p-1 cursor-pointer font-semibold ${
+              className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                 activeItem === "Leaderboard"
-                  ? "bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] rounded-lg p-1 text-black font-semibold"
+                  ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src="/sidebar/chartstar.svg" alt="Leaderboard" className="mr-4" />
+              <img src={activeItem === "Leaderboard" ? '/sidebar/dark-podium.svg' : "/sidebar/chartstar.svg"} alt="Leaderboard" className="mr-4" />
               <p>Leaderboard</p>
             </li>
           </Link>
@@ -407,13 +413,13 @@ const Sidebar = () => {
           {/* Coaching link */}
           <Link href="/coaching">
             <li
-              className={`flex items-center p-1 cursor-pointer font-semibold ${
+              className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                 activeItem === "Coaching"
-                  ? "bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] rounded-lg p-1 text-black font-semibold"
+                  ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src="/sidebar/coaching.svg" alt="Coaching" className="mr-4" />
+              <img src= {activeItem === "Coaching" ? "/sidebar/dark-coaching.svg" : "/sidebar/coaching.svg"}  alt="Coaching" className="mr-4" />
               <p>Coaching</p>
             </li>
           </Link>
@@ -421,13 +427,13 @@ const Sidebar = () => {
           {/* Settings link */}
           <Link href="/setting">
             <li
-              className={`flex items-center p-1 cursor-pointer font-semibold ${
+              className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                 activeItem === "Settings"
-                  ? "bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] rounded-lg p-1 text-black font-semibold"
+                  ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src="/sidebar/setting.svg" alt="Settings" className="mr-4" />
+              <img src={activeItem === "Settings" ? '/sidebar/dark-setting.svg' : "/sidebar/setting.svg"} alt="Settings" className="mr-4" />
               <p>Settings</p>
             </li>
           </Link>
@@ -435,13 +441,13 @@ const Sidebar = () => {
           {/* Professional Referral link */}
           <Link href="/professional-referral">
             <li
-              className={`flex items-center p-1 cursor-pointer font-semibold ${
+              className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                 activeItem === "Professional Referral"
-                  ? "bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] rounded-lg p-1 text-black font-semibold"
+                  ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src="/sidebar/chain.svg" alt="Professional Referral" className="mr-4" />
+              <img src={activeItem === "Professional Referral" ? "/sidebar/dark-ref.svg" : "/sidebar/chain.svg" } alt="Professional Referral" className="mr-4" />
               <p>Professional Referral</p>
             </li>
           </Link>
@@ -453,13 +459,13 @@ const Sidebar = () => {
         <div className="mb-6 text-start">
           <Link href="/support">
             <li
-              className={`font-semibold text-start p-1 rounded-lg text-gray-300 w-full flex items-center ${
+              className={`font-semibold text-start px-1 py-2 rounded-xl  w-full flex items-center ${
                 pathname === "/support"
-                  ? "bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] font-semibold text-black"
-                  : "hover:bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] hover:text-black"
+                  ? "bg-custom-gradient font-semibold text-black  "
+                  : "hover:bg-custom-gradient-hover "
               }`}
             >
-              <img src="/sidebar/support.svg" alt="Support" className="mr-4" />
+              <img src={pathname === '/support' ? '/sidebar/dark-support.svg' : "/sidebar/support.svg"} alt="Support" className="mr-4" />
               Support
             </li>
           </Link>

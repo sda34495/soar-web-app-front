@@ -11,7 +11,7 @@ const LeaderboardCard = ({
 }: any) => {
   return (
     <div
-      className={`rounded-xl p-6 shadow-lg text-white min-w-[300px]`}
+      className={`rounded-xl p-6  shadow-lg text-white min-w-[300px]`}
       style={{ background: color }}
     >
       <div className="flex items-center justify-between">

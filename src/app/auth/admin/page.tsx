@@ -15,7 +15,7 @@ function AdminLogin() {
         <Image
           src={bgImage}
           alt="bgimage"
-          className="w-full h-full opacity-5 absolute inset-0 -z-10" // Add -z-10 to send the image behind
+          className="w-full h-full opacity-95 absolute inset-0 -z-10" // Add -z-10 to send the image behind
         />
 
         {/* Header */}

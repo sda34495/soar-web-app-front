@@ -15,6 +15,8 @@ export default {
       colors: {
         golden: "#C2A171", // Add the golden color to Tailwind's color palette
         "gray-custom": "#989898",
+        "custom-heading-gradient":
+          "linear-gradient(to bottom, #fbedd3, #c3a374)",
       },
       backgroundImage: {
         "custom-gradient":
