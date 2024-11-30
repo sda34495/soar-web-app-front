@@ -358,7 +358,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <aside className="w-64 h-screen text-gray-200 flex flex-col justify-between">
+    <aside className="w-64  h-screen text-gray-200 flex flex-col justify-between">
       <div>
       <div className="flex flex-col items-center justify-center mt-5 mb-16">
   <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
@@ -378,7 +378,7 @@ const Sidebar = () => {
               }`}
             >
               <img src={activeItem === "Check-in" ? '/sidebar/dark-check-in.svg' : '/sidebar/check-in.svg'} alt="Check-in" className="mr-4" />
-              <p>Check-in</p>
+              <p className="">Check-in</p>
             </li>
           </Link>
 
@@ -470,8 +470,8 @@ const Sidebar = () => {
             </li>
           </Link>
         </div>
-        <div className="bg-gray-800 rounded-lg p-4">
-          <div className="text-gold font-bold text-lg">2nd</div>
+        <div className="bg-gray-800 rounded-lg p-4 mb-5  font-Bricolage-Grotesque">
+          <div className="text-gold font-bold text-2xl">2nd</div>
           <div className="text-gray-400 mt-2">Your Position</div>
           <p className="text-gray-400 text-sm mt-1">
             Complete the check-in and increase your points to get a better position

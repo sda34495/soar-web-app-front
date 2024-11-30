@@ -10,7 +10,8 @@ export default {
     extend: {
       fontFamily: {
         "Bricolage-Grotesque": ["Bricolage Grotesque ", "sans-serif"],
-      },
+        custom: ['MyFont', 'sans-serif'],
+            },
 
       colors: {
         golden: "#C2A171", // Add the golden color to Tailwind's color palette
