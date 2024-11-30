@@ -470,13 +470,17 @@ const Sidebar = () => {
             </li>
           </Link>
         </div>
-        <div className="bg-custom-card-gradient rounded-2xl p-4 mb-5  ">
-          <div className="text-gold font-bold font-Bricolage-Grotesque text-3xl">2nd</div>
+        <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#C78526] to-[#3d3e3d] ">
+          <div className="bg-black/80 rounded-2xl">
+          <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
+          <div className="text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">2nd</div>
           <div className=" text-[#BDBDBD] font-semibold ">Your Position</div>
-          <p className="text-gray-400 text-sm mt-4">
+          <p className="text-[#7C7C7C] text-sm mt-4 ">
             Complete the check-in and increase your points to get a better position
           </p>
+          </div>
         </div>
+          </div>
       </div>
     </aside>
   );
