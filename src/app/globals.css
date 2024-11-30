@@ -5,6 +5,19 @@
 @tailwind utilities;
 
 
+@font-face {
+  font-family: 'MyFont';
+  src: url('/fonts/my-font.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apply font globally using Tailwind */
+@layer base {
+  body {
+    font-family: 'MyFont', sans-serif;
+  }
+}
 
 
 body {
