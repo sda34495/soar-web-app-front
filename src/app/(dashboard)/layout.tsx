@@ -1,15 +1,17 @@
+import Sidebar from "@/components/Sidebar";
 import MainLayout from "./components/DashboardLayout";
 
-export default function DashboardLayout({
+
+export default function Layout({
   children,
+  
 }: Readonly<{
   children: React.ReactNode;
+  
 }>) {
   return (
     <>
-      <div>
-        <MainLayout>{children}</MainLayout>
-      </div>
+      <MainLayout>{children}</MainLayout>
     </>
   );
 }

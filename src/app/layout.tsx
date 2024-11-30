@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Head from "next/head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,14 +21,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+
 }: Readonly<{
   children: React.ReactNode;
+  
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@300,301,500,700,1&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-image bg-cover bg-center `}
       >
+        
         {children}
       </body>
     </html>

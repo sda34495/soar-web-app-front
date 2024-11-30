@@ -455,7 +455,7 @@ const Sidebar = () => {
       </div>
 
       {/* Support button handled separately */}
-      <div className="">
+      <div className="py-4">
         <div className="mb-6 text-start">
           <Link href="/support">
             <li

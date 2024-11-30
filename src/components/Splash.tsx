@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import bgImage from "../../public/bg.png";
+import bgImage from '../../public/bg.png'
 
 function Splash() {
   return (
