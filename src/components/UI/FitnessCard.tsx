@@ -4,7 +4,8 @@ const FitnessCard = ({percentage} :any) => {
 
     const color = percentage < 50 ? 'bg-red-600 text-red-600' : 'bg-green-600 text-green-500';
   return (
-    <div className="bg-black text-white rounded-lg shadow-md p-6 space-y-4 ">
+    <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ">
+    <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
       
         {/* Header Section */}
         <div className="flex justify-between items-center ">
@@ -60,6 +61,7 @@ const FitnessCard = ({percentage} :any) => {
               <span>10 minutes</span>
             </div>
           </div>
+        </div>
         </div>
       
     </div>
