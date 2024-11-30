@@ -118,10 +118,14 @@ export default function CustomYAxisBarChart() {
   };
 
   return (
-    <div className="bg-gray-900 p-4 rounded-lg">
+
+
+    <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
+    <div className="bg-[#121212] p-4 rounded-2xl">
       <h2 className="text-white text-xl mb-4">Your Check-ins Stats</h2>
       <div style={{ width: '100%', height: '320px' }}>
         <Bar data={data} options={options} />
+      </div>
       </div>
     </div>
   );
