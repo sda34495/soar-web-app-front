@@ -12,9 +12,9 @@ const MainLayout = ({ children }: any) => {
         </div>
 
         {/* Main Content */}
-        <div className="bg-gray-800 text-white flex flex-col h-screen">
+        <div className="bg-gradient-to-r from-[#000000] to-[#2c1e08] text-white flex flex-col h-screen">
           {/* Navbar */}
-          <div className="sticky top-0 bg-gray-800 z-10 p-4">
+          <div className="sticky top-0  z-10 p-4">
             <Navbar />
           </div>
 
