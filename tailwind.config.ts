@@ -28,6 +28,7 @@ export default {
         image: 'url("/bg.png")',
 
 
+
         'custom-card-gradient': 'linear-gradient(116.73deg, rgba(194, 161, 113, 0.1) 1.22%, rgba(199, 133, 38, 0.1) 101.63%)',
 
       },
