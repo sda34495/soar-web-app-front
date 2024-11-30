@@ -5,6 +5,7 @@ import bgImage from "../../../../public/bg.png";
 import { FaTwitter } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
+import Link from "next/link";
 
 // Define types for form data
 interface LoginData {
@@ -233,12 +234,11 @@ function LoginPage() {
                 )}
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
-              >
-                Login
-              </button>
+              <Link href="" type="submit">
+                <button className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4">
+                  Login
+                </button>
+              </Link>
               <a href="/auth/forgetPassword">
                 <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
                   Forget Password
@@ -326,19 +326,17 @@ function LoginPage() {
                 )}
               </div>
               <div className="mb-4">
-
                 <div className="relative">
-
-                <input
-                  type={passwordVisible ? "text" : "password"}
-                  name="password"
-                  placeholder="Password"
-                  value={signupData.password}
-                  onChange={handleSignupChange}
-                  className="w-full border rounded-lg p-3  bg-transparent opacity-70 border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    value={signupData.password}
+                    onChange={handleSignupChange}
+                    className="w-full border rounded-lg p-3  bg-transparent opacity-70 border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
                   />
 
-<div
+                  <div
                     className="absolute inset-y-0 right-0 flex items-center cursor-pointer pr-4"
                     onClick={togglePasswordVisibility}
                   >
@@ -379,7 +377,7 @@ function LoginPage() {
                       </svg>
                     )}
                   </div>
-                  </div>
+                </div>
                 {signupErrors.password && (
                   <p className="text-red-500 text-sm">
                     {signupErrors.password}
@@ -388,17 +386,16 @@ function LoginPage() {
               </div>
               <div className="mb-4">
                 <div className="relative">
-
-                <input
+                  <input
                     type={confirmPasswordVisible ? "text" : "password"}
                     name="confirmPassword"
                     placeholder="Confirm password"
                     value={signupData.confirmPassword}
                     onChange={handleSignupChange}
                     className="w-full border rounded-lg p-3  bg-transparent opacity-70 border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
-                    />
+                  />
 
-<div
+                  <div
                     className="absolute inset-y-0 right-0 flex items-center cursor-pointer pr-4"
                     onClick={toggleConfirmPasswordVisibility}
                   >
@@ -439,15 +436,7 @@ function LoginPage() {
                       </svg>
                     )}
                   </div>
-
-
-
-                    </div>
-
-
-
-
-
+                </div>
 
                 {signupErrors.confirmPassword && (
                   <p className="text-red-500 text-sm">
@@ -455,12 +444,11 @@ function LoginPage() {
                   </p>
                 )}
               </div>
-              <button
-                type="submit"
-                className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
-              >
-                Signup
-              </button>
+              <Link href="" type="submit">
+                <button className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4">
+                  Signup
+                </button>
+              </Link>
               <p className="text-md font-semibold mt-4 text-[#989898] text-center">
                 Already have an account?{" "}
                 <span className="text-[#C2A171] cursor-pointer hover:underline">
