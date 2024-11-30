@@ -10,7 +10,6 @@ export default {
     extend: {
       fontFamily: {
         "Bricolage-Grotesque": ["Bricolage Grotesque ", "sans-serif"],
-        custom: ['MyFont', 'sans-serif'],
             },
 
       colors: {
