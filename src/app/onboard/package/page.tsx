@@ -15,19 +15,19 @@ const Page = () => {
     <>
       <div className="flex flex-col mt-20 mx-6 sm:mx-40 lg:mx-auto">
         <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
-          <header className="w-full mt-10 ml-10">
-          <div className="flex flex-col items-start mt-5 mb-16">
-  <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-  <div className="text-gold text-start font-semibold text-4xl text-transparent bg-clip-text bg-custom-heading-gradient mt-1 mb-1">
-    SOAR
-  </div>
-  <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-</div>
-          </header>
+        <header className="w-full mt-10  bg-red">
+          <div className=" w-[120px] text-center">
+        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 "  />
+        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
+          SOAR
+        </h1>
+        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+          </div>
+      </header>
 
           <div className="mt-10">
             <h2 className="text-white text-2xl">
-              Select Your Package
+              Select Your Package   
             </h2>
             <p className="text-zinc-500 mt-2">
             We offer couple of packages to our users, free and premium. Which one you want?
@@ -56,9 +56,9 @@ const Page = () => {
                       stroke-width="1"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       ></path>
                     </svg>
                   </span>
@@ -131,7 +131,7 @@ const Page = () => {
               Apply Coupon Code
             </button>
 
-            <button className="py-4 px-20   text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
+            <button className="py-4 px-20 font-semibold  text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
               Start
             </button>
           </div>

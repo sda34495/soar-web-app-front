@@ -1,10 +1,9 @@
+import Settings from '@/components/Settings';
 import React from 'react'
 
 const SettingPage = () => {
   return (
-    <div>
-      setting page
-    </div>
+    <Settings/>
   )
 }
 

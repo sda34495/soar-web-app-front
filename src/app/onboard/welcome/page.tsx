@@ -1,14 +1,15 @@
 "use client";
 import React from 'react';
-
 const Welcome = () => {
 
   
   return (
     <>
-      <div className="relative w-full h-screen bg-image bg-center bg-cover">
+      <div className="relative w-full h-screen">
+    
         {/* Centered Content */}
         <div className="flex flex-col items-center justify-center h-full text-white relative z-10 px-4">
+          
           {/* Title Section */}
           <header className="text-center">
             <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">

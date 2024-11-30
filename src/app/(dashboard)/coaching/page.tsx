@@ -1,10 +1,9 @@
+import BookingCard from '@/components/BookingCard'
 import React from 'react'
 
 const CoachingPage = () => {
   return (
-    <div>
-      Coaching Page
-    </div>
+    <BookingCard />
   )
 }
 

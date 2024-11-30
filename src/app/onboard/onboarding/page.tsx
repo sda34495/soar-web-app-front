@@ -10,14 +10,14 @@ const Page = () => {
       
       <div className="flex flex-col mt-20 mx-6 sm:mx-40 lg:mx-auto">
         
-        <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
-        <header className="w-full mt-10 ml-10 bg-red">
+        <div className="mx-auto w-full sm:w-2/3 lg:w-1/2 ">
+        <header className="w-full mt-10  bg-red">
           <div className=" w-[120px] text-center">
-        <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 "  />
+        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 "  />
         <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
           SOAR
         </h1>
-        <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
           </div>
       </header>
           <div className="mt-10 items-start">
@@ -27,7 +27,7 @@ const Page = () => {
             </p>
           </div>
 
-          <form className="flex flex-col mt-8  text-white gap-6">
+          <form className="flex flex-col mt-8 max-w-lg text-white gap-6">
             {/* Fitness Goal Input */}
             <div className="flex items-center space-x-2 gap-3">
               <div className="flex gap-1">
@@ -77,13 +77,15 @@ const Page = () => {
            
 
             {/* Next Button */}
-            <button type="submit" className="w-32 mt-5 bg-gradient-to-b from-[#fbedd3] to-[#c3a374]  py-2 font-medium text-black rounded-full">
+              <Link href="/onboard/package"
+              >
             
-              <Link href="/onboard/package">
+            <button className="py-4 mt-8 px-20 font-semibold  text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
               Next
-              </Link>
-           
             </button>
+           
+        
+              </Link>
           </form>
         </div>
       </div>
