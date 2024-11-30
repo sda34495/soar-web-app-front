@@ -461,7 +461,7 @@ const Sidebar = () => {
             <li
               className={`font-semibold text-start px-1 py-2 rounded-xl  w-full flex items-center ${
                 pathname === "/support"
-                  ? "bg-custom-gradient font-semibold text-black"
+                  ? "bg-custom-gradient font-semibold text-black  "
                   : "hover:bg-custom-gradient-hover "
               }`}
             >
