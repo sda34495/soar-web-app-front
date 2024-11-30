@@ -470,7 +470,7 @@ const Sidebar = () => {
             </li>
           </Link>
         </div>
-        <div className="bg-gray-800 rounded-2xl p-4 mb-5  ">
+        <div className="bg-custom-card-gradient rounded-2xl p-4 mb-5  ">
           <div className="text-gold font-bold font-Bricolage-Grotesque text-3xl">2nd</div>
           <div className=" text-[#BDBDBD] font-semibold ">Your Position</div>
           <p className="text-gray-400 text-sm mt-4">
