@@ -59,7 +59,6 @@ const DashboardPage = () => {
     },
   ];
 
-  
   return (
     <div className="text-white">
       <div className="  flex flex-wrap gap-6  ">
@@ -79,8 +78,8 @@ const DashboardPage = () => {
         <CustomChart />
       </div>
 
-      <div className="  flex justify-center items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="  flex justify-start items-center">
+        <div className="flex flex-wrap gap-4">
           {leaderboardData.map((item, index) => (
             <LeaderboardCard
               key={index}
