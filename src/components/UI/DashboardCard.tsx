@@ -9,10 +9,15 @@ const DashboardCard = ({
   progressColor,
   progressWidth,
 }: any) => {
+
+
+  {/*  <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
+ <div className="flex flex-col bg-[#121212] py-2 rounded-2xl px-4 h-full"> */}
   return (
-    <div className="bg-black text-white p-4 rounded-lg shadow-md w-80">
+    <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
+    <div className="bg-[#121212] py-2 rounded-2xl px-4 text-white p-4 w-80">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">{title}</h3>
+        <h3 className="text-lg text-[#BDBDBD] font-semibold">{title}</h3>
         <button className="text-gray-400">
           <svg
             width="25"
@@ -47,11 +52,12 @@ const DashboardCard = ({
       </div>
       <p className="text-2xl font-bold mt-2">{time}</p>
       <div className="flex justify-between items-center pt-4 mb-1">
-        <p className="text-sm text-gray-400">Daily Progress</p>
+        <p className="text-sm text-[#BDBDBD]">Daily Progress</p>
         <p className="text-sm font-medium text-right mt-2">{points} pts</p>
       </div>
       <ProgressBar percentage={progressWidth} />
      
+    </div>
     </div>
   );
 };

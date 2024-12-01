@@ -1,7 +1,11 @@
 const CheckinCard = () => {
     const percentage = 50
   return (
-    <div className="flex flex-col md:flex-row items-center  justify-between mx-auto p-4 bg-black text-white rounded-2xl shadow-lg">
+    //       <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
+    <div className=" p-[1px] bg-gradient-to-b from-[#454545] to-[#3c3c3c] text-white rounded-2xl shadow-lg">
+    <div className="flex flex-col md:flex-row items-center  justify-between mx-auto p-4 bg-[#121212] text-white rounded-2xl shadow-lg">
+
+
       <div className="flex flex-col space-y-1">
         <h2 className="text-lg font-semibold">Today's Checkins</h2>
         <p className="text-sm text-gray-400">
@@ -27,12 +31,15 @@ const CheckinCard = () => {
                 <div
                   className={"h-full rounded-full bg-green-500" }
                   style={{ width: `${percentage}%` }}
-                ></div>
+                  ></div>
               </div>
               <span className="ml-2 text-sm">{percentage}%</span>
             </div>
       </div>
-    </div>
+                  </div>
+                  </div>
+         
+  
   );
 };
 

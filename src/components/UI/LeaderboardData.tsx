@@ -14,25 +14,32 @@ const leaderboardData = [
 ];
 
 const LeaderboardTable = () => {
+
+  
   return (
-    <div className="bg-black text-white rounded-lg shadow-md p-6 overflow-x-auto">
+
+  
+    <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl text-white  shadow-md overflow-hidden overflow-x-auto">
+    <div className="bg-[#121212] text-white rounded-2xl px-2 py-1 overflow-x-auto">
       <table className="w-full text-left border-collapse">
         {/* Table Header */}
         <thead>
-          <tr className="text-gray-400">
+          <tr className="text-[#7C7C7C] ">
             <th className="p-3">Rank</th>
             <th className="p-3">User</th>
             <th className="p-3">Points</th>
             <th className="p-3">League</th>
             <th className="p-3">Competition</th>
           </tr>
+
+          <tr className="border-t border-gray-700 h transition-all" ></tr>
         </thead>
         {/* Table Body */}
         <tbody>
           {leaderboardData.map((entry, index) => (
             <tr
               key={index}
-              className="border-t border-gray-700 hover:bg-gray-800 transition-all"
+              className=" hover:bg-gray-800 transition-all"
             >
               <td className="p-3">{entry.rank}</td>
               <td className="p-3 flex items-center space-x-3">
@@ -50,6 +57,7 @@ const LeaderboardTable = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import bgImage from "../../../../public/bg.png";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function ForgetPassword() {
   const [email, setEmail] = useState(""); // State to hold email value
@@ -117,16 +118,19 @@ function ForgetPassword() {
               {/* Error message for email */}
               {error && <p className="text-red-500 text-sm -mt-2">{error}</p>}
 
-              <div>
+              <div>               
                 <button
                   type="submit"
                   className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
-                >
+                  >
                   Login
                 </button>
+                
+                <Link href='/auth/login'>
                 <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
                   Try with another account
                 </p>
+                </Link>
               </div>
 
               <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />

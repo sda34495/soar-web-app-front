@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import bgImage from '../../public/bg.png'
+import Link from "next/link";
 
 function Splash() {
   return (
@@ -50,16 +51,16 @@ function Splash() {
 
         {/* Buttons */}
         <footer className="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <a href="/auth/login">
+          <Link href="/auth/login">
             <button className="px-12 w-full sm:px-20 py-4   text-white font-semibold  rounded-full border-2 border-[#FBF9EB]">
               Signup
             </button>
-          </a>
-          <a href="/auth/login">
+          </Link>
+          <Link href="/auth/login">
             <button className="px-12 w-full  sm:px-20 py-4 text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
               Login
             </button>
-          </a>
+          </Link>
         </footer>
       </div>
     </div>
