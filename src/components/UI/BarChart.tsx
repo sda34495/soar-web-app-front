@@ -2,6 +2,8 @@
 import React from 'react';
 import { Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import GraphTabs from '@/app/(dashboard)/components/GraphTabs';
+import DropDownChat from '../UI/DropDownChat';
 
 // Register Chart.js components
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
@@ -119,14 +121,24 @@ export default function CustomYAxisBarChart() {
 
   return (
 
+<>
+<GraphTabs/>
 
     <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
     <div className="bg-[#121212] p-4 rounded-2xl">
+      <div  className='flex flex-row justify-between'>
       <h2 className="text-white text-xl mb-4">Your Check-ins Stats</h2>
+       <div className='flex flex-row gap-5 items-center'>
+        <p>Date</p>
+        <DropDownChat/>
+        <p>Svg</p>
+       </div>
+      </div>
       <div style={{ width: '100%', height: '320px' }}>
         <Bar data={data} options={options} />
       </div>
       </div>
     </div>
+</>
   );
 }

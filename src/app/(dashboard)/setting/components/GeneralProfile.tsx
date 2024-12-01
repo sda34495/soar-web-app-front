@@ -132,7 +132,7 @@ const GeneralProfile = () => {
               onChange={handleChange} // Handle change
               placeholder="Username"
               id="username"
-              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
+              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
             />
           </div>
 
@@ -149,7 +149,7 @@ const GeneralProfile = () => {
                 onChange={handleChange} // Handle change
                 placeholder="First name"
                 id="firstname"
-                className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
+                className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
               />
             </div>
             <div className="w-full">
@@ -163,7 +163,7 @@ const GeneralProfile = () => {
                 onChange={handleChange} // Handle change
                 placeholder="Last name"
                 id="lastname"
-                className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
+                className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
               />
             </div>
           </div>
@@ -180,7 +180,7 @@ const GeneralProfile = () => {
               onChange={handleChange} // Handle change
               placeholder="Email Address"
               id="email"
-              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
+              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
             />
           </div>
 

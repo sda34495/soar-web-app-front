@@ -11,8 +11,7 @@ const DashboardCard = ({
 }: any) => {
 
 
-  {/*  <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
- <div className="flex flex-col bg-[#121212] py-2 rounded-2xl px-4 h-full"> */}
+  
   return (
     <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
     <div className="bg-[#121212] py-2 rounded-2xl px-4 text-white p-4 w-80">

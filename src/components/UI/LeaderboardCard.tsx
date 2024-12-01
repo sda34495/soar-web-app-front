@@ -13,9 +13,9 @@ const LeaderboardCard = ({
 
 
   return (
-    <div  className={`rounded-2xl overflow-hidden p-[1px] bg-gradient-to-br from-[#438ff2eb] to-[#08274c] text-white min-w-[300px]`}>
+    <div  className={`rounded-2xl overflow-hidden p-[1px] ${color.card1} text-white min-w-[300px]`}>
     <div  className={` bg-black/80 rounded-2xl `}>
-    <div  className={` h-full py-4 rounded-2xl  px-5 bg-[#1e2d3f7c] `}>
+    <div  className={` h-full py-4 rounded-2xl  px-5 ${color.card2} `}>
       <div className="flex items-center justify-between">
         {/* Position */}
         <h1 className="text-3xl text-center font-bold flex items-baseline justify-center">
