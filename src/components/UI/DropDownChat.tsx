@@ -7,7 +7,7 @@ const DateDropdown: React.FC = () => {
     <div className="relative inline-block text-sm font-medium">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center px-4 py-2 bg opacity-70 border-[#7c7c7c] bg-[#1e1e1e] rounded-lg text-white border focus:outline-none "
+        className="flex items-center px-4 py-2 bg-opacity-70 bg-[#1e1e1e] border-[#7c7c7c] rounded-lg border text-[#BDBDBD] focus:outline-none"
       >
         <span>Oct 01 - 31, 2024</span>
         <svg
@@ -29,16 +29,25 @@ const DateDropdown: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-[#1e1e1e] text-white border border-gray-300 rounded-lg shadow-lg">
+        <div className="absolute right-0 mt-2 w-56  bg-[#1E1E1E] text-[#BDBDBD] border border-[#7C7C7C] rounded-lg shadow-lg">
           <ul>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              Sep 01 - 30, 2024
+            <li className="px-4 py-3 hover:bg-[#191919] cursor-pointer rounded-t-lg">
+              Custom
             </li>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              Oct 01 - 31, 2024
+            <li className="px-4 py-3 hover:bg-[#191919] cursor-pointer">
+              Today
             </li>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              Nov 01 - 30, 2024
+            <li className="px-4 py-3 hover:bg-[#191919] cursor-pointer">
+              Yesterday
+            </li>
+            <li className="px-4 py-3 hover:bg-[#191919] cursor-pointer">
+              This month
+            </li>
+            <li className="px-4 py-3 bg-[#3a3a3a] hover:bg-[#191919] cursor-pointer rounded-md">
+              Last month
+            </li>
+            <li className="px-4 py-3 hover:bg-[#191919] cursor-pointer rounded-b-lg">
+              All time
             </li>
           </ul>
         </div>

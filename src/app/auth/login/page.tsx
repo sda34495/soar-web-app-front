@@ -234,7 +234,7 @@ function LoginPage() {
                 )}
               </div>
 
-              <Link href="" type="submit">
+              <Link href="/check-in" type="submit">
                 <button className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4">
                   Login
                 </button>
@@ -443,7 +443,7 @@ function LoginPage() {
                   </p>
                 )}
               </div>
-              <Link href="" type="submit">
+              <Link href="/check-in" type="submit">
                 <button className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4">
                   Signup
                 </button>

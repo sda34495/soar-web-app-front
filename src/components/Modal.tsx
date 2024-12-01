@@ -1,4 +1,6 @@
 "use client";
+
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface ModalProps {
@@ -21,13 +23,14 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
 }) => {
   const [showSecondModal, setShowSecondModal] = useState(false);
-
+  const router = useRouter();
   // Function to handle Apply Code
   const handleApplyCode = () => {
     setisOpen(false); // Close the current modal
+    setShowSecondModal(true); // Open the second modal after a short delay
     setTimeout(() => {
-      setShowSecondModal(true); // Open the second modal after a short delay
-    }, 300); // Optional delay to improve UI smoothness
+      router.push("/check-in")
+    }, 1500); // Optional delay to improve UI smoothness
   };
 
   const handleCloseSecondModal = () => {

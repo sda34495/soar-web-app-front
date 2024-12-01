@@ -12,7 +12,7 @@ const MainLayout = ({ children }: any) => {
         </div>
 
         {/* Main Content */}
-        <div className="bg-[#191919] text-white flex flex-col  h-screen relative">
+        <div className="bg-[#191919] text-white flex flex-col   relative">
           {/* Circle with Gradient and Blur */}
           <div className="absolute top-24 right-0 w-[200px] h-[600px] bg-[#f4d494] blur-[150px] rounded-full opacity-40"></div>
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#663A1D] blur-[120px] rounded-full opacity-50"></div>
@@ -21,7 +21,7 @@ const MainLayout = ({ children }: any) => {
             <Navbar />
           </div>
 
-          <div className="flex-1 overflow-y-auto z-10 px-4  ">{children}</div>
+          <div className="flex-1 overflow-y-auto z-10 px-4  max-w-6xl">{children}</div>
         </div>
       </div>
     </div>
