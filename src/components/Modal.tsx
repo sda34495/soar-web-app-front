@@ -6,7 +6,7 @@ import React, { useState } from "react";
 interface ModalProps {
   title: string;
   description: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isOpen: boolean;
   image_url: string;
   onClose: () => void;

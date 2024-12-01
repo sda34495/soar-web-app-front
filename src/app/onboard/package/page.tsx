@@ -15,22 +15,21 @@ const Page = () => {
     <>
       <div className="flex flex-col mt-20 mx-6 sm:mx-40 lg:mx-auto">
         <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
-        <header className="w-full mt-10  bg-red">
-          <div className=" w-[120px] text-center">
-        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 "  />
-        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
-          SOAR
-        </h1>
-        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-          </div>
-      </header>
+          <header className="w-full mt-10  bg-red">
+            <div className=" w-[120px] text-center">
+              <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 " />
+              <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
+                SOAR
+              </h1>
+              <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+            </div>
+          </header>
 
           <div className="mt-10">
-            <h2 className="text-white text-2xl">
-              Select Your Package   
-            </h2>
+            <h2 className="text-white text-2xl">Select Your Package</h2>
             <p className="text-zinc-500 mt-2">
-            We offer couple of packages to our users, free and premium. Which one you want?
+              We offer couple of packages to our users, free and premium. Which
+              one you want?
             </p>
           </div>
           <div className="max-w-md md:max-w-lg lg:max-w-xl h-auto container mt-10 bg-golden/20 border border-golden rounded-3xl py-8 px-10">
@@ -142,8 +141,7 @@ const Page = () => {
             isOpen={isDeleteOpen}
             setisOpen={setIsDeleteOpen}
             onClose={handleClose}
-            children={undefined}
-          />
+          ></Modal>
         </div>
       </div>
     </>
