@@ -7,6 +7,7 @@ const Page = () => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   // Function to handle closing the modal
+  // update build
   const handleClose = () => {
     setIsDeleteOpen(false);
   };
