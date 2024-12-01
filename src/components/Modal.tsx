@@ -82,16 +82,14 @@ const Modal: React.FC<ModalProps> = ({
         <div className="relative p-4 w-full max-w-lg h-full md:h-auto mx-4 my-auto">
           <div className="relative p-4 bg-[#202020] rounded-3xl shadow-md md:p-8 border border-[#7c7c7c] text-center">
             <div className="mb-4 text-sm font-light">
-              
-
-            <div className="flex justify-center">
-  <img src="/cone.png" alt="" className="h-10 mb-2" />
-</div>
+              <div className="flex justify-center">
+                <img src="/cone.png" alt="" className="h-10 mb-2" />
+              </div>
 
               <h3 className="mb-3 text-2xl font-bold text-white">
                 Congratulations
               </h3>
-              
+
               <p className="text-[#BDBDBD]">
                 Your coupon code is applied successfully.
               </p>

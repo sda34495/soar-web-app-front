@@ -1,9 +1,17 @@
-import React from "react";
+import CenterImageModal from "@/components/UI/CenterImageModal";
+import React, { useState } from "react";
 
 const PasswordSecurity = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handelSubmit = (e:any) => {
+    e.preventDefault();
+    setModalOpen(true);
+  };
+
   return (
     <div>
-      <form className=" max-w-[660px] mb-10">
+      <form onSubmit={handelSubmit} className=" max-w-[660px] mb-10">
         <div className="space-y-4">
           <h3 className="text-2xl font-bold "> Update Password</h3>
           <div className="">
@@ -36,7 +44,6 @@ const PasswordSecurity = () => {
             <input
               type="password"
               name="confirmpassword"
-              
               id="confirmpassword"
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c]  rounded-lg  placeholder-[#7c7c7c]  focus:outline-none   border  "
             />
@@ -49,6 +56,14 @@ const PasswordSecurity = () => {
           </button>
         </div>
       </form>
+
+      <CenterImageModal
+        title="Update Successfully"
+        description="Your session has been booked."
+        isOpen={modalOpen}
+        image="/tick.svg"
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   );
 };

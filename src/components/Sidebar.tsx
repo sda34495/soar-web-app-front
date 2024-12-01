@@ -3,7 +3,6 @@
 // import Link from "next/link";
 // import { FaRegCheckSquare } from "react-icons/fa";
 
-
 // import char from "@/components/SVGs/chart.svg";
 
 // const Sidebar = () => {
@@ -40,14 +39,14 @@
 //               }`}
 //             >
 //               <Link href={item.href} className="flex items-center px-2">
-              
+
 //               <img src={item.icon} alt="test" className="mr-4" />
 //               <p >{item.name}</p>
 //               </Link>
 //             </li>
 //           ))}
 //         </ul>
-        
+
 //       </div>
 
 //       <div className="p-4">
@@ -70,8 +69,6 @@
 // };
 
 // export default Sidebar;
-
-
 
 // "use client";
 // import { useState, useEffect } from "react";
@@ -138,7 +135,7 @@
 //                 : ""
 //             }`}
 //           >
-           
+
 //             Support
 //           </Link>
 //         </div>
@@ -155,8 +152,6 @@
 // };
 
 // export default Sidebar;
-
-
 
 // "use client";
 // import { useState, useEffect } from "react";
@@ -299,7 +294,7 @@
 //                 : "hover:bg-[linear-gradient(267.36deg,_#C2A171_0.09%,_#D4B37E_15.51%,_#FCDB9B_49.49%,_#C2A171_95.32%)] hover:text-black"
 //             }`}
 //           >
-          
+
 //             Support
 //           </Link>
 //         </div>
@@ -316,7 +311,6 @@
 // };
 
 // export default Sidebar;
-
 
 "use client";
 import { useState, useEffect } from "react";
@@ -360,13 +354,13 @@ const Sidebar = () => {
   return (
     <aside className="w-64  h-screen text-gray-200 flex flex-col justify-between">
       <div>
-      <div className="flex flex-col items-center justify-center mt-5 mb-16">
-  <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-  <div className="text-gold font-semibold text-4xl text-transparent bg-clip-text bg-custom-heading-gradient mt-1 mb-1">
-    SOAR
-  </div>
-  <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-</div>
+        <div className="flex flex-col items-center justify-center mt-5 mb-16">
+          <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+          <div className="text-gold font-semibold text-4xl text-transparent bg-clip-text bg-custom-heading-gradient mt-1 mb-1">
+            SOAR
+          </div>
+          <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+        </div>
         <ul className=" flex flex-col space-y-1 ">
           {/* Check-in link */}
           <Link href="/check-in">
@@ -377,7 +371,15 @@ const Sidebar = () => {
                   : "text-[#BDBDBD] "
               }`}
             >
-              <img src={activeItem === "Check-in" ? '/sidebar/dark-check-in.svg' : '/sidebar/check-in.svg'} alt="Check-in" className="mr-4" />
+              <img
+                src={
+                  activeItem === "Check-in"
+                    ? "/sidebar/dark-check-in.svg"
+                    : "/sidebar/check-in.svg"
+                }
+                alt="Check-in"
+                className="mr-4"
+              />
               <p className="">Check-in</p>
             </li>
           </Link>
@@ -391,7 +393,15 @@ const Sidebar = () => {
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src={activeItem === "Dashboard" ?  '/sidebar/dark-dashboard.svg' : "/sidebar/chart.svg"} alt="Dashboard" className="mr-4" />
+              <img
+                src={
+                  activeItem === "Dashboard"
+                    ? "/sidebar/dark-dashboard.svg"
+                    : "/sidebar/chart.svg"
+                }
+                alt="Dashboard"
+                className="mr-4"
+              />
               <p>Dashboard</p>
             </li>
           </Link>
@@ -405,7 +415,15 @@ const Sidebar = () => {
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src={activeItem === "Leaderboard" ? '/sidebar/dark-podium.svg' : "/sidebar/chartstar.svg"} alt="Leaderboard" className="mr-4" />
+              <img
+                src={
+                  activeItem === "Leaderboard"
+                    ? "/sidebar/dark-podium.svg"
+                    : "/sidebar/chartstar.svg"
+                }
+                alt="Leaderboard"
+                className="mr-4"
+              />
               <p>Leaderboard</p>
             </li>
           </Link>
@@ -419,7 +437,15 @@ const Sidebar = () => {
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src= {activeItem === "Coaching" ? "/sidebar/dark-coaching.svg" : "/sidebar/coaching.svg"}  alt="Coaching" className="mr-4" />
+              <img
+                src={
+                  activeItem === "Coaching"
+                    ? "/sidebar/dark-coaching.svg"
+                    : "/sidebar/coaching.svg"
+                }
+                alt="Coaching"
+                className="mr-4"
+              />
               <p>Coaching</p>
             </li>
           </Link>
@@ -433,7 +459,15 @@ const Sidebar = () => {
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src={activeItem === "Settings" ? '/sidebar/dark-setting.svg' : "/sidebar/setting.svg"} alt="Settings" className="mr-4" />
+              <img
+                src={
+                  activeItem === "Settings"
+                    ? "/sidebar/dark-setting.svg"
+                    : "/sidebar/setting.svg"
+                }
+                alt="Settings"
+                className="mr-4"
+              />
               <p>Settings</p>
             </li>
           </Link>
@@ -447,7 +481,15 @@ const Sidebar = () => {
                   : "text-[#BDBDBD]"
               }`}
             >
-              <img src={activeItem === "Professional Referral" ? "/sidebar/dark-ref.svg" : "/sidebar/chain.svg" } alt="Professional Referral" className="mr-4" />
+              <img
+                src={
+                  activeItem === "Professional Referral"
+                    ? "/sidebar/dark-ref.svg"
+                    : "/sidebar/chain.svg"
+                }
+                alt="Professional Referral"
+                className="mr-4"
+              />
               <p>Professional Referral</p>
             </li>
           </Link>
@@ -465,26 +507,38 @@ const Sidebar = () => {
                   : "hover:bg-custom-gradient-hover "
               }`}
             >
-              <img src={pathname === '/support' ? '/sidebar/dark-support.svg' : "/sidebar/support.svg"} alt="Support" className="mr-4" />
+              <img
+                src={
+                  pathname === "/support"
+                    ? "/sidebar/dark-support.svg"
+                    : "/sidebar/support.svg"
+                }
+                alt="Support"
+                className="mr-4"
+              />
               Support
             </li>
           </Link>
         </div>
         <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#c784269b] to-[#3d3e3d] ">
           <div className="bg-black/80 rounded-2xl">
-          <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
-          <div className="text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">2nd</div>
-          <div className=" text-[#BDBDBD] font-semibold ">Your Position</div>
-          <p className="text-[#7C7C7C] text-sm mt-4 ">
-            Complete the check-in and increase your points to get a better position
-          </p>
+            <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
+              <div className="text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
+                2nd
+              </div>
+              <div className=" text-[#BDBDBD] font-semibold ">
+                Your Position
+              </div>
+              <p className="text-[#7C7C7C] text-sm mt-4 ">
+                Complete the check-in and increase your points to get a better
+                position
+              </p>
+            </div>
           </div>
         </div>
-          </div>
       </div>
     </aside>
   );
 };
 
 export default Sidebar;
-
