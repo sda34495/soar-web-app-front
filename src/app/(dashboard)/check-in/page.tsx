@@ -36,6 +36,7 @@ const CheckInPage = () => {
   return (
     <div className='space-y-6 '>
        <CheckinCard/>
+   
         <FitnessCard percentage={80} />
         <FitnessCard percentage={50} />
         <FitnessCard  percentage={30} />

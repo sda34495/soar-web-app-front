@@ -352,7 +352,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   return (
-    <aside className="w-64  h-screen text-gray-200 flex flex-col justify-between">
+    <aside className="w-64 h-screen text-gray-200 flex flex-col justify-between">
       <div>
         <div className="flex flex-col items-center justify-center mt-5 mb-16">
           <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
