@@ -51,6 +51,7 @@ const BookingCard = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         price="50"
+        
       />
     </div>
   );
