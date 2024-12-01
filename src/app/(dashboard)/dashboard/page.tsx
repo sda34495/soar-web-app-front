@@ -37,7 +37,10 @@ const DashboardPage = () => {
       league: "1988 / 2000",
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
-      color: "linear-gradient(135deg, #043927, #055532)",
+      color: {
+        card1 :  'bg-gradient-to-br from-[#09DE7A] to-[#525552]',
+        card2: 'bg-[#1e261e]' ,
+      }
     },
     {
       position: "2nd",
@@ -46,7 +49,10 @@ const DashboardPage = () => {
       league: "1988 / 2000",
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
-      color: "linear-gradient(135deg, #4E342E, #6D4C41)",
+      color: {
+        card1 :  'bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]',
+        card2: 'bg-custom-card-gradient' ,
+      }
     },
     {
       position: "3rd",
@@ -55,14 +61,19 @@ const DashboardPage = () => {
       league: "1988 / 2000",
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
-      color: "linear-gradient(135deg, #1A237E, #3949AB)",
+      color: {
+        card1 :  'bg-gradient-to-br from-[#438ff2eb] to-[#08274c]',
+        card2: 'bg-[#1e2d3f7c]' ,
+      }
     },
   ];
 
   return (
-    <div className="text-white">
-      <div className="  flex flex-wrap gap-6  ">
+    <div className="text-white ">
+      <div className=" flex flex-wrap gap-6  ">
         {cardData.map((data, index) => (
+        
+
           <DashboardCard
             key={index}
             title={data.title}
@@ -70,17 +81,22 @@ const DashboardPage = () => {
             points={data.points}
             progressColor={data.progressColor}
             progressWidth={data.progressWidth}
-          />
+            />
+         
         ))}
       </div>
 
-      <div className="my-3">
+    
+
+      <div className="my-3 max-w-6xl">
+        
         <CustomChart />
       </div>
 
-      <div className="  flex justify-start items-center">
-        <div className="flex flex-wrap gap-4">
+      <div className="  flex justify-start  w-full mb-5 items-center">
+        <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
           {leaderboardData.map((item, index) => (
+            <div className="flex-1"> 
             <LeaderboardCard
               key={index}
               position={item.position}
@@ -91,6 +107,7 @@ const DashboardPage = () => {
               avatar={item.avatar}
               color={item.color}
             />
+            </div>
           ))}
         </div>
       </div>
