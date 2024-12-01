@@ -241,9 +241,10 @@ function LoginPage() {
               </Link>
               <a href="/auth/forgetPassword">
                 <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
+              <a href="/auth/forgetPassword">
                   Forget Password
-                </p>
               </a>
+                </p>
               <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
               <div className="flex flex-row items-center justify-center space-x-3">
                 <a
