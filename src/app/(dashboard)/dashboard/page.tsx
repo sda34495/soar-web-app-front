@@ -38,8 +38,8 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1 :  'bg-gradient-to-br from-[#09DE7A] to-[#525552]',
-        card2: 'bg-[#1e261e]' ,
+        card1: 'bg-gradient-to-br from-[#09DE7A] to-[#525552]',
+        card2: 'bg-[#1e261e]',
       }
     },
     {
@@ -50,8 +50,8 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1 :  'bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]',
-        card2: 'bg-custom-card-gradient' ,
+        card1: 'bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]',
+        card2: 'bg-custom-card-gradient',
       }
     },
     {
@@ -62,17 +62,18 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1 :  'bg-gradient-to-br from-[#438ff2eb] to-[#08274c]',
-        card2: 'bg-[#1e2d3f7c]' ,
+        card1: 'bg-gradient-to-br from-[#438ff2eb] to-[#08274c]',
+        card2: 'bg-[#1e2d3f7c]',
       }
     },
   ];
 
   return (
     <div className="text-white ">
-      <div className=" flex flex-wrap gap-6  ">
+      <div className=" flex flex-wrap gap-6 ">
+
         {cardData.map((data, index) => (
-        
+
 
           <DashboardCard
             key={index}
@@ -81,32 +82,32 @@ const DashboardPage = () => {
             points={data.points}
             progressColor={data.progressColor}
             progressWidth={data.progressWidth}
-            />
-         
+          />
+
         ))}
       </div>
 
-    
+
 
       <div className="my-3 max-w-6xl">
-        
+
         <CustomChart />
       </div>
 
       <div className="  flex justify-start  w-full mb-5 items-center">
         <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
           {leaderboardData.map((item, index) => (
-            <div className="flex-1"> 
-            <LeaderboardCard
-              key={index}
-              position={item.position}
-              username={item.username}
-              points={item.points}
-              league={item.league}
-              competition={item.competition}
-              avatar={item.avatar}
-              color={item.color}
-            />
+            <div className="flex-1" key={index}>
+              <LeaderboardCard
+                key={index}
+                position={item.position}
+                username={item.username}
+                points={item.points}
+                league={item.league}
+                competition={item.competition}
+                avatar={item.avatar}
+                color={item.color}
+              />
             </div>
           ))}
         </div>

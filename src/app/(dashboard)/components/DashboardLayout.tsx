@@ -17,11 +17,11 @@ const MainLayout = ({ children }: any) => {
           <div className="absolute top-24 right-0 w-[200px] h-[600px] bg-[#f4d494] blur-[150px] rounded-full opacity-40"></div>
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#663A1D] blur-[120px] rounded-full opacity-50"></div>
 
-          <div className="sticky top-0 max-w-6xl z-50 p-4">
+          <div className="sticky top-0  z-50 p-4">
             <Navbar />
           </div>
 
-          <div className="flex-1 overflow-y-auto z-10 px-4  max-w-6xl">{children}</div>
+          <div className="flex-1 overflow-y-auto z-10 px-4 ">{children}</div>
         </div>
       </div>
     </div>

@@ -47,7 +47,7 @@ const LeaderboardPage = () => {
       <div className="  flex justify-start  w-full mb-5 items-center">
         <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
           {leaderboardData.map((item, index) => (
-            <div className="flex-1">
+            <div className="flex-1" key={index}>
               <LeaderboardCard
                 key={index}
                 position={item.position}
