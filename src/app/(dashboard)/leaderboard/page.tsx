@@ -37,8 +37,10 @@ const LeaderboardPage = () => {
   return (
     <div className="space-y-6">
       <div className="  flex justify-center items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
           {leaderboardData.map((item, index) => (
+            <div className="flex-1">
+
             <LeaderboardCard
               key={index}
               position={item.position}
@@ -48,7 +50,8 @@ const LeaderboardPage = () => {
               competition={item.competition}
               avatar={item.avatar}
               color={item.color}
-            />
+              />
+              </div>
           ))}
         </div>
       </div>
