@@ -18,7 +18,7 @@ const TitleSection = () => {
 const ActionsSection = () => {
   return (
     
-    <div className="flex items-center justify-between space-x-5 bg-[#121212] p-3 rounded-2xl lg:w-1/3 h-[58px]">
+    <div className="flex items-center justify-between space-x-5 border  bg-[#121212] border-[#454545] p-3 rounded-2xl lg:w-1/3 h-[58px]">
       {/* Icons */}
       <div className="flex items-center space-x-2">
         <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
