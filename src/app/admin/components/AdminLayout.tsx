@@ -1,11 +1,11 @@
-'use client'
+"use client";
 import React from "react";
 import Sidebar from "../../../components/Sidebar";
 import Navbar from "@/components/UI/Navbar";
 import { Provider } from "react-redux";
 import store from "@/store/store";
 
-const MainLayout = ({ children }: any) => {
+const AdminLayout = ({ children }: any) => {
   return (
     <Provider store={store}>
       <div className="flex justify-center bg-yellow-900 min-h-screen ">
@@ -35,4 +35,4 @@ const MainLayout = ({ children }: any) => {
   );
 };
 
-export default MainLayout;
+export default AdminLayout;
