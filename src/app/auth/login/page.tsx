@@ -6,6 +6,7 @@ import { FaTwitter } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import Link from "next/link";
+import Tab_Switch from "@/components/Tab_Switch";
 
 // Define types for form data
 interface LoginData {
@@ -31,6 +32,7 @@ interface FormErrors {
 }
 
 function LoginPage() {
+  
   // States for Login and Signup forms
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -135,6 +137,12 @@ function LoginPage() {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
+    const [activeTab, setActiveTab] = useState('Login');
+  
+  
+
+  
+
   return (
     <div className="bg-[#C2A171] min-h-screen text-white flex items-center justify-center px-4">
       {/* Container */}
@@ -160,10 +168,20 @@ function LoginPage() {
           </div>
         </div>
 
+
+        
+
+
+        <Tab_Switch/>
+
+      
+
+       
+
         {/* Login and Signup Forms */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-20">
           {/* Login Form */}
-          <div className="flex-1 relative z-20">
+          <div className="flex-1 relative z-20 lg:block hidden">
             <h2 className="text-2xl font-semibold font-Bricolage-Grotesque mb-4">
               Login
             </h2>
@@ -271,14 +289,14 @@ function LoginPage() {
           </div>
 
           {/* Divider */}
-          <div className="flex flex-col items-center h-full relative z-20">
+          <div className=" hidden lg:flex flex-col items-center h-full relative z-20">
             <div className="w-2 h-2 bg-[#656565] rounded-full"></div>
             <div className="w-0.5 h-96 bg-[#656565] flex-grow"></div>
             <div className="w-2 h-2 bg-[#656565] rounded-full"></div>
           </div>
 
           {/* Signup Form */}
-          <div className="flex-1 relative z-20">
+          <div className="lg:block flex-1 relative z-20 hidden">
             <h2 className="text-2xl font-semibold font-Bricolage-Grotesque mb-4">
               Signup
             </h2>

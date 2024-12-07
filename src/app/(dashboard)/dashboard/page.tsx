@@ -70,10 +70,11 @@ const DashboardPage = () => {
 
   return (
     <div className="text-white ">
-      <div className=" flex flex-wrap gap-6  ">
+      <div className="  flex justify-start  w-full mb-5 items-center">
+      <div className=" flex flex-wrap gap-4 w-full  grow  ">
         {cardData.map((data, index) => (
-        
-
+          
+          <div className="flex-1">
           <DashboardCard
             key={index}
             title={data.title}
@@ -82,19 +83,21 @@ const DashboardPage = () => {
             progressColor={data.progressColor}
             progressWidth={data.progressWidth}
             />
+            </div>
          
         ))}
+      </div>
       </div>
 
     
 
-      <div className="my-3 max-w-6xl">
+      <div className="my-3 ">
         
         <CustomChart user="user" />
       </div>
 
       <div className="  flex justify-start  w-full mb-5 items-center">
-        <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
+        <div className="flex flex-wrap gap-4 w-full  grow">
           {leaderboardData.map((item, index) => (
             <div className="flex-1" key={index}> 
             <LeaderboardCard
