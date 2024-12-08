@@ -1,6 +1,9 @@
+'use client'
 import CheckinCard from '@/components/UI/CheckInCard'
 import FitnessCard from '@/components/UI/FitnessCard'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import {endLoadingAction} from '@/store/loader-slice'
 
 const leaderboardData = [
   {
@@ -33,6 +36,11 @@ const leaderboardData = [
 ];
 
 const CheckInPage = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    
+    dispatch(endLoadingAction.endLoading(80))
+  })
   return (
     <div className='space-y-6 '>
        <CheckinCard/>

@@ -9,8 +9,7 @@ import Link from "next/link";
 import Tab_Switch from "@/components/Tab_Switch";
 import { useRouter } from "next/navigation";
 import { post } from "@/utils/axios";
-import toast, { Toaster } from "react-hot-toast";
-import { ToastProvider } from "@/Hook/toast-provider";
+import toast from "react-hot-toast";
 
 // Define types for form data
 interface LoginData {
@@ -110,7 +109,6 @@ function LoginPage() {
 
   // Handle Login form submission
   const handleLoginSubmit = async (e: React.FormEvent) => {
-    
     e.preventDefault();
     const errors = validateLogin();
     if (Object.keys(errors).length > 0) {
@@ -119,7 +117,8 @@ function LoginPage() {
       setLoginErrors({});
       console.log("Login data submitted", loginData);
       try {
-        // console.log('Attempting login with:', loginData)
+        localStorage.clear();
+        console.log("Attempting login with:", loginData);
 
         const response = await post("users/login", loginData);
         console.log("Logged in successfully:", response.data);
@@ -132,32 +131,21 @@ function LoginPage() {
           throw new Error(response.data.message || "Login failed");
         }
 
-        const { user, token } = response.data;
+        const { user, token } = response.data.data;
+        console.log(response.data);
+        console.log("usre , token" + JSON.stringify(user) , token)
 
         toast.success("Logged in successfully");
         localStorage.setItem("user", "user");
-        localStorage.setItem("token", token);
-        localStorage.setItem("userdetails", user);
-        router.push('/dashboard')
+        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("userdetails", JSON.stringify(user));
+        router.push("/dashboard");
 
-        if (!user || !user.status) {
-          throw new Error("Invalid user data received");
-        }
+        
       } catch (error: any) {
+        const errorMessage = error.response?.data?.message || "Login failed";
         console.log("Login error:", error);
-
-        if (error.response) {
-          setError(
-            error.response.data.message || "Login failed. Please try again."
-          );
-        } else if (error.request) {
-          // console.log("No response received:", error.request);
-          setError("No response from server. Please check your connection.");
-        } else {
-          // console.log("Error:", error.message);
-          setError("An error occurred while logging in.");
-        }
-        toast.error(error);
+        toast.error(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -170,7 +158,6 @@ function LoginPage() {
 
   // Handle Signup form submission
   const handleSignupSubmit = async (e: React.FormEvent) => {
-    
     e.preventDefault();
     const errors = validateSignup();
     if (Object.keys(errors).length > 0) {
@@ -179,14 +166,15 @@ function LoginPage() {
     } else {
       setSignupErrors({});
       try {
+        localStorage.clear();
         // console.log('Attempting login with:', loginData)
         const formdata = new FormData();
         formdata.append("first_name", signupData.firstName);
         formdata.append("last_name", signupData.lastName);
         formdata.append("email", signupData.email);
         formdata.append("password", signupData.password);
-       
-        console.log(formdata)
+
+        console.log(formdata);
         const response = await post("users/signup", formdata);
         console.log("Singup in successfully:", response.data);
         if (!response) return;
@@ -198,27 +186,21 @@ function LoginPage() {
           throw new Error(response.data.message || "Signup failed");
         }
 
-        const { user, token } = response.data;
+        const { user, token } = response.data.data;
 
-        // toast.success("Signup in successfully");
+        toast.success("Signup in successfully");
         localStorage.setItem("user", "user");
-        localStorage.setItem("token", token);
-        localStorage.setItem("userdetails", user);
-        // router.push('/dashboard')
+        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("userdetails", JSON.stringify(user));
+        router.push('/onboard/welcome');
 
-        if (!user || !user.status) {
-          throw new Error("Invalid user data received");
-        }
+       
       } catch (error: any) {
+        const errorMessage = error.response?.data?.message || "Signup failed";
         console.log("Signup error:", error);
 
         if (error.response) {
-          // console.log("Error response:", {
-          //   data: error.response.data,
-          //   status: error.response.status,
-          //   headers: error.response.headers,
-          // });
-
+          
           setError(
             error.response.data.message || "signup failed. Please try again."
           );
@@ -229,14 +211,11 @@ function LoginPage() {
           // console.log("Error:", error.message);
           setError("An error occurred while logging in.");
         }
-        toast.error(error);
+        toast.error(errorMessage);
       } finally {
         setLoading(false);
       }
 
-      toast.success("Logged in successfully");
-      // Handle successful signup (e.g., API call)
-      console.log("Signup data submitted", signupData);
     }
   };
 

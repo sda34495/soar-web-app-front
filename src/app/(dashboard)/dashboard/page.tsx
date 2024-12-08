@@ -1,10 +1,14 @@
+'use client'
 import ProgressBar from "@/components/UI/ProgressBar";
 import DashboardLayout from "../components/DashboardLayout";
 import DashboardCard from "@/components/UI/DashboardCard";
 import CustomChart from "@/components/UI/BarChart";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
+import LoadingBar from "react-top-loading-bar";
 
 const DashboardPage = () => {
+
+  const progress = 80;
   const cardData = [
     {
       title: "Fitness",
@@ -68,13 +72,15 @@ const DashboardPage = () => {
     },
   ];
 
+  
   return (
     <div className="text-white ">
+       
       <div className="  flex justify-start  w-full mb-5 items-center">
       <div className=" flex flex-wrap gap-4 w-full  grow  ">
         {cardData.map((data, index) => (
           
-          <div className="flex-1">
+          <div className="flex-1" key={index}>
           <DashboardCard
             key={index}
             title={data.title}

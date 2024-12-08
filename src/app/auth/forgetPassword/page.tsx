@@ -5,6 +5,7 @@ import bgImage from "../../../../public/bg.png";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { post } from "@/utils/axios";
+import toast from "react-hot-toast";
 
 function ForgetPassword() {
   const [email, setEmail] = useState(""); // State to hold email value
@@ -27,28 +28,25 @@ function ForgetPassword() {
     } else {
       setError("");
       try {
-        // const formdata = new FormData();
+        const formdata = new FormData();
 
-        // formdata.append("email", email);
+        formdata.append("email", email);
 
         console.log({ email });
-        const response = await post("users/request-otp", { email: email });
+        const response = await post("users/request-otp", formdata);
         console.log("OTP Sent successfully:", response.data);
         if (!response) return;
         console.log(response);
-
-        console.log("Signup response:", response.data);
-        localStorage.setItem("email", email);
-        localStorage.setItem("otp","verified");
-
-        setTimeout(() => {
-          // Redirect to verification page after delay
-          router.push("/auth/verification");
-        }, 2000); // Wait 2 seconds before redirecting (you can change this time)
-
+        
         if (response.status !== 200) {
           throw new Error(response.data.message || "Signup failed");
         }
+        console.log("Signup response:", response.data);
+        localStorage.setItem("email", email);
+        localStorage.setItem("otp", "verified");
+        toast.success("OTP sent successfully");
+        router.push("/auth/verification");
+        
       } catch (error: any) {
         console.log("OPT error:", error);
 

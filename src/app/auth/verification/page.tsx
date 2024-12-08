@@ -139,6 +139,7 @@ import Image from "next/image";
 import bgImage from "../../../../public/bg.png";
 import { useRouter } from "next/navigation";
 import { post } from "@/utils/axios";
+import toast from "react-hot-toast";
 
 function Verification() {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -221,6 +222,7 @@ function Verification() {
       if (!response) return;
       console.log(response);
 
+      toast.success("OTP verified successfully");
       console.log("OTP response:", response.data);
 
       if (response.status !== 200) {
@@ -229,7 +231,9 @@ function Verification() {
       localStorage.setItem("token", JSON.stringify(response.data.tempToken));
       router.push("/auth/newPassword");
     } catch (error: any) {
-      console.log(" error:", error);
+      const errorMessage = error.response?.data?.message || "Verification failed";
+      toast.error(errorMessage);
+      console.log(error)
     }
 
    

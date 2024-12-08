@@ -3,17 +3,22 @@ import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation"; // Import the navigation hook
 import Link from "next/link";
 import { navbarActions } from "@/store/navbar-slice";
-import { useDispatch } from "react-redux";
+import {endLoadingAction} from "@/store/loader-slice"
+import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { Router } from "next/router";
+import LoadingBar from "react-top-loading-bar";
+
 
 
 
 const Sidebar = () => {
+  
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
   console.log(pathname);
+  const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -23,8 +28,10 @@ const Sidebar = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser !== null) {
+      
       if (storedUser === "admin") {
         setUserType("admin");
+       
       } else if (storedUser === "user") {
         setUserType("user");
       }
@@ -37,21 +44,26 @@ const Sidebar = () => {
   useEffect(() => {
     switch (pathname) {
       case "/check-in":
+        dispatch(endLoadingAction.endLoading(50));
         setActiveItem("Check-in");
         dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: "Tuesday, 12 Nov 2024 - Wednesday, 13 Nov 2024" }));
+        
         break;
       case "/dashboard":
         setActiveItem("Dashboard");
         dispatch(navbarActions.updateNavbar({ title: "Dashboard", description: "Gain valuable insights to track your progress" }));
+        setProgress(100);
         break;
 
       case "/leaderboard":
         setActiveItem("Leaderboard");
         dispatch(navbarActions.updateNavbar({ title: "Leaderboard", description: "Total competing users 1,622" }));
+        setProgress(100);
         break;
       case "/coaching":
         setActiveItem("Coaching");
         dispatch(navbarActions.updateNavbar({ title: "Coaching", description: "Total competing users 1,622" }));
+        setProgress(80);
         break;
       case "/setting":
         setActiveItem("Settings");
@@ -87,8 +99,20 @@ const Sidebar = () => {
     }
   }, [pathname]);
 
+  const lodervalue = useSelector((state: any) => state.loaderSlice.isLoading);
+  console.log(lodervalue);
+  
+
   return (
     <>
+     <LoadingBar
+        color='#f11946'
+        progress={lodervalue}
+        shadow={true}
+        loaderSpeed={50}
+        onLoaderFinished={() => dispatch(endLoadingAction.endLoading(0))}
+        transitionTime={600}
+      />
       {usertype === "user" && (
         <aside className="w-64 h-screen text-gray-200 flex flex-col justify-between">
           <div>

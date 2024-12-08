@@ -7,6 +7,7 @@ import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import { post } from "@/utils/axios";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 function CreatePassword() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -60,15 +61,18 @@ useEffect(() => {
         console.log(" verification in successfully:", response.data);
         if (!response) return;
         console.log(response);
-  
+        
         console.log("reset password response:", response.data);
-  
+        
         if (response.status !== 200) {
           throw new Error(response.data.message || " failed");
         }
+        toast.success("Password reset successfully");
         localStorage.clear();
         router.push("/auth/login");
       } catch (error: any) {
+        const errorMessage = error.response?.data?.message || "Reset password failed";
+        toast.error(errorMessage);
         console.log(" error:", error);
       }
       
