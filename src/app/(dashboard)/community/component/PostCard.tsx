@@ -28,7 +28,7 @@ const PostCard = () => {
       time: "1 day ago",
       title: "Endurance training is everything",
       description:
-        "Building stamina to excel in workouts. our cooperation it is necessary to test yo",
+        "Building stamina to excel in workouts. ",
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScg4WJdn8aO5G5JFXyTBUh8WhnWQJyw3eVNw&s", // Replace with an actual image URL
       likes: "3.5K",

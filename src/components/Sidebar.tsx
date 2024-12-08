@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation"; // Import the navigation hook
+import React, { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation"; // Import the navigation hook
 import Link from "next/link";
 import { navbarActions } from "@/store/navbar-slice";
 import { useDispatch } from "react-redux";
 import { HiOutlineUserGroup } from "react-icons/hi";
+import { Router } from "next/router";
 
 
 
@@ -15,6 +16,7 @@ const Sidebar = () => {
   console.log(pathname);
   const dispatch = useDispatch();
 
+  const router = useRouter();
   // const user = localStorage.getItem("user");
   // console.log(user);
 
@@ -25,9 +27,9 @@ const Sidebar = () => {
         setUserType("admin");
       } else if (storedUser === "user") {
         setUserType("user");
-      } else {
-        setUserType(null);
       }
+    } else {
+      router.push("/");
     }
   }, []);
 
@@ -370,4 +372,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default  React.memo( Sidebar);

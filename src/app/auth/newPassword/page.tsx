@@ -1,16 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import bgImage from "../../../../public/bg.png";
 import { FaTwitter } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
+import { post } from "@/utils/axios";
+import { useRouter } from "next/navigation";
 
 function CreatePassword() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [password, setPassword] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+
+  const router = useRouter();
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    router.push("/auth/login");
+    return;
+  }
+}, []);
 
   const handleBack = (event: React.MouseEvent<HTMLButtonElement>) => {
+    localStorage.clear();
     event.preventDefault(); // Prevent default behavior if necessary
     history.back(); // Go back to the previous page
   };
@@ -21,6 +39,41 @@ function CreatePassword() {
 
   const toggleConfirmPasswordVisibility = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
+
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (password.password !== password.confirmPassword) {
+      return setError("Passwords do not match");
+    }else{
+      setError("");
+
+      try {
+      const formData = new FormData();
+      formData.append("newPassword", password.password);
+       
+  
+        console.log(formData);
+        const response = await post("users/set-new-password", formData);
+        console.log(" verification in successfully:", response.data);
+        if (!response) return;
+        console.log(response);
+  
+        console.log("reset password response:", response.data);
+  
+        if (response.status !== 200) {
+          throw new Error(response.data.message || " failed");
+        }
+        localStorage.clear();
+        router.push("/auth/login");
+      } catch (error: any) {
+        console.log(" error:", error);
+      }
+      
+    }
+
   };
 
   return (
@@ -75,10 +128,12 @@ function CreatePassword() {
             <h2 className="text-3xl mb-8 mt-4 text-center font-semibold font-Bricolage-Grotesque ">
               Create New Password
             </h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <div className="relative">
                   <input
+                  value={password.password}
+                  onChange={(e) => setPassword({ ...password, password: e.target.value })}
                     type={passwordVisible ? "text" : "password"}
                     name="password"
                     placeholder="Password"
@@ -131,6 +186,8 @@ function CreatePassword() {
               <div className="mb-4">
                 <div className="relative">
                   <input
+                  value={password.confirmPassword}
+                  onChange={(e) => setPassword({ ...password, confirmPassword: e.target.value })}
                     type={confirmPasswordVisible ? "text" : "password"}
                     name="confirmPassword"
                     placeholder="Confirm Password"
@@ -179,6 +236,8 @@ function CreatePassword() {
                   </div>
                 </div>
               </div>
+
+              {error && <p className="text-red-500">{error}</p>}
 
               <button
                 type="submit"

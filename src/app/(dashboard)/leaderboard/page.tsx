@@ -12,9 +12,9 @@ const leaderboardData = [
     competition: "89 / 100",
     avatar: "/avatar.jpeg",
     color: {
-      card1 :  'bg-gradient-to-br from-[#09DE7A] to-[#525552]',
-      card2: 'bg-[#1e261e]' ,
-    }
+      card1: "bg-gradient-to-br from-[#09DE7A] to-[#525552]",
+      card2: "bg-[#1e261e]",
+    },
   },
   {
     position: "2nd",
@@ -24,9 +24,9 @@ const leaderboardData = [
     competition: "89 / 100",
     avatar: "/avatar.jpeg",
     color: {
-      card1 :  'bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]',
-      card2: 'bg-custom-card-gradient' ,
-    }
+      card1: "bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]",
+      card2: "bg-custom-card-gradient",
+    },
   },
   {
     position: "3rd",
@@ -36,9 +36,9 @@ const leaderboardData = [
     competition: "89 / 100",
     avatar: "/avatar.jpeg",
     color: {
-      card1 :  'bg-gradient-to-br from-[#438ff2eb] to-[#08274c]',
-      card2: 'bg-[#1e2d3f7c]' ,
-    }
+      card1: "bg-gradient-to-br from-[#438ff2eb] to-[#08274c]",
+      card2: "bg-[#1e2d3f7c]",
+    },
   },
 ];
 const LeaderboardPage = () => {
@@ -48,18 +48,17 @@ const LeaderboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
           {leaderboardData.map((item, index) => (
             <div className="flex-1">
-
-            <LeaderboardCard
-              key={index}
-              position={item.position}
-              username={item.username}
-              points={item.points}
-              league={item.league}
-              competition={item.competition}
-              avatar={item.avatar}
-              color={item.color}
+              <LeaderboardCard
+                key={index}
+                position={item.position}
+                username={item.username}
+                points={item.points}
+                league={item.league}
+                competition={item.competition}
+                avatar={item.avatar}
+                color={item.color}
               />
-              </div>
+            </div>
           ))}
         </div>
       </div>

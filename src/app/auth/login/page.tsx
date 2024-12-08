@@ -7,6 +7,10 @@ import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import Link from "next/link";
 import Tab_Switch from "@/components/Tab_Switch";
+import { useRouter } from "next/navigation";
+import { post } from "@/utils/axios";
+import toast, { Toaster } from "react-hot-toast";
+import { ToastProvider } from "@/Hook/toast-provider";
 
 // Define types for form data
 interface LoginData {
@@ -32,8 +36,10 @@ interface FormErrors {
 }
 
 function LoginPage() {
-  
   // States for Login and Signup forms
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
@@ -103,13 +109,58 @@ function LoginPage() {
   };
 
   // Handle Login form submission
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault();
     const errors = validateLogin();
     if (Object.keys(errors).length > 0) {
       setLoginErrors(errors);
     } else {
+      setLoginErrors({});
       console.log("Login data submitted", loginData);
+      try {
+        // console.log('Attempting login with:', loginData)
+
+        const response = await post("users/login", loginData);
+        console.log("Logged in successfully:", response.data);
+        if (!response) return;
+        console.log(response);
+
+        console.log("Login response:", response.data);
+
+        if (response.status !== 200) {
+          throw new Error(response.data.message || "Login failed");
+        }
+
+        const { user, token } = response.data;
+
+        toast.success("Logged in successfully");
+        localStorage.setItem("user", "user");
+        localStorage.setItem("token", token);
+        localStorage.setItem("userdetails", user);
+        router.push('/dashboard')
+
+        if (!user || !user.status) {
+          throw new Error("Invalid user data received");
+        }
+      } catch (error: any) {
+        console.log("Login error:", error);
+
+        if (error.response) {
+          setError(
+            error.response.data.message || "Login failed. Please try again."
+          );
+        } else if (error.request) {
+          // console.log("No response received:", error.request);
+          setError("No response from server. Please check your connection.");
+        } else {
+          // console.log("Error:", error.message);
+          setError("An error occurred while logging in.");
+        }
+        toast.error(error);
+      } finally {
+        setLoading(false);
+      }
     }
     setLoginData({
       email: "",
@@ -118,12 +169,72 @@ function LoginPage() {
   };
 
   // Handle Signup form submission
-  const handleSignupSubmit = (e: React.FormEvent) => {
+  const handleSignupSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault();
     const errors = validateSignup();
     if (Object.keys(errors).length > 0) {
       setSignupErrors(errors);
+      return;
     } else {
+      setSignupErrors({});
+      try {
+        // console.log('Attempting login with:', loginData)
+        const formdata = new FormData();
+        formdata.append("first_name", signupData.firstName);
+        formdata.append("last_name", signupData.lastName);
+        formdata.append("email", signupData.email);
+        formdata.append("password", signupData.password);
+       
+        console.log(formdata)
+        const response = await post("users/signup", formdata);
+        console.log("Singup in successfully:", response.data);
+        if (!response) return;
+        console.log(response);
+
+        console.log("Signup response:", response.data);
+
+        if (response.status !== 200) {
+          throw new Error(response.data.message || "Signup failed");
+        }
+
+        const { user, token } = response.data;
+
+        // toast.success("Signup in successfully");
+        localStorage.setItem("user", "user");
+        localStorage.setItem("token", token);
+        localStorage.setItem("userdetails", user);
+        // router.push('/dashboard')
+
+        if (!user || !user.status) {
+          throw new Error("Invalid user data received");
+        }
+      } catch (error: any) {
+        console.log("Signup error:", error);
+
+        if (error.response) {
+          // console.log("Error response:", {
+          //   data: error.response.data,
+          //   status: error.response.status,
+          //   headers: error.response.headers,
+          // });
+
+          setError(
+            error.response.data.message || "signup failed. Please try again."
+          );
+        } else if (error.request) {
+          // console.log("No response received:", error.request);
+          setError("No response from server. Please check your connection.");
+        } else {
+          // console.log("Error:", error.message);
+          setError("An error occurred while logging in.");
+        }
+        toast.error(error);
+      } finally {
+        setLoading(false);
+      }
+
+      toast.success("Logged in successfully");
       // Handle successful signup (e.g., API call)
       console.log("Signup data submitted", signupData);
     }
@@ -137,11 +248,7 @@ function LoginPage() {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-    const [activeTab, setActiveTab] = useState('Login');
-  
-  
-
-  
+  const [activeTab, setActiveTab] = useState("Login");
 
   return (
     <div className="bg-[#C2A171] min-h-screen text-white flex items-center justify-center px-4">
@@ -168,15 +275,7 @@ function LoginPage() {
           </div>
         </div>
 
-
-        
-
-
-        <Tab_Switch/>
-
-      
-
-       
+        <Tab_Switch />
 
         {/* Login and Signup Forms */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-20">
@@ -194,6 +293,7 @@ function LoginPage() {
                     placeholder="Email"
                     value={loginData.email}
                     onChange={handleLoginChange}
+                    id="login"
                     className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold border "
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
@@ -252,40 +352,41 @@ function LoginPage() {
                 )}
               </div>
 
-              <Link href="/check-in" type="submit">
-                <button className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4">
-                  Login
-                </button>
-              </Link>
-
-              <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
-                <a href="/auth/forgetPassword">Forget Password</a>
-              </p>
-              <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-              <div className="flex flex-row items-center justify-center space-x-3">
-                <a
-                  href="https://www.facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaFacebook className="text-[#C2A171] w-8 h-8" />
-                </a>
-                <a
-                  href="https://www.twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaTwitter className="text-[#C2A171] w-8 h-8" />
-                </a>
-                <a
-                  href="https://www.instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <RiInstagramFill className="text-[#C2A171] w-8 h-8" />
-                </a>
-              </div>
+              <button
+                type="submit"
+                className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
+              >
+                Login
+              </button>
             </form>
+
+            <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
+              <a href="/auth/forgetPassword">Forget Password</a>
+            </p>
+            <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+            <div className="flex flex-row items-center justify-center space-x-3">
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaFacebook className="text-[#C2A171] w-8 h-8" />
+              </a>
+              <a
+                href="https://www.twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaTwitter className="text-[#C2A171] w-8 h-8" />
+              </a>
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <RiInstagramFill className="text-[#C2A171] w-8 h-8" />
+              </a>
+            </div>
           </div>
 
           {/* Divider */}
@@ -461,18 +562,26 @@ function LoginPage() {
                   </p>
                 )}
               </div>
-              <Link href="/check-in" type="submit">
-                <button className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4">
-                  Signup
-                </button>
-              </Link>
-              <p className="text-md font-semibold mt-4 text-[#989898] text-center">
-                Already have an account?{" "}
-                <span className="text-[#C2A171] cursor-pointer hover:underline">
-                  Login
-                </span>
-              </p>
+
+              <button
+                type="submit"
+                className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
+              >
+                Signup
+              </button>
             </form>
+
+            <p className="text-md font-semibold mt-4 text-[#989898] text-center">
+              Already have an account?{" "}
+              <button onClick={() => setActiveTab("Login")}>
+                <Link
+                  href={"/auth/login#login"}
+                  className="text-[#C2A171] cursor-pointer hover:underline"
+                >
+                  Login
+                </Link>
+              </button>
+            </p>
           </div>
         </div>
 
