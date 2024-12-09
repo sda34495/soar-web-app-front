@@ -44,7 +44,7 @@ const Sidebar = () => {
   useEffect(() => {
     switch (pathname) {
       case "/check-in":
-        dispatch(endLoadingAction.endLoading(50));
+        dispatch(endLoadingAction.endLoading(10));
         setActiveItem("Check-in");
         dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: "Tuesday, 12 Nov 2024 - Wednesday, 13 Nov 2024" }));
         
@@ -109,7 +109,7 @@ const Sidebar = () => {
         color='#f11946'
         progress={lodervalue}
         shadow={true}
-        loaderSpeed={50}
+        loaderSpeed={500}
         onLoaderFinished={() => dispatch(endLoadingAction.endLoading(0))}
         transitionTime={600}
       />

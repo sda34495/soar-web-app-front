@@ -1,11 +1,18 @@
-'use client'
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Sidebar from "../../../components/Sidebar";
 import Navbar from "@/components/UI/Navbar";
 import { Provider } from "react-redux";
 import store from "@/store/store";
 
 const MainLayout = ({ children }: any) => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/auth/login";
+    }
+  }, []);
+
   return (
     <Provider store={store}>
       <div className="flex justify-center bg-yellow-900 min-h-screen ">

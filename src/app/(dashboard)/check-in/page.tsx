@@ -39,7 +39,7 @@ const CheckInPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     
-    dispatch(endLoadingAction.endLoading(80))
+    dispatch(endLoadingAction.endLoading(100))
   })
   return (
     <div className='space-y-6 '>
