@@ -13,7 +13,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
   onClose,
   price,
 }) => {
-  if (!isOpen) return null;
+  
 
   const [showSecondModal, setShowSecondModal] = useState(false);
 
@@ -27,7 +27,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const handleCloseSecondModal = () => {
     setShowSecondModal(false);
   };
-
+  if (!isOpen) return;
   return (
     <>
       {/* Main Modal */}

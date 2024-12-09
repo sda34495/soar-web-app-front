@@ -42,8 +42,8 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1 :  'bg-gradient-to-br from-[#09DE7A] to-[#525552]',
-        card2: 'bg-[#1e261e]' ,
+        card1: 'bg-gradient-to-br from-[#09DE7A] to-[#525552]',
+        card2: 'bg-[#1e261e]',
       }
     },
     {
@@ -54,8 +54,8 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1 :  'bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]',
-        card2: 'bg-custom-card-gradient' ,
+        card1: 'bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]',
+        card2: 'bg-custom-card-gradient',
       }
     },
     {
@@ -66,8 +66,8 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1 :  'bg-gradient-to-br from-[#438ff2eb] to-[#08274c]',
-        card2: 'bg-[#1e2d3f7c]' ,
+        card1: 'bg-gradient-to-br from-[#438ff2eb] to-[#08274c]',
+        card2: 'bg-[#1e2d3f7c]',
       }
     },
   ];
@@ -95,7 +95,7 @@ const DashboardPage = () => {
       </div>
       </div>
 
-    
+
 
       <div className="my-3 ">
         
