@@ -6,7 +6,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import UploadPostHandel from "./component/UploadPostHandel";
 import PostCard from "./component/PostCard";
 
-const page = () => {
+const Communitypage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   // Handle Image Upload
@@ -47,4 +47,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Communitypage;

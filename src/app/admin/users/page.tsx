@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import UserTable from './components/UserTable'
 
 
-const page = () => {
+const Userpage = () => {
   const [activeTab, setActiveTab] = useState("users");
   return (
     <div>
@@ -42,4 +42,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Userpage
