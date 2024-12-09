@@ -34,10 +34,8 @@ interface FormErrors {
 }
 
 function LoginPage() {
+  
   // States for Login and Signup forms
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
@@ -107,47 +105,13 @@ function LoginPage() {
   };
 
   // Handle Login form submission
-  const handleLoginSubmit = async (e: React.FormEvent) => {
+  const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateLogin();
     if (Object.keys(errors).length > 0) {
       setLoginErrors(errors);
     } else {
-      setLoginErrors({});
       console.log("Login data submitted", loginData);
-      try {
-        localStorage.clear();
-        console.log("Attempting login with:", loginData);
-
-        const response = await post("users/login", loginData);
-        console.log("Logged in successfully:", response.data);
-        if (!response) return;
-        console.log(response);
-
-        console.log("Login response:", response.data);
-
-        if (response.status !== 200) {
-          throw new Error(response.data.message || "Login failed");
-        }
-
-        const { user, token } = response.data.data;
-        console.log(response.data);
-        console.log("usre , token" + JSON.stringify(user) , token)
-
-        toast.success("Logged in successfully");
-        localStorage.setItem("user", "user");
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("userdetails", JSON.stringify(user));
-        router.push("/dashboard");
-
-        
-      } catch (error: any) {
-        const errorMessage = error.response?.data?.message || "Login failed";
-        console.log("Login error:", error);
-        toast.error(errorMessage);
-      } finally {
-        setLoading(false);
-      }
     }
     setLoginData({
       email: "",
@@ -156,65 +120,14 @@ function LoginPage() {
   };
 
   // Handle Signup form submission
-  const handleSignupSubmit = async (e: React.FormEvent) => {
+  const handleSignupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateSignup();
     if (Object.keys(errors).length > 0) {
       setSignupErrors(errors);
-      return;
     } else {
-      setSignupErrors({});
-      try {
-        localStorage.clear();
-        // console.log('Attempting login with:', loginData)
-        const formdata = new FormData();
-        formdata.append("first_name", signupData.firstName);
-        formdata.append("last_name", signupData.lastName);
-        formdata.append("email", signupData.email);
-        formdata.append("password", signupData.password);
-
-        console.log(formdata);
-        const response = await post("users/signup", formdata);
-        console.log("Singup in successfully:", response.data);
-        if (!response) return;
-        console.log(response);
-
-        console.log("Signup response:", response.data);
-
-        if (response.status !== 200) {
-          throw new Error(response.data.message || "Signup failed");
-        }
-
-        const { user, token } = response.data.data;
-
-        toast.success("Signup in successfully");
-        localStorage.setItem("user", "user");
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("userdetails", JSON.stringify(user));
-        router.push('/onboard/welcome');
-
-       
-      } catch (error: any) {
-        const errorMessage = error.response?.data?.message || "Signup failed";
-        console.log("Signup error:", error);
-
-        if (error.response) {
-          
-          setError(
-            error.response.data.message || "signup failed. Please try again."
-          );
-        } else if (error.request) {
-          // console.log("No response received:", error.request);
-          setError("No response from server. Please check your connection.");
-        } else {
-          // console.log("Error:", error.message);
-          setError("An error occurred while logging in.");
-        }
-        toast.error(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-
+      // Handle successful signup (e.g., API call)
+      console.log("Signup data submitted", signupData);
     }
   };
 
@@ -254,7 +167,15 @@ function LoginPage() {
           </div>
         </div>
 
-        <Tab_Switch />
+
+        
+
+
+        <Tab_Switch/>
+
+      
+
+       
 
         {/* Login and Signup Forms */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-20">
