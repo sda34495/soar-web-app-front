@@ -1,8 +1,6 @@
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
-import LeaderboardTable from "../../../components/UI/LeaderboardData";
+import LeaderboardTable from "@/components/UI/LeaderboardData";
 import React from "react";
-import CheckInPage from "../check-in/page";
-
 const leaderboardData = [
   {
     position: "1st",
@@ -41,11 +39,11 @@ const leaderboardData = [
     },
   },
 ];
-const LeaderboardPage = () => {
+const page = () => {
   return (
     <div className="space-y-6">
-      <div className="  flex justify-center items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
+      <div className="  flex justify-start  w-full mb-5 items-center">
+        <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
           {leaderboardData.map((item, index) => (
             <div className="flex-1" key={index}>
               <LeaderboardCard
@@ -68,4 +66,4 @@ const LeaderboardPage = () => {
   );
 };
 
-export default LeaderboardPage;
+export default page;

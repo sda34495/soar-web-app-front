@@ -6,10 +6,6 @@ import { FaTwitter } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import Link from "next/link";
-import Tab_Switch from "@/components/Tab_Switch";
-import { useRouter } from "next/navigation";
-import { post } from "@/utils/axios";
-import toast from "react-hot-toast";
 
 // Define types for form data
 interface LoginData {
@@ -34,11 +30,8 @@ interface FormErrors {
   confirmPassword?: string;
 }
 
-function LoginPage() {
+function Tab_Switch(props: any) {
   // States for Login and Signup forms
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
@@ -108,56 +101,24 @@ function LoginPage() {
   };
 
   // Handle Login form submission
-  const handleLoginSubmit = async (e: React.FormEvent) => {
+  const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateLogin();
     if (Object.keys(errors).length > 0) {
       setLoginErrors(errors);
+      return;
     } else {
       setLoginErrors({});
       console.log("Login data submitted", loginData);
-      try {
-        localStorage.clear();
-        console.log("Attempting login with:", loginData);
-
-        const response = await post("users/login", loginData);
-        console.log("Logged in successfully:", response.data);
-        if (!response) return;
-        console.log(response);
-
-        console.log("Login response:", response.data);
-
-        if (response.status !== 200) {
-          throw new Error(response.data.message || "Login failed");
-        }
-
-        const { user, token } = response.data.data;
-        console.log(response.data);
-        console.log("usre , token" + JSON.stringify(user) , token)
-
-        toast.success("Logged in successfully");
-        localStorage.setItem("user", "user");
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("userdetails", JSON.stringify(user));
-        router.push("/dashboard");
-
-        
-      } catch (error: any) {
-        const errorMessage = error.response?.data?.message || "Login failed";
-        console.log("Login error:", error);
-        toast.error(errorMessage);
-      } finally {
-        setLoading(false);
-      }
+      setLoginData({
+        email: "",
+        password: "",
+      });
     }
-    setLoginData({
-      email: "",
-      password: "",
-    });
   };
 
   // Handle Signup form submission
-  const handleSignupSubmit = async (e: React.FormEvent) => {
+  const handleSignupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateSignup();
     if (Object.keys(errors).length > 0) {
@@ -165,57 +126,15 @@ function LoginPage() {
       return;
     } else {
       setSignupErrors({});
-      try {
-        localStorage.clear();
-        // console.log('Attempting login with:', loginData)
-        const formdata = new FormData();
-        formdata.append("first_name", signupData.firstName);
-        formdata.append("last_name", signupData.lastName);
-        formdata.append("email", signupData.email);
-        formdata.append("password", signupData.password);
-
-        console.log(formdata);
-        const response = await post("users/signup", formdata);
-        console.log("Singup in successfully:", response.data);
-        if (!response) return;
-        console.log(response);
-
-        console.log("Signup response:", response.data);
-
-        if (response.status !== 200) {
-          throw new Error(response.data.message || "Signup failed");
-        }
-
-        const { user, token } = response.data.data;
-
-        toast.success("Signup in successfully");
-        localStorage.setItem("user", "user");
-        localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("userdetails", JSON.stringify(user));
-        router.push('/onboard/welcome');
-
-       
-      } catch (error: any) {
-        const errorMessage = error.response?.data?.message || "Signup failed";
-        console.log("Signup error:", error);
-
-        if (error.response) {
-          
-          setError(
-            error.response.data.message || "signup failed. Please try again."
-          );
-        } else if (error.request) {
-          // console.log("No response received:", error.request);
-          setError("No response from server. Please check your connection.");
-        } else {
-          // console.log("Error:", error.message);
-          setError("An error occurred while logging in.");
-        }
-        toast.error(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-
+      // Handle successful signup (e.g., API call)
+      console.log("Signup data submitted", signupData);
+      setSignupData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      })
     }
   };
 
@@ -230,36 +149,35 @@ function LoginPage() {
   const [activeTab, setActiveTab] = useState("Login");
 
   return (
-    <div className="bg-[#C2A171] min-h-screen text-white flex items-center justify-center px-4">
-      {/* Container */}
-      <div className="py-12 relative opacity-95 overflow-hidden mt-8 mb-8 bg-gradient-to-l  from-[#333333] to-[#121212] rounded-3xl max-w-4xl w-full px-8 sm:px-10 lg:px-12">
-        {/* Background image */}
-        <Image
-          src={bgImage}
-          alt="bgimage"
-          className="w-full h-full opacity-95 absolute inset-0 -z-10"
-        />
-
-        {/* Header */}
-        <div className="text-center   mb-2 relative z-20">
-          <h1 className="text-4xl z-50 md:text-5xl lg:text-8xl font-bold text-transparent bg-clip-text bg-custom-heading-gradient">
-            SOAR
-          </h1>
-          <p className="text-[#F8F8F8] text-lg sm:text-xl md:text-2xl ">
-            Strive. Overcome. Achieve. Repeat
-          </p>
-
-          <div className="py-3 mt-4 flex items-center text-lg before:flex-1 before:border-t before:border-[#656565] before:me-6 after:flex-1 after:border-t after:border-[#656565] after:ms-6 dark:text-[#989898] text-[#989898]">
-            Let get started
-          </div>
+    <>
+      <div className="flex items-center justify-center w-full h-12 mb-5 lg:hidden">
+        <div className="flex items-center rounded-full bg-[#2f2f2f] p-1">
+          <button
+            onClick={() => setActiveTab("Signup")}
+            className={`w-24 py-2 text-center  font-semibold rounded-full transition-all ${
+              activeTab === "Signup"
+                ? "bg-white text-black shadow"
+                : "text-gray-400"
+            }`}
+          >
+            Signup
+          </button>
+          <button
+            onClick={() => setActiveTab("Login")}
+            className={`w-24 py-2 text-center font-semibold rounded-full transition-all ${
+              activeTab === "Login"
+                ? "bg-white text-black shadow"
+                : "text-gray-400"
+            }`}
+          >
+            Login
+          </button>
         </div>
+      </div>
 
-        <Tab_Switch />
-
-        {/* Login and Signup Forms */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-20">
-          {/* Login Form */}
-          <div className="flex-1 relative z-20 lg:block hidden">
+      <div className="mt-3">
+        {activeTab === "Login" && (
+          <div className="flex-1 relative z-20 lg:hidden ">
             <h2 className="text-2xl font-semibold font-Bricolage-Grotesque mb-4">
               Login
             </h2>
@@ -272,7 +190,6 @@ function LoginPage() {
                     placeholder="Email"
                     value={loginData.email}
                     onChange={handleLoginChange}
-                    id="login"
                     className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold border "
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
@@ -338,10 +255,11 @@ function LoginPage() {
                 Login
               </button>
             </form>
-
-            <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
-              <a href="/auth/forgetPassword">Forget Password</a>
-            </p>
+            <a href="/auth/forgetPassword">
+              <p className="text-md mt-3 text-[#989898] font-semibold text-center cursor-pointer hover:underline">
+                Forget Password
+              </p>
+            </a>
             <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
             <div className="flex flex-row items-center justify-center space-x-3">
               <a
@@ -367,16 +285,9 @@ function LoginPage() {
               </a>
             </div>
           </div>
-
-          {/* Divider */}
-          <div className=" hidden lg:flex flex-col items-center h-full relative z-20">
-            <div className="w-2 h-2 bg-[#656565] rounded-full"></div>
-            <div className="w-0.5 h-96 bg-[#656565] flex-grow"></div>
-            <div className="w-2 h-2 bg-[#656565] rounded-full"></div>
-          </div>
-
-          {/* Signup Form */}
-          <div className="lg:block flex-1 relative z-20 hidden">
+        )}
+        {activeTab === "Signup" && (
+          <div className=" flex-1 relative z-20 lg:hidden ">
             <h2 className="text-2xl font-semibold font-Bricolage-Grotesque mb-4">
               Signup
             </h2>
@@ -549,28 +460,17 @@ function LoginPage() {
                 Signup
               </button>
             </form>
-
             <p className="text-md font-semibold mt-4 text-[#989898] text-center">
               Already have an account?{" "}
-              <button onClick={() => setActiveTab("Login")}>
-                <Link
-                  href={"/auth/login#login"}
-                  className="text-[#C2A171] cursor-pointer hover:underline"
-                >
-                  Login
-                </Link>
-              </button>
+              <span className="text-[#C2A171] cursor-pointer hover:underline">
+                Login
+              </span>
             </p>
           </div>
-        </div>
-
-        {/* Footer */}
-        <footer className="mt-4 text-sm sm:text-lg text-center text-[#989898]">
-          Daily Check-in App for your health
-        </footer>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 
-export default LoginPage;
+export default Tab_Switch;

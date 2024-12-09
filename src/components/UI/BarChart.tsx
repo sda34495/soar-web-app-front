@@ -15,7 +15,7 @@ import DropDownChat from "../UI/DropDownChat";
 // Register Chart.js components
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
-export default function CustomYAxisBarChart() {
+export default function CustomYAxisBarChart({user}:any) {
   // Data for the chart
   const rawData = [
     { date: "01", AM: 1, PM: 2, NO: 0 },
@@ -128,7 +128,7 @@ export default function CustomYAxisBarChart() {
 
   return (
     <>
-      <GraphTabs />
+      {user === "user" && <GraphTabs />}
 
       <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
         <div className="bg-[#121212] p-4 rounded-2xl">
