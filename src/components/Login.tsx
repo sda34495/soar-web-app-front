@@ -5,14 +5,15 @@ import { FaTwitter } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { post } from "@/utils/axios";
 
-// Define types for form data
 interface LoginData {
   email: string;
   password: string;
 }
 
-// Define types for error messages
 interface FormErrors {
   email?: string;
   password?: string;
@@ -22,6 +23,11 @@ interface FormErrors {
 }
 
 function Login() {
+
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
     password: "",
@@ -29,6 +35,8 @@ function Login() {
 
   // States for error handling
   const [loginErrors, setLoginErrors] = useState<FormErrors>({});
+
+
   // Handling Login form input changes
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData({
@@ -49,20 +57,54 @@ function Login() {
     return errors;
   };
 
-  // Handle Login form submission
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const errors = validateLogin();
-    if (Object.keys(errors).length > 0) {
-      setLoginErrors(errors);
-    } else {
-      console.log("Login data submitted", loginData);
+// Handle Login form submission
+const handleLoginSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const errors = validateLogin();
+  if (Object.keys(errors).length > 0) {
+    setLoginErrors(errors);
+  } else {
+    setLoginErrors({});
+    console.log("Login data submitted", loginData);
+    try {
+      localStorage.clear();
+      console.log("Attempting login with:", loginData);
+
+      const response = await post("users/login", loginData);
+      console.log("Logged in successfully:", response.data);
+      if (!response) return;
+      console.log(response);
+
+      console.log("Login response:", response.data);
+
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "Login failed");
+      }
+
+      const { user, token } = response.data.data;
+      console.log(response.data);
+      console.log("usre , token" + JSON.stringify(user) , token)
+
+      toast.success("Logged in successfully");
+      localStorage.setItem("user", "user");
+      localStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("userdetails", JSON.stringify(user));
+      router.push("/dashboard");
+
+      
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Login failed";
+      console.log("Login error:", error);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
-    setLoginData({
-      email: "",
-      password: "",
-    });
-  };
+  }
+  setLoginData({
+    email: "",
+    password: "",
+  });
+};
 
   return (
     <>

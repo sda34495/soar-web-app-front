@@ -2,6 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { post } from "@/utils/axios";
 
 interface SignupData {
   firstName: string;
@@ -23,6 +26,10 @@ interface FormErrors {
 function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const [signupData, setSignupData] = useState<SignupData>({
     firstName: "",
@@ -64,17 +71,68 @@ function SignUp() {
     return errors;
   };
 
-  // Handle Signup form submission
-  const handleSignupSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const errors = validateSignup();
-    if (Object.keys(errors).length > 0) {
-      setSignupErrors(errors);
-    } else {
-      // Handle successful signup (e.g., API call)
-      console.log("Signup data submitted", signupData);
+ // Handle Signup form submission
+ const handleSignupSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const errors = validateSignup();
+  if (Object.keys(errors).length > 0) {
+    setSignupErrors(errors);
+    return;
+  } else {
+    setSignupErrors({});
+    try {
+      localStorage.clear();
+      // console.log('Attempting login with:', loginData)
+      const formdata = new FormData();
+      formdata.append("first_name", signupData.firstName);
+      formdata.append("last_name", signupData.lastName);
+      formdata.append("email", signupData.email);
+      formdata.append("password", signupData.password);
+
+      console.log(formdata);
+      const response = await post("users/signup", formdata);
+      console.log("Singup in successfully:", response.data);
+      if (!response) return;
+      console.log(response);
+
+      console.log("Signup response:", response.data);
+
+      if (response.status !== 200) {
+        throw new Error(response.data.message || "Signup failed");
+      }
+
+      const { user, token } = response.data.data;
+
+      toast.success("Signup in successfully");
+      localStorage.setItem("user", "user");
+      localStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("userdetails", JSON.stringify(user));
+      router.push('/onboard/welcome');
+
+     
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Signup failed";
+      console.log("Signup error:", error);
+
+      if (error.response) {
+        
+        setError(
+          error.response.data.message || "signup failed. Please try again."
+        );
+      } else if (error.request) {
+        // console.log("No response received:", error.request);
+        setError("No response from server. Please check your connection.");
+      } else {
+        // console.log("Error:", error.message);
+        setError("An error occurred while logging in.");
+      }
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
-  };
+
+  }
+};
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
