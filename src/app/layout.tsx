@@ -1,7 +1,11 @@
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Head from "next/head";
+
+import { ToastProvider } from "@/Hook/toast-provider";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,10 +25,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-
 }: Readonly<{
   children: React.ReactNode;
-  
 }>) {
   return (
     <html lang="en">
@@ -34,11 +36,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </Head>
-      <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased bg-image bg-cover bg-center `}
-      >
-        
-        {children}
+      <body>
+        <>
+          {children}
+          <Toaster/>
+        </>
       </body>
     </html>
   );

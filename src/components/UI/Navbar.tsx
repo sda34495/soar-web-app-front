@@ -1,13 +1,16 @@
+'use client';
 import React from "react";
+import { useSelector } from "react-redux";
 
 // Function to render the Title Section
 const TitleSection = () => {
+  const navdetails = useSelector((state: any) => state.navbarSlice);
   return (
     <div className="flex flex-col justify-center min-w-[300px] w-full mx-auto lg:w-2/3 mr-8 h-full">
       <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
         <div className="flex flex-col bg-[#121212] py-2 rounded-2xl px-4 h-full">
-          <h1 className="text-2xl font-bold">Leaderboard</h1>
-          <p className="text-sm mt-1 text-gray-400">Total competing users 1,622</p>
+          <h1 className="text-2xl font-bold">{navdetails.title}</h1>
+          <p className="text-sm mt-1 text-gray-400">{navdetails.description}</p>
         </div>
       </div>
     </div>
@@ -51,7 +54,7 @@ const ActionsSection = () => {
 // Main LeaderboardHeader Component
 const Navbar = () => {
   return (
-    <div className="flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:justify-between text-white mt-1">
+    <div className="flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:justify-between text-white mt-1 ">
       {/* Render Title Section */}
       <TitleSection />
 
@@ -61,4 +64,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default  Navbar;

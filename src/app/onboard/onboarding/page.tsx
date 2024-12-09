@@ -1,23 +1,25 @@
+'use client'
+import Link from "next/link";
 import React from "react";
 
 const Page = () => {
 
-   
   
   return (
     <>
-      {/* Header Section */}
-      <header className="w-[120px] text-center mt-10 ml-10">
-        <hr className="bg-gradient-to-b from-[#fbedd3] to-[#c3a374] " />
+      
+      <div className="flex flex-col mt-20 mx-6 sm:mx-40 lg:mx-auto">
+        
+        <div className="mx-auto w-full sm:w-2/3 lg:w-1/2 ">
+        <header className="w-full mt-10  bg-red">
+          <div className=" w-[120px] text-center">
+        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 "  />
         <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
           SOAR
         </h1>
-        <hr className="bg-gradient-to-b from-[#fbedd3] to-[#c3a374]" />
+        <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
+          </div>
       </header>
-
-      {/* Form Section */}
-      <div className="flex flex-col mt-20 mx-6 sm:mx-20 lg:mx-40">
-        <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
           <div className="mt-10 items-start">
             <h2 className="text-white text-2xl">How are you planning to use SOAR?</h2>
             <p className="text-zinc-500 mt-2">
@@ -25,53 +27,65 @@ const Page = () => {
             </p>
           </div>
 
-          <form className="flex flex-col mt-8 text-white gap-6">
+          <form className="flex flex-col mt-8 max-w-lg text-white gap-6">
             {/* Fitness Goal Input */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center space-x-2 gap-3">
               <div className="flex gap-1">
                 <img src="/fitness.png" alt="Icon 1" className="w-12 h-12" />
            
               </div>
-              <label className="text-lg">Fitness</label>
-            </div>
+              <div className="flex w-full space-y-2 flex-col">
+              <label className="text-xl font-semibold">Fitness</label>
             <input
               type="text"
               placeholder="Enter your fitness goal here"
-              className=" drop-shadow-sm  bg-zinc-600/30 w-full rounded-md border border-gray-400 outline-none p-3 focus:border-[#c3a374] transition-all"
-            />
-
-            {/* Finance Goal Input */}
-            <div className="flex items-center gap-3">
+              className=" py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold border"
+              />
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-2 gap-3">
               <div className="flex gap-1">
                 <img src="/dollar.png" alt="Icon 1" className="w-12 h-12" />
-              
+           
               </div>
-              <label className="text-lg">Finance</label>
-            </div>
+              <div className="flex w-full space-y-2 flex-col">
+              <label className="text-xl font-semibold">Finance</label>
             <input
               type="text"
               placeholder="Enter your finance goal here"
-              className=" drop-shadow-sm  bg-zinc-600/30 w-full rounded-md border border-gray-400 outline-none p-3 focus:border-[#c3a374] transition-all"
-            />
-
-            {/* Alcohol/No-substance Goal Input */}
-            <div className="flex items-center gap-3">
-              <div className="flex gap-1">
-                <img src="/null.png" alt="Icon 1" className="w-6 h-6" />
-    
+              className=" py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold border"
+              />
               </div>
-              <label className="text-lg">Alcohol/No-substance</label>
             </div>
+            
+            <div className="flex items-center space-x-2 gap-3">
+              <div className="flex gap-1">
+                <img src="/al.png" alt="Icon 1" className="w-12 h-12" />
+           
+              </div>
+              <div className="flex w-full space-y-2 flex-col">
+              <label className="text-xl font-semibold">Alcohol / No-substance</label>
             <input
               type="text"
               placeholder="Enter your alcohol/No-substance goal here"
-              className=" drop-shadow-sm  bg-zinc-600/30 w-full rounded-md border border-gray-400 outline-none p-3 focus:border-[#c3a374] transition-all"
-            />
+              className="  py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold border"
+              />
+              </div>
+              </div>
+
+           
 
             {/* Next Button */}
-            <button className="w-32 mt-5 bg-gradient-to-b from-[#fbedd3] to-[#c3a374]  py-2 font-medium text-black rounded-full">
+              <Link href="/onboard/package"
+              >
+            
+            <button className="py-4 mt-8 px-20 font-semibold  text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
               Next
             </button>
+           
+        
+              </Link>
           </form>
         </div>
       </div>

@@ -40,6 +40,7 @@ function Tab_Switch(props: any) {
           </div>
         )}
         {activeTab === "Signup" && (
+        {activeTab === "Signup" && (
           <div className=" flex-1 relative z-20 lg:hidden ">
             <SignUp />
           </div>
@@ -47,6 +48,10 @@ function Tab_Switch(props: any) {
       </div>
     </>
   );
+    </>
+  );
 }
+
+export default Tab_Switch;
 
 export default Tab_Switch;
