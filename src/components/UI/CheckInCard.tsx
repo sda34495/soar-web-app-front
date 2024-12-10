@@ -1,4 +1,37 @@
+import { getData } from "@/utils/axios";
+import { useEffect, useState } from "react";
+
 const CheckinCard = () => {
+
+  const [checkInDetails, setCheckInDetails] = useState({
+    total_minutes_spent: 0,
+    pending_check_ins: 0,
+    total_done: 0,
+    total_progress: 0,
+  });
+
+  
+  useEffect(() => {
+    const fetchCheckInDetails = async () => {
+      try {
+        const response = await getData("checkin/details");
+        if (response.data?.success) {
+          setCheckInDetails(response.data?.data); // Store fetched data in state
+          console.log(response.data)
+        }
+      } catch (error) {
+        console.error("Failed to fetch check-in details:", error);
+      }
+    };
+
+    fetchCheckInDetails();
+  }, []); 
+
+  const { pending_check_ins, total_done, total_minutes_spent, total_progress } = checkInDetails;
+  // const percentage = parseFloat(total_progress); // Convert string percentage to float for the progress bar
+
+
+
     const percentage = 50
   return (
     //       <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
@@ -15,15 +48,15 @@ const CheckinCard = () => {
 
       <div className=" flex items-center justify-center space-x-4">
         <div className="text-center">
-          <p className="text-green-500 text-xl font-bold">2</p>
+          <p className="text-green-500 text-xl font-bold">{total_done}</p>
           <p className="text-xs">Done</p>
         </div>
         <div className="text-center">
-          <p className="text-red-500 text-xl font-bold">4</p>
+          <p className="text-red-500 text-xl font-bold">{pending_check_ins}</p>
           <p className="text-xs">Pending</p>
         </div>
         <div className="text-center">
-          <p className="text-green-500 text-xl font-bold">34 min</p>
+          <p className="text-green-500 text-xl font-bold">{total_minutes_spent}</p>
           <p className="text-xs">Time</p>
         </div>
         <div className="flex items-center">
