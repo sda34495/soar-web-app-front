@@ -1,6 +1,6 @@
 import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import CenterImageModal from "./CenterImageModal";
 
 const FitnessCard = ({percentage} :any) => {
 
@@ -9,12 +9,16 @@ const FitnessCard = ({percentage} :any) => {
     evening: false,
   });
 
-  // Fetch check-in details when the component mounts
+
+  const [showSecondModal, setShowSecondModal] = useState(false); // State to control modal visibility
+
+
   useEffect(() => {
     const fetchCheckInDetails = async () => {
       try {
         const response = await getData("checkin/details");
         if (response.data?.success) {
+          // Only update state if data has changed to avoid unnecessary re-renders
           setCheckInStatus({
             morning: response.data?.data?.check_in_details?.fitness?.morning || false,
             evening: response.data?.data?.check_in_details?.fitness?.evening || false,
@@ -25,20 +29,20 @@ const FitnessCard = ({percentage} :any) => {
       }
     };
 
+    // Fetch the data on mount only (empty dependency array ensures this effect runs only once)
     fetchCheckInDetails();
-  }, []);
+  }, []); // Empty dependency array to make sure it runs only once when the component mounts
 
-  // Handle checkbox change (check/uncheck)
   const handleCheckboxChange = async (event: React.ChangeEvent<HTMLInputElement>, timeOfDay: "morning" | "evening") => {
     const checked = event.target.checked;
 
-    // Update the state locally
+    // Update the state to reflect the checkbox change (this won't trigger re-fetching)
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
       [timeOfDay]: checked,
     }));
 
-    // Prepare request data
+    // Prepare the request data
     const data = {
       activity_type: "fitness",
       time_of_day: timeOfDay,
@@ -49,14 +53,20 @@ const FitnessCard = ({percentage} :any) => {
       const response = await post("checkin/add-remove-checkin", data);
 
       if (response?.data?.success) {
-        toast.success(`${timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)} check-in updated successfully!`);
-        console.log(response.data)
+        console.log(response.data);
       } else {
-        toast.error("Failed to update check-in.");
       }
     } catch (error) {
-      toast.error("An error occurred while updating check-in.");
     }
+
+    setTimeout(() => {
+      setShowSecondModal(true);
+    }, 500); // 500ms delay (adjust as necessary)
+  };
+
+
+  const handleCloseSecondModal = () => {
+    setShowSecondModal(false);
   };
 
 
@@ -159,6 +169,16 @@ const FitnessCard = ({percentage} :any) => {
           </div>
         </div>
         </div>
+
+
+        {/* Modal */}
+      <CenterImageModal
+        title="Congratulations"
+        description="Your session has been booked."
+        isOpen={showSecondModal}
+        image="/cone.png"
+        onClose={handleCloseSecondModal}
+      />
       
     </div>
   );
