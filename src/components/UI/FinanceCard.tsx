@@ -2,14 +2,13 @@ import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 import CenterImageModal from "./CenterImageModal";
 
-const FinanceCard = ({percentage} :any) => {
+const FinanceCard = ({percentage, onModalClose, setIsModalOpen} :any) => {
 
   const [checkInStatus, setCheckInStatus] = useState<{ morning: boolean; evening: boolean }>({
     morning: false,
     evening: false,
   });
 
-  const [showSecondModal, setShowSecondModal] = useState(false); // State to control modal visibility
 
   useEffect(() => {
     const fetchCheckInDetails = async () => {
@@ -58,13 +57,10 @@ const FinanceCard = ({percentage} :any) => {
     }
 
     setTimeout(() => {
-      setShowSecondModal(true);
+      setIsModalOpen(true);
     }, 500); // 500ms delay (adjust as necessary)
   };
 
-  const handleCloseSecondModal = () => {
-    setShowSecondModal(false);
-  };
 
 
     const color = percentage < 50 ? 'bg-red-600 text-red-600' : 'bg-green-600 text-green-500';
@@ -167,13 +163,6 @@ const FinanceCard = ({percentage} :any) => {
         </div>
         </div>
 
-        <CenterImageModal
-        title="Congratulations"
-        description="Your session has been booked."
-        isOpen={showSecondModal}
-        image="/icon_success.png"
-        onClose={handleCloseSecondModal}
-      />
       
     </div>
   );

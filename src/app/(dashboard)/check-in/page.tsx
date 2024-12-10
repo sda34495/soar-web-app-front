@@ -1,11 +1,12 @@
 'use client'
 import CheckinCard from '@/components/UI/CheckInCard'
 import FitnessCard from '@/components/UI/FitnessCard'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import {endLoadingAction} from '@/store/loader-slice'
 import FinanceCard from '@/components/UI/FinanceCard';
 import Sobriety from '@/components/UI/Sobriety';
+import CenterImageModal from '@/components/UI/CenterImageModal';
 
 const leaderboardData = [
   {
@@ -39,18 +40,54 @@ const leaderboardData = [
 
 const CheckInPage = () => {
   const dispatch = useDispatch();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [refreshCheckIn, setRefreshCheckIn] = useState(false); // Track refresh state
+
+  
   useEffect(() => {
     
     dispatch(endLoadingAction.endLoading(100))
-  })
+  }, [dispatch])
+
+
+  const handleModalClose = () => {
+    setIsModalOpen(false); // Close the modal
+    setRefreshCheckIn(prev => !prev);
+  };
+
+
+
+
+
+
   return (
     <div className='space-y-6 '>
-       <CheckinCard/>
+       <CheckinCard key={refreshCheckIn ? 1: 0}/>
    
-        <FitnessCard percentage={80} />
-        {/* <FitnessCard percentage={50} /> */}
-        <FinanceCard  percentage={50} />
-        <Sobriety  percentage={30} />
+        <FitnessCard percentage={80} 
+        setIsModalOpen={setIsModalOpen} 
+         />
+
+
+        <FinanceCard  percentage={50}
+        setIsModalOpen={setIsModalOpen} 
+        />
+        <Sobriety  percentage={30}
+        setIsModalOpen={setIsModalOpen} 
+        />
+
+
+        {isModalOpen && (
+        <CenterImageModal
+          title="Congratulations"
+          description="Your session has been booked."
+          isOpen={isModalOpen}
+          image="/cone.png"
+          onClose={handleModalClose}
+        />
+      )}
+      
     </div>
   )
 }
