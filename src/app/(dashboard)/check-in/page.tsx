@@ -4,6 +4,8 @@ import FitnessCard from '@/components/UI/FitnessCard'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import {endLoadingAction} from '@/store/loader-slice'
+import FinanceCard from '@/components/UI/FinanceCard';
+import Sobriety from '@/components/UI/Sobriety';
 
 const leaderboardData = [
   {
@@ -46,8 +48,9 @@ const CheckInPage = () => {
        <CheckinCard/>
    
         <FitnessCard percentage={80} />
-        <FitnessCard percentage={50} />
-        <FitnessCard  percentage={30} />
+        {/* <FitnessCard percentage={50} /> */}
+        <FinanceCard  percentage={50} />
+        <Sobriety  percentage={30} />
     </div>
   )
 }
