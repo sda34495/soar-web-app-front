@@ -28,7 +28,12 @@ const LeaderboardPage = () => {
           color: getCardColor(entry.rank), // Use rank to determine the color
         }));
 
-        setFetchedLeaderboardData(data);
+        // Filter only the top 3 ranks
+        const topRanks = data.filter((item) =>
+          ["1st", "2nd", "3rd"].includes(item.position)
+        );
+
+        setFetchedLeaderboardData(topRanks);
         setError(null);
       } catch (err: any) {
         console.error("Error fetching leaderboard data:", err);
@@ -68,7 +73,7 @@ const LeaderboardPage = () => {
   return (
     <div className="space-y-6">
       {error && <div className="text-red-500">{error}</div>}
-      
+
       <div className="flex justify-center items-center">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
           {fetchedLeaderboardData.length > 0 ? (
@@ -86,7 +91,9 @@ const LeaderboardPage = () => {
               </div>
             ))
           ) : (
-            <div className="text-center text-gray-500">No leaderboard data available.</div>
+            <div className="text-center text-gray-500">
+              No leaderboard data available.
+            </div>
           )}
         </div>
       </div>
@@ -97,4 +104,3 @@ const LeaderboardPage = () => {
 };
 
 export default LeaderboardPage;
-  
