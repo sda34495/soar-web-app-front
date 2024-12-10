@@ -18,7 +18,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
     email: "",
     phone: "",
     consultationReason: "",
-  }); // To store form data
+  }); 
+  
   const [loading, setLoading] = useState(false); // For loading state
   const [error, setError] = useState<string | null>(null); // For error state
 
