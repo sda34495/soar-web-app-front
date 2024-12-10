@@ -2,16 +2,14 @@ import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 import CenterImageModal from "./CenterImageModal";
 
-const FitnessCard = ({percentage} :any) => {
+const FinanceCard = ({percentage} :any) => {
 
   const [checkInStatus, setCheckInStatus] = useState<{ morning: boolean; evening: boolean }>({
     morning: false,
     evening: false,
   });
 
-
   const [showSecondModal, setShowSecondModal] = useState(false); // State to control modal visibility
-
 
   useEffect(() => {
     const fetchCheckInDetails = async () => {
@@ -20,8 +18,8 @@ const FitnessCard = ({percentage} :any) => {
         if (response.data?.success) {
           // Only update state if data has changed to avoid unnecessary re-renders
           setCheckInStatus({
-            morning: response.data?.data?.check_in_details?.fitness?.morning || false,
-            evening: response.data?.data?.check_in_details?.fitness?.evening || false,
+            morning: response.data?.data?.check_in_details?.finance?.morning || false,
+            evening: response.data?.data?.check_in_details?.finance?.evening || false,
           });
         }
       } catch (error) {
@@ -44,7 +42,7 @@ const FitnessCard = ({percentage} :any) => {
 
     // Prepare the request data
     const data = {
-      activity_type: "fitness",
+      activity_type: "finance",
       time_of_day: timeOfDay,
     };
 
@@ -64,7 +62,6 @@ const FitnessCard = ({percentage} :any) => {
     }, 500); // 500ms delay (adjust as necessary)
   };
 
-
   const handleCloseSecondModal = () => {
     setShowSecondModal(false);
   };
@@ -77,7 +74,7 @@ const FitnessCard = ({percentage} :any) => {
       
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">Fitness Check-ins</h2>
+          <h2 className="text-lg font-bold">Finance Check-ins</h2>
           <div className="flex items-center space-x-2">
             <span className={"text-green-500 font-semibold" +color}>
               Hurray! You're making progress
@@ -94,7 +91,7 @@ const FitnessCard = ({percentage} :any) => {
           </div>
         </div>
 
-        {/* Fitness Items */}
+        {/* Finance Items */}
         <div className="space-y-4">
           {/* Checked item */}
           <div className="flex items-center justify-between mr-20">
@@ -123,11 +120,11 @@ const FitnessCard = ({percentage} :any) => {
                     </svg>
                   </span>
                 </label>
-              <span className="text-gray-400">Fitness (morning)</span>
+              <span className="text-gray-400">Finance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span>17, Nov</span>
-              <span>Fitness</span>
+              <span>Finance</span>
               <span>10 minutes</span>
             </div>
           </div>
@@ -159,20 +156,18 @@ const FitnessCard = ({percentage} :any) => {
                     </svg>
                   </span>
                 </label>
-              <span className="text-gray-400">Fitness (evening)</span>
+              <span className="text-gray-400">Finance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span>17, Nov</span>
-              <span>Fitness</span>
+              <span>Finance</span>
               <span>10 minutes</span>
             </div>
           </div>
         </div>
         </div>
 
-
-        {/* Modal */}
-      <CenterImageModal
+        <CenterImageModal
         title="Congratulations"
         description="Your session has been booked."
         isOpen={showSecondModal}
@@ -184,4 +179,4 @@ const FitnessCard = ({percentage} :any) => {
   );
 };
 
-export default FitnessCard;
+export default FinanceCard;
