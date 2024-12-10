@@ -1,6 +1,7 @@
 import React from "react";
 
 const FitnessCard = ({percentage} :any) => {
+  
 
     const color = percentage < 50 ? 'bg-red-600 text-red-600' : 'bg-green-600 text-green-500';
   return (

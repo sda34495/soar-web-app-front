@@ -9,6 +9,7 @@ const instance = axios.create({
   baseURL: url,
   headers: {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
 
@@ -117,3 +118,22 @@ export const deleteUser = async (endpoint: string, resource_id: string, resource
     throw error;
   }
 };
+
+
+export const getUserData = async (token: string) => {
+  try {
+    const response = await instance.get('/leaderboard/all', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+
+
+// File: /pages/api/checkin.js

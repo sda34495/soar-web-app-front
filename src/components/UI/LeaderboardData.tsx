@@ -1,63 +1,83 @@
-import React from "react";
+"use client";
 
-// Dummy data array
-const leaderboardData = [
-  { rank: "4th", user: "Chance Levin", points: 851, league: 1940, competition: 80, avatar: "/avatar.jpeg" },
-  { rank: "5th", user: "Angel Westervelt", points: 567, league: 1810, competition: 77, avatar: "/avatar.jpeg" },
-  { rank: "6th", user: "Roger Franci", points: 64, league: 1810, competition: 77, avatar: "/avatar.jpeg" },
-  { rank: "7th", user: "Corey Septimus", points: 389, league: 1810, competition: 73, avatar: "/avatar.jpeg" },
-  { rank: "8th", user: "Lydia Lipshutz", points: 238, league: 1810, competition: 65, avatar: "/avatar.jpeg" },
-  { rank: "9th", user: "Jaydon Calzoni", points: 191, league: 1810, competition: 64, avatar: "/avatar.jpeg" },
-  { rank: "10th", user: "Marley Westervelt", points: 618, league: 1810, competition: 62, avatar: "/avatar.jpeg" },
-  { rank: "11th", user: "Abram Botosh", points: 451, league: 1810, competition: 58, avatar: "/avatar.jpeg" },
-  { rank: "12th", user: "Makenna Carder", points: 903, league: 1810, competition: 56, avatar: "/avatar.jpeg" },
-];
+import React, { useState, useEffect } from "react";
+import { getUserData } from "@/utils/axios"; // Ensure this utility is correctly implemented
 
 const LeaderboardTable = () => {
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [error, setError] = useState<string | null>(null);
 
-  
+  useEffect(() => {
+    const fetchLeaderboardData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("User is not authenticated.");
+          return;
+        }
+
+        const response = await getUserData("leaderboard/all");
+
+        const data = response.data.map((entry: any) => ({
+          rank: entry.rank,
+          user: `${entry.first_name} ${entry.last_name}`,
+          points: entry.points || 0,
+          league: entry.league || 0,
+          competition: entry.activity_type || "",
+          avatar: "/avatar.jpeg",
+        }));
+
+        setLeaderboardData(data);
+        setError(null);
+      } catch (err: any) {
+        console.error("Error fetching leaderboard data:", err);
+        setError(err.response?.data?.message || "Failed to fetch data.");
+      }
+    };
+
+    fetchLeaderboardData();
+  }, []);
+
   return (
-
-  
-    <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl text-white  shadow-md overflow-hidden overflow-x-auto">
-    <div className="bg-[#121212] text-white rounded-2xl px-2 py-1 overflow-x-auto">
-      <table className="w-full text-left border-collapse">
-        {/* Table Header */}
-        <thead>
-          <tr className="text-[#7C7C7C] ">
-            <th className="p-3">Rank</th>
-            <th className="p-3">User</th>
-            <th className="p-3">Points</th>
-            <th className="p-3">League</th>
-            <th className="p-3">Competition</th>
-          </tr>
-
-          <tr className="border-t border-gray-700 h transition-all" ></tr>
-        </thead>
-        {/* Table Body */}
-        <tbody>
-          {leaderboardData.map((entry, index) => (
-            <tr
-              key={index}
-              className=" hover:bg-gray-800 transition-all"
-            >
-              <td className="p-3">{entry.rank}</td>
-              <td className="p-3 flex items-center space-x-3">
-                <img
-                  src={`${entry.avatar}`}
-                  alt={entry.user}
-                  className="h-8 w-8 rounded-full object-cover "
-                />
-                <span>{entry.user}</span>
-              </td>
-              <td className="p-3">{entry.points}</td>
-              <td className="p-3">{entry.league}</td>
-              <td className="p-3">{entry.competition}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl text-white shadow-md overflow-hidden overflow-x-auto">
+      <div className="bg-[#121212] text-white rounded-2xl px-2 py-1 overflow-x-auto">
+        {error ? (
+          <p className="text-red-500 text-center p-3">{error}</p>
+        ) : (
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="text-[#7C7C7C]">
+                <th className="p-3">Rank</th>
+                <th className="p-3">User</th>
+                <th className="p-3">Points</th>
+                <th className="p-3">League</th>
+                <th className="p-3">Competition</th>
+              </tr>
+              <tr className="border-t border-gray-700 h transition-all"></tr>
+            </thead>
+            <tbody>
+              {leaderboardData
+                .filter((entry) => parseInt(entry.rank) >= 4) // Show ranks starting from 4th
+                .map((entry, index) => (
+                  <tr key={index} className="hover:bg-gray-800 transition-all">
+                    <td className="p-3">{entry.rank}</td>
+                    <td className="p-3 flex items-center space-x-3">
+                      <img
+                        src={entry.avatar}
+                        alt={entry.user}
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
+                      <span>{entry.user}</span>
+                    </td>
+                    <td className="p-3">{entry.points}</td>
+                    <td className="p-3">{entry.league}</td>
+                    <td className="p-3">{entry.competition}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };

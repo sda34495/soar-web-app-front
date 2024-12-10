@@ -1,65 +1,93 @@
+"use client";
+import React, { useEffect, useState } from "react";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LeaderboardTable from "../../../components/UI/LeaderboardData";
-import React from "react";
-import CheckInPage from "../check-in/page";
+import { getUserData } from "@/utils/axios";
 
-const leaderboardData = [
-  {
-    position: "1st",
-    username: "marshmellow",
-    points: 1280,
-    league: "1988 / 2000",
-    competition: "89 / 100",
-    avatar: "/avatar.jpeg",
-    color: {
-      card1: "bg-gradient-to-br from-[#09DE7A] to-[#525552]",
-      card2: "bg-[#1e261e]",
-    },
-  },
-  {
-    position: "2nd",
-    username: "oliviarhye",
-    points: 1260,
-    league: "1988 / 2000",
-    competition: "89 / 100",
-    avatar: "/avatar.jpeg",
-    color: {
-      card1: "bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]",
-      card2: "bg-custom-card-gradient",
-    },
-  },
-  {
-    position: "3rd",
-    username: "marshmellow",
-    points: 1240,
-    league: "1988 / 2000",
-    competition: "89 / 100",
-    avatar: "/avatar.jpeg",
-    color: {
-      card1: "bg-gradient-to-br from-[#438ff2eb] to-[#08274c]",
-      card2: "bg-[#1e2d3f7c]",
-    },
-  },
-];
 const LeaderboardPage = () => {
+  const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchLeaderboardData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("User is not authenticated.");
+          return;
+        }
+
+        const response = await getUserData("leaderboard/all");
+        const data = response.data.map((entry: any) => ({
+          position: entry.rank, // Ensure rank is correctly extracted
+          username: `${entry.first_name} ${entry.last_name}`,
+          points: entry.points || 0,
+          league: entry.league || "N/A", // Default value if not available
+          competition: entry.activity_type || "N/A",
+          avatar: "/avatar.jpeg", // Add logic for dynamic avatar if available
+          color: getCardColor(entry.rank), // Use rank to determine the color
+        }));
+
+        setFetchedLeaderboardData(data);
+        setError(null);
+      } catch (err: any) {
+        console.error("Error fetching leaderboard data:", err);
+        setError(err.response?.data?.message || "Failed to fetch data.");
+      }
+    };
+
+    fetchLeaderboardData();
+  }, []);
+
+  // Function to set color based on rank
+  const getCardColor = (rank: string) => {
+    switch (rank) {
+      case "1st":
+        return {
+          card1: "bg-gradient-to-br from-[#09DE7A] to-[#525552]",
+          card2: "bg-[#1e261e]",
+        };
+      case "2nd":
+        return {
+          card1: "bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]",
+          card2: "bg-custom-card-gradient",
+        };
+      case "3rd":
+        return {
+          card1: "bg-gradient-to-br from-[#438ff2eb] to-[#08274c]",
+          card2: "bg-[#1e2d3f7c]",
+        };
+      default:
+        return {
+          card1: "bg-gradient-to-br from-[#a0a0a0] to-[#2f2f2f]",
+          card2: "bg-[#1e1e1e]",
+        };
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="  flex justify-center items-center">
+      {error && <div className="text-red-500">{error}</div>}
+      
+      <div className="flex justify-center items-center">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
-          {leaderboardData.map((item, index) => (
-            <div className="flex-1" key={index}>
-              <LeaderboardCard
-                key={index}
-                position={item.position}
-                username={item.username}
-                points={item.points}
-                league={item.league}
-                competition={item.competition}
-                avatar={item.avatar}
-                color={item.color}
-              />
-            </div>
-          ))}
+          {fetchedLeaderboardData.length > 0 ? (
+            fetchedLeaderboardData.map((item, index) => (
+              <div className="flex-1" key={index}>
+                <LeaderboardCard
+                  position={item.position}
+                  username={item.username}
+                  points={item.points}
+                  league={item.league}
+                  competition={item.competition}
+                  avatar={item.avatar}
+                  color={item.color}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="text-center text-gray-500">No leaderboard data available.</div>
+          )}
         </div>
       </div>
 
@@ -69,3 +97,4 @@ const LeaderboardPage = () => {
 };
 
 export default LeaderboardPage;
+  
