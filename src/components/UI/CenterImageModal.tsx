@@ -22,7 +22,6 @@ const CenterImageModal = ({
               <p className="text-[#BDBDBD]">{description}</p>
               <div className="mt-5 flex justify-center">
                 <button onClick={onClose} className="px-10 py-3 text-white border font-semi-bold  rounded-full font-semibold">
-
                   Back to Dashboard
                 </button>
               </div>
