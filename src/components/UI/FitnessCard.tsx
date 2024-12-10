@@ -1,6 +1,44 @@
-import React from "react";
+import { post } from "@/utils/axios";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const FitnessCard = ({percentage} :any) => {
+
+  const [morningChecked, setMorningChecked] = useState<boolean>(false);
+  const [eveningChecked, setEveningChecked] = useState<boolean>(false);
+
+  const handleCheckboxChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    timeOfDay: "morning" | "evening"
+  ) => {
+    const checked = event.target.checked;
+    
+    if (timeOfDay === "morning") {
+      setMorningChecked(checked);
+    } else if (timeOfDay === "evening") {
+      setEveningChecked(checked);
+    }
+
+    const data = {
+      activity_type: "fitness",  
+      time_of_day: timeOfDay    
+    };
+
+
+    try {
+      const response = await post("checkin/add-remove-checkin", data);
+
+      if (response?.data?.success) {
+        toast.success(`${timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)} check-in updated successfully!`);
+        console.log(response.data)
+      } else {
+        toast.error("Failed to update check-in.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while updating check-in.");
+    }
+  };
+
 
     const color = percentage < 50 ? 'bg-red-600 text-red-600' : 'bg-green-600 text-green-500';
   return (
@@ -35,7 +73,8 @@ const FitnessCard = ({percentage} :any) => {
                   <input
                     type="checkbox"
                     className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                    id="check4"
+                    checked={morningChecked}
+                  onChange={(e) => handleCheckboxChange(e, "morning")}
                   />
                   <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <svg
@@ -70,7 +109,8 @@ const FitnessCard = ({percentage} :any) => {
                   <input
                     type="checkbox"
                     className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                    id="check4"
+                    checked={eveningChecked}
+                  onChange={(e) => handleCheckboxChange(e, "evening")}
                   />
                   <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <svg
@@ -89,7 +129,7 @@ const FitnessCard = ({percentage} :any) => {
                     </svg>
                   </span>
                 </label>
-              <span className="text-gray-400">Fitness (morning)</span>
+              <span className="text-gray-400">Fitness (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span>17, Nov</span>
