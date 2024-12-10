@@ -1,31 +1,51 @@
-import { post } from "@/utils/axios";
-import React, { useState } from "react";
+import { getData, post } from "@/utils/axios";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const FitnessCard = ({percentage} :any) => {
 
-  const [morningChecked, setMorningChecked] = useState<boolean>(false);
-  const [eveningChecked, setEveningChecked] = useState<boolean>(false);
+  const [checkInStatus, setCheckInStatus] = useState<{ morning: boolean; evening: boolean }>({
+    morning: false,
+    evening: false,
+  });
 
-  const handleCheckboxChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-    timeOfDay: "morning" | "evening"
-  ) => {
-    const checked = event.target.checked;
-    
-    if (timeOfDay === "morning") {
-      setMorningChecked(checked);
-    } else if (timeOfDay === "evening") {
-      setEveningChecked(checked);
-    }
-
-    const data = {
-      activity_type: "fitness",  
-      time_of_day: timeOfDay    
+  // Fetch check-in details when the component mounts
+  useEffect(() => {
+    const fetchCheckInDetails = async () => {
+      try {
+        const response = await getData("checkin/details");
+        if (response.data?.success) {
+          setCheckInStatus({
+            morning: response.data?.data?.check_in_details?.fitness?.morning || false,
+            evening: response.data?.data?.check_in_details?.fitness?.evening || false,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch check-in details:", error);
+      }
     };
 
+    fetchCheckInDetails();
+  }, []);
+
+  // Handle checkbox change (check/uncheck)
+  const handleCheckboxChange = async (event: React.ChangeEvent<HTMLInputElement>, timeOfDay: "morning" | "evening") => {
+    const checked = event.target.checked;
+
+    // Update the state locally
+    setCheckInStatus((prevStatus) => ({
+      ...prevStatus,
+      [timeOfDay]: checked,
+    }));
+
+    // Prepare request data
+    const data = {
+      activity_type: "fitness",
+      time_of_day: timeOfDay,
+    };
 
     try {
+      // Send the POST request to update check-in status
       const response = await post("checkin/add-remove-checkin", data);
 
       if (response?.data?.success) {
@@ -73,7 +93,7 @@ const FitnessCard = ({percentage} :any) => {
                   <input
                     type="checkbox"
                     className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                    checked={morningChecked}
+                    checked={checkInStatus.morning}
                   onChange={(e) => handleCheckboxChange(e, "morning")}
                   />
                   <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -109,7 +129,7 @@ const FitnessCard = ({percentage} :any) => {
                   <input
                     type="checkbox"
                     className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                    checked={eveningChecked}
+                    checked={checkInStatus.evening}
                   onChange={(e) => handleCheckboxChange(e, "evening")}
                   />
                   <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
