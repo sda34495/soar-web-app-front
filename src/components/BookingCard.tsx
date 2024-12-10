@@ -29,7 +29,7 @@ const BookingCard = () => {
         </div>
 
         <button
-          className="px-4 py-2 text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-medium hover:from-yellow-500 hover:to-yellow-700"
+          className="px-6 py-3 font-semibold text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full hover:from-yellow-500 hover:to-yellow-700"
           onClick={() => setIsModalOpen(true)}
         >
           Book Your Session
