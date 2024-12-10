@@ -17,37 +17,44 @@ ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
 export default function CustomYAxisBarChart({user}:any) {
   // Data for the chart
+
+  const newdata = [
+    {
+      date:'01'
+    }
+
+  ]
   const rawData = [
-    { date: "01", AM: 1, PM: 2, NO: 0 },
-    { date: "02", AM: 1, PM: 2, NO: 0 },
-    { date: "03", AM: 1, PM: 2, NO: 0 },
-    { date: "04", AM: 0, PM: 0, NO: 2 },
-    { date: "05", AM: 1, PM: 0, NO: 0 },
-    { date: "06", AM: 1, PM: 0, NO: 0 },
-    { date: "07", AM: 1, PM: 2, NO: 0 },
-    { date: "08", AM: 0, PM: 2, NO: 0 },
-    { date: "09", AM: 0, PM: 0, NO: 0.5 },
-    { date: "10", AM: 1, PM: 0, NO: 0 },
-    { date: "11", AM: 1, PM: 0, NO: 0 },
-    { date: "12", AM: 1, PM: 2, NO: 0 },
-    { date: "13", AM: 0, PM: 2, NO: 0 },
-    { date: "14", AM: 1, PM: 2, NO: 0 },
-    { date: "15", AM: 1, PM: 2, NO: 0 },
-    { date: "16", AM: 0, PM: 2, NO: 0 },
-    { date: "17", AM: 1, PM: 0, NO: 0 },
-    { date: "18", AM: 1, PM: 0, NO: 0 },
-    { date: "19", AM: 1, PM: 2, NO: 0 },
-    { date: "20", AM: 0, PM: 2, NO: 0 },
-    { date: "21", AM: 0, PM: 2, NO: 0 },
-    { date: "22", AM: 0, PM: 0, NO: 2 },
-    { date: "23", AM: 0, PM: 0, NO: 2 },
-    { date: "24", AM: 0, PM: 2, NO: 0 },
-    { date: "25", AM: 1, PM: 2, NO: 0 },
-    { date: "26", AM: 1, PM: 2, NO: 0 },
-    { date: "27", AM: 0, PM: 2, NO: 0 },
-    { date: "28", AM: 1, PM: 0, NO: 0 },
-    { date: "29", AM: 1, PM: 0, NO: 0 },
-    { date: "30", AM: 0, PM: 0, NO: 2 },
+    { date: "01", AM: 1, PM: 1, },
+    { date: "02", AM: 2, PM: 2, },
+    { date: "03", AM: 1, PM: 2, },
+    { date: "04", AM: 0, PM: 0, },
+    { date: "05", AM: 1, PM: 0, },
+    { date: "06", AM: 1, PM: 0, },
+    { date: "07", AM: 1, PM: 2, },
+    { date: "08", AM: 0, PM: 2, },
+    { date: "09", AM: 0, PM: 0, },
+    { date: "10", AM: 1, PM: 0, },
+    { date: "11", AM: 1, PM: 0, },
+    { date: "12", AM: 1, PM: 2, },
+    { date: "13", AM: 0, PM: 2, },
+    { date: "14", AM: 1, PM: 2, },
+    { date: "15", AM: 1, PM: 2, },
+    { date: "16", AM: 0, PM: 2, },
+    { date: "17", AM: 1, PM: 0, },
+    { date: "18", AM: 1, PM: 0, },
+    { date: "19", AM: 1, PM: 2, },
+    { date: "20", AM: 0, PM: 2, },
+    { date: "21", AM: 0, PM: 2, },
+    { date: "22", AM: 0, PM: 0, },
+    { date: "23", AM: 0, PM: 0, },
+    { date: "24", AM: 0, PM: 2, },
+    { date: "25", AM: 1, PM: 2, },
+    { date: "26", AM: 1, PM: 2, },
+    { date: "27", AM: 0, PM: 2, },
+    { date: "28", AM: 1, PM: 0, },
+    { date: "29", AM: 1, PM: 0, },
+    { date: "30", AM: 0, PM: 0, },
   ];
 
   // ChartJS data configuration
@@ -55,7 +62,7 @@ export default function CustomYAxisBarChart({user}:any) {
     labels: rawData.map((item) => item.date), // X-axis labels (dates)
     datasets: [
       {
-        label: "AM",
+        label: "False",
         data: rawData.map((item) => item.AM),
         backgroundColor: "#FFA500", // Orange
         borderWidth: 1,
@@ -63,17 +70,9 @@ export default function CustomYAxisBarChart({user}:any) {
         borderRadius: 5,
       },
       {
-        label: "PM",
+        label: "True",
         data: rawData.map((item) => item.PM),
         backgroundColor: "#32CD32", // Green
-        borderWidth: 1,
-        barThickness: 20,
-        borderRadius: 5,
-      },
-      {
-        label: "No Check-in",
-        data: rawData.map((item) => item.NO),
-        backgroundColor: "#FF4500", // Red
         borderWidth: 1,
         barThickness: 20,
         borderRadius: 5,
@@ -110,7 +109,7 @@ export default function CustomYAxisBarChart({user}:any) {
       y: {
         ticks: {
           callback: (value:any) => {
-            const labels = ["NO", "AM", "PM"];
+            const labels = [, "AM", "PM"];
             return labels[value]; // Map numeric values to custom labels
           },
           color: "#FFFFFF", // White labels for Y-axis
@@ -119,7 +118,7 @@ export default function CustomYAxisBarChart({user}:any) {
           color: "#444444", // Subtle gridlines for Y-axis
         },
         min: 0, // Minimum value on the Y-axis
-        max: 2, // Maximum value (to match the 3 labels)
+        max: 1, // Maximum value (to match the 3 labels)
         stepSize: 1, // Step size to ensure only 3 ticks (0, 1, 2)
       },
     },
