@@ -16,7 +16,7 @@ const LeaderboardTable = () => {
           return;
         }
 
-        const response = await getUserData("leaderboard/all");
+        const response = await getUserData(`${token}`);
 
         const data = response.data.map((entry: any) => ({
           rank: entry.rank,
@@ -24,7 +24,7 @@ const LeaderboardTable = () => {
           points: entry.points || 0,
           league: entry.league || 0,
           competition: entry.activity_type || "",
-          avatar: "/avatar.jpeg",
+          profile_url: entry.profile_url || "/avatar.jpeg",
         }));
 
         setLeaderboardData(data);
@@ -63,7 +63,7 @@ const LeaderboardTable = () => {
                     <td className="p-3">{entry.rank}</td>
                     <td className="p-3 flex items-center space-x-3">
                       <img
-                        src={entry.avatar}
+                        src={entry.profile_url}
                         alt={entry.user}
                         className="h-8 w-8 rounded-full object-cover"
                       />

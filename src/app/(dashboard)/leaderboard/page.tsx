@@ -16,8 +16,8 @@ const LeaderboardPage = () => {
           setError("User is not authenticated.");
           return;
         }
+        const response = await getUserData(`${token}`);
 
-        const response = await getUserData("leaderboard/all");
         const data = response.data.map((entry: any) => ({
           position: entry.rank, // Ensure rank is correctly extracted
           username: `${entry.first_name} ${entry.last_name}`,
