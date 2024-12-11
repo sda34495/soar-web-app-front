@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { post } from "@/utils/axios";
+import Spinner from "./UI/Spinner";
+import { REGISTER } from "@/utils/endpoints";
 
 interface SignupData {
   firstName: string;
@@ -84,6 +86,7 @@ function SignUp() {
   } else {
     setSignupErrors({});
     try {
+      setLoading(true)
       localStorage.clear();
       // console.log('Attempting login with:', loginData)
       const formdata = new FormData();
@@ -93,7 +96,7 @@ function SignUp() {
       formdata.append("password", signupData.password);
 
       console.log(formdata);
-      const response = await post("users/signup", formdata);
+      const response = await post(REGISTER, formdata);
       console.log("Singup in successfully:", response.data);
       if (!response) return;
       console.log(response);
@@ -132,6 +135,13 @@ function SignUp() {
       toast.error(errorMessage);
     } finally {
       setLoading(false);
+      // setSignupData({
+      //   firstName: "",
+      //   lastName: "",
+      //   email: "",
+      //   password: "",
+      //   confirmPassword: "",
+      // })
     }
 
   }
@@ -159,6 +169,7 @@ function SignUp() {
                   value={signupData.firstName}
                   onChange={handleSignupChange}
                   className="w-1/2 bg-transparent opacity-70 border rounded-lg p-3  border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
+                  disabled={loading}
                 />
                 {signupErrors.firstName && (
                   <p className="text-red-500 text-sm">
@@ -172,6 +183,7 @@ function SignUp() {
                   value={signupData.lastName}
                   onChange={handleSignupChange}
                   className="w-1/2 border rounded-lg p-3  bg-transparent opacity-70 border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
+                  disabled={loading}
                 />
                 {signupErrors.lastName && (
                   <p className="text-red-500 text-sm">
@@ -187,6 +199,7 @@ function SignUp() {
                   value={signupData.email}
                   onChange={handleSignupChange}
                   className="w-full border rounded-lg p-3  bg-transparent opacity-70 border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
+                  disabled={loading}
                 />
                 {signupErrors.email && (
                   <p className="text-red-500 text-sm">{signupErrors.email}</p>
@@ -201,6 +214,7 @@ function SignUp() {
                     value={signupData.password}
                     onChange={handleSignupChange}
                     className="w-full border rounded-lg p-3  bg-transparent opacity-70 border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
+                    disabled={loading}
                   />
 
                   <div
@@ -260,6 +274,7 @@ function SignUp() {
                     value={signupData.confirmPassword}
                     onChange={handleSignupChange}
                     className="w-full border rounded-lg p-3  bg-transparent opacity-70 border-[#7c7c7c] placeholder-[#7c7c7c] font-semibold focus:outline-none"
+                    disabled={loading}
                   />
 
                   <div
@@ -316,7 +331,7 @@ function SignUp() {
                 type="submit"
                 className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
               >
-                Signup
+                {loading ? <Spinner/> :  "Signup"}
               </button>
             </form>
 

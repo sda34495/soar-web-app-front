@@ -1,8 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function GraphTabs() {
+function GraphTabs({updateActivityType }) {
   const [activeTab, setActiveTab] = useState("fitness");
+
+  useEffect(()=> {
+    updateActivityType(activeTab)
+    
+    
+  },[activeTab])
   return (
     <div>
       <div className="space-x-4 items-center mt-6  mb-6">
@@ -62,9 +68,9 @@ function GraphTabs() {
         </button>
 
         <button
-          onClick={() => setActiveTab("alcohol")}
+          onClick={() => setActiveTab("sobriety")}
           className={`w-[150px] text-[#989898] bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2  ${
-            activeTab === "alcohol" ? "bg-[#EFEFEF] font-bold text-black" : ""
+            activeTab === "sobriety" ? "bg-[#EFEFEF] font-bold text-black" : ""
           } `}
         >
           <div className="flex items-center gap-3">

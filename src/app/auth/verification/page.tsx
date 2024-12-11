@@ -134,18 +134,21 @@
 
 // export default Verification;
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import bgImage from "../../../../public/bg.png";
 import { useRouter } from "next/navigation";
 import { post } from "@/utils/axios";
 import toast from "react-hot-toast";
+import Spinner from "@/components/UI/Spinner";
+import { OTP_VERIFY } from "@/utils/endpoints";
 
 function Verification() {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
   const [email, setEmail] = React.useState<any>();
   const [otp, setOtp] = React.useState();
+  const [loading , setLoading ] = useState(false)
   useEffect(() => {
     let otp = localStorage.getItem("otp");
     const Useremail = localStorage.getItem("email");
@@ -212,12 +215,13 @@ function Verification() {
       .join(""); // Join all values to form the complete OTP
 
     try {
+      setLoading(true)
       const formData = new FormData();
       formData.append("email", email);
       formData.append("otp", otpValue);
 
       console.log(formData);
-      const response = await post("users/verify-otp", formData);
+      const response = await post(OTP_VERIFY, formData);
       console.log(" verification in successfully:", response.data);
       if (!response) return;
       console.log(response);
@@ -234,6 +238,8 @@ function Verification() {
       const errorMessage = error.response?.data?.message || "Verification failed";
       toast.error(errorMessage);
       console.log(error)
+    } finally{
+      setLoading(false)
     }
 
    
@@ -310,6 +316,7 @@ function Verification() {
                     onChange={(e) => handleInputChange(e, index)}
                     onPaste={handlePaste} // Add onPaste handler
                     required
+                    disabled={loading}
                   />
                 ))}
               </div>
@@ -319,7 +326,7 @@ function Verification() {
                   type="submit"
                   className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
                 >
-                  Next
+                  {loading ? <Spinner/> :  "Next"}
                 </button>
               </div>
             </form>

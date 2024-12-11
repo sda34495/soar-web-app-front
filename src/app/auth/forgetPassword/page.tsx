@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { post } from "@/utils/axios";
 import toast from "react-hot-toast";
+import Spinner from "@/components/UI/Spinner";
+import { FORGET_PASSWORD_REQUEST_OTP } from "@/utils/endpoints";
 
 function ForgetPassword() {
   const [email, setEmail] = useState(""); // State to hold email value
   const [error, setError] = useState(""); // State to show error message
   const router = useRouter(); // To handle redirection
-
+  const [loading , setLoading] = useState(false);
   const handleBack = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Prevent default behavior if necessary
     history.back(); // Go back to the previous page
@@ -28,12 +30,13 @@ function ForgetPassword() {
     } else {
       setError("");
       try {
+        setLoading(true)
         const formdata = new FormData();
 
         formdata.append("email", email);
 
         console.log({ email });
-        const response = await post("users/request-otp", formdata);
+        const response = await post(FORGET_PASSWORD_REQUEST_OTP, formdata);
         console.log("OTP Sent successfully:", response.data);
         if (!response) return;
         console.log(response);
@@ -63,7 +66,7 @@ function ForgetPassword() {
         }
         // toast.error(error);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     }
 
@@ -138,6 +141,7 @@ function ForgetPassword() {
                     onChange={(e) => setEmail(e.target.value)} // Update email state
                     className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold focus:outline-none border "
                     required
+                    disabled={loading}
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
                     <svg
@@ -167,7 +171,7 @@ function ForgetPassword() {
                   type="submit"
                   className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
                 >
-                  Login
+                  {loading ? <Spinner/> :  "Login"}
                 </button>
               </div>
             </form>

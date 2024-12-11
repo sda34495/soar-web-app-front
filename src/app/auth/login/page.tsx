@@ -1,4 +1,3 @@
-
 import React from "react";
 import Image from "next/image";
 import bgImage from "../../../../public/bg.png";
@@ -6,12 +5,7 @@ import Tab_Switch from "@/components/Tab_Switch";
 import Login from "@/components/Login";
 import SignUp from "@/components/SignUp";
 
-
-
 function page() {
-  
-  
-
   return (
     <div className="bg-[#C2A171] min-h-screen text-white flex items-center justify-center px-4">
       {/* Container */}
@@ -37,21 +31,13 @@ function page() {
           </div>
         </div>
 
-
-        
-
-
-        <Tab_Switch/>
-
-      
-
-       
+        <Tab_Switch />
 
         {/* Login and Signup Forms */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-20">
           {/* Login Form */}
           <div className="flex-1 relative z-20 lg:block hidden">
-           <Login/>
+            <Login />
           </div>
 
           {/* Divider */}
@@ -63,7 +49,7 @@ function page() {
 
           {/* Signup Form */}
           <div className="lg:block flex-1 relative z-20 hidden">
-           <SignUp/>
+            <SignUp />
           </div>
         </div>
 
