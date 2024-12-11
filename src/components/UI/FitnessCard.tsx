@@ -1,7 +1,7 @@
 import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
-import CenterImageModal from "./CenterImageModal";
-import { GET_CHECK_IN_DATA } from "@/utils/endpoints";
+import { GET_CHECK_IN_DATA, Post_Check_IN_DATA } from "@/utils/endpoints";
+import toast from "react-hot-toast";
 
 const FitnessCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
 
@@ -50,7 +50,7 @@ const FitnessCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
 
     try {
       // Send the POST request to update check-in status
-      const response = await post("checkin/add-remove-checkin", data);
+      const response = await post(Post_Check_IN_DATA, data);
 
       if (response?.data?.success) {
         console.log(response.data);
