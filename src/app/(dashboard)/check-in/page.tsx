@@ -83,7 +83,7 @@ const CheckInPage = () => {
           title="Congratulations"
           description="Your session has been booked."
           isOpen={isModalOpen}
-          image="/cone.png"
+          image="/icon_success.png"
           onClose={handleModalClose}
         />
       )}
