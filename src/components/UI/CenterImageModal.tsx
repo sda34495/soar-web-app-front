@@ -8,6 +8,8 @@ const CenterImageModal = ({
   title,
   description,
 }: any) => {
+
+  console.log(title)
  
   return (
     <div>
@@ -19,7 +21,7 @@ const CenterImageModal = ({
                 <img src={`${image}`} alt="Cone" className="h-10 mb-2" />
               </div>
               <h3 className="mb-3 text-2xl font-bold text-white">{title}</h3>
-              <p className="text-[#BDBDBD]">{description}</p>
+              <p className="text-[#BDBDBD]">{description || ''}</p>
               <div className="mt-5 flex justify-center">
                 <button onClick={onClose} className="px-10 py-3 text-white border font-semi-bold hover:bg-custom-gradient-hover  rounded-full font-semibold">
                   Back to Dashboard
