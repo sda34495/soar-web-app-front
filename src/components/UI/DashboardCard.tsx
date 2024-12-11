@@ -6,15 +6,16 @@ const DashboardCard = ({
   title,
   time,
   points,
-  progressColor,
+  
   progressWidth,
 }: any) => {
 
 
+  const newTime  = time === "" ? " 0 min" : time;
   
   return (
-    <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
-    <div className="bg-[#121212] py-2 rounded-2xl px-4 text-white p-4 ">
+    <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl max-h-[150px] h-full ">
+    <div className="bg-[#121212] py-2 rounded-2xl px-4 text-white p-4 max-h-[150px] h-full">
       <div className="flex justify-between items-center">
         <h3 className="text-lg text-[#BDBDBD] font-semibold">{title}</h3>
         <button className="text-gray-400">
@@ -49,7 +50,7 @@ const DashboardCard = ({
           </svg>
         </button>
       </div>
-      <p className="text-2xl font-bold mt-2">{time}</p>
+      <p className="text-2xl font-bold mt-2">{newTime}</p>
       <div className="flex justify-between items-center pt-4 mb-1">
         <p className="text-sm text-[#BDBDBD]">Daily Progress</p>
         <p className="text-sm font-medium text-right mt-2">{points} pts</p>

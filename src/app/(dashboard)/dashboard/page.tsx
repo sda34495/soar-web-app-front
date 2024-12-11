@@ -1,12 +1,73 @@
-'use client'
+"use client";
 import ProgressBar from "@/components/UI/ProgressBar";
 import DashboardLayout from "../components/DashboardLayout";
 import DashboardCard from "@/components/UI/DashboardCard";
 import CustomChart from "@/components/UI/BarChart";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LoadingBar from "react-top-loading-bar";
+import { getData } from "@/utils/axios";
+import { useEffect, useState } from "react";
+
+interface dashboard {
+  chartData: [];
+  leaderboardUsers: [];
+  stats: [];
+}
 
 const DashboardPage = () => {
+
+  const [dashboardData, setDashboardData] = useState<dashboard>(); // State to store dashboard data
+  const [loading, setLoading] = useState(false); // State to handle loading indicator
+  const [error, setError] = useState(null); // State to handle errors
+  const [activityType, setActivityType] = useState("lastMonth");
+  const [filterType, setFilterType] = useState("finance");
+
+  const fetchDashboardData = async (activity, filter) => {
+    try {
+      const response = await getData(
+        `dashboard/details?activity_type=${filter}&filter_type=${activity}`
+        // "dashboard/details?activity_type=finance&filter_type=thisMonth"
+      );
+      return response.data; // Directly return the data
+    } catch (err) {
+      console.log("Error fetching dashboard data:", err);
+      throw err; // Re-throw the error to handle it in the caller
+    }
+  };
+  
+  const updateFilterType = (type) => {
+    setFilterType(type);
+  };
+  
+  
+  
+  const updateActivityType = (type) => {
+    setActivityType( type);
+  };
+  
+  
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        setLoading(true); // Start loading
+        const response = await fetchDashboardData(activityType, filterType); // Fetch the data
+        setDashboardData(response.data); // Set the data
+        console.log(response.data);
+      } catch (err) {
+        setError("Failed to load dashboard data. Please try again."); // Set error message
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+    
+    loadDashboardData(); // Call the data-loading function
+  }, [filterType, activityType]); // Empty dependency array to run once on component mount
+  
+  useEffect(() => {
+    console.log("activityType",  activityType);
+    console.log( "filterType", filterType);
+  }, [updateFilterType, activityType]);
+ 
 
   const progress = 80;
   const cardData = [
@@ -33,6 +94,8 @@ const DashboardPage = () => {
     },
   ];
 
+  const points = 70;
+
   const leaderboardData = [
     {
       position: "1st",
@@ -42,9 +105,9 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1: 'bg-gradient-to-br from-[#09DE7A] to-[#525552]',
-        card2: 'bg-[#1e261e]',
-      }
+        card1: "bg-gradient-to-br from-[#09DE7A] to-[#525552]",
+        card2: "bg-[#1e261e]",
+      },
     },
     {
       position: "2nd",
@@ -54,9 +117,9 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1: 'bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]',
-        card2: 'bg-custom-card-gradient',
-      }
+        card1: "bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]",
+        card2: "bg-custom-card-gradient",
+      },
     },
     {
       position: "3rd",
@@ -66,58 +129,68 @@ const DashboardPage = () => {
       competition: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
-        card1: 'bg-gradient-to-br from-[#438ff2eb] to-[#08274c]',
-        card2: 'bg-[#1e2d3f7c]',
-      }
+        card1: "bg-gradient-to-br from-[#438ff2eb] to-[#08274c]",
+        card2: "bg-[#1e2d3f7c]",
+      },
     },
   ];
 
-  
+
   return (
     <div className="text-white ">
-       
       <div className="  flex justify-start  w-full mb-5 items-center">
-      <div className=" flex flex-wrap gap-4 w-full  grow  ">
-        {cardData.map((data, index) => (
-          
-          <div className="flex-1" key={index}>
-          <DashboardCard
-            key={index}
-            title={data.title}
-            time={data.time}
-            points={data.points}
-            progressColor={data.progressColor}
-            progressWidth={data.progressWidth}
-            />
-            </div>
-         
-        ))}
+        <div className=" flex flex-wrap gap-4 w-full  grow  ">
+          {dashboardData &&
+            dashboardData?.stats.map((data:any, index) => (
+              <div className="flex-1" key={index}>
+                <DashboardCard
+                  title={data?.name}
+                  time={data?.minutes}
+                  points={points}
+                  progressWidth={points}
+                />
+              </div>
+            ))}
+        </div>
       </div>
-      </div>
-
-
 
       <div className="my-3 ">
-        
-        <CustomChart user="user" />
+        {dashboardData && (
+          <CustomChart
+            user="user"
+            data={dashboardData}
+            updateActivity={updateActivityType}
+            updateFilter={updateFilterType}
+          />
+        )}
       </div>
 
       <div className="  flex justify-start  w-full mb-5 items-center">
         <div className="flex flex-wrap gap-4 w-full  grow">
-          {leaderboardData.map((item, index) => (
-            <div className="flex-1" key={index}> 
-            <LeaderboardCard
-              key={index}
-              position={item.position}
-              username={item.username}
-              points={item.points}
-              league={item.league}
-              competition={item.competition}
-              avatar={item.avatar}
-              color={item.color}
-            />
-            </div>
-          ))}
+          {dashboardData &&
+            dashboardData?.leaderboardUsers.map((item:any, index) => {
+              const color = leaderboardData[index]?.color; // Get color based on index
+              const league = leaderboardData[index]?.league ||"1988 / 2000";
+              const points = leaderboardData[index]?.points || 1280;
+              const competition = leaderboardData[index]?.competition || "89 / 100";
+              const avatar = leaderboardData[index]?.avatar || "/avatar.jpeg";
+              // const competition = "89 / 100";
+              // const avatar = "/avatar.jpeg";
+            
+              return (
+                <div className="flex-1" key={index}>
+                  <LeaderboardCard
+                    position={item.rank}
+                    username={item.first_name}
+                    color={color} // Pass only the color object
+                    points={points}
+                    league={league}
+                    competition={competition}
+                    avatar={avatar}
+                  />
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>
@@ -125,3 +198,21 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+
+// dashboardData?.leaderboardUsers.map((item, index) => (
+//   leaderboardData.map((data:any , index) => (
+
+//     <div className="flex-1" key={index}>
+//     <LeaderboardCard
+//       key={index}
+//       position={item.rank}
+//       username={item.first_name}
+//       points={data.points}
+//       league={data.league}
+//       competition={data.competition}
+//       avatar={data.avatar}
+//       color={data.color}
+//       />
+//   </div>
+//     ))
+// ))
