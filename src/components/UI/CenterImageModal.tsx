@@ -9,7 +9,6 @@ const CenterImageModal = ({
   description,
 }: any) => {
 
-  console.log(title)
  
   return (
     <div>

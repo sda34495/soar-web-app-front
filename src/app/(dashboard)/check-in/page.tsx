@@ -48,7 +48,6 @@ const CheckInPage = () => {
 
   const updateModalTitle = (value:any)=>{
     setModalTitle(value)
-    console.log(value)
   }
   
   useEffect(() => {
