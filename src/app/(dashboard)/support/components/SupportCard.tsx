@@ -7,7 +7,7 @@ import { FaYoutube } from "react-icons/fa";
 
 const SupportCard = () => {
   return (
-    <div className="flex flex-col flex-grow items-center min-w-[300px] max-w-[420px] space-y-5">
+    <div className="flex flex-col flex-grow items-center min-w-[300px] max-w-[420px] space-y-5 mt-5 md:mt-0">
       <div className="p-6 bg-[#121212] rounded-lg border border-[#7c7c7c] w-full ">
         <h3 className="text-xl font-semibold text-[#EFEFEF]">Our location</h3>
         <p className="text-[#BDBDBD] font-[18px] mt-1 max-w-[350px]">
