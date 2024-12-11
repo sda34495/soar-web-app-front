@@ -19,13 +19,13 @@ const DashboardPage = () => {
   const [dashboardData, setDashboardData] = useState<dashboard>(); // State to store dashboard data
   const [loading, setLoading] = useState(false); // State to handle loading indicator
   const [error, setError] = useState(null); // State to handle errors
-  const [activityType, setActivityType] = useState("lastMonth");
-  const [filterType, setFilterType] = useState("finance");
+  const [activityType, setActivityType] = useState("sobriety");
+  const [filterType, setFilterType] = useState("thisMonth");
 
   const fetchDashboardData = async (activity, filter) => {
     try {
       const response = await getData(
-        `dashboard/details?activity_type=${filter}&filter_type=${activity}`
+        `dashboard/details?activity_type=${activity}&filter_type=${filter}`
         // "dashboard/details?activity_type=finance&filter_type=thisMonth"
       );
       return response.data; // Directly return the data

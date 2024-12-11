@@ -23,7 +23,7 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
     date: item.day, // Use the `day` field for the X-axis labels
     AM: item.morning ? 1 : 0, // Convert `morning` boolean to 0/1
     PM: item.evening ? 2 : 0, // Convert `evening` boolean to 0/1
-    No: !item.evening && !item.morning ? 0.1 : null,
+    No: item.evening ===false && item.morning === false ? 0.1 : null,
   }));
 
   // ChartJS data configuration
