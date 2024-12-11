@@ -47,7 +47,7 @@ export const getData = async (endpoint: string): Promise<AxiosResponse> => {
     const response = await instance.get(endpoint);
     return response;
   } catch (error) {
-    console.error(`Error in GET request to ${endpoint}:`, error);
+    console.log(`Error in GET request to ${endpoint}:`, error);
     throw error;
   }
 };

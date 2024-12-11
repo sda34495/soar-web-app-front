@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { post } from "@/utils/axios";
+import Spinner from "./UI/Spinner";
 
 interface LoginData {
   email: string;
@@ -67,6 +68,7 @@ const handleLoginSubmit = async (e: React.FormEvent) => {
     setLoginErrors({});
     console.log("Login data submitted", loginData);
     try {
+      setLoading(true)
       localStorage.clear();
       console.log("Attempting login with:", loginData);
 
@@ -122,6 +124,7 @@ const handleLoginSubmit = async (e: React.FormEvent) => {
                     onChange={handleLoginChange}
                     id="login"
                     className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] font-semibold border "
+                    disabled={loading}
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
                     <svg
@@ -155,6 +158,7 @@ const handleLoginSubmit = async (e: React.FormEvent) => {
                     value={loginData.password}
                     onChange={handleLoginChange}
                     className="peer py-3 px-4 pl-11 block w-full bg-transparent opacity-70 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold focus:outline-none  border"
+                    disabled={loading}
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4">
                     <svg
@@ -183,7 +187,7 @@ const handleLoginSubmit = async (e: React.FormEvent) => {
                 type="submit"
                 className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
               >
-                Login
+                {loading ?  <Spinner/> : "Login"}
               </button>
             </form>
 

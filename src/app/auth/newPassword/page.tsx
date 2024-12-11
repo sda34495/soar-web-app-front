@@ -16,6 +16,7 @@ function CreatePassword() {
     password: "",
     confirmPassword: "",
   });
+  const [loading , setLoading] = useState(false)
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -52,6 +53,7 @@ useEffect(() => {
       setError("");
 
       try {
+        setLoading(true)
       const formData = new FormData();
       formData.append("newPassword", password.password);
        
@@ -74,6 +76,8 @@ useEffect(() => {
         const errorMessage = error.response?.data?.message || "Reset password failed";
         toast.error(errorMessage);
         console.log(" error:", error);
+      }finally{
+        setLoading(false)
       }
       
     }
@@ -142,6 +146,7 @@ useEffect(() => {
                     name="password"
                     placeholder="Password"
                     className="peer py-3 px-4  block w-full bg-transparent opacity-70 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold focus:outline-none  border"
+                    disabled={loading}
                   />
                   <div
                     className="absolute inset-y-0 right-0 flex items-center cursor-pointer pr-4"
@@ -196,6 +201,7 @@ useEffect(() => {
                     name="confirmPassword"
                     placeholder="Confirm Password"
                     className="peer py-3 px-4 block w-full bg-transparent opacity-70 border-[#7c7c7c] rounded-lg text- placeholder-[#7c7c7c] font-semibold focus:outline-none  border"
+                    disabled={loading}
                   />
                   <div
                     className="absolute inset-y-0 right-0 flex items-center cursor-pointer pr-4"
