@@ -1,6 +1,7 @@
 import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 import CenterImageModal from "./CenterImageModal";
+import { GET_CHECK_IN_DATA } from "@/utils/endpoints";
 
 const FitnessCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
 
@@ -15,7 +16,7 @@ const FitnessCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
   useEffect(() => {
     const fetchCheckInDetails = async () => {
       try {
-        const response = await getData("checkin/details");
+        const response = await getData(GET_CHECK_IN_DATA);
         if (response.data?.success) {
           // Only update state if data has changed to avoid unnecessary re-renders
           setCheckInStatus({

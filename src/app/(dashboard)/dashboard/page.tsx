@@ -17,7 +17,7 @@ interface dashboard {
 const DashboardPage = () => {
 
   const [dashboardData, setDashboardData] = useState<dashboard>(); // State to store dashboard data
-  const [loading, setLoading] = useState(true); // State to handle loading indicator
+  const [loading, setLoading] = useState(false); // State to handle loading indicator
   const [error, setError] = useState(null); // State to handle errors
   const [activityType, setActivityType] = useState("lastMonth");
   const [filterType, setFilterType] = useState("finance");

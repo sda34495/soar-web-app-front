@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { post } from "@/utils/axios";
 import Spinner from "./UI/Spinner";
+import {LOGIN} from "@/utils/endpoints";
+
 
 interface LoginData {
   email: string;
@@ -72,7 +74,7 @@ const handleLoginSubmit = async (e: React.FormEvent) => {
       localStorage.clear();
       console.log("Attempting login with:", loginData);
 
-      const response = await post("users/login", loginData);
+      const response = await post(LOGIN, loginData);
       console.log("Logged in successfully:", response.data);
       if (!response) return;
       console.log(response);
