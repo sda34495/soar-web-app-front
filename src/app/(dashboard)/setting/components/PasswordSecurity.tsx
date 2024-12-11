@@ -1,28 +1,68 @@
-import CenterImageModal from "@/components/UI/CenterImageModal";
+"use client";
 import React, { useState } from "react";
+import CenterImageModal from "@/components/UI/CenterImageModal";
+import { postData } from "@/utils/axios"; // Ensure you have a utility for making POST requests
+import toast from "react-hot-toast";
 
 const PasswordSecurity = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handelSubmit = (e:any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setModalOpen(true);
+
+    // Validate inputs
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      toast.error("Please fill out all fields.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("New password and confirm password do not match.");
+      return;
+    }
+
+    try {
+      // Send data to the API
+      await postData("profile/change-password", {
+        old_password: oldPassword,
+        new_password: newPassword,
+      });
+
+      // Display success message
+      toast.success("Password updated successfully!");
+      setModalOpen(true);
+
+      // Clear the form fields
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      console.error("Error updating password:", error);
+      toast.error(
+        error?.response?.data?.message || "Failed to update password. Please try again."
+      );
+    }
   };
 
   return (
     <div>
-      <form onSubmit={handelSubmit} className=" max-w-[660px] mb-10">
+      <form onSubmit={handleSubmit} className="max-w-[660px] mb-10">
         <div className="space-y-4">
-          <h3 className="text-2xl font-bold "> Update Password</h3>
+          <h3 className="text-2xl font-bold">Update Password</h3>
           <div className="">
-            <label htmlFor="oldpassword" className="text-[#7c7c7c] ">
+            <label htmlFor="oldpassword" className="text-[#7c7c7c]">
               Current Password
             </label>
             <input
               type="password"
               name="oldpassword"
               id="oldpassword"
-              className="peer p-5 text-xl mt-1  block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c]  focus:outline-none  border "
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
           </div>
 
@@ -34,9 +74,12 @@ const PasswordSecurity = () => {
               type="password"
               name="newpassword"
               id="newpassword"
-              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c]  rounded-lg  placeholder-[#7c7c7c]  focus:outline-none   border  "
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
           </div>
+
           <div className="">
             <label htmlFor="confirmpassword" className="text-[#7c7c7c]">
               Confirm Password
@@ -45,7 +88,9 @@ const PasswordSecurity = () => {
               type="password"
               name="confirmpassword"
               id="confirmpassword"
-              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c]  rounded-lg  placeholder-[#7c7c7c]  focus:outline-none   border  "
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
           </div>
           <button
@@ -59,7 +104,7 @@ const PasswordSecurity = () => {
 
       <CenterImageModal
         title="Update Successfully"
-        description="Your session has been booked."
+        description="Your password has been updated successfully."
         isOpen={modalOpen}
         image="/tick.svg"
         onClose={() => setModalOpen(false)}
@@ -69,69 +114,3 @@ const PasswordSecurity = () => {
 };
 
 export default PasswordSecurity;
-{
-  /* <form className=" max-w-[660px]">
-        <div className="space-y-4">
-            <h3 className="text-2xl font-bold "> Account settings</h3>
-          <div className="">
-            <label htmlFor="username" className="text-[#7c7c7c] ">
-              User name
-            </label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              id="username"
-              className="peer py-3 px-4  mt-1  block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c]  focus:outline-none  border "
-            />
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-3 w-full">
-            <div className="w-full">
-              <label htmlFor="firstname" className="text-[#7c7c7c]">
-                First name
-              </label>
-              <input
-                type="text"
-                name="firstname"
-                placeholder="First name"
-                id="firstname"
-                className="peer py-3 px-4  mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c]  focus:outline-none  border "
-              />{" "}
-            </div>
-            <div className="w-full">
-              <label htmlFor="lastname" className="text-[#7c7c7c]">
-                Last name
-              </label>
-              <input
-                type="text"
-                name="lastname"
-                placeholder="Last name"
-                id="lastname"
-                className="peer py-3 px-4 mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg  placeholder-[#7c7c7c] focus:outline-none  border "
-              />
-            </div>
-          </div>
-          <div className="">
-            <label htmlFor="email" className="text-[#7c7c7c]">
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              id="email"
-              className="peer py-3 px-4 mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c]  rounded-lg  placeholder-[#7c7c7c]  focus:outline-none   border  "
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-[220px] bg-custom-gradient hover:bg-custom-gradient-hover text-xl text-black font-bold rounded-full p-3 mt-8"
-          >
-            Update
-          </button>
-        </div>
-      </form>
-      
-      */
-}
