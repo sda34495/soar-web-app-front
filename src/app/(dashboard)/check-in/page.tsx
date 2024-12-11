@@ -8,6 +8,7 @@ import FinanceCard from '@/components/UI/FinanceCard';
 import Sobriety from '@/components/UI/Sobriety';
 import CenterImageModal from '@/components/UI/CenterImageModal';
 
+
 const leaderboardData = [
   {
     position: "1st",
@@ -43,7 +44,11 @@ const CheckInPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [refreshCheckIn, setRefreshCheckIn] = useState(false); // Track refresh state
+  const [modalTitle, setModalTitle] = useState('')
 
+  const updateModalTitle = (value:any)=>{
+    setModalTitle(value)
+  }
   
   useEffect(() => {
     
@@ -67,23 +72,28 @@ const CheckInPage = () => {
    
         <FitnessCard percentage={80} 
         setIsModalOpen={setIsModalOpen} 
+        updateModalTitle={updateModalTitle}
          />
 
 
         <FinanceCard  percentage={50}
         setIsModalOpen={setIsModalOpen} 
+        updateModalTitle={updateModalTitle}
+
         />
         <Sobriety  percentage={30}
         setIsModalOpen={setIsModalOpen} 
+        updateModalTitle={updateModalTitle}
+
         />
 
 
         {isModalOpen && (
         <CenterImageModal
-          title="Congratulations"
-          description="Your session has been booked."
+          title={modalTitle}
+          description=""
           isOpen={isModalOpen}
-          image="/cone.png"
+          image="/icon_success.png"
           onClose={handleModalClose}
         />
       )}

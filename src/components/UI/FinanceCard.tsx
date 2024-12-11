@@ -2,7 +2,7 @@ import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 import CenterImageModal from "./CenterImageModal";
 
-const FinanceCard = ({percentage, onModalClose, setIsModalOpen} :any) => {
+const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
 
   const [checkInStatus, setCheckInStatus] = useState<{ morning: boolean; evening: boolean }>({
     morning: false,
@@ -57,6 +57,7 @@ const FinanceCard = ({percentage, onModalClose, setIsModalOpen} :any) => {
     }
 
     setTimeout(() => {
+      updateModalTitle('Finance Check-ins marked successfully')
       setIsModalOpen(true);
     }, 500); // 500ms delay (adjust as necessary)
   };

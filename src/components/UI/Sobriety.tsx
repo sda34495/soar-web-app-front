@@ -3,12 +3,13 @@
 import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 
-const SobrietyCard = ({percentage, setIsModalOpen} :any) => {
+const SobrietyCard = ({percentage, setIsModalOpen, updateModalTitle } :any) => {
 
   const [checkInStatus, setCheckInStatus] = useState<{ morning: boolean; evening: boolean }>({
     morning: false,
     evening: false,
   });
+
 
 
 
@@ -59,7 +60,9 @@ const SobrietyCard = ({percentage, setIsModalOpen} :any) => {
     }
 
     setTimeout(() => {
+      updateModalTitle('Sobriety Check-ins marked successfully')
       setIsModalOpen(true);
+
     }, 500); // 500ms delay (adjust as necessary)
 
   };
