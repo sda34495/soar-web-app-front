@@ -1,7 +1,6 @@
-
-
 import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const SobrietyCard = ({percentage, setIsModalOpen, updateModalTitle } :any) => {
 
@@ -55,15 +54,19 @@ const SobrietyCard = ({percentage, setIsModalOpen, updateModalTitle } :any) => {
       if (response?.data?.success) {
         console.log(response.data);
       } else {
+        toast.error
       }
+      
+
+          setTimeout(() => {
+            updateModalTitle('Sobriety Check-ins marked successfully')
+            setIsModalOpen(true);
+      
+          }, 500); // 500ms delay (adjust as necessary)
+
+
     } catch (error) {
     }
-
-    setTimeout(() => {
-      updateModalTitle('Sobriety Check-ins marked successfully')
-      setIsModalOpen(true);
-
-    }, 500); // 500ms delay (adjust as necessary)
 
   };
 

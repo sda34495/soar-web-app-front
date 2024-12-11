@@ -1,6 +1,6 @@
 import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
-import CenterImageModal from "./CenterImageModal";
+import toast from "react-hot-toast";
 
 const FitnessCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
 
@@ -54,14 +54,17 @@ const FitnessCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
       if (response?.data?.success) {
         console.log(response.data);
       } else {
+        toast.error
       }
+      setTimeout(() => {
+        updateModalTitle('Fitness Check-ins marked successfully')
+        setIsModalOpen(true);
+      }, 500); // 500ms delay (adjust as necessary)
+
+      
     } catch (error) {
     }
 
-    setTimeout(() => {
-      updateModalTitle('Fitness Check-ins marked successfully')
-      setIsModalOpen(true);
-    }, 500); // 500ms delay (adjust as necessary)
   };
 
 
