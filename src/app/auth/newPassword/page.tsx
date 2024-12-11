@@ -8,6 +8,7 @@ import { FaFacebook } from "react-icons/fa";
 import { post } from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { RESET_NEW_PASSWORD } from "@/utils/endpoints";
 
 function CreatePassword() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -16,18 +17,18 @@ function CreatePassword() {
     password: "",
     confirmPassword: "",
   });
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const router = useRouter();
 
-useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    router.push("/auth/login");
-    return;
-  }
-}, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/auth/login");
+      return;
+    }
+  }, []);
 
   const handleBack = (event: React.MouseEvent<HTMLButtonElement>) => {
     localStorage.clear();
@@ -41,7 +42,6 @@ useEffect(() => {
 
   const toggleConfirmPasswordVisibility = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
-
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,23 +49,22 @@ useEffect(() => {
 
     if (password.password !== password.confirmPassword) {
       return setError("Passwords do not match");
-    }else{
+    } else {
       setError("");
 
       try {
-        setLoading(true)
-      const formData = new FormData();
-      formData.append("newPassword", password.password);
-       
-  
+        setLoading(true);
+        const formData = new FormData();
+        formData.append("newPassword", password.password);
+
         console.log(formData);
-        const response = await post("users/set-new-password", formData);
+        const response = await post(RESET_NEW_PASSWORD, formData);
         console.log(" verification in successfully:", response.data);
         if (!response) return;
         console.log(response);
-        
+
         console.log("reset password response:", response.data);
-        
+
         if (response.status !== 200) {
           throw new Error(response.data.message || " failed");
         }
@@ -73,15 +72,14 @@ useEffect(() => {
         localStorage.clear();
         router.push("/auth/login");
       } catch (error: any) {
-        const errorMessage = error.response?.data?.message || "Reset password failed";
+        const errorMessage =
+          error.response?.data?.message || "Reset password failed";
         toast.error(errorMessage);
         console.log(" error:", error);
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
-      
     }
-
   };
 
   return (
@@ -140,8 +138,10 @@ useEffect(() => {
               <div className="mb-4">
                 <div className="relative">
                   <input
-                  value={password.password}
-                  onChange={(e) => setPassword({ ...password, password: e.target.value })}
+                    value={password.password}
+                    onChange={(e) =>
+                      setPassword({ ...password, password: e.target.value })
+                    }
                     type={passwordVisible ? "text" : "password"}
                     name="password"
                     placeholder="Password"
@@ -195,8 +195,13 @@ useEffect(() => {
               <div className="mb-4">
                 <div className="relative">
                   <input
-                  value={password.confirmPassword}
-                  onChange={(e) => setPassword({ ...password, confirmPassword: e.target.value })}
+                    value={password.confirmPassword}
+                    onChange={(e) =>
+                      setPassword({
+                        ...password,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     type={confirmPasswordVisible ? "text" : "password"}
                     name="confirmPassword"
                     placeholder="Confirm Password"

@@ -7,6 +7,7 @@ import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LoadingBar from "react-top-loading-bar";
 import { getData } from "@/utils/axios";
 import { useEffect, useState } from "react";
+import { GET_DASHBOARD_DATA } from "@/utils/endpoints";
 
 interface dashboard {
   chartData: [];
@@ -25,7 +26,7 @@ const DashboardPage = () => {
   const fetchDashboardData = async (activity, filter) => {
     try {
       const response = await getData(
-        `dashboard/details?activity_type=${activity}&filter_type=${filter}`
+        `${GET_DASHBOARD_DATA}?activity_type=${activity}&filter_type=${filter}`
         // "dashboard/details?activity_type=finance&filter_type=thisMonth"
       );
       return response.data; // Directly return the data

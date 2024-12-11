@@ -7,6 +7,7 @@ import Link from "next/link";
 import { post } from "@/utils/axios";
 import toast from "react-hot-toast";
 import Spinner from "@/components/UI/Spinner";
+import { FORGET_PASSWORD_REQUEST_OTP } from "@/utils/endpoints";
 
 function ForgetPassword() {
   const [email, setEmail] = useState(""); // State to hold email value
@@ -35,7 +36,7 @@ function ForgetPassword() {
         formdata.append("email", email);
 
         console.log({ email });
-        const response = await post("users/request-otp", formdata);
+        const response = await post(FORGET_PASSWORD_REQUEST_OTP, formdata);
         console.log("OTP Sent successfully:", response.data);
         if (!response) return;
         console.log(response);
