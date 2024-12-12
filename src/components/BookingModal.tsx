@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Import the post function to make the API call
 import StripModal from "@/components/StripeModal"; // Import your existing second modal component
 import CenterImageModal from "./UI/CenterImageModal"; // Success modal
+import { Book_Coaching_Session } from "@/utils/endpoints";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -48,14 +49,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
 
     try {
       // Call the API to book the coaching session
-      const response = await post("sessions/book-coaching-session", payload);
+      const response = await post(Book_Coaching_Session, payload);
 
       if (response.data?.success) {
         // Close the first modal and show the second modal
         onClose();
         setTimeout(() => {
           setShowSecondModal(true); // Open the second modal after a short delay
-        }, 300);
+        }, 500);
 
         console.log(response.data)
       } else {
