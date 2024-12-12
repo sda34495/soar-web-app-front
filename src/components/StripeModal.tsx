@@ -2,16 +2,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { Elements, CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import CenterImageModal from "./UI/CenterImageModal";
 
-// Load Stripe
-const stripePromise = loadStripe("pk_test_51OKibhHp0rU7NH90hPjbadXkJHXYRFStnHnJGBn6YOWo19ikplzKDw64jZnbUQtLPVmIZXjjfvlVZdyDWeNcpOUH00m2PdJlVR");
+// Load Stripe with your publishable key
+const stripePromise = loadStripe("pk_test_51OKibhHp0rU7NH90hPjbadXkJHXYRFStnHnJGBn6YOWo19ikplzKDw64jZnbUQtLPVmIZXjjfvlVZdyDWeNcpOUH00m2PdJlVR"); // Replace with your Stripe publishable key
 
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  price: string;
+  price: string; // Price ID for the subscription
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) => {
@@ -54,10 +54,16 @@ const StripePaymentModal: React.FC<{
     setError("");
 
     try {
-      // 1. Create Subscription via Backend
-      const { data: { clientSecret } } = await axios.post("/api/create-subscription", {
-        priceId: "YOUR_PRICE_ID", // Replace with your Stripe Price ID for the subscription
+      const { data: result } = await axios.get("http://localhost:8082/api/payments/subscription-intent", {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRlZWYyMDYwNGExMzcyMDJhM2ZkM2MiLCJpYXQiOjE3MzMyMjYyNzJ9.ZIu4aHn99u5WZDi-2rsXSYRx3CA_TUHrakOq94b3LzY`, // Replace with actual JWT token
+        },
+        params: {
+          priceId: price, // Pass the price ID to your backend
+        },
       });
+
+      const clientSecret = result.data.clientSecret;
 
       if (!stripe || !elements) {
         setLoading(false);
@@ -65,32 +71,47 @@ const StripePaymentModal: React.FC<{
         return;
       }
 
-      // 2. Confirm Subscription Setup
-      const cardElement = elements.getElement(CardElement);
-      if (!cardElement) {
+      // 2. Get individual card elements
+      const cardNumberElement = elements.getElement(CardNumberElement);
+      const cardExpiryElement = elements.getElement(CardExpiryElement);
+      const cardCvcElement = elements.getElement(CardCvcElement);
+
+      if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
         setLoading(false);
-        setError("Card element is not loaded.");
+        setError("One or more card elements are not loaded.");
         return;
       }
 
-      const { error, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
+      // 3. Confirm the card setup
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: cardElement,
+          card: cardNumberElement,
         },
       });
 
       if (error) {
-        setError(error.message || "Subscription setup failed.");
+        setError(error.message || "Card setup confirmation failed.");
         setLoading(false);
         return;
       }
 
-      if (setupIntent?.status === "succeeded") {
+      if (paymentIntent?.status === "succeeded") {
+        // await axios.post(
+        //   "http://localhost:8082/api/payments/confirm-subscription",
+        //   { setupIntentId: setupIntent.id, priceId: price },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer YOUR_JWT_TOKEN`,
+        //     },
+        //   }
+        // );
         onPaymentSuccess();
       } else {
-        setError("Subscription setup failed. Please try again.");
+        setError("Card setup was not completed successfully.");
       }
+
     } catch (err: any) {
+      console.log(err);
       setError(err?.response?.data?.message || "An error occurred.");
     } finally {
       setLoading(false);
@@ -104,15 +125,67 @@ const StripePaymentModal: React.FC<{
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-semibold">Process Payment</h2>
-          <button onClick={onClose} className="text-white">&times;</button>
+          <button onClick={onClose} className="text-white text-2xl">&times;</button>
         </div>
         <p className="text-sm text-gray-400 mb-4">Secure Stripe Payment</p>
 
-        {/* Card Input */}
+        {/* Card Inputs */}
         <div className="space-y-4">
-          <label htmlFor="card" className="text-sm text-[#7C7C7C]">Card Details</label>
-          <div className="bg-zinc-600/30 opacity-90 p-2 border rounded-lg">
-            <CardElement options={{ style: { base: { color: "#fff" } } }} />
+          <div>
+            <label htmlFor="card-number" className="text-sm text-[#7C7C7C]">Card Number</label>
+            <div className="bg-zinc-600/30 opacity-90 p-2 border rounded-lg">
+              <CardNumberElement
+                id="card-number"
+                options={{
+                  style: {
+                    base: {
+                      color: "#fff",
+                      fontSize: "16px",
+                      "::placeholder": { color: "#7c7c7c" },
+                    },
+                    invalid: { color: "#fa755a" },
+                  },
+                }}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="card-expiry" className="text-sm text-[#7C7C7C]">Expiry</label>
+              <div className="bg-zinc-600/30 opacity-90 p-2 border rounded-lg">
+                <CardExpiryElement
+                  id="card-expiry"
+                  options={{
+                    style: {
+                      base: {
+                        color: "#fff",
+                        fontSize: "16px",
+                        "::placeholder": { color: "#7c7c7c" },
+                      },
+                      invalid: { color: "#fa755a" },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="card-cvc" className="text-sm text-[#7C7C7C]">CVC</label>
+              <div className="bg-zinc-600/30 opacity-90 p-2 border rounded-lg">
+                <CardCvcElement
+                  id="card-cvc"
+                  options={{
+                    style: {
+                      base: {
+                        color: "#fff",
+                        fontSize: "16px",
+                        "::placeholder": { color: "#7c7c7c" },
+                      },
+                      invalid: { color: "#fa755a" },
+                    },
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -129,7 +202,7 @@ const StripePaymentModal: React.FC<{
             onClick={handleSubscription}
             disabled={loading}
           >
-            {loading ? "Processing..." : "Pay"}
+            {loading ? "Processing..." : "Subscribe"}
           </button>
         </div>
         {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
