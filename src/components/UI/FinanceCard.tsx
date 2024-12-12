@@ -59,7 +59,6 @@ const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
       } else {
         toast.error('Failed to Update')
       }
-     
 
 
     } catch (error) {
