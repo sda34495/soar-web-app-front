@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { post } from "@/utils/axios";
 import Spinner from "./UI/Spinner";
-import { REGISTER } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 interface SignupData {
   firstName: string;
@@ -96,7 +96,7 @@ function SignUp() {
       formdata.append("password", signupData.password);
 
       console.log(formdata);
-      const response = await post(REGISTER, formdata);
+      const response = await post(endpoints.REGISTER, formdata);
       console.log("Singup in successfully:", response.data);
       if (!response) return;
       console.log(response);
