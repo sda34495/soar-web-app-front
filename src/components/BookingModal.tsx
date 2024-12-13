@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Import the post function to make the API call
-import StripModal from "@/components/StripeModal"; // Import your existing second modal component
 import CenterImageModal from "./UI/CenterImageModal"; // Success modal
-import { Book_Coaching_Session } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
+import toast from "react-hot-toast";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -33,7 +33,21 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
     }));
   };
 
+  const validateForm = () => {
+    const { firstName, lastName, email, phone, consultationReason } = formData;
+    if (!firstName || !lastName || !email || !phone || !consultationReason) {
+      return false;
+    }
+    return true;
+  };
+
+
   const handleNext = async () => {
+    if (!validateForm()) {
+      toast.error("Please fill out all fields before proceeding.");
+      return;
+    }
+    
     setLoading(true);
     setError(null); // Clear previous errors
     console.log("User Input Data:", formData);
@@ -49,7 +63,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
 
     try {
       // Call the API to book the coaching session
-      const response = await post(Book_Coaching_Session, payload);
+      const response = await post(endpoints.BOOK_COACHING_SESSION, payload);
 
       if (response.data?.success) {
         // Close the first modal and show the second modal
