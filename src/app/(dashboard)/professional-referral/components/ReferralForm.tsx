@@ -3,7 +3,7 @@ import CenterImageModal from "@/components/UI/CenterImageModal";
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Adjust the path based on your project structure
 import toast from "react-hot-toast";
-import { Post_Referal_Data } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 const ReferralForm = () => {
   // const [modalOpen, setModalOpen] = useState(false);
@@ -24,7 +24,7 @@ const ReferralForm = () => {
     e.preventDefault();
 
     try {
-      const response = await post(Post_Referal_Data, formData);
+      const response = await post(endpoints.POST_REFERAL_DATA, formData);
       if (response.data.success) {
         toast.success(response.data.message || "Referral created successfully!");
         setTimeout(() => {

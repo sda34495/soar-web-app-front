@@ -1,5 +1,5 @@
 import { getData, post } from "@/utils/axios";
-import { GET_CHECK_IN_DATA, Post_Check_IN_DATA } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -14,7 +14,7 @@ const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
   useEffect(() => {
     const fetchCheckInDetails = async () => {
       try {
-        const response = await getData(GET_CHECK_IN_DATA);
+        const response = await getData(endpoints.GET_CHECK_IN_DATA);
         if (response.data?.success) {
           // Only update state if data has changed to avoid unnecessary re-renders
           setCheckInStatus({
@@ -48,7 +48,7 @@ const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
 
     try {
       // Send the POST request to update check-in status
-      const response = await post(Post_Check_IN_DATA, data);
+      const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
         console.log(response.data);

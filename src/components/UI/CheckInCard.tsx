@@ -1,8 +1,9 @@
 import { getData } from "@/utils/axios";
-import { GET_CHECK_IN_DATA } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 import { useEffect, useState } from "react";
 
 const CheckinCard = () => {
+
 
   const [checkInDetails, setCheckInDetails] = useState({
     total_minutes_spent: 0,
@@ -15,7 +16,7 @@ const CheckinCard = () => {
   useEffect(() => {
     const fetchCheckInDetails = async () => {
       try {
-        const response = await getData(GET_CHECK_IN_DATA);
+        const response = await getData(endpoints.GET_CHECK_IN_DATA);
         if (response.data?.success) {
           setCheckInDetails(response.data?.data); // Store fetched data in state
           console.log(response.data)

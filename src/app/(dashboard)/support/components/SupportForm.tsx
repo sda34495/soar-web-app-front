@@ -1,6 +1,6 @@
 'use client';
 import { post } from '@/utils/axios';
-import { Post_Support_Data } from '@/utils/endpoints';
+import endpoints from '@/utils/endpoints';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -56,7 +56,7 @@ const SupportForm = () => {
     }
     
     try {
-      const response = await post(Post_Support_Data, formData);
+      const response = await post(endpoints.POST_SUPPORT_DATA, formData);
       if (response.data.success) {
         toast.success(response.data.message || "Referral created successfully!");
         setTimeout(() => {
