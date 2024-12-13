@@ -1,12 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import {
-  getProfileData,
-  postImage,
-  updateProfile,
-  deleteImage,
-} from "@/utils/axios";
+import { getData, postImage } from "@/utils/axios"; // Add postData for updating profile
+import { GET_PROFILE_DETAILS, UPDATE_PROFILE_DATA } from "@/utils/endpoints";
 
 interface UserProfile {
   user_name: string;
@@ -19,7 +15,6 @@ interface UserProfile {
 const GeneralProfile = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("/avatar.jpeg");
-
   const [formData, setFormData] = useState<UserProfile>({
     user_name: "",
     first_name: "",
@@ -31,24 +26,20 @@ const GeneralProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
+       
+        const response = await getData(GET_PROFILE_DETAILS);
+        if (response?.data?.success) {
+          const { user_name, first_name, last_name, email, profile_url } = response.data.data;
 
-        if (!token) {
-          toast.error("Authentication error. Please login.");
-          return;
-        }
-
-        const response = await getProfileData(token);
-
-        if (response && response.data) {
           setFormData({
-            user_name: response.data.user_name || "",
-            first_name: response.data.first_name || "",
-            last_name: response.data.last_name || "",
-            email: response.data.email || "",
-            profile_url: response.data.profile_url || "/avatar.jpeg",
+            user_name: user_name || "",
+            first_name: first_name || "",
+            last_name: last_name || "",
+            email: email || "",
+            profile_url: profile_url || "/avatar.jpeg",
           });
-          setImageUrl(response.data.profile_url || "/avatar.jpeg");
+
+          setImageUrl(profile_url || "/avatar.jpeg");
         } else {
           toast.error("Failed to load user data.");
         }
@@ -57,6 +48,7 @@ const GeneralProfile = () => {
         toast.error("An error occurred while fetching user data.");
       }
     };
+
     fetchData();
   }, []);
 
@@ -68,80 +60,42 @@ const GeneralProfile = () => {
     });
   };
 
-  // Handle image upload and submit automatically
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const uploadedImage = e.target.files[0];
-      setImage(uploadedImage);
-      setImageUrl(URL.createObjectURL(uploadedImage));
-
-      try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          toast.error("Authentication error. Please login.");
-          return;
-        }
-
-        const formData = new FormData();
-        formData.append("profile_image", uploadedImage);
-
-        const response = await postImage(token, formData);
-        if (response?.status === 200) {
-          setImageUrl(response.data.profile_image); // Update with server URL
-          toast.success("Profile image updated successfully!");
-        } else {
-          toast.error("Failed to upload profile image.");
-        }
-      } catch (err) {
-        console.error("Error uploading image:", err);
-        toast.error("An error occurred while uploading the image.");
-      }
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+      setImageUrl(URL.createObjectURL(file)); // Display the selected image
     }
   };
 
-  // Handle delete image
-  const handleDeleteImage = async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        toast.error("Authentication error. Please login.");
-        return;
-      }
-
-      const response = await deleteImage(token);
-      if (response?.status === 200) {
-        setImageUrl("/avatar.jpeg"); // Reset to default image
-        toast.success("Profile image deleted successfully!");
-      } else {
-        toast.error("Failed to delete profile image.");
-      }
-    } catch (err) {
-      console.error("Error deleting image:", err);
-      toast.error("An error occurred while deleting the image.");
-    }
+  const handleDeleteImage = () => {
+    setImage(null);
+    setImageUrl("/avatar.jpeg"); // Reset to default avatar image
   };
 
-  const handleProfileDataSubmit = async (e: React.FormEvent) => {
+  // Local postData function
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        toast.error("Authentication error. Please login.");
-        return;
+      const formDataToSubmit = new FormData();
+      formDataToSubmit.append("user_name", formData.user_name);
+      formDataToSubmit.append("first_name", formData.first_name);
+      formDataToSubmit.append("last_name", formData.last_name);
+      formDataToSubmit.append("email", formData.email);
+      if (image) {
+        formDataToSubmit.append("profile_image", image); // Append the image if it was uploaded
       }
-
-      const response = await updateProfile(token, formData);
-      if (response?.status === 200) {
+      const response = await postImage(UPDATE_PROFILE_DATA, formDataToSubmit);
+      console.log("Response from API:", response);
+      if (response?.data?.success) {
         toast.success("Profile updated successfully!");
       } else {
         toast.error("Failed to update profile.");
       }
     } catch (err) {
-      console.error("Error updating profile data:", err);
-      toast.error("An error occurred while updating profile data.");
+      console.error("Error updating profile:", err);
+      toast.error("An error occurred while updating the profile.");
     }
   };
 
@@ -157,9 +111,9 @@ const GeneralProfile = () => {
           />
           <input
             type="file"
-            onChange={handleImageUpload}
             className="hidden"
             id="image-upload"
+            onChange={handleImageUpload}
           />
         </div>
         <button
@@ -178,7 +132,7 @@ const GeneralProfile = () => {
         </button>
       </div>
 
-      <form className="max-w-[660px]" onSubmit={handleProfileDataSubmit}>
+      <form className="max-w-[660px]" onSubmit={handleSubmit}>
         <div className="space-y-4">
           <h3 className="text-2xl font-bold mt-2">Account settings</h3>
 

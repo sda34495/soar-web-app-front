@@ -3,6 +3,7 @@ import { post } from "@/utils/axios";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation'; // Import useRouter for redirection
+import { POST_OMBOARDING_PLANS } from "@/utils/endpoints";
 
 interface FormData {
   fitness_plan_description: string;
@@ -54,7 +55,7 @@ const Page = () => {
     }
 
     try {
-      const response = await post("onboarding/set-plans", formData);
+      const response = await post(POST_OMBOARDING_PLANS, formData);
       console.log("Form submitted successfully:", response.data);
       toast.success("Submitted");
 
@@ -68,7 +69,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="relative w-full h-screen bg-image bg-cover bg-center">
+      <div className="relative w-full h-screen bg-image bg-cover bg-center bg-zinc-900 dark:bg-zinc-900">
         <div className="flex flex-col mt-5 mx-6 sm:mx-40 lg:mx-auto">
           <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
             <header className="w-full mt-10 bg-red">

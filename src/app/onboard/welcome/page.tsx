@@ -5,7 +5,7 @@ const Welcome = () => {
   
   return (
     <>
-      <div className="relative w-full h-screen bg-image">
+      <div className="relative w-full h-screen bg-image bg-zinc-900 dark:bg-zinc-900  ">
     
         {/* Centered Content */}
         <div className="flex flex-col items-center justify-center h-full text-white relative z-10 px-4">

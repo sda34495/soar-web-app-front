@@ -13,9 +13,10 @@ const Page = () => {
   };
 
   return (
-    <div className="relative w-full h-screen bg-image">
+    <div className="relative w-full h-screen bg-image bg-cover bg-center bg-zinc-900 dark:bg-zinc-900">
 
-      <div className="flex flex-col mt-20 mx-6 sm:mx-40 lg:mx-auto">
+
+      <div className="flex flex-col sm:mx-40 md:mx-5">
         <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
           <header className="w-full mt-10  bg-red">
             <div className=" w-[120px] text-center">
