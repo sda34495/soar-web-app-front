@@ -3,35 +3,40 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
+const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
 
   const [checkInStatus, setCheckInStatus] = useState<{ morning: boolean; evening: boolean }>({
     morning: false,
     evening: false,
   });
 
+    const [progress, setProgress] = useState<number>(0); // State for progress
+  
 
   useEffect(() => {
     const fetchCheckInDetails = async () => {
       try {
         const response = await getData(endpoints.GET_CHECK_IN_DATA);
         if (response.data?.success) {
-          // Only update state if data has changed to avoid unnecessary re-renders
+          const data = response.data?.data?.check_in_details?.finance || {};
           setCheckInStatus({
-            morning: response.data?.data?.check_in_details?.finance?.morning || false,
-            evening: response.data?.data?.check_in_details?.finance?.evening || false,
+            morning: data.morning || false,
+            evening: data.evening || false,
           });
+          setProgress(data.progress || 0); // Set progress dynamically
         }
       } catch (error) {
         console.error("Failed to fetch check-in details:", error);
       }
     };
 
-    // Fetch the data on mount only (empty dependency array ensures this effect runs only once)
     fetchCheckInDetails();
-  }, []); // Empty dependency array to make sure it runs only once when the component mounts
+  }, [checkInStatus]); // Empty dependency array to make sure it runs only once when the component mounts
 
-  const handleCheckboxChange = async (event: React.ChangeEvent<HTMLInputElement>, timeOfDay: "morning" | "evening") => {
+  const handleCheckboxChange = async (
+    event: React.ChangeEvent<HTMLInputElement>, 
+    timeOfDay: "morning" | "evening"
+  )=> {
     const checked = event.target.checked;
 
     // Update the state to reflect the checkbox change (this won't trigger re-fetching)
@@ -47,11 +52,11 @@ const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
     };
 
     try {
-      // Send the POST request to update check-in status
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
-        console.log(response.data);
+        const updatedProgress = response.data?.data?.check_in_details?.finance?.progress;
+        setProgress(updatedProgress || 0);
         setTimeout(() => {
           updateModalTitle('Finance Check-ins update successfully')
           setIsModalOpen(true);
@@ -68,7 +73,8 @@ const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
 
 
 
-    const color = percentage < 50 ? 'bg-red-600 text-red-600' : 'bg-green-600 text-green-500';
+    const progressColor = progress < 50 ? 'bg-red-600 text-red-600' : 'bg-green-600 text-green-500';
+    const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress" 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ">
     <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
@@ -77,17 +83,17 @@ const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
         <div className="flex justify-between items-center ">
           <h2 className="text-lg font-bold">Finance Check-ins</h2>
           <div className="flex items-center space-x-2">
-            <span className={"text-green-500 font-semibold" +color}>
-              Hurray! You're making progress
+            <span className={"text-green-500 font-semibold" +progressColor}>
+              {text}
             </span>
             <div className="flex items-center">
               <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
                 <div
-                  className={"h-full rounded-full " + color}
-                  style={{ width: `${percentage}%` }}
+                  className={"h-full rounded-full " + progressColor}
+                  style={{ width: `${progress}%` }}
                 ></div>
               </div>
-              <span className="ml-2 text-sm">{percentage}%</span>
+              <span className="ml-2 text-sm">{progress}%</span>
             </div>
           </div>
         </div>
