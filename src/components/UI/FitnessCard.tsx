@@ -59,7 +59,7 @@ const FitnessCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
         toast.error
       }
       setTimeout(() => {
-        updateModalTitle('Fitness Check-ins marked successfully')
+        updateModalTitle('Fitness Check-ins update successfully')
         setIsModalOpen(true);
       }, 500); // 500ms delay (adjust as necessary)
 

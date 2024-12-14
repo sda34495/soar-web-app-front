@@ -60,7 +60,7 @@ const SobrietyCard = ({percentage, setIsModalOpen, updateModalTitle } :any) => {
       
 
           setTimeout(() => {
-            updateModalTitle('Sobriety Check-ins marked successfully')
+            updateModalTitle('Sobriety Check-ins update successfully')
             setIsModalOpen(true);
       
           }, 500); // 500ms delay (adjust as necessary)
@@ -80,7 +80,7 @@ const SobrietyCard = ({percentage, setIsModalOpen, updateModalTitle } :any) => {
       
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">Sobriety Check-ins</h2>
+          <h2 className="text-lg font-bold">No Alcohol / Substance Check-ins</h2>
           <div className="flex items-center space-x-2">
             <span className={"text-green-500 font-semibold" +color}>
               Hurray! You're making progress
@@ -126,7 +126,7 @@ const SobrietyCard = ({percentage, setIsModalOpen, updateModalTitle } :any) => {
                     </svg>
                   </span>
                 </label>
-              <span className="text-gray-400">Sobriety (morning)</span>
+              <span className="text-gray-400">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span>17, Nov</span>
@@ -162,7 +162,7 @@ const SobrietyCard = ({percentage, setIsModalOpen, updateModalTitle } :any) => {
                     </svg>
                   </span>
                 </label>
-              <span className="text-gray-400">Sobriety (evening)</span>
+              <span className="text-gray-400">No-substance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span>17, Nov</span>

@@ -53,7 +53,7 @@ const FinanceCard = ({percentage, updateModalTitle, setIsModalOpen} :any) => {
       if (response?.data?.success) {
         console.log(response.data);
         setTimeout(() => {
-          updateModalTitle('Finance Check-ins marked successfully')
+          updateModalTitle('Finance Check-ins update successfully')
           setIsModalOpen(true);
         }, 500); 
       } else {
