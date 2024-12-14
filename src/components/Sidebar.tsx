@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { Router } from "next/router";
 import LoadingBar from "react-top-loading-bar";
+import { MdHealthAndSafety } from "react-icons/md";
+
 
 
 
@@ -65,6 +67,13 @@ const Sidebar = () => {
         dispatch(navbarActions.updateNavbar({ title: "Coaching", description: "Total competing users 1,622" }));
         setProgress(80);
         break;
+
+        case "/talktodoctor":
+          setActiveItem("Talk to Doctor");
+          dispatch(navbarActions.updateNavbar({ title: "Talk to Doctor", description: "Reach out to a doctor now for personalized support." }));
+          setProgress(80);
+          break;
+
       case "/setting":
         setActiveItem("Settings");
         dispatch(navbarActions.updateNavbar({ title: "Settings", description: "Customize your app experience and manage your preferences." }));
@@ -209,6 +218,27 @@ const Sidebar = () => {
                     className="mr-4"
                   />
                   <p>Coaching</p>
+                </li>
+              </Link>
+
+              <Link href="/talktodoctor">
+                <li
+                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
+                    activeItem === "Talk to Doctor"
+                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                      : "text-[#BDBDBD]"
+                  }`}
+                >
+                  <img
+                    src={
+                      activeItem === "Talk to Doctor"
+                        ? "/sidebar/health-dark.svg"
+                        : "/sidebar/health.svg"
+                    }
+                    alt="Talk to doc"
+                    className="mr-4"
+                  />
+                  <p>Talk to Doctor</p>
                 </li>
               </Link>
 
