@@ -87,7 +87,6 @@ const GeneralProfile = () => {
         formDataToSubmit.append("profile_image", image); // Append the image if it was uploaded
       }
       const response = await postImage(UPDATE_PROFILE_DATA, formDataToSubmit);
-      console.log("Response from API:", response);
       if (response?.data?.success) {
         toast.success("Profile updated successfully!");
       } else {

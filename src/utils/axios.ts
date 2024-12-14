@@ -1,7 +1,5 @@
 
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { headers } from 'next/headers';
-import toast from 'react-hot-toast';
 
 const url = "http://localhost:8082/api/";
 // const url = process.env.NEXT_PUBLIC_API_URL;
