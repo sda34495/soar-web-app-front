@@ -15,15 +15,17 @@ import DropDownChat from "../UI/DropDownChat";
 // Register Chart.js components
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
-export default function CustomYAxisBarChart({ user, data ,updateActivity , updateFilter  }: any) {
-  
-
-
+export default function CustomYAxisBarChart({
+  user,
+  data,
+  updateActivity,
+  updateFilter,
+}: any) {
   const transformedData = data?.chartData.map((item: any) => ({
     date: item.day, // Use the `day` field for the X-axis labels
     AM: item.morning ? 1 : 0, // Convert `morning` boolean to 0/1
     PM: item.evening ? 2 : 0, // Convert `evening` boolean to 0/1
-    No: item.evening ===false && item.morning === false ? 0.1 : null,
+    No: !item.morning && !item.evening ? 0.1 : null,
   }));
 
   // ChartJS data configuration
@@ -31,7 +33,7 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
     labels: transformedData.map((item) => item.date), // X-axis labels (days)
     datasets: [
       {
-        label: "False",
+        label: "AM",
         data: transformedData.map((item) => item.AM),
         backgroundColor: "#FFA500", // Orange
         borderWidth: 1,
@@ -39,7 +41,7 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
         borderRadius: 5,
       },
       {
-        label: "True",
+        label: "PM",
         data: transformedData.map((item) => item.PM),
         backgroundColor: "#32CD32", // Green
         borderWidth: 1,
@@ -49,13 +51,15 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
       {
         label: "NO",
         data: transformedData.map((item) => item.No),
-        backgroundColor: "red", // Green
+        backgroundColor: "red", // red
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
       },
     ],
   };
+
+  
 
   // ChartJS options configuration
   const options = {
@@ -77,7 +81,7 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
     scales: {
       x: {
         ticks: {
-          color: "#FFFFFF", // White labels for X-axis
+          color: "#7C7C7C", // White labels for X-axis
         },
         grid: {
           display: false, // No gridlines on X-axis
@@ -89,10 +93,10 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
             const labels = ["", "AM", "PM"];
             return labels[value]; // Map numeric values to custom labels
           },
-          color: "#FFFFFF", // White labels for Y-axis
+          color: "#7C7C7C", // White labels for Y-axis
         },
         grid: {
-          color: "#444444", // Subtle gridlines for Y-axis
+          color: "#7C7C7C", // Subtle gridlines for Y-axis
         },
         min: 0, // Minimum value on the Y-axis
         max: 2, // Maximum value (to match the 3 labels)
@@ -104,7 +108,7 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
 
   return (
     <>
-      {user === "user" && <GraphTabs  updateActivityType={updateActivity} />}
+      {user === "user" && <GraphTabs updateActivityType={updateActivity} />}
 
       <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
         <div className="bg-[#121212] p-4 rounded-2xl">
@@ -112,7 +116,7 @@ export default function CustomYAxisBarChart({ user, data ,updateActivity , updat
             <h2 className="text-white text-xl mb-4">Your Check-ins Stats</h2>
             <div className="flex flex-row gap-5 items-center">
               <p className="text-sm text-[#7C7C7C]">Last month</p>
-              <DropDownChat  updateFilter={updateFilter}/>
+              <DropDownChat updateFilter={updateFilter} />
               <img src="/vertical.svg" />
             </div>
           </div>
