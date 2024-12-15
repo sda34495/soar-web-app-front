@@ -1,8 +1,8 @@
 
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-const url = "http://localhost:8082/api/";
-// const url = process.env.NEXT_PUBLIC_API_URL;
+// const url = "http://localhost:8082/api/";
+const url = process.env.NEXT_PUBLIC_API_URL;
 
 const instance = axios.create({
   baseURL: url,
