@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LeaderboardTable from "../../../components/UI/LeaderboardData";
 import { getData } from "@/utils/axios";
-import { GET_TOP_USERS } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 const LeaderboardPage = () => {
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
@@ -12,7 +12,7 @@ const LeaderboardPage = () => {
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
-        const response = await getData(GET_TOP_USERS);
+        const response = await getData(endpoints.GET_TOP_USERS);
         console.log("API Response:", response.data);
 
         if (response?.data?.success) {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LeaderboardTable from "../../../components/UI/LeaderboardData";
 import { getData } from "@/utils/axios";
-import { GET_TOP_USERS } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 const LeaderboardPage = () => {
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
@@ -17,7 +17,7 @@ const LeaderboardPage = () => {
           setError("User is not authenticated.");
           return;
         }
-        const response = await getData(GET_TOP_USERS);
+        const response = await getData(endpoints.GET_TOP_USERS);
 
         const data = response.data.map((entry: any) => ({
           position: entry.rank, // Ensure rank is correctly extracted

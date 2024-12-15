@@ -21,6 +21,11 @@ const Post_Referal_Data = "referals/create";
 const Post_Support_Data = "support/create";
 
 
+// rizwan 
+
+
+
+
 export {
   LOGIN,
   REGISTER,
@@ -47,7 +52,14 @@ const endpoints = {
   BOOK_COACHING_SESSION: "sessions/book-coaching-session",
   POST_REFERAL_DATA: "referals/create",
   POST_SUPPORT_DATA: "support/create",
-  GET_PROFILE_DETAIL: "profile/details"
+  GET_PROFILE_DETAIL: "profile/details",
+
+  GET_TOP_USERS: "leaderboard/all",
+  POST_NOTIFICATION: "profile/notification-settings",
+  GET_PROFILE_DETAILS: "profile/details",
+  UPDATE_PASSWORD: "profile/change-password",
+  UPATE_PROFILE_SETTINGS: "profile/notification-settings",
+  UPDATE_PROFILE_DATA: "profile/update-profile"
   
 };
 

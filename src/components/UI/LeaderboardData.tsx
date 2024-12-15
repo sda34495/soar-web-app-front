@@ -1,7 +1,7 @@
 "use client";
 
 import { getData } from "@/utils/axios";
-import { GET_TOP_USERS } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 import React, { useState, useEffect } from "react";
 
 const LeaderboardTable = () => {
@@ -13,7 +13,7 @@ const LeaderboardTable = () => {
     const fetchLeaderboardData = async () => {
   try {
     setLoading(true);
-    const response = await getData(GET_TOP_USERS);
+    const response = await getData(endpoints.GET_TOP_USERS);
     console.log("API response:", response);  // Log the full response
 
     if (response?.data?.success) {
