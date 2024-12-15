@@ -31,7 +31,20 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
     };
 
     fetchCheckInDetails();
-  }, [checkInStatus]); // Empty dependency array to make sure it runs only once when the component mounts
+  }, []); // Empty dependency array to make sure it runs only once when the component mounts
+
+   useEffect(() => {
+      // Locally calculate progress when checkInStatus changes
+      const calculateProgress = () => {
+        const totalCheckIns = Object.values(checkInStatus).filter(Boolean).length;
+        const progressPercentage = (totalCheckIns / 2) * 100; // Assuming 2 check-ins (morning, evening)
+        setProgress(progressPercentage);
+      };
+    
+      calculateProgress();
+    }, [checkInStatus]); // Runs whenever checkInStatus changes
+
+
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>, 
@@ -55,8 +68,6 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
-        const updatedProgress = response.data?.data?.check_in_details?.finance?.progress;
-        setProgress(updatedProgress || 0);
         setTimeout(() => {
           updateModalTitle('Finance Check-ins update successfully')
           setIsModalOpen(true);

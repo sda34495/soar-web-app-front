@@ -32,7 +32,20 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
     };
 
     fetchCheckInDetails();
-  }, [checkInStatus]);
+  }, []);
+
+  useEffect(() => {
+    // Locally calculate progress when checkInStatus changes
+    const calculateProgress = () => {
+      const totalCheckIns = Object.values(checkInStatus).filter(Boolean).length;
+      const progressPercentage = (totalCheckIns / 2) * 100; // Assuming 2 check-ins (morning, evening)
+      setProgress(progressPercentage);
+    };
+  
+    calculateProgress();
+  }, [checkInStatus]); // Runs whenever checkInStatus changes
+
+
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -55,8 +68,6 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
-        const updatedProgress = response.data?.data?.check_in_details?.fitness?.progress;
-        setProgress(updatedProgress || 0); // Update progress from the API response
         setTimeout(() => {
           updateModalTitle('Finance Check-ins update successfully')
           setIsModalOpen(true);
