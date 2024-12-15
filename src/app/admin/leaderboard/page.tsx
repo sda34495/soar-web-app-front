@@ -19,7 +19,7 @@ const LeaderboardPage = () => {
         }
         const response = await getData(endpoints.GET_TOP_USERS);
 
-        const data = response.data.map((entry: any) => ({
+        const data = response?.data?.map((entry: any) => ({
           position: entry.rank, // Ensure rank is correctly extracted
           username: `${entry.first_name} ${entry.last_name}`,
           points: entry.points || 0,
@@ -78,7 +78,7 @@ const LeaderboardPage = () => {
       <div className="flex justify-center items-center">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
           {fetchedLeaderboardData.length > 0 ? (
-            fetchedLeaderboardData.map((item, index) => (
+            fetchedLeaderboardData?.map((item, index) => (
               <div className="flex-1" key={index}>
                 <LeaderboardCard
                   position={item.position}
