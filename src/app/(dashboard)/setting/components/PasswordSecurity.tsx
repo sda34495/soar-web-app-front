@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CenterImageModal from "@/components/UI/CenterImageModal";
 import { post} from "@/utils/axios"; // Ensure you have a utility for making POST requests
 import toast from "react-hot-toast";
-import { UPDATE_PASSWORD } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 
 
@@ -56,7 +56,7 @@ const PasswordSecurity = () => {
 
     try {
       // Send data to the API
-      await post(UPDATE_PASSWORD, {
+      await post(endpoints.UPDATE_PASSWORD, {
         old_password: oldPassword,
         new_password: newPassword,
       });

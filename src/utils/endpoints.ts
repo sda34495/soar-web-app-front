@@ -53,7 +53,7 @@ const endpoints = {
   POST_REFERAL_DATA: "referals/create",
   POST_SUPPORT_DATA: "support/create",
   GET_PROFILE_DETAIL: "profile/details",
-
+  POST_ONBOARDING_PLANS:"onboarding/set-plans",
   GET_TOP_USERS: "leaderboard/all",
   POST_NOTIFICATION: "profile/notification-settings",
   GET_PROFILE_DETAILS: "profile/details",

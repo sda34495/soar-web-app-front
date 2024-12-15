@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getData, postImage } from "@/utils/axios"; // Add postData for updating profile
-import { GET_PROFILE_DETAILS, UPDATE_PROFILE_DATA } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 interface UserProfile {
   user_name: string;
@@ -27,7 +27,7 @@ const GeneralProfile = () => {
     const fetchData = async () => {
       try {
        
-        const response = await getData(GET_PROFILE_DETAILS);
+        const response = await getData(endpoints.GET_PROFILE_DETAILS);
         if (response?.data?.success) {
           const { user_name, first_name, last_name, email, profile_url } = response.data.data;
 
@@ -86,7 +86,7 @@ const GeneralProfile = () => {
       if (image) {
         formDataToSubmit.append("profile_image", image); // Append the image if it was uploaded
       }
-      const response = await postImage(UPDATE_PROFILE_DATA, formDataToSubmit);
+      const response = await postImage(endpoints.UPDATE_PROFILE_DATA, formDataToSubmit);
       if (response?.data?.success) {
         toast.success("Profile updated successfully!");
       } else {

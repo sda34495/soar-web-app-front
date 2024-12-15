@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { getData, post } from "@/utils/axios";
 import toast from "react-hot-toast";
-import { GET_PROFILE_DETAILS, UPATE_PROFILE_SETTINGS } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 const Notification = () => {
   const [deviceNotifications, setDeviceNotifications] = useState(false);
@@ -13,7 +13,7 @@ const Notification = () => {
   useEffect(() => {
     const fetchNotificationSettings = async () => {
       try {
-        const response = await getData(GET_PROFILE_DETAILS);
+        const response = await getData(endpoints.GET_PROFILE_DETAILS);
         console.log("API Response:", response.data);
 
         if (response?.data?.success) {
@@ -40,7 +40,7 @@ const Notification = () => {
     e.preventDefault();
 
     try {
-      const response = await post(UPATE_PROFILE_SETTINGS, {
+      const response = await post(endpoints.UPATE_PROFILE_SETTINGS, {
         device_notification: deviceNotifications,
         email_notification: emailNotifications,
       });
