@@ -15,7 +15,7 @@ const Page = () => {
   };
 
   return (
-    <>
+   
       <div className="relative flex flex-col w-full h-screen  bg-zinc-900">
       <Image
         src={bgImage}
@@ -152,7 +152,7 @@ const Page = () => {
             ></Modal>
         </div>
       </div>
-      </div>
+      
   
   );
 };
