@@ -6,7 +6,7 @@ import Notification from "./components/Notification";
 
 
 const SettingPage = () => {
-  const [activeTab, setActiveTab] = useState("password");
+  const [activeTab, setActiveTab] = useState("general");
 
   return (
     <div>
