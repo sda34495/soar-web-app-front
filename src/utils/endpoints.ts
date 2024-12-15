@@ -48,6 +48,7 @@ const endpoints = {
   POST_REFERAL_DATA: "referals/create",
   POST_SUPPORT_DATA: "support/create",
   GET_PROFILE_DETAIL: "profile/details"
+  
 };
 
 export default endpoints;

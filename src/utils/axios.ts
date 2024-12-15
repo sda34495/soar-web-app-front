@@ -1,6 +1,5 @@
 
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import toast from 'react-hot-toast';
 
 const url = "http://localhost:8082/api/";
 // const url = process.env.NEXT_PUBLIC_API_URL;
@@ -9,6 +8,7 @@ const instance = axios.create({
   baseURL: url,
   headers: {
     "Content-Type": "application/json",
+
     // Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
@@ -94,21 +94,6 @@ export const put = async (endpoint: string, data: any): Promise<AxiosResponse> =
     throw error;
   }
 };
-
-export const postFormData = async (endpoint: string, data: FormData): Promise<AxiosResponse> => {
-  try {
-    const response = await instance.post(endpoint, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response;
-  } catch (error) {
-    console.error(`Error in POST FormData request to ${endpoint}:`, error);
-    throw error;
-  }
-};
-
 export const deleteUser = async (endpoint: string, resource_id: string, resource_type: string): Promise<AxiosResponse> => {
   try {
     const response = await instance.post(endpoint, { resource_id, resource_type });
@@ -118,98 +103,17 @@ export const deleteUser = async (endpoint: string, resource_id: string, resource
     throw error;
   }
 };
-
-
-export const getUserData = async (token: string) => {
-  try {
-    const response = await instance.get('leaderboard/all', {
+export const postImage = async (endpoint: string, data: any): Promise<AxiosResponse> => {
+  try{
+    const response = await instance.post(endpoint, data, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
-};
-export const getProfileData = async (token: string) => {
-  try {
-    const response = await instance.get('profile/details', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
-};
-
-export const updateProfile = async (token: string, formData: object) => {
-  try {
-    const response = await instance.post('profile/update-profile', formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response;
-  } catch (error) {
-    console.log('Error updating profile:', error);
-    toast.error('An error occurred while updating profile.');
-    throw error;
-  }
-}
-export const postImage = async (token: string, data: FormData): Promise<AxiosResponse> => {
-  try {
-    const response = await instance.post("profile/update-profile", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
-      },
-    });
-    return response;
-  } catch (error) {
-    console.error(`Error in POST FormData request to ${token}:`, error);
+      }
+      }) 
+    return response;    
+    }catch(error) {
+    console.log("Error posting Image", error);
     throw error;
-  }
-};
-
-export const deleteImage = async (token: string): Promise<AxiosResponse> => {
-  try {
-    const response = await instance.post("profile/delete-profile-image", {}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response;
-  } catch (error) {
-    console.error(`Error in POST request to delete profile image:`, error);
-    throw error;
-  }
-};
-export const postData = async (endpoint: string, data: any) => {
-  try {
-    // Retrieve token from localStorage (or other storage mechanism)
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No token found. Please log in.");
     }
-
-    // Configure headers with Authorization token
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    // Make POST request
-    const response = await instance.post(endpoint, data, config);
-    return response.data; // Return the response data
-  } catch (error: any) {
-    console.error("Error in postData:", error);
-    throw error.response?.data || error.message || "An error occurred";
-  }
-};
-// File: /pages/api/checkin.js
+  
+}
