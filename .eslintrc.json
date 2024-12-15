@@ -3,7 +3,7 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off", // Disable 'no-explicit-any' errors
     "next/no-img-element": "off" ,
-    "react/no-unescaped-entities": "off"    ,           // Disable warnings for using <img> tagss
+    "react/no-unescaped-entities": "off"    ,           // Disable warnings for using <img> tagss..
      "prefer-const": "off",
      "@typescript-eslint/no-unused-vars": "off"
   }
