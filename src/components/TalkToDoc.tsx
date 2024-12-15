@@ -4,7 +4,7 @@ import endpoints from '@/utils/endpoints';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const talkToDocForm = () => {
+const TalkToDocForm = () => {
   // State for the form fields
   const [formData, setFormData] = useState({
     firstname: '',
@@ -209,4 +209,4 @@ const talkToDocForm = () => {
   );
 };
 
-export default talkToDocForm;
+export default TalkToDocForm;
