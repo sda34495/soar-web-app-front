@@ -141,7 +141,7 @@ import { useRouter } from "next/navigation";
 import { post } from "@/utils/axios";
 import toast from "react-hot-toast";
 import Spinner from "@/components/UI/Spinner";
-import { OTP_VERIFY } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 function Verification() {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -221,7 +221,7 @@ function Verification() {
       formData.append("otp", otpValue);
 
       console.log(formData);
-      const response = await post(OTP_VERIFY, formData);
+      const response = await post(endpoints.OTP_VERIFY, formData);
       console.log(" verification in successfully:", response.data);
       if (!response) return;
       console.log(response);

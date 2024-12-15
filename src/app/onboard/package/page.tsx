@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Modal from "@/components/Modal";
+import Image from "next/image";
+import bgImage from '../../../../public/bg.png'
 
 const Page = () => {
   // Correct use of useState to manage the modal's open state
@@ -13,11 +15,14 @@ const Page = () => {
   };
 
   return (
-    <div className="relative w-full h-screen bg-image bg-cover bg-center bg-zinc-900 dark:bg-zinc-900">
-
-
-      <div className="flex flex-col sm:mx-40 md:mx-5">
-        <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
+    <>
+      <div className="relative flex flex-col w-full h-screen  bg-zinc-900">
+      <Image
+        src={bgImage}
+        alt="bgimage"
+        className="w-full h-full opacity-80 absolute inset-0"
+      />
+        <div className="w-full px-4  lg:px-20 h-full  z-10">
           <header className="w-full mt-10  bg-red">
             <div className=" w-[120px] text-center">
               <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400 " />

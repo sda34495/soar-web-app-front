@@ -1,12 +1,24 @@
 "use client";
 import React from 'react';
+import bgImage from '../../../../public/bg.png'
+import Image from "next/image";
+import Link from 'next/link';
+
 const Welcome = () => {
 
   
   return (
+
     <>
-      <div className="relative w-full h-screen bg-image bg-zinc-900 dark:bg-zinc-900  ">
+      <div className="relative w-full h-screen  bg-zinc-900 dark:bg-zinc-900">
     
+
+      <Image
+        src={bgImage}
+        alt="bgimage"
+        className="w-full h-full opacity-80 absolute inset-0"
+      />
+
         {/* Centered Content */}
         <div className="flex flex-col items-center justify-center h-full text-white relative z-10 px-4">
           
@@ -36,8 +48,8 @@ const Welcome = () => {
               className="w-18 h-16 mx-auto mb-2"
               />
 
-            <h1 className='text-3xl'>Welcome aboard!</h1>
-            <p className="mt-10 text-sm sm:text-base md:text-lg lg:text-xl text-[#DCDCDC]">
+            <h1 className='text-2xl sm:text-3xl md:text-4xl text-[#DCDCDC] font-Bricolage-Grotesque'>Welcome aboard!</h1>
+            <p className="mt-4 font-normal text-sm sm:text-base md:text-lg lg:text-xl text-[#bdbdbd]">
               You've taken the first step toward an exciting journey. Get ready to
               <br />
               explore all the features waiting for you. We're thrilled to have you
@@ -48,11 +60,11 @@ const Welcome = () => {
 
           {/* Buttons */}
           <footer className="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                      <a href="/onboard/onboarding">
-                      <button className="bg-gradient-to-b from-[#fbedd3] to-[#c3a374] px-12 sm:px-16 py-2 font-medium text-black rounded-full">
+                      <Link href="/onboard/onboarding">
+                      <button className="px-12 w-full  sm:px-20 py-4 text-black c bg-custom-gradient hover:bg-custom-gradient-hover font-semibold rounded-full">
               Explore Now
             </button>
-                      </a>
+                      </Link>
           </footer>
         </div>
       </div>

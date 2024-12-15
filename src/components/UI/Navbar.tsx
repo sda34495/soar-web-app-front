@@ -1,6 +1,9 @@
 'use client';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import DropdownMenu from "../DropDown";
+import { getData } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
 
 // Function to render the Title Section
 const TitleSection = () => {
@@ -19,6 +22,37 @@ const TitleSection = () => {
 
 // Function to render the Actions and Profile Section
 const ActionsSection = () => {
+
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+  const [userData, setUserData] = useState({
+    first_name: '',
+    last_name: '',
+    profile_url: ''
+  })
+
+  useEffect(() => {
+    // Fetch profile data on mount
+    const fetchProfileData = async () => {
+      try {
+        const response = await getData(endpoints.GET_PROFILE_DETAIL);
+        const { first_name, last_name, profile_url } = response.data.data;
+        setUserData({ first_name, last_name, profile_url });
+      } catch (error) {
+        console.error("Failed to fetch profile data:", error);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev); // Toggle the dropdown state
+  };
+  
+  
   return (
     
     <div className="flex items-center justify-between space-x-5 border  bg-[#121212] border-[#454545] p-3 rounded-2xl lg:w-1/3 h-[58px]">
@@ -35,17 +69,20 @@ const ActionsSection = () => {
         </button>
       </div>
       {/* User Profile */}
-      <div className="flex items-center space-x-2">
-        <span className="text-sm font-medium">Olivia Rhye</span>
-
-        <div className="relative">
-          <img
-            src="/avatar.jpeg" // Replace with your avatar image path
-            alt="Olivia Rhye"
-            className="h-10 w-10 rounded-full object-cover"
-          />
-          <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
+      <div className="relative">
+        <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleDropdown}>
+          <span className="text-sm font-medium"> {userData.first_name}  {userData.last_name} </span>
+          <div className="relative">
+            <img
+             src={userData.profile_url || null }
+             alt={`${userData.first_name} ${userData.last_name}`}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+            <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
+          </div>
         </div>
+        {/* Render the DropdownMenu component conditionally */}
+        {isDropdownOpen && <DropdownMenu />}
       </div>
     </div>
   );

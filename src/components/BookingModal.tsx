@@ -1,13 +1,22 @@
 "use client";
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Import the post function to make the API call
-import StripModal from "@/components/StripeModal"; // Import your existing second modal component
 import CenterImageModal from "./UI/CenterImageModal"; // Success modal
+import endpoints from "@/utils/endpoints";
+import toast from "react-hot-toast";
 
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   price: string;
+}
+
+interface FormErrors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  consultationReason?: string;
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) => {
@@ -18,8 +27,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
     email: "",
     phone: "",
     consultationReason: "",
-  }); 
-  
+  });
+
+  const [loginErrors, setLoginErrors] = useState<FormErrors>({}); // Validation errors
   const [loading, setLoading] = useState(false); // For loading state
   const [error, setError] = useState<string | null>(null); // For error state
 
@@ -30,13 +40,35 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
       ...prevData,
       [name]: value,
     }));
+    setLoginErrors((prevErrors) => ({ ...prevErrors, [name]: undefined })); // Clear specific field error on change
+  };
+
+  // Validate the form fields
+  const validate = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.firstName.trim()) newErrors.firstName = "First name is required.";
+    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required.";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
+    if (!formData.consultationReason.trim()) newErrors.consultationReason = "Reason for consultation is required.";
+
+    setLoginErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleNext = async () => {
+    if (!validate()) {
+      return; // Stop execution if validation fails
+    }
+
     setLoading(true);
     setError(null); // Clear previous errors
     console.log("User Input Data:", formData);
-
 
     const payload = {
       first_name: formData.firstName,
@@ -48,16 +80,16 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
 
     try {
       // Call the API to book the coaching session
-      const response = await post("sessions/book-coaching-session", payload);
+      const response = await post(endpoints.BOOK_COACHING_SESSION, payload);
 
       if (response.data?.success) {
         // Close the first modal and show the second modal
         onClose();
         setTimeout(() => {
           setShowSecondModal(true); // Open the second modal after a short delay
-        }, 300);
+        }, 500);
 
-        console.log(response.data)
+        console.log(response.data);
       } else {
         // Handle failure (show error)
         setError("Booking failed. Please try again.");
@@ -93,52 +125,67 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
             {/* Form */}
             <form className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="First name"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                />
-                <input
-                  type="text"
-                  placeholder="Last name"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                />
+                <div>
+                  <input
+                    type="text"
+                    placeholder="First name"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+                  />
+                  {loginErrors.firstName && <p className="text-red-500 text-xs mt-1">{loginErrors.firstName}</p>}
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Last name"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+                  />
+                  {loginErrors.lastName && <p className="text-red-500 text-xs mt-1">{loginErrors.lastName}</p>}
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                />
-                <input
-                  type="text"
-                  placeholder="Phone number"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                />
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+                  />
+                  {loginErrors.email && <p className="text-red-500 text-xs mt-1">{loginErrors.email}</p>}
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Phone number"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+                  />
+                  {loginErrors.phone && <p className="text-red-500 text-xs mt-1">{loginErrors.phone}</p>}
+                </div>
               </div>
-              <textarea
-                placeholder="Your reason here"
-                name="consultationReason"
-                value={formData.consultationReason}
-                onChange={handleInputChange}
-                rows={3}
-                className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-              ></textarea>
+              <div>
+                <textarea
+                  placeholder="Your reason here"
+                  name="consultationReason"
+                  value={formData.consultationReason}
+                  onChange={handleInputChange}
+                  rows={3}
+                  className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+                ></textarea>
+                {loginErrors.consultationReason && <p className="text-red-500 text-xs mt-1">{loginErrors.consultationReason}</p>}
+              </div>
 
-              {/* Show error message if there's any */}
-              {error && <p className="text-red-500 text-sm">{error}</p>}
+              {/* Show general error message if there's any */}
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </form>
 
             {/* Footer */}

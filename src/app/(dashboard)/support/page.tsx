@@ -4,7 +4,7 @@ import SupportCard from './components/SupportCard'
 
 const SupportPage = () => {
   return (
-    <div className='flex gap-8'>
+    <div className='flex md:flex-row flex-col gap-x-3 justify-between'>
     <SupportForm />
     <SupportCard/>
     </div>

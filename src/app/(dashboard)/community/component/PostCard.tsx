@@ -56,13 +56,13 @@ const PostCard = () => {
   };
 
   return (
-    <div className="flex flex-col p-6 space-y-8 w-auto ">
+    <div className="flex flex-col p-6  space-y-8 w-auto ">
       {posts.map((post: any) => (
         <div
           key={post.id}
-          className="flex space-x-4 bg-black text-white rounded-lg shadow-lg p-6 w-fit  "
+          className="flex   text-white rounded-lg    "
         >
-          <div className="flex flex-col max-w-[660px] w-full ">
+          <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-l-lg max-w-[660px] w-full ">
             {/* Header */}
             <div className="flex items-start justify-between mb-4 max-w-[660px] w-full">
               <div className="flex items-center space-x-4">
@@ -118,7 +118,7 @@ const PostCard = () => {
           </div>
 
           {activePostId === post.id && (
-            <div className="w-full max-w-[360px] ">
+            <div className="w-full bg-[#121212] p-6 rounded-r-lg shadow-lg max-w-[360px] ">
               {/* Comment Box */}
 
               <div className="flex items-center justify-between">

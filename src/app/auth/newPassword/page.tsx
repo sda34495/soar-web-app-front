@@ -8,7 +8,7 @@ import { FaFacebook } from "react-icons/fa";
 import { post } from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { RESET_NEW_PASSWORD } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 function CreatePassword() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -58,7 +58,7 @@ function CreatePassword() {
         formData.append("newPassword", password.password);
 
         console.log(formData);
-        const response = await post(RESET_NEW_PASSWORD, formData);
+        const response = await post(endpoints.RESET_NEW_PASSWORD, formData);
         console.log(" verification in successfully:", response.data);
         if (!response) return;
         console.log(response);

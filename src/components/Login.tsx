@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { post } from "@/utils/axios";
 import Spinner from "./UI/Spinner";
-import { LOGIN } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 interface LoginData {
   email: string;
@@ -71,7 +71,7 @@ function Login() {
         localStorage.clear();
         console.log("Attempting login with:", loginData);
 
-        const response = await post(LOGIN, loginData);
+        const response = await post(endpoints.LOGIN, loginData);
         console.log("Logged in successfully:", response.data);
         if (!response) return;
         console.log(response);
