@@ -3,11 +3,15 @@ import CenterImageModal from "@/components/UI/CenterImageModal";
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Adjust the path based on your project structure
 import toast from "react-hot-toast";
-import { Post_Referal_Data } from "@/utils/endpoints";
+import endpoints from "@/utils/endpoints";
 
 const ReferralForm = () => {
-  // const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
+    referal_link: "",
+    comment: "",
+  });
+
+  const [formErrors, setFormErrors] = useState<{ referal_link: string; comment: string }>({
     referal_link: "",
     comment: "",
   });
@@ -18,20 +22,45 @@ const ReferralForm = () => {
       ...prevData,
       [name]: value,
     }));
+    // Clear errors for the specific field on input change
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
+  const validate = () => {
+    const errors: { referal_link: string; comment: string } = {
+      referal_link: "",
+      comment: "",
+    };
+
+    if (!formData.referal_link.trim()) {
+      errors.referal_link = "Referral link is required.";
+    }
+    if (!formData.comment.trim()) {
+      errors.comment = "Comment is required.";
+    }
+
+    setFormErrors(errors);
+    return !errors.referal_link && !errors.comment;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!validate()) {
+      return; // Prevent form submission if validation fails
+    }
+
     try {
-      const response = await post(Post_Referal_Data, formData);
+      const response = await post(endpoints.POST_REFERAL_DATA, formData);
       if (response.data.success) {
         toast.success(response.data.message || "Referral created successfully!");
         setTimeout(() => {
-          
-          // setModalOpen(true);
           setFormData({ referal_link: "", comment: "" });
-        }, 500); 
+          setFormErrors({ referal_link: "", comment: "" });
+        }, 500);
       } else {
         toast.error(response.data.message || "Failed to create referral.");
       }
@@ -61,6 +90,9 @@ const ReferralForm = () => {
               onChange={handleInputChange}
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
+            {formErrors.referal_link && (
+              <p className="text-red-500 text-sm mt-1">{formErrors.referal_link}</p>
+            )}
           </div>
 
           <div>
@@ -75,6 +107,9 @@ const ReferralForm = () => {
               onChange={handleInputChange}
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
+            {formErrors.comment && (
+              <p className="text-red-500 text-sm mt-1">{formErrors.comment}</p>
+            )}
           </div>
 
           <button
@@ -85,14 +120,6 @@ const ReferralForm = () => {
           </button>
         </div>
       </form>
-
-      {/* <CenterImageModal
-        title="Update Successfully"
-        description="Your account has been updated."
-        isOpen={modalOpen}
-        image="/tick.svg"
-        onClose={() => setModalOpen(false)}
-      /> */}
     </div>
   );
 };

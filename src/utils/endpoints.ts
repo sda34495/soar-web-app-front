@@ -47,6 +47,7 @@ const endpoints = {
   BOOK_COACHING_SESSION: "sessions/book-coaching-session",
   POST_REFERAL_DATA: "referals/create",
   POST_SUPPORT_DATA: "support/create",
+  GET_PROFILE_DETAIL: "profile/details"
 };
 
 export default endpoints;

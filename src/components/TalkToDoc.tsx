@@ -4,7 +4,7 @@ import endpoints from '@/utils/endpoints';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const SupportForm = () => {
+const talkToDocForm = () => {
   // State for the form fields
   const [formData, setFormData] = useState({
     firstname: '',
@@ -101,7 +101,7 @@ const SupportForm = () => {
   return (
     <form className="w-full max-w-2xl" onSubmit={handleSubmit}>
       <div className="space-y-4">
-        <h3 className="text-2xl font-bold mt-2">Get in touch</h3>
+        <h3 className="text-2xl font-bold mt-2">Connect with a Doctor</h3>
 
         {/* First and Last Name Fields */}
         <div className="flex flex-col md:flex-row gap-3 w-full">
@@ -209,4 +209,4 @@ const SupportForm = () => {
   );
 };
 
-export default SupportForm;
+export default talkToDocForm;
