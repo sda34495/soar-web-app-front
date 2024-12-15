@@ -4,25 +4,54 @@ import CenterImageModal from "@/components/UI/CenterImageModal";
 import { postData } from "@/utils/axios"; // Ensure you have a utility for making POST requests
 import toast from "react-hot-toast";
 
+
+
+type Errors = {
+  oldPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+};
+
 const PasswordSecurity = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState<Errors>({});
+
+
+
+
+  const validateForm = () => {
+    const newErrors: Errors = {};
+
+   
+
+    if (!newPassword) {
+      newErrors.newPassword = "New password is required.";
+    } else if (newPassword.length < 8) {
+      newErrors.newPassword = "New password must be at least 8 characters.";
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your new password.";
+    } else if (newPassword !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate inputs
-    if (!oldPassword || !newPassword || !confirmPassword) {
-      toast.error("Please fill out all fields.");
+    if (!validateForm()) {
       return;
     }
 
-    if (newPassword !== confirmPassword) {
-      toast.error("New password and confirm password do not match.");
-      return;
-    }
+
 
     try {
       // Send data to the API
@@ -78,6 +107,9 @@ const PasswordSecurity = () => {
               onChange={(e) => setNewPassword(e.target.value)}
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
+             {errors.newPassword && (
+              <p className="text-red-500 text-sm mt-1">{errors.newPassword}</p>
+            )}
           </div>
 
           <div className="">
@@ -92,6 +124,9 @@ const PasswordSecurity = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
+            )}
           </div>
           <button
             type="submit"
