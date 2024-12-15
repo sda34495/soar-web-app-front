@@ -17,12 +17,13 @@ const LeaderboardPage = () => {
 
         if (response?.data?.success) {
           const data = response.data.data.map((entry: any) => ({
+            
             position: entry.rank,
-            username: `${entry.first_name} ${entry.last_name}`,
+            username: entry.user_name || "N/A",
             points: entry.points || 0,
-            league: entry.league || "N/A",
+            league: entry.league || 0,
             competition: entry.activity_type || "N/A",
-            avatar: "/avatar.jpeg",
+            avatar: entry.profile_url || "avatar.jpeg",
             color: getCardColor(entry.rank),
           }));
 
@@ -80,6 +81,7 @@ const LeaderboardPage = () => {
             fetchedLeaderboardData.map((item, index) => (
               <div className="flex-1" key={index}>
                 <LeaderboardCard
+                
                   position={item.position}
                   username={item.username}
                   points={item.points}

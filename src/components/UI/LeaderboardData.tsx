@@ -62,10 +62,10 @@ const LeaderboardTable = () => {
                     <td className="p-3 flex items-center space-x-3">
                       <img
                         src={entry.profile_url || "/avatar.jpeg"} // Provide a default image if not available
-                        alt={entry.user}
+                        alt={entry.user_name}
                         className="h-8 w-8 rounded-full object-cover"
                       />
-                      <span>{entry.first_name}</span>
+                      <span>{entry.user_name}</span>
                     </td>
                  
                     <td className="p-3">{entry.points || 0}</td>

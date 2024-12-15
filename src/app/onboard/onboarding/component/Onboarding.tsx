@@ -70,8 +70,8 @@ const Page = () => {
   return (
     <>
       <div className="relative w-full h-screen bg-image bg-cover bg-center bg-zinc-900 dark:bg-zinc-900">
-        <div className="flex flex-col mt-5 mx-6 sm:mx-40 lg:mx-auto">
-          <div className="mx-auto w-full sm:w-2/3 lg:w-1/2">
+        <div className="flex flex-col  mx-6 sm:mx-40 lg:mx-auto">
+          <div className="sm:mx-auto  md:mx-20 w-full sm:w-2/3 lg:w-1/2">
             <header className="w-full mt-10 bg-red">
               <div className="w-[120px] text-center">
                 <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import GeneralProfile from "./components/GeneralProfile";
 import PasswordSecurity from "./components/PasswordSecurity";
 import Notification from "./components/Notification";
-import CenterImageModal from "@/components/UI/CenterImageModal";
+
 
 const SettingPage = () => {
   const [activeTab, setActiveTab] = useState("password");
