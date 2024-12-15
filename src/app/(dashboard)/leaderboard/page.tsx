@@ -23,7 +23,7 @@ const LeaderboardPage = () => {
             points: entry.points || 0,
             league: entry.league || 0,
             competition: entry.activity_type || "N/A",
-            avatar: entry.profile_url || "avatar.jpeg",
+            avatar: entry.profile_url || "/avatar.jpeg",
             color: getCardColor(entry.rank),
           }));
 

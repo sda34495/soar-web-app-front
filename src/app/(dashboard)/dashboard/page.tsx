@@ -1,10 +1,7 @@
 "use client";
-import ProgressBar from "@/components/UI/ProgressBar";
-import DashboardLayout from "../components/DashboardLayout";
 import DashboardCard from "@/components/UI/DashboardCard";
 import CustomChart from "@/components/UI/BarChart";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
-import LoadingBar from "react-top-loading-bar";
 import { getData } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import endpoints from "@/utils/endpoints";
