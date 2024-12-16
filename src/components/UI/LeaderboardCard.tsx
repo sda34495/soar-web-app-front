@@ -11,17 +11,17 @@ const LeaderboardCard = ({
   color,
 }: any) => {
   return (
-    <div  className={`rounded-2xl overflow-hidden p-[1px] ${color.card1} text-white min-w-[300px]`}>
-    <div  className={` bg-black/80 rounded-2xl `}>
-    <div  className={` h-full py-4 rounded-2xl  px-5 ${color.card2} `}>
-      <div className="flex items-center justify-between">
-        {/* Position */}
-        <h1 className="text-3xl text-center font-bold flex items-baseline justify-center">
-  {position}
-  <span className="text-sm self-center bg-[#1919194D] rounded-full px-4 py-1 ml-4 font-normal">
-    position
-  </span>
-</h1>
+    <div className={`rounded-2xl overflow-hidden p-[1px] ${color.card1} text-white min-w-[300px]`}>
+      <div className={` bg-black/80 rounded-2xl `}>
+        <div className={` h-full py-4 rounded-2xl  px-5 ${color.card2} `}>
+          <div className="flex items-center justify-between">
+            {/* Position */}
+            <h1 className="text-3xl text-center font-bold flex items-baseline justify-center">
+              {position}
+              <span className="text-sm self-center bg-[#1919194D] rounded-full px-4 py-1 ml-4 font-normal">
+                position
+              </span>
+            </h1>
 
             {/* User Details */}
 
@@ -30,6 +30,7 @@ const LeaderboardCard = ({
                 src={avatar}
                 alt={username}
                 className="h-12 w-12 rounded-full object-cover border-2 border-white"
+                onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
               />
             </div>
           </div>

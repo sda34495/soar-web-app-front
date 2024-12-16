@@ -69,43 +69,44 @@ const DashboardPage = () => {
   ];
 
   return (
-    <div className="text-white ">
-      <div className=" flex flex-wrap gap-6  ">
-        {cardData.map((data, index) => (
-          <DashboardCard
-            key={index}
-            title={data.title}
-            time={data.time}
-            points={data.points}
-            progressColor={data.progressColor}
-            progressWidth={data.progressWidth}
-          />
-        ))}
-      </div>
+    <></>
+    // <div className="text-white ">
+    //   <div className=" flex flex-wrap gap-6  ">
+    //     {cardData?.map((data, index) => (
+    //       <DashboardCard
+    //         key={index}
+    //         title={data.title}
+    //         time={data.time}
+    //         points={data.points}
+    //         progressColor={data.progressColor}
+    //         progressWidth={data.progressWidth}
+    //       />
+    //     ))}
+    //   </div>
 
-      <div className="my-3 max-w-6xl">
-        <CustomChart user="admin" />
-      </div>
+    //   <div className="my-3 max-w-6xl">
+    //     <CustomChart user="admin" />
+    //   </div>
 
-      <div className="  flex justify-start  w-full mb-5 items-center">
-        <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
-          {leaderboardData.map((item, index) => (
-            <div className="flex-1" key={index}>
-              <LeaderboardCard
-                key={index}
-                position={item.position}
-                username={item.username}
-                points={item.points}
-                league={item.league}
-                competition={item.competition}
-                avatar={item.avatar}
-                color={item.color}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    //   <div className="  flex justify-start  w-full mb-5 items-center">
+    //     <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
+    //       {leaderboardData?.map((item, index) => (
+    //         <div className="flex-1" key={index}>
+    //           <LeaderboardCard
+    //             key={index}
+    //             position={item.position}
+    //             username={item.username}
+    //             points={item.points}
+    //             league={item.league}
+    //             competition={item.competition}
+    //             avatar={item.avatar}
+    //             color={item.color}
+    //           />
+    //         </div>
+    //       ))}
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

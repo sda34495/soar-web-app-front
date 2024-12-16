@@ -74,7 +74,7 @@ const ActionsSection = () => {
           <span className="text-sm font-medium"> {userData.first_name}  {userData.last_name} </span>
           <div className="relative">
             <img
-             src={userData.profile_url || null }
+             src={userData.profile_url || "/avatar.jpeg" }
              alt={`${userData.first_name} ${userData.last_name}`}
               className="h-10 w-10 rounded-full object-cover"
             />

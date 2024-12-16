@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LeaderboardTable from "../../../components/UI/LeaderboardData";
-import { getUserData } from "@/utils/axios";
+import { getData } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
 
 const LeaderboardPage = () => {
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
@@ -11,30 +12,30 @@ const LeaderboardPage = () => {
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("User is not authenticated.");
-          return;
+        const response = await getData(endpoints.GET_TOP_USERS);
+        console.log("API Response:", response.data);
+
+        if (response?.data?.success) {
+          const data = response.data.data.map((entry: any) => ({
+            
+            position: entry.rank,
+            username: entry.user_name || "N/A",
+            points: entry.points || 0,
+            league: entry.league || 0,
+            competition: entry.activity_type || "N/A",
+            avatar: entry.profile_url || "/avatar.jpeg" ,
+            color: getCardColor(entry.rank),
+          }));
+
+          const topRanks = data.filter((item) =>
+            ["1st", "2nd", "3rd"].includes(item.position)
+          );
+
+          setFetchedLeaderboardData(topRanks);
+          setError(null);
+        } else {
+          setError(response?.data?.message || "Failed to fetch leaderboard data.");
         }
-        const response = await getUserData(`${token}`);
-
-        const data = response.data.map((entry: any) => ({
-          position: entry.rank, // Ensure rank is correctly extracted
-          username: `${entry.first_name} ${entry.last_name}`,
-          points: entry.points || 0,
-          league: entry.league || "N/A", // Default value if not available
-          competition: entry.activity_type || "N/A",
-          avatar: "/avatar.jpeg", // Add logic for dynamic avatar if available
-          color: getCardColor(entry.rank), // Use rank to determine the color
-        }));
-
-        // Filter only the top 3 ranks
-        const topRanks = data.filter((item) =>
-          ["1st", "2nd", "3rd"].includes(item.position)
-        );
-
-        setFetchedLeaderboardData(topRanks);
-        setError(null);
       } catch (err: any) {
         console.error("Error fetching leaderboard data:", err);
         setError(err.response?.data?.message || "Failed to fetch data.");
@@ -44,7 +45,7 @@ const LeaderboardPage = () => {
     fetchLeaderboardData();
   }, []);
 
-  // Function to set color based on rank
+  // Function to set card color based on rank
   const getCardColor = (rank: string) => {
     switch (rank) {
       case "1st":
@@ -80,6 +81,7 @@ const LeaderboardPage = () => {
             fetchedLeaderboardData.map((item, index) => (
               <div className="flex-1" key={index}>
                 <LeaderboardCard
+                
                   position={item.position}
                   username={item.username}
                   points={item.points}

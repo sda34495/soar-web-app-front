@@ -29,7 +29,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,}: any) => {
           });
         }
       } catch (error) {
-        console.error("Failed to fetch check-in details:", error);
+        console.log("Failed to fetch check-in details:", error);
       }
     };
 
@@ -72,7 +72,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,}: any) => {
           setIsModalOpen(true);
         }, 500);
       } else {
-        toast.error;
+        toast.error("Failed to Update");
       }
     } catch (error) {}
   };
