@@ -51,6 +51,7 @@ const Sidebar = () => {
         dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: "Tuesday, 12 Nov 2024 - Wednesday, 13 Nov 2024" }));
         
         break;
+        
       case "/dashboard":
         setActiveItem("Dashboard");
         dispatch(navbarActions.updateNavbar({ title: "Dashboard", description: "Gain valuable insights to track your progress" }));
