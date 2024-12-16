@@ -7,12 +7,16 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
   const [checkInStatus, setCheckInStatus] = useState<{
     morning: boolean;
     evening: boolean;
+    progress: number; // Add progress to the state
   }>({
     morning: false,
     evening: false,
+    progress: 0, // Default progress value
   });
 
-  const [progress, setProgress] = useState<number>(0); // State for progress
+  const [shouldRefetch, setShouldRefetch] = useState(false)
+
+  
 
   useEffect(() => {
     const fetchCheckInDetails = async () => {
@@ -23,27 +27,26 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
           setCheckInStatus({
             morning: data.morning || false,
             evening: data.evening || false,
+            progress: data.progress || 0, // Set the progress from the fetched data
+
           });
-          setProgress(data.progress || 0); // Set progress dynamically
+
+  
+
+         
         }
       } catch (error) {
         console.error("Failed to fetch check-in details:", error);
       }
     };
-
+    if (shouldRefetch) {
+      fetchCheckInDetails();
+      setShouldRefetch(false); // Reset the refetch flag after fetching
+    }
     fetchCheckInDetails();
-  }, []);
+  }, [shouldRefetch]);
 
-  useEffect(() => {
-    // Locally calculate progress when checkInStatus changes
-    const calculateProgress = () => {
-      const totalCheckIns = Object.values(checkInStatus).filter(Boolean).length;
-      const progressPercentage = (totalCheckIns / 2) * 100; // Assuming 2 check-ins (morning, evening)
-      setProgress(progressPercentage);
-    };
   
-    calculateProgress();
-  }, [checkInStatus]); // Runs whenever checkInStatus changes
 
 
 
@@ -68,6 +71,7 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
+        setShouldRefetch(true);
         setTimeout(() => {
           updateModalTitle('Finance Check-ins update successfully')
           setIsModalOpen(true);
@@ -78,11 +82,14 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
     }
-  };
-
+  };  
+  
+    
+  const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
+  
   const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
 
-  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress" 
 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md rounded-2xl">
@@ -91,13 +98,13 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold">Fitness Check-ins</h2>
           <div className="flex items-center space-x-2">
-            <span className={"bg-transparent  font-semibold " + progressColor}>
-             {text}
+            <span className={"bg-transparent  font-semibold" + progressColor }>
+            {text}
             </span>
             <div className="flex items-center">
               <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
                 <div
-                  className={"h-full rounded-full " + progressColor}
+                  className={"h-full rounded-full " + progressColor }
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
