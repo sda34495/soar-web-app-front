@@ -31,7 +31,7 @@ const SobrietyCard = ({
           setProgress(data.progress || 0); // Set progress dynamically
         }
       } catch (error) {
-        console.error("Failed to fetch check-in details:", error);
+        console.log("Failed to fetch check-in details:", error);
       }
     };
 
@@ -77,7 +77,7 @@ const SobrietyCard = ({
           setIsModalOpen(true);
         }, 500);
       } else {
-        toast.error;
+        toast.error("Failed to Update");
       }
     } catch (error) {}
   };
