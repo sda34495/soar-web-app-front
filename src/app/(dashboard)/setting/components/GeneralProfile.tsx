@@ -15,6 +15,7 @@ interface UserProfile {
 const GeneralProfile = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("/avatar.jpeg");
+   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState<UserProfile>({
     user_name: "",
     first_name: "",
@@ -22,7 +23,6 @@ const GeneralProfile = () => {
     email: "",
     profile_url: "",
   });
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,6 +46,8 @@ const GeneralProfile = () => {
       } catch (err) {
         console.error("Error fetching user data:", err);
         toast.error("An error occurred while fetching user data.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -67,6 +69,9 @@ const GeneralProfile = () => {
       setImageUrl(URL.createObjectURL(file)); // Display the selected image
     }
   };
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   const handleDeleteImage = () => {
     setImage(null);
@@ -86,6 +91,7 @@ const GeneralProfile = () => {
       if (image) {
         formDataToSubmit.append("profile_image", image); // Append the image if it was uploaded
       }
+      setLoading(true);
       const response = await postImage(endpoints.UPDATE_PROFILE_DATA, formDataToSubmit);
       if (response?.data?.success) {
         toast.success("Profile updated successfully!");
@@ -95,6 +101,8 @@ const GeneralProfile = () => {
     } catch (err) {
       console.error("Error updating profile:", err);
       toast.error("An error occurred while updating the profile.");
+    } finally {
+      setLoading(false);
     }
   };
 
