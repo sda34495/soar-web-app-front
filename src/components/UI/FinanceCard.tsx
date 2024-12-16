@@ -3,7 +3,7 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
+const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
 
   const [checkInStatus, setCheckInStatus] = useState<{ 
     morning: boolean; 
@@ -32,7 +32,7 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
           
         }
       } catch (error) {
-        console.error("Failed to fetch check-in details:", error);
+        console.log("Failed to fetch check-in details:", error);
       }
     };
 
@@ -68,20 +68,22 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
     };
 
     try {
+      setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
         setShouldRefetch(true);
-        setTimeout(() => {
-          updateModalTitle('Finance Check-ins update successfully')
-          setIsModalOpen(true);
-        }, 500); 
-      } else {
-        toast.error('Failed to Update')
-      }
+        updateModalTitle('Finance Check-ins update successfully')
+        setIsModalOpen(true);
+        // setTimeout(() => {
+        // }, 500); 
+      } 
 
 
     } catch (error) {
+      toast.error("An error occurred while updating check-in status.");
+    }finally {
+      setIsLoading(false);
     }
 
   };

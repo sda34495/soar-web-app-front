@@ -1,6 +1,7 @@
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const CheckinCard = () => {
   const [checkInDetails, setCheckInDetails] = useState({
@@ -19,7 +20,7 @@ const CheckinCard = () => {
           console.log(response.data);
         }
       } catch (error) {
-        console.error("Failed to fetch check-in details:", error);
+        toast.error("Failed to fetch check-in details.");
       }
     };
 

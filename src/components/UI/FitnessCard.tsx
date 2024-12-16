@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 
-const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
+const FitnessCard = ({
+  updateModalTitle,
+  setIsModalOpen,
+  setIsLoading,
+}: any) => {
   const [checkInStatus, setCheckInStatus] = useState<{
     morning: boolean;
     evening: boolean;
@@ -14,9 +18,7 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
     progress: 0, // Default progress value
   });
 
-  const [shouldRefetch, setShouldRefetch] = useState(false)
-
-  
+  const [shouldRefetch, setShouldRefetch] = useState(false);
 
   useEffect(() => {
     const fetchCheckInDetails = async () => {
@@ -28,15 +30,10 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
             morning: data.morning || false,
             evening: data.evening || false,
             progress: data.progress || 0, // Set the progress from the fetched data
-
           });
-
-  
-
-         
         }
       } catch (error) {
-        console.error("Failed to fetch check-in details:", error);
+        console.log("Failed to fetch check-in details:", error);
       }
     };
     if (shouldRefetch) {
@@ -45,10 +42,6 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
     }
     fetchCheckInDetails();
   }, [shouldRefetch]);
-
-  
-
-
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -68,28 +61,30 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
     };
 
     try {
+      setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
         setShouldRefetch(true);
-        setTimeout(() => {
-          updateModalTitle('Finance Check-ins update successfully')
-          setIsModalOpen(true);
-        }, 500); 
-      } else {
-        toast.error("Failed to update check-in status.");
+        updateModalTitle("Finance Check-ins update successfully");
+        setIsModalOpen(true);
+        
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
+    } finally {
+      setIsLoading(false);
     }
-  };  
-  
-    
-  const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
-  
-  const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
-  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
+  };
 
+  const progress = parseFloat(checkInStatus.progress.toFixed(1));
+
+  const progressColor =
+    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const text =
+    progress < 50
+      ? "Hey! You’re leaving things behind"
+      : "Hurray! You're making progress";
 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md rounded-2xl">
@@ -98,13 +93,13 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold">Fitness Check-ins</h2>
           <div className="flex items-center space-x-2">
-            <span className={"bg-transparent  font-semibold" + progressColor }>
-            {text}
+            <span className={"bg-transparent  font-semibold" + progressColor}>
+              {text}
             </span>
             <div className="flex items-center">
               <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
                 <div
-                  className={"h-full rounded-full " + progressColor }
+                  className={"h-full rounded-full " + progressColor}
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
