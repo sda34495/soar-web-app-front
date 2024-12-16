@@ -5,7 +5,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 const url = process.env.NEXT_PUBLIC_API_URL;
 
 const instance = axios.create({
-  // baseURL: url,
+  baseURL: url,
   headers: {
     "Content-Type": "application/json",
     // Authorization: `Bearer ${localStorage.getItem("token")}`,
