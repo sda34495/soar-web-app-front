@@ -48,6 +48,7 @@ const Sidebar = () => {
         );
 
         break;
+        
       case "/dashboard":
         setActiveItem("Dashboard");
         dispatch(

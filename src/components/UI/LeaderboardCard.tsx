@@ -30,6 +30,7 @@ const LeaderboardCard = ({
                 src={avatar}
                 alt={username}
                 className="h-12 w-12 rounded-full object-cover border-2 border-white"
+                onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
               />
             </div>
           </div>

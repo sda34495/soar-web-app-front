@@ -22,9 +22,12 @@ const TitleSection = () => {
 
 // Function to render the Actions and Profile Section
 const ActionsSection = () => {
-
+  const profiledetails = useSelector((state: any) => state.profileSlice);
+  console.log(profiledetails)
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  
 
 
   const [userData, setUserData] = useState({
@@ -47,6 +50,13 @@ const ActionsSection = () => {
 
     fetchProfileData();
   }, []);
+
+  useEffect(() => {
+    // This will run every time the `profiledetails` changes
+    console.log('Profile details updated:', profiledetails);
+
+    // You can perform any other logic you want here, like updating local state or triggering other side effects
+  }, [profiledetails]); 
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev); // Toggle the dropdown state
@@ -74,7 +84,7 @@ const ActionsSection = () => {
           <span className="text-sm font-medium"> {userData.first_name}  {userData.last_name} </span>
           <div className="relative">
             <img
-             src={userData.profile_url || null }
+             src={profiledetails.profile_url || "/avatar.jpeg" }
              alt={`${userData.first_name} ${userData.last_name}`}
               className="h-10 w-10 rounded-full object-cover"
             />

@@ -65,7 +65,7 @@ const LeaderboardTable = () => {
                         alt={entry.user_name}
                         className="h-8 w-8 rounded-full object-cover"
                       />
-                      <span>{entry.user_name}</span>
+                      <span>{entry.user_name || "unknown"}</span>
                     </td>
                  
                     <td className="p-3">{entry.points || 0}</td>

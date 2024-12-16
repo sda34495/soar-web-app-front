@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getData, postImage } from "@/utils/axios"; // Add postData for updating profile
 import endpoints from "@/utils/endpoints";
+import { useDispatch } from "react-redux";
+import {profileActions} from '@/store/profile-slice'
 
 interface UserProfile {
   user_name: string;
@@ -13,8 +15,10 @@ interface UserProfile {
 }
 
 const GeneralProfile = () => {
+  const dispatch = useDispatch()
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("/avatar.jpeg");
+   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState<UserProfile>({
     user_name: "",
     first_name: "",
@@ -22,7 +26,6 @@ const GeneralProfile = () => {
     email: "",
     profile_url: "",
   });
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,12 +43,16 @@ const GeneralProfile = () => {
           });
 
           setImageUrl(profile_url || "/avatar.jpeg");
+          dispatch(profileActions.updateNavbar({profile_url: response.data.data?.profile_url }))
+          console.log('this is dispatch', response.data.data?.profile_url  )
         } else {
           toast.error("Failed to load user data.");
         }
       } catch (err) {
         console.error("Error fetching user data:", err);
         toast.error("An error occurred while fetching user data.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -67,6 +74,9 @@ const GeneralProfile = () => {
       setImageUrl(URL.createObjectURL(file)); // Display the selected image
     }
   };
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   const handleDeleteImage = () => {
     setImage(null);
@@ -86,6 +96,7 @@ const GeneralProfile = () => {
       if (image) {
         formDataToSubmit.append("profile_image", image); // Append the image if it was uploaded
       }
+      setLoading(true);
       const response = await postImage(endpoints.UPDATE_PROFILE_DATA, formDataToSubmit);
       if (response?.data?.success) {
         toast.success("Profile updated successfully!");
@@ -95,6 +106,8 @@ const GeneralProfile = () => {
     } catch (err) {
       console.error("Error updating profile:", err);
       toast.error("An error occurred while updating the profile.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -210,3 +223,7 @@ const GeneralProfile = () => {
 };
 
 export default GeneralProfile;
+
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}
