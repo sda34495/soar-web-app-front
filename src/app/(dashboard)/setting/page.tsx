@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import GeneralProfile from "./components/GeneralProfile";
 import PasswordSecurity from "./components/PasswordSecurity";
 import Notification from "./components/Notification";
+import useSidebarLoading from "@/Hook/SidebarLoading";
 
 
 const SettingPage = () => {
   const [activeTab, setActiveTab] = useState("general");
-
+  useSidebarLoading();
   return (
     <div>
       <div className="space-x-4 mb-6">

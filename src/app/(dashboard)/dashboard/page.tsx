@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import endpoints from "@/utils/endpoints";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+// import SidebarLoading from "@/Hook/SidebarLoading";
+import useSidebarLoading from "@/Hook/SidebarLoading";
 
 interface dashboard {
   chartData: [];
@@ -133,6 +135,8 @@ const DashboardPage = () => {
     },
   ];
 
+  useSidebarLoading();
+
   return (
     // <div className="text-white ">
     //   <div className="  flex justify-start  w-full mb-5 items-center">
@@ -195,6 +199,7 @@ const DashboardPage = () => {
     <div className="text-white">
       <div className="flex justify-start w-full mb-5 items-center">
         <div className="flex flex-wrap gap-4 w-full grow">
+          {/* <SidebarLoading/> */}
           {dashboardData
             ? dashboardData?.stats.map((data: any, index) => (
                 <div className="flex-1" key={index}>
