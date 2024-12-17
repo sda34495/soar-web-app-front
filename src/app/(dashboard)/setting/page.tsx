@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import GeneralProfile from "./components/GeneralProfile";
 import PasswordSecurity from "./components/PasswordSecurity";
 import Notification from "./components/Notification";
-import useSidebarLoading from "@/Hook/SidebarLoading";
+import useSidebarLoading from "@/Hook/useSidebarLoading";
 
 
 const SettingPage = () => {

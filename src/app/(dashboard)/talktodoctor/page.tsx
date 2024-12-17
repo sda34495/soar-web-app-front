@@ -1,6 +1,6 @@
 'use client'
 import TalkToDoc from '@/components/TalkToDoc'
-import useSidebarLoading from '@/Hook/SidebarLoading';
+import useSidebarLoading from '@/Hook/useSidebarLoading';
 import React from 'react'
 
 function page() {

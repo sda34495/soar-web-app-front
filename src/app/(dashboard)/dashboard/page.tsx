@@ -8,7 +8,7 @@ import endpoints from "@/utils/endpoints";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 // import SidebarLoading from "@/Hook/SidebarLoading";
-import useSidebarLoading from "@/Hook/SidebarLoading";
+import useSidebarLoading from "@/Hook/useSidebarLoading";
 
 interface dashboard {
   chartData: [];

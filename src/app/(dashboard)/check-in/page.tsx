@@ -7,7 +7,7 @@ import { endLoadingAction } from "@/store/loader-slice";
 import FinanceCard from "@/components/UI/FinanceCard";
 import Sobriety from "@/components/UI/Sobriety";
 import CenterImageModal from "@/components/UI/CenterImageModal";
-import useSidebarLoading from "@/Hook/SidebarLoading";
+import useSidebarLoading from "@/Hook/useSidebarLoading";
 // import SidebarLoading from '@/Hook/SidebarLoading';
 
 const leaderboardData = [

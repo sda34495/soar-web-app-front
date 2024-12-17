@@ -2,7 +2,7 @@
 import React from 'react'
 import SupportForm from './components/SupportForm'
 import SupportCard from './components/SupportCard'
-import useSidebarLoading from '@/Hook/SidebarLoading';
+import useSidebarLoading from '@/Hook/useSidebarLoading';
 
 const SupportPage = () => {
   useSidebarLoading();
