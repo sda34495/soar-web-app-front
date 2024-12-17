@@ -40,6 +40,8 @@ const GeneralProfile = () => {
           });
 
           setImageUrl(profile_url || "/avatar.jpeg");
+          //dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: "Tuesday, 12 Nov 2024 - Wednesday, 13 Nov 2024" }));
+          
         } else {
           toast.error("Failed to load user data.");
         }
