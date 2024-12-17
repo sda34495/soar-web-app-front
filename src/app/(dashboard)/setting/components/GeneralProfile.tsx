@@ -26,36 +26,41 @@ const GeneralProfile = () => {
     email: "",
     profile_url: "",
   });
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-       
-        const response = await getData(endpoints.GET_PROFILE_DETAILS);
-        if (response?.data?.success) {
-          const { user_name, first_name, last_name, email, profile_url } = response.data.data;
 
-          setFormData({
-            user_name: user_name || "",
-            first_name: first_name || "",
-            last_name: last_name || "",
-            email: email || "",
-            profile_url: profile_url || "/avatar.jpeg",
-          });
 
-          setImageUrl(profile_url || "/avatar.jpeg");
-          dispatch(profileActions.updateNavbar({profile_url: response.data.data?.profile_url }))
-          console.log('this is dispatch', response.data.data?.profile_url  )
-        } else {
-          toast.error("Failed to load user data.");
-        }
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        toast.error("An error occurred while fetching user data.");
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    try {
+     
+      const response = await getData(endpoints.GET_PROFILE_DETAILS);
+      if (response?.data?.success) {
+        const { user_name, first_name, last_name, email, profile_url } = response.data.data;
+
+        setFormData({
+          user_name: user_name || "",
+          first_name: first_name || "",
+          last_name: last_name || "",
+          email: email || "",
+          profile_url: profile_url || "/avatar.jpeg",
+        });
+
+        setImageUrl(profile_url || "/avatar.jpeg");
+        dispatch(profileActions.updateNavbar({profile_url: response.data.data?.profile_url }))
+        console.log('this is dispatch', response.data.data?.profile_url  )
+      } else {
+        toast.error("Failed to load user data.");
       }
-    };
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      toast.error("An error occurred while fetching user data.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+
+
+  useEffect(() => {
+   
     fetchData();
   }, []);
 
@@ -99,6 +104,7 @@ const GeneralProfile = () => {
       setLoading(true);
       const response = await postImage(endpoints.UPDATE_PROFILE_DATA, formDataToSubmit);
       if (response?.data?.success) {
+        fetchData()
         toast.success("Profile updated successfully!");
       } else {
         toast.error("Failed to update profile.");

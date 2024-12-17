@@ -42,13 +42,43 @@ const Sidebar = () => {
     }
   }, []);
 
+
+
+
+
+
   // Use effect to set activeItem based on pathname using switch
   useEffect(() => {
+
+
+    const getFormattedDate = (date: Date) => {
+      return new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',   // Full day name (e.g., "Tuesday")
+        day: '2-digit',    // Day (e.g., "12")
+        month: 'short',    // Abbreviated month (e.g., "Nov")
+        year: 'numeric',   // Year (e.g., "2024")
+      }).format(date);
+    };
+  
+    // Today's date
+    const today = new Date();
+    const formattedToday = getFormattedDate(today);
+  
+    // Tomorrow's date
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1); // Increment day by 1
+    const formattedTomorrow = getFormattedDate(tomorrow);
+  
+    // Combine dates into the desired string
+    const dateRangeString = `${formattedToday} - ${formattedTomorrow}`;
+
+
+    
     switch (pathname) {
       case "/check-in":
         dispatch(endLoadingAction.endLoading(10));
         setActiveItem("Check-in");
-        dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: "Tuesday, 12 Nov 2024 - Wednesday, 13 Nov 2024" }));
+        dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: dateRangeString }));
         
         break;
         

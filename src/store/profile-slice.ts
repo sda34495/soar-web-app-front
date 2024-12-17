@@ -15,7 +15,7 @@ const profileSlice = createSlice({
             state.profile_url = action.payload.profile_url;
             state.user_name = action.payload.user_name;
             
-            console.log(action.payload);    
+            console.log('this is profile slice',action.payload);    
         }
     }
 });

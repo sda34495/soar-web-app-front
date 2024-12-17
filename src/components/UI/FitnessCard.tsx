@@ -84,6 +84,8 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
     }
   };  
   
+  const today = Date.now()
+  console.log(today)
     
   const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
   
