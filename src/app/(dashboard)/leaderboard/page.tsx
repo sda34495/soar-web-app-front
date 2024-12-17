@@ -4,6 +4,7 @@ import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LeaderboardTable from "../../../components/UI/LeaderboardData";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
+import useSidebarLoading from "@/Hook/SidebarLoading";
 
 const LeaderboardPage = () => {
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
@@ -44,6 +45,8 @@ const LeaderboardPage = () => {
 
     fetchLeaderboardData();
   }, []);
+
+  useSidebarLoading();
 
   // Function to set card color based on rank
   const getCardColor = (rank: string) => {

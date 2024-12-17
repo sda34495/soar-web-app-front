@@ -5,6 +5,7 @@ import PostModal from "./component/PostModal";
 import { CiCirclePlus } from "react-icons/ci";
 import UploadPostHandel from "./component/UploadPostHandel";
 import PostCard from "./component/PostCard";
+import useSidebarLoading from "@/Hook/SidebarLoading";
 
 const Communitypage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -20,6 +21,8 @@ const Communitypage = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  useSidebarLoading();
   return (
     <div className="">
       

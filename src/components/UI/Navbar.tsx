@@ -55,7 +55,7 @@ const ActionsSection = () => {
         const { first_name, last_name, profile_url } = response.data.data;
         setUserData({ first_name, last_name, profile_url });
       } catch (error) {
-        console.error("Failed to fetch profile data:", error);
+        console.log("Failed to fetch profile data:", error);
       }
     };
 

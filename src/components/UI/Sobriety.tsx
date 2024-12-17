@@ -3,7 +3,7 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const SobrietyCard = ({setIsModalOpen,updateModalTitle,}: any) => {
+const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading}: any) => {
   const [checkInStatus, setCheckInStatus] = useState<{
     morning: boolean;
     evening: boolean;
@@ -63,18 +63,20 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,}: any) => {
     };
 
     try {
+      setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
         setShouldRefetch(true);
-        setTimeout(() => {
-          updateModalTitle("Finance Check-ins update successfully");
-          setIsModalOpen(true);
-        }, 500);
-      } else {
-        toast.error("Failed to Update");
-      }
-    } catch (error) {}
+        updateModalTitle("Finance Check-ins update successfully");
+        setIsModalOpen(true);
+        
+      } 
+    } catch (error) {
+      toast.error("An error occurred while updating check-in status.");
+    }finally{
+      setIsLoading(false)
+    }
   };
 
   const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;

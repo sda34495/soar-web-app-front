@@ -3,24 +3,19 @@ import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation"; // Import the navigation hook
 import Link from "next/link";
 import { navbarActions } from "@/store/navbar-slice";
-import {endLoadingAction} from "@/store/loader-slice"
+import { endLoadingAction } from "@/store/loader-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { Router } from "next/router";
 import LoadingBar from "react-top-loading-bar";
 import { MdHealthAndSafety } from "react-icons/md";
 
-
-
-
-
 const Sidebar = () => {
-  
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
   console.log(pathname);
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -30,10 +25,8 @@ const Sidebar = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser !== null) {
-      
       if (storedUser === "admin") {
         setUserType("admin");
-       
       } else if (storedUser === "user") {
         setUserType("user");
       }
@@ -76,7 +69,6 @@ const Sidebar = () => {
     
     switch (pathname) {
       case "/check-in":
-        dispatch(endLoadingAction.endLoading(10));
         setActiveItem("Check-in");
         dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: dateRangeString }));
         
@@ -84,54 +76,112 @@ const Sidebar = () => {
         
       case "/dashboard":
         setActiveItem("Dashboard");
-        dispatch(navbarActions.updateNavbar({ title: "Dashboard", description: "Gain valuable insights to track your progress" }));
-        setProgress(100);
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Dashboard",
+            description: "Gain valuable insights to track your progress",
+          })
+        );
+
         break;
 
       case "/leaderboard":
         setActiveItem("Leaderboard");
-        dispatch(navbarActions.updateNavbar({ title: "Leaderboard", description: "Total competing users 1,622" }));
-        setProgress(100);
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Leaderboard",
+            description: "Total competing users 1,622",
+          })
+        );
+
         break;
       case "/coaching":
         setActiveItem("Coaching");
-        dispatch(navbarActions.updateNavbar({ title: "Coaching", description: "Total competing users 1,622" }));
-        setProgress(80);
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Coaching",
+            description: "Total competing users 1,622",
+          })
+        );
+
         break;
 
-        case "/talktodoctor":
-          setActiveItem("Talk to Doctor");
-          dispatch(navbarActions.updateNavbar({ title: "Talk to Doctor", description: "Reach out to a doctor now for personalized support." }));
-          setProgress(80);
-          break;
+      case "/talktodoctor":
+        setActiveItem("Talk to Doctor");
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Talk to Doctor",
+            description: "Reach out to a doctor now for personalized support.",
+          })
+        );
+
+        break;
 
       case "/setting":
         setActiveItem("Settings");
-        dispatch(navbarActions.updateNavbar({ title: "Settings", description: "Customize your app experience and manage your preferences." }));
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Settings",
+            description:
+              "Customize your app experience and manage your preferences.",
+          })
+        );
         break;
       case "/professional-referral":
         setActiveItem("Professional Referral");
-        dispatch(navbarActions.updateNavbar({ title: "Professional Referral", description: "Customize your app experience and manage your preferences." }));
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Professional Referral",
+            description:
+              "Customize your app experience and manage your preferences.",
+          })
+        );
         break;
       case "/support":
         setActiveItem("Support");
-        dispatch(navbarActions.updateNavbar({ title: "Support", description: "Customize your app experience and manage your preferences." }));
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Support",
+            description:
+              "Customize your app experience and manage your preferences.",
+          })
+        );
         break;
       case "/community":
         setActiveItem("community");
-        dispatch(navbarActions.updateNavbar({ title: "Community", description: "Gain valuable insights to track your progress" }));
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Community",
+            description: "Gain valuable insights to track your progress",
+          })
+        );
         break;
       case "/admin/dashboard":
         setActiveItem("Dashboard");
-       dispatch(navbarActions.updateNavbar({ title: "Dashboard", description: "Gain valuable insights to track your progress" }));
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Dashboard",
+            description: "Gain valuable insights to track your progress",
+          })
+        );
         break;
       case "/admin/leaderboard":
         setActiveItem("Leaderboard");
-        dispatch(navbarActions.updateNavbar({ title: "Leaderboard", description: "Total competing users 1,622" }));
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Leaderboard",
+            description: "Total competing users 1,622",
+          })
+        );
         break;
       case "/admin/users":
         setActiveItem("users");
-        dispatch(navbarActions.updateNavbar({ title: "All Users", description: "Control your users by admin pannels" }));
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "All Users",
+            description: "Control your users by admin pannels",
+          })
+        );
         break;
       default:
         setActiveItem(""); // Default if no match
@@ -141,12 +191,17 @@ const Sidebar = () => {
 
   const lodervalue = useSelector((state: any) => state.loaderSlice.isLoading);
   console.log(lodervalue);
-  
+
+  const updateloader = (targetItem:string) => {
+    if (activeItem !== targetItem) {
+      dispatch(endLoadingAction.endLoading(10));
+    }
+  };
 
   return (
     <>
-     <LoadingBar
-        color='#f11946'
+      <LoadingBar
+        color="#f11946"
         progress={lodervalue}
         shadow={true}
         loaderSpeed={500}
@@ -165,196 +220,220 @@ const Sidebar = () => {
             </div>
             <ul className=" flex flex-col space-y-1 ">
               {/* Check-in link */}
-              <Link href="/check-in">
-                <li
-                  className={`flex items-center px-1 py-2  cursor-pointer font-semibold  ${
-                    activeItem === "Check-in"
-                      ? "bg-custom-gradient rounded-xl p-1  text-black font-semibold"
-                      : "text-[#BDBDBD] "
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Check-in")}>
+                <Link href="/check-in">
+                  <li
+                    className={`flex items-center px-1 py-2  cursor-pointer font-semibold  ${
                       activeItem === "Check-in"
-                        ? "/sidebar/dark-check-in.svg"
-                        : "/sidebar/check-in.svg"
-                    }
-                    alt="Check-in"
-                    className="mr-4"
-                  />
-                  <p className="">Check-in</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1  text-black font-semibold"
+                        : "text-[#BDBDBD] "
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Check-in"
+                          ? "/sidebar/dark-check-in.svg"
+                          : "/sidebar/check-in.svg"
+                      }
+                      alt="Check-in"
+                      className="mr-4"
+                    />
+                    <p className="">Check-in</p>
+                  </li>
+                </Link>
+              </button>
 
               {/* Dashboard link */}
-              <Link href="/dashboard">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
-                    activeItem === "Dashboard"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Dashboard")}>
+                <Link href="/dashboard">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
                       activeItem === "Dashboard"
-                        ? "/sidebar/dark-dashboard.svg"
-                        : "/sidebar/chart.svg"
-                    }
-                    alt="Dashboard"
-                    className="mr-4"
-                  />
-                  <p>Dashboard</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Dashboard"
+                          ? "/sidebar/dark-dashboard.svg"
+                          : "/sidebar/chart.svg"
+                      }
+                      alt="Dashboard"
+                      className="mr-4"
+                    />
+                    <p>Dashboard</p>
+                  </li>
+                </Link>
+              </button>
 
               {/* Leaderboard link */}
-              <Link href="/leaderboard">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
-                    activeItem === "Leaderboard"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Leaderboard")}>
+                <Link href="/leaderboard">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Leaderboard"
-                        ? "/sidebar/dark-podium.svg"
-                        : "/sidebar/chartstar.svg"
-                    }
-                    alt="Leaderboard"
-                    className="mr-4"
-                  />
-                  <p>Leaderboard</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Leaderboard"
+                          ? "/sidebar/dark-podium.svg"
+                          : "/sidebar/chartstar.svg"
+                      }
+                      alt="Leaderboard"
+                      className="mr-4"
+                    />
+                    <p>Leaderboard</p>
+                  </li>
+                </Link>
+              </button>
 
               {/* Coaching link */}
-              <Link href="/coaching">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
-                    activeItem === "Coaching"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Coaching")}>
+                <Link href="/coaching">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Coaching"
-                        ? "/sidebar/dark-coaching.svg"
-                        : "/sidebar/coaching.svg"
-                    }
-                    alt="Coaching"
-                    className="mr-4"
-                  />
-                  <p>Coaching</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Coaching"
+                          ? "/sidebar/dark-coaching.svg"
+                          : "/sidebar/coaching.svg"
+                      }
+                      alt="Coaching"
+                      className="mr-4"
+                    />
+                    <p>Coaching</p>
+                  </li>
+                </Link>
+              </button>
 
-              <Link href="/talktodoctor">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
-                    activeItem === "Talk to Doctor"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Talk to Doctor")}>
+                <Link href="/talktodoctor">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Talk to Doctor"
-                        ? "/sidebar/health-dark.svg"
-                        : "/sidebar/health.svg"
-                    }
-                    alt="Talk to doc"
-                    className="mr-4"
-                  />
-                  <p>Talk to Doctor</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Talk to Doctor"
+                          ? "/sidebar/health-dark.svg"
+                          : "/sidebar/health.svg"
+                      }
+                      alt="Talk to doc"
+                      className="mr-4"
+                    />
+                    <p>Talk to Doctor</p>
+                  </li>
+                </Link>
+              </button>
 
-              {/* Settings link */}
-              <Link href="/setting">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
-                    activeItem === "Settings"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Settings")}>
+                {/* Settings link */}
+                <Link href="/setting">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Settings"
-                        ? "/sidebar/dark-setting.svg"
-                        : "/sidebar/setting.svg"
-                    }
-                    alt="Settings"
-                    className="mr-4"
-                  />
-                  <p>Settings</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Settings"
+                          ? "/sidebar/dark-setting.svg"
+                          : "/sidebar/setting.svg"
+                      }
+                      alt="Settings"
+                      className="mr-4"
+                    />
+                    <p>Settings</p>
+                  </li>
+                </Link>
+              </button>
 
               {/* Professional Referral link */}
-              <Link href="/professional-referral">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
-                    activeItem === "Professional Referral"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Professional Referral")}>
+                <Link href="/professional-referral">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Professional Referral"
-                        ? "/sidebar/dark-ref.svg"
-                        : "/sidebar/chain.svg"
-                    }
-                    alt="Professional Referral"
-                    className="mr-4"
-                  />
-                  <p>Professional Referral</p>
-                </li>
-              </Link>
-              <Link href="/community">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
-                    activeItem === "community"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  
-                  <HiOutlineUserGroup className={`mr-4  w-5 h-5  ${activeItem === "community" ? "text-black" : "text-[#BDBDBD]"}`}/>
-                  <p>Community</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Professional Referral"
+                          ? "/sidebar/dark-ref.svg"
+                          : "/sidebar/chain.svg"
+                      }
+                      alt="Professional Referral"
+                      className="mr-4"
+                    />
+                    <p>Professional Referral</p>
+                  </li>
+                </Link>
+              </button>
+
+              <button onClick={() => updateloader("community")}>
+                <Link href="/community">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
+                      activeItem === "community"
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <HiOutlineUserGroup
+                      className={`mr-4  w-5 h-5  ${
+                        activeItem === "community"
+                          ? "text-black"
+                          : "text-[#BDBDBD]"
+                      }`}
+                    />
+                    <p>Community</p>
+                  </li>
+                </Link>
+              </button>
             </ul>
           </div>
 
           {/* Support button handled separately */}
           <div className="py-4">
             <div className="mb-6 text-start">
-              <Link href="/support">
-                <li
-                  className={`font-semibold text-start px-1 py-2 rounded-xl  w-full flex items-center ${
-                    pathname === "/support"
-                      ? "bg-custom-gradient font-semibold text-black  "
-                      : " "
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Support")}>
+                <Link href="/support">
+                  <li
+                    className={`font-semibold text-start px-1 py-2 rounded-xl  w-full flex items-center ${
                       pathname === "/support"
-                        ? "/sidebar/dark-support.svg"
-                        : "/sidebar/support.svg"
-                    }
-                    alt="Support"
-                    className="mr-4"
-                  />
-                  Support
-                </li>
-              </Link>
+                        ? "bg-custom-gradient font-semibold text-black  "
+                        : " "
+                    }`}
+                  >
+                    <img
+                      src={
+                        pathname === "/support"
+                          ? "/sidebar/dark-support.svg"
+                          : "/sidebar/support.svg"
+                      }
+                      alt="Support"
+                      className="mr-4"
+                    />
+                    Support
+                  </li>
+                </Link>
+              </button>
             </div>
             <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#c784269b] to-[#3d3e3d] ">
               <div className="bg-black/80 rounded-2xl">
@@ -387,68 +466,76 @@ const Sidebar = () => {
             </div>
             <ul className=" flex flex-col space-y-1 ">
               {/* Dashboard link */}
-              <Link href="/admin/dashboard">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
-                    activeItem === "Dashboard"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+              <button onClick={() => updateloader("Dashboard")}>
+                <Link href="/admin/dashboard">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
                       activeItem === "Dashboard"
-                        ? "/sidebar/dark-dashboard.svg"
-                        : "/sidebar/chart.svg"
-                    }
-                    alt="Dashboard"
-                    className="mr-4"
-                  />
-                  <p>Dashboard</p>
-                </li>
-              </Link>
-              <Link href="/admin/users">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
-                    activeItem === "users"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Dashboard"
+                          ? "/sidebar/dark-dashboard.svg"
+                          : "/sidebar/chart.svg"
+                      }
+                      alt="Dashboard"
+                      className="mr-4"
+                    />
+                    <p>Dashboard</p>
+                  </li>
+                </Link>
+              </button>
+
+              <button onClick={() => updateloader("users")}>
+                <Link href="/admin/users">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
                       activeItem === "users"
-                        ? "/sidebar/user-dark.svg"
-                        : "/sidebar/user.svg"
-                    }
-                    alt="Dashboard"
-                    className="mr-4"
-                  />
-                  <p>All Users</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "users"
+                          ? "/sidebar/user-dark.svg"
+                          : "/sidebar/user.svg"
+                      }
+                      alt="Dashboard"
+                      className="mr-4"
+                    />
+                    <p>All Users</p>
+                  </li>
+                </Link>
+              </button>
 
               {/* Leaderboard link */}
-              <Link href="/admin/leaderboard">
-                <li
-                  className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
-                    activeItem === "Leaderboard"
-                      ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
-                      : "text-[#BDBDBD]"
-                  }`}
-                >
-                  <img
-                    src={
+
+              <button onClick={() => updateloader("Leaderboard")}>
+                <Link href="/admin/leaderboard">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Leaderboard"
-                        ? "/sidebar/dark-podium.svg"
-                        : "/sidebar/chartstar.svg"
-                    }
-                    alt="Leaderboard"
-                    className="mr-4"
-                  />
-                  <p>Leaderboard</p>
-                </li>
-              </Link>
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Leaderboard"
+                          ? "/sidebar/dark-podium.svg"
+                          : "/sidebar/chartstar.svg"
+                      }
+                      alt="Leaderboard"
+                      className="mr-4"
+                    />
+                    <p>Leaderboard</p>
+                  </li>
+                </Link>
+              </button>
             </ul>
           </div>
         </aside>
@@ -457,4 +544,4 @@ const Sidebar = () => {
   );
 };
 
-export default  React.memo( Sidebar);
+export default React.memo(Sidebar);
