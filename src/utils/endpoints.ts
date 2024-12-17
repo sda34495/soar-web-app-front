@@ -41,6 +41,8 @@ export {
 };
 
 const endpoints = {
+  ADMIN_LOGIN: "admin/login",
+  GET_ADMIN_LEADERBOARD:"admin/leaderboard",
   LOGIN: "users/login",
   REGISTER: "users/signup",
   FORGET_PASSWORD_REQUEST_OTP: "users/request-otp",

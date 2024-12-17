@@ -13,7 +13,7 @@ const LeaderboardTable = () => {
     const fetchLeaderboardData = async () => {
   try {
     setLoading(true);
-    const response = await getData(endpoints.GET_TOP_USERS);
+    const response = await getData(endpoints.GET_ADMIN_LEADERBOARD);
     console.log("API response:", response);  // Log the full response
 
     if (response?.data?.success) {

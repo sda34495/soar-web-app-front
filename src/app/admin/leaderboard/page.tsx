@@ -12,18 +12,14 @@ const LeaderboardPage = () => {
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("User is not authenticated.");
-          return;
-        }
-        const response = await getData(endpoints.GET_TOP_USERS);
+       
+        const response = await getData(endpoints.GET_ADMIN_LEADERBOARD);
 
-        const data = response?.data?.map((entry: any) => ({
+        const data = response?.data?.data?.map((entry: any) => ({
           position: entry.rank, // Ensure rank is correctly extracted
-          username: `${entry.first_name} ${entry.last_name}`,
+          username: entry.user_name || "unknown",
           points: entry.points || 0,
-          league: entry.league || "N/A", // Default value if not available
+          league: entry.league || 0, // Default value if not available
           competition: entry.activity_type || "N/A",
           avatar: "/avatar.jpeg", // Add logic for dynamic avatar if available
           color: getCardColor(entry.rank), // Use rank to determine the color
