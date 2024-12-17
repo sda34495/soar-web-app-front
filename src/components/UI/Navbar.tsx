@@ -1,5 +1,5 @@
-'use client';
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import DropdownMenu from "../DropDown";
 import { getData } from "@/utils/axios";
@@ -22,16 +22,30 @@ const TitleSection = () => {
 
 // Function to render the Actions and Profile Section
 const ActionsSection = () => {
+  const profiledetails = useSelector((state: any) => state.profileSlice);
+  console.log('this is navbar', profiledetails);
+
 
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [userData, setUserData] = useState({
-    first_name: '',
-    last_name: '',
-    profile_url: ''
-  })
+    first_name: "",
+    last_name: "",
+    profile_url: "",
+  });
+
+  useEffect(() => {
+    // This will run every time the profiledetails changes
+    console.log("Profile details updated:", profiledetails);
+  
+    // Update the userData state with new profile details
+    setUserData((prevState) => ({
+      ...prevState,
+      profile_url: profiledetails.profile_url || "/avatar.jpeg",
+    }));
+  }, [profiledetails]);
 
   useEffect(() => {
     // Fetch profile data on mount
@@ -41,20 +55,43 @@ const ActionsSection = () => {
         const { first_name, last_name, profile_url } = response.data.data;
         setUserData({ first_name, last_name, profile_url });
       } catch (error) {
-        console.error("Failed to fetch profile data:", error);
+        console.log("Failed to fetch profile data:", error);
       }
     };
 
     fetchProfileData();
   }, []);
 
+  useEffect(() => {
+    // This will run every time the `profiledetails` changes
+    console.log("Profile details updated:", profiledetails);
+
+    // You can perform any other logic you want here, like updating local state or triggering other side effects
+  }, [profiledetails]);
+
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev); // Toggle the dropdown state
   };
-  
-  
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    
     <div className="flex items-center justify-between space-x-5 border  bg-[#121212] border-[#454545] p-3 rounded-2xl lg:w-1/3 h-[58px]">
       {/* Icons */}
       <div className="flex items-center space-x-2">
@@ -62,7 +99,11 @@ const ActionsSection = () => {
           <img src="/search.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
         </button>
         <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
-          <img src="/notification.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
+          <img
+            src="/notification.svg"
+            alt=""
+            className="w-4 h-4 md:w-6 md:h-6"
+          />
         </button>
         <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
           <img src="/message.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
@@ -70,19 +111,29 @@ const ActionsSection = () => {
       </div>
       {/* User Profile */}
       <div className="relative">
-        <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleDropdown}>
-          <span className="text-sm font-medium"> {userData.first_name}  {userData.last_name} </span>
+        <div
+          className="flex items-center space-x-2 cursor-pointer"
+          onClick={toggleDropdown}
+        >
+          <span className="text-sm font-medium">
+            {" "}
+            {userData.first_name} {userData.last_name}{" "}
+          </span>
           <div className="relative">
             <img
-             src={userData.profile_url || "/avatar.jpeg" }
-             alt={`${userData.first_name} ${userData.last_name}`}
+              src={profiledetails.profile_url || "/avatar.jpeg"}
+              alt={`${userData.first_name} ${userData.last_name}`}
               className="h-10 w-10 rounded-full object-cover"
             />
             <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
           </div>
         </div>
-        {/* Render the DropdownMenu component conditionally */}
-        {isDropdownOpen && <DropdownMenu />}
+        {/* Render the DropdownMenu component conditionally and this will close when click outside */}
+        {isDropdownOpen && (
+          <div ref={dropdownRef} className="dropdown-menu">
+            <DropdownMenu />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -101,4 +152,4 @@ const Navbar = () => {
   );
 };
 
-export default  Navbar;
+export default Navbar;

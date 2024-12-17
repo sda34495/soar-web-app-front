@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getData, postImage } from "@/utils/axios"; // Add postData for updating profile
 import endpoints from "@/utils/endpoints";
+import { useDispatch } from "react-redux";
+import {profileActions} from '@/store/profile-slice'
 
 interface UserProfile {
   user_name: string;
@@ -13,6 +15,7 @@ interface UserProfile {
 }
 
 const GeneralProfile = () => {
+  const dispatch = useDispatch()
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("/avatar.jpeg");
    const [loading, setLoading] = useState(true);
@@ -23,36 +26,41 @@ const GeneralProfile = () => {
     email: "",
     profile_url: "",
   });
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-       
-        const response = await getData(endpoints.GET_PROFILE_DETAILS);
-        if (response?.data?.success) {
-          const { user_name, first_name, last_name, email, profile_url } = response.data.data;
 
-          setFormData({
-            user_name: user_name || "",
-            first_name: first_name || "",
-            last_name: last_name || "",
-            email: email || "",
-            profile_url: profile_url || "/avatar.jpeg",
-          });
 
-          setImageUrl(profile_url || "/avatar.jpeg");
-          //dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: "Tuesday, 12 Nov 2024 - Wednesday, 13 Nov 2024" }));
-          
-        } else {
-          toast.error("Failed to load user data.");
-        }
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        toast.error("An error occurred while fetching user data.");
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    try {
+     
+      const response = await getData(endpoints.GET_PROFILE_DETAILS);
+      if (response?.data?.success) {
+        const { user_name, first_name, last_name, email, profile_url } = response.data.data;
+
+        setFormData({
+          user_name: user_name || "",
+          first_name: first_name || "",
+          last_name: last_name || "",
+          email: email || "",
+          profile_url: profile_url || "/avatar.jpeg",
+        });
+
+        setImageUrl(profile_url || "/avatar.jpeg");
+        dispatch(profileActions.updateNavbar({profile_url: response.data.data?.profile_url }))
+        console.log('this is dispatch', response.data.data?.profile_url  )
+      } else {
+        toast.error("Failed to load user data.");
       }
-    };
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      toast.error("An error occurred while fetching user data.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+
+
+  useEffect(() => {
+   
     fetchData();
   }, []);
 
@@ -96,6 +104,7 @@ const GeneralProfile = () => {
       setLoading(true);
       const response = await postImage(endpoints.UPDATE_PROFILE_DATA, formDataToSubmit);
       if (response?.data?.success) {
+        fetchData()
         toast.success("Profile updated successfully!");
       } else {
         toast.error("Failed to update profile.");
@@ -220,3 +229,7 @@ const GeneralProfile = () => {
 };
 
 export default GeneralProfile;
+
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}

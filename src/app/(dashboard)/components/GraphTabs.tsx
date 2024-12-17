@@ -69,7 +69,7 @@ function GraphTabs({updateActivityType }) {
 
         <button
           onClick={() => setActiveTab("sobriety")}
-          className={`w-[150px] text-[#989898] bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2  ${
+          className={`w-[280px] text-[#989898] bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2  ${
             activeTab === "sobriety" ? "bg-[#EFEFEF] font-bold text-black" : ""
           } `}
         >
@@ -103,7 +103,8 @@ function GraphTabs({updateActivityType }) {
                 />
               </svg>
             </div>
-            <label className=" text-xl">Alcohol</label>
+            <label className=" text-xl">Alcohol/No-substance</label>
+
           </div>
         </button>
       </div>

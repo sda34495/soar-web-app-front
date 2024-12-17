@@ -3,16 +3,22 @@ import React, { useEffect, useState } from "react";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 
-const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
+const FitnessCard = ({
+  updateModalTitle,
+  setIsModalOpen,
+  setIsLoading,
+}: any) => {
   const [checkInStatus, setCheckInStatus] = useState<{
     morning: boolean;
     evening: boolean;
+    progress: number; // Add progress to the state
   }>({
     morning: false,
     evening: false,
+    progress: 0, // Default progress value
   });
 
-  const [progress, setProgress] = useState<number>(0); // State for progress
+  const [shouldRefetch, setShouldRefetch] = useState(false);
 
   useEffect(() => {
     const fetchCheckInDetails = async () => {
@@ -23,29 +29,19 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
           setCheckInStatus({
             morning: data.morning || false,
             evening: data.evening || false,
+            progress: data.progress || 0, // Set the progress from the fetched data
           });
-          setProgress(data.progress || 0); // Set progress dynamically
         }
       } catch (error) {
-        console.error("Failed to fetch check-in details:", error);
+        console.log("Failed to fetch check-in details:", error);
       }
     };
-
+    if (shouldRefetch) {
+      fetchCheckInDetails();
+      setShouldRefetch(false); // Reset the refetch flag after fetching
+    }
     fetchCheckInDetails();
-  }, []);
-
-  useEffect(() => {
-    // Locally calculate progress when checkInStatus changes
-    const calculateProgress = () => {
-      const totalCheckIns = Object.values(checkInStatus).filter(Boolean).length;
-      const progressPercentage = (totalCheckIns / 2) * 100; // Assuming 2 check-ins (morning, evening)
-      setProgress(progressPercentage);
-    };
-  
-    calculateProgress();
-  }, [checkInStatus]); // Runs whenever checkInStatus changes
-
-
+  }, [shouldRefetch]);
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -65,24 +61,43 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
     };
 
     try {
+      setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
-        setTimeout(() => {
-          updateModalTitle('Finance Check-ins update successfully')
-          setIsModalOpen(true);
-        }, 500); 
-      } else {
-        toast.error("Failed to update check-in status.");
+        setShouldRefetch(true);
+        updateModalTitle("Finance Check-ins update successfully");
+        setIsModalOpen(true);
+        
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const getFormattedDate = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString("default", { month: "short" }); // "Nov"
+    return `${day}, ${month}`; // e.g., "17, Nov"
+  };
 
-  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress" 
+  const todayDate = getFormattedDate();
+
+
+
+  
+
+  const progress = parseFloat(checkInStatus.progress.toFixed(1));
+
+  const progressColor =
+    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const text =
+    progress < 50
+      ? "Hey! You’re leaving things behind"
+      : "Hurray! You're making progress";
 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md rounded-2xl">
@@ -91,8 +106,8 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold">Fitness Check-ins</h2>
           <div className="flex items-center space-x-2">
-            <span className={"bg-transparent  font-semibold " + progressColor}>
-             {text}
+            <span className={"bg-transparent  font-semibold" + progressColor}>
+              {text}
             </span>
             <div className="flex items-center">
               <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
@@ -138,7 +153,7 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
               <span className="text-gray-400">Fitness (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Fitness</span>
               <span>10 minutes</span>
             </div>
@@ -174,7 +189,7 @@ const FitnessCard = ({ updateModalTitle, setIsModalOpen }: any) => {
               <span className="text-gray-400">Fitness (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Fitness</span>
               <span>10 minutes</span>
             </div>

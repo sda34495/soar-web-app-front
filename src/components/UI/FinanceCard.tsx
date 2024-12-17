@@ -3,14 +3,19 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
+const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
 
-  const [checkInStatus, setCheckInStatus] = useState<{ morning: boolean; evening: boolean }>({
+  const [checkInStatus, setCheckInStatus] = useState<{ 
+    morning: boolean; 
+    evening: boolean;
+    progress: number; 
+  }>({
     morning: false,
     evening: false,
+    progress: 0, 
   });
 
-    const [progress, setProgress] = useState<number>(0); // State for progress
+  const [shouldRefetch, setShouldRefetch] = useState(false)
   
 
   useEffect(() => {
@@ -22,27 +27,25 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
           setCheckInStatus({
             morning: data.morning || false,
             evening: data.evening || false,
+            progress: data.progress || 0, 
           });
-          setProgress(data.progress || 0); // Set progress dynamically
+          
         }
       } catch (error) {
-        console.error("Failed to fetch check-in details:", error);
+        console.log("Failed to fetch check-in details:", error);
       }
     };
 
-    fetchCheckInDetails();
-  }, []); // Empty dependency array to make sure it runs only once when the component mounts
 
-   useEffect(() => {
-      // Locally calculate progress when checkInStatus changes
-      const calculateProgress = () => {
-        const totalCheckIns = Object.values(checkInStatus).filter(Boolean).length;
-        const progressPercentage = (totalCheckIns / 2) * 100; // Assuming 2 check-ins (morning, evening)
-        setProgress(progressPercentage);
-      };
-    
-      calculateProgress();
-    }, [checkInStatus]); // Runs whenever checkInStatus changes
+    if (shouldRefetch) {
+      fetchCheckInDetails();
+      setShouldRefetch(false); // Reset the refetch flag after fetching
+    }
+
+
+    fetchCheckInDetails();
+  }, [shouldRefetch]); // Empty dependency array to make sure it runs only once when the component mounts
+
 
 
 
@@ -65,27 +68,46 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
     };
 
     try {
+      setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
-        setTimeout(() => {
-          updateModalTitle('Finance Check-ins update successfully')
-          setIsModalOpen(true);
-        }, 500); 
-      } else {
-        toast.error('Failed to Update')
-      }
+        setShouldRefetch(true);
+        updateModalTitle('Finance Check-ins update successfully')
+        setIsModalOpen(true);
+        // setTimeout(() => {
+        // }, 500); 
+      } 
 
 
     } catch (error) {
+      toast.error("An error occurred while updating check-in status.");
+    }finally {
+      setIsLoading(false);
     }
 
   };
 
+  const getFormattedDate = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString("default", { month: "short" }); // "Nov"
+    return `${day}, ${month}`; // e.g., "17, Nov"
+  };
+
+  const todayDate = getFormattedDate();
+  
 
 
-    const progressColor = progress < 50 ? 'bg-red-600 text-red-600' : 'bg-green-600 text-green-500';
-    const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress" 
+
+  const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
+  
+  const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
+
+  
+
+
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ">
     <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
@@ -141,7 +163,7 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
               <span className="text-gray-400">Finance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Finance</span>
               <span>10 minutes</span>
             </div>
@@ -177,7 +199,7 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen} :any) => {
               <span className="text-gray-400">Finance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Finance</span>
               <span>10 minutes</span>
             </div>
