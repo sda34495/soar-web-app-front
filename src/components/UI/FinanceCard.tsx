@@ -88,6 +88,16 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
 
   };
 
+  const getFormattedDate = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString("default", { month: "short" }); // "Nov"
+    return `${day}, ${month}`; // e.g., "17, Nov"
+  };
+
+  const todayDate = getFormattedDate();
+  
+
 
 
   const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
@@ -153,7 +163,7 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
               <span className="text-gray-400">Finance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Finance</span>
               <span>10 minutes</span>
             </div>
@@ -189,7 +199,7 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
               <span className="text-gray-400">Finance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Finance</span>
               <span>10 minutes</span>
             </div>

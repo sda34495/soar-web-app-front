@@ -77,6 +77,19 @@ const FitnessCard = ({
     }
   };
 
+  const getFormattedDate = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString("default", { month: "short" }); // "Nov"
+    return `${day}, ${month}`; // e.g., "17, Nov"
+  };
+
+  const todayDate = getFormattedDate();
+
+
+
+  
+
   const progress = parseFloat(checkInStatus.progress.toFixed(1));
 
   const progressColor =
@@ -140,7 +153,7 @@ const FitnessCard = ({
               <span className="text-gray-400">Fitness (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Fitness</span>
               <span>10 minutes</span>
             </div>
@@ -176,7 +189,7 @@ const FitnessCard = ({
               <span className="text-gray-400">Fitness (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>Fitness</span>
               <span>10 minutes</span>
             </div>
