@@ -3,6 +3,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 // const url = "http://localhost:8082/api/";
 const url = process.env.NEXT_PUBLIC_API_URL;
+console.log(url)
 
 const instance = axios.create({
   baseURL: url,

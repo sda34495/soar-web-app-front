@@ -83,13 +83,13 @@ import UploadPostHandel from "./component/UploadPostHandel";
 
 const Communitypage = () => {
   const dispatch = useDispatch();
-  const postsSS = useSelector((state:any) => state); // Access posts from Redux store
-  
-  
-  console.log(" redux data",postsSS)
-  
+  const postsData = useSelector((state: any) => state.postSlice.posts); // Access posts from Redux store
 
-  const [posts , setPosts] = useState([])
+
+  console.log("Data Fixed", postsData)
+
+
+  const [posts, setPosts] = useState([])
 
   const fetchPosts = async () => {
     try {
@@ -98,24 +98,21 @@ const Communitypage = () => {
 
       if (response?.data?.success) {
         console.log("Post data before", postsData)
-        debugger
-        console.log("Post data after" , postsData)
-        
+        console.log("Post data after", postsData)
+        dispatch(postActions.updateNewData({ data: postsData }));
+
         setPosts(postsData)
       }
     } catch (error) {
       toast.error(error.message || "Error fetching posts");
     }
   };
-  
+
   useEffect(() => {
     fetchPosts(); // Fetch posts on mount
   }, []);
-  
-  useEffect(() => {
-    dispatch(postActions.updateNewData({data: "helo"})); // Update Redux state
-    // console.log("Updated posts state from Redux:", postsSS);
-  }, []);
+
+
 
   return (
     <div className="">
