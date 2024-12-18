@@ -94,7 +94,7 @@ const Notification = () => {
           type="submit"
           className="w-[220px] bg-custom-gradient hover:bg-custom-gradient-hover text-xl text-black font-bold rounded-full p-3 mt-8"
         >
-          Save Preferences
+          Save Settings
         </button>
       </form>
     </div>

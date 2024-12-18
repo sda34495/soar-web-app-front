@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     profile_url: "",
-    user_name:"",
+    user_name: "",
+    _id:""
 
 };
 
@@ -14,6 +15,7 @@ const profileSlice = createSlice({
         updateNavbar: (state, action) => {
             state.profile_url = action.payload.profile_url;
             state.user_name = action.payload.user_name;
+            state._id = action.payload._id;
             
             console.log('this is profile slice',action.payload);    
         }

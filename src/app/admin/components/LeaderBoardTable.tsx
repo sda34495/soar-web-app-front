@@ -1,26 +1,25 @@
 "use client";
+
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const LeaderboardTable = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchLeaderboardData = async () => {
   try {
     setLoading(true);
-    const response = await getData(endpoints.GET_TOP_USERS);
+    const response = await getData(endpoints.GET_ADMIN_LEADERBOARD);
     console.log("API response:", response);  // Log the full response
 
     if (response?.data?.success) {
       // Log the actual data structure
       console.log("Leaderboard data:", response.data.data);
-      setLeaderboardData(response?.data?.data); // Assuming the data is inside response.data.data
+      setLeaderboardData(response.data.data); // Assuming the data is inside response.data.data
     } else {
       setError(response?.data?.message || "Failed to fetch leaderboard data.");
     }
@@ -55,13 +54,10 @@ const LeaderboardTable = () => {
               <tr className="border-t border-gray-700 h transition-all"></tr>
             </thead>
             <tbody>
-              {
-                leaderboardData
+              {leaderboardData
                 .filter((entry: any) => parseInt(entry.rank) >= 4) // Show ranks starting from 4th
                 .map((entry: any, index: number) => (
-                  <tr key={index} className="hover:bg-gray-800 transition-all cursor-pointer"
-                  onClick={() => router.push(`/leaderboard/details/${entry._id}`)}
-                  >
+                  <tr key={index} className="hover:bg-gray-800 transition-all">
                     <td className="p-3">{entry.rank}</td>
                     <td className="p-3 flex items-center space-x-3">
                       <img

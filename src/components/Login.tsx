@@ -90,7 +90,7 @@ function Login() {
         localStorage.setItem("user", "user");
         localStorage.setItem("token", JSON.stringify(token));
         localStorage.setItem("userdetails", JSON.stringify(user));
-        router.push("/dashboard");
+        router.push("/check-in");
       } catch (error: any) {
         const errorMessage = error.response?.data?.message || "Login failed";
         console.log("Login error:", error);

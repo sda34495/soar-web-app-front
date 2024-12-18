@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
-import LeaderboardTable from "../../../components/UI/LeaderboardData";
+import LeaderBoardTable from "@/app/admin/components/LeaderBoardTable";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 
@@ -95,7 +95,7 @@ const LeaderboardPage = () => {
         </div>
       </div>
 
-      <LeaderboardTable />
+      <LeaderBoardTable/>
     </div>
   );
 };

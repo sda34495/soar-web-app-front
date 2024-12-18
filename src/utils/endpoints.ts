@@ -61,7 +61,8 @@ const endpoints = {
   GET_PROFILE_DETAILS: "profile/details",
   UPDATE_PASSWORD: "profile/change-password",
   UPATE_PROFILE_SETTINGS: "profile/notification-settings",
-  UPDATE_PROFILE_DATA: "profile/update-profile"
+  UPDATE_PROFILE_DATA: "profile/update-profile",
+  DELETE_PROFILE_IMAGE:"profile/delete-profile-image",
   
 };
 
