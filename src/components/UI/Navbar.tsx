@@ -1,19 +1,28 @@
-'use client';
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { use, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DropdownMenu from "../DropDown";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
+import store from "@/store/store";
+import { usePathname } from "next/navigation";
 
 // Function to render the Title Section
 const TitleSection = () => {
   const navdetails = useSelector((state: any) => state.navbarSlice);
+  const pathname = usePathname();
   return (
     <div className="flex flex-col justify-center min-w-[300px] w-full mx-auto lg:w-2/3 mr-8 h-full">
       <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
-        <div className="flex flex-col bg-[#121212] py-2 rounded-2xl px-4 h-full">
-          <h1 className="text-2xl font-bold">{navdetails.title}</h1>
-          <p className="text-sm mt-1 text-gray-400">{navdetails.description}</p>
+        <div className="flex items-center justify-between bg-[#121212] py-2 rounded-2xl px-4 h-full">
+          <div className="">
+            <h1 className="text-2xl font-bold">{navdetails.title}</h1>
+            <p className="text-sm mt-1 text-gray-400">
+              {navdetails.description}
+            </p>
+          </div>
+          {pathname === '/community' ? "1" :""}
+          {/* <div className="">testg</div> */}
         </div>
       </div>
     </div>
@@ -22,19 +31,19 @@ const TitleSection = () => {
 
 // Function to render the Actions and Profile Section
 const ActionsSection = () => {
-  const profiledetails = useSelector((state: any) => state.profileSlice);
-  console.log(profiledetails)
+  const profiledetails = useSelector(
+    (state: any) => state.profileSlice.profile_url
+  );
+
+  console.log(profiledetails);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  
-
-
   const [userData, setUserData] = useState({
-    first_name: '',
-    last_name: '',
-    profile_url: ''
-  })
+    first_name: "",
+    last_name: "",
+    profile_url: "",
+  });
 
   useEffect(() => {
     // Fetch profile data on mount
@@ -51,20 +60,11 @@ const ActionsSection = () => {
     fetchProfileData();
   }, []);
 
-  useEffect(() => {
-    // This will run every time the `profiledetails` changes
-    console.log('Profile details updated:', profiledetails);
-
-    // You can perform any other logic you want here, like updating local state or triggering other side effects
-  }, [profiledetails]); 
-
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev); // Toggle the dropdown state
   };
-  
-  
+
   return (
-    
     <div className="flex items-center justify-between space-x-5 border  bg-[#121212] border-[#454545] p-3 rounded-2xl lg:w-1/3 h-[58px]">
       {/* Icons */}
       <div className="flex items-center space-x-2">
@@ -72,7 +72,11 @@ const ActionsSection = () => {
           <img src="/search.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
         </button>
         <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
-          <img src="/notification.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
+          <img
+            src="/notification.svg"
+            alt=""
+            className="w-4 h-4 md:w-6 md:h-6"
+          />
         </button>
         <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
           <img src="/message.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
@@ -80,12 +84,18 @@ const ActionsSection = () => {
       </div>
       {/* User Profile */}
       <div className="relative">
-        <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleDropdown}>
-          <span className="text-sm font-medium"> {userData.first_name}  {userData.last_name} </span>
+        <div
+          className="flex items-center space-x-2 cursor-pointer"
+          onClick={toggleDropdown}
+        >
+          <span className="text-sm font-medium">
+            {" "}
+            {userData.first_name} {userData.last_name}{" "}
+          </span>
           <div className="relative">
             <img
-             src={profiledetails.profile_url || "/avatar.jpeg" }
-             alt={`${userData.first_name} ${userData.last_name}`}
+              src={`${profiledetails} `}
+              alt={`${userData.first_name} ${userData.last_name}`}
               className="h-10 w-10 rounded-full object-cover"
             />
             <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
@@ -111,4 +121,4 @@ const Navbar = () => {
   );
 };
 
-export default  Navbar;
+export default Navbar;

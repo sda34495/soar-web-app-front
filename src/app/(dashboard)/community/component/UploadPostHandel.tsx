@@ -3,32 +3,79 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PostModal from "./PostModal";
 import { CiCirclePlus } from "react-icons/ci";
+import { post, postImage } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
+import toast from "react-hot-toast";
+import Spinner from "@/components/UI/Spinner";
 
-const UploadPostHandel = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
-  
+const UploadPostHandel = ({fetchPosts}:any) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState();
+  const [loading, setLoading] = useState(false);
+  const [postData, setPostData] = useState({
+    title: "",
+    description: "",
+    allowComments: false,
+  });
 
+  const [imageUrl, setImageUrl] = useState("");
   // Handle Image Upload
   const handleImageChange = (event: any) => {
-    const file = event.target.files[0];
+    const file = event.target?.files[0];
     if (file) {
-      const reader: any = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setSelectedImage(file);
+      setImageUrl(URL.createObjectURL(file));
     }
   };
 
-  const handeleSubmit = (e: any) => {
+  const handeleSubmit = async (e: any) => {
     e.preventDefault();
+    // console.log(postData);
+    // console.log(selectedImage);
+    // setIsModalOpen(false);
+
+    const formData = new FormData();
+    formData.append("header", postData.title);
+    formData.append("description", postData.description);
+    formData.append("allow_comments", postData.allowComments.toString());
+    formData.append("media", selectedImage);
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+
+    try {
+      setLoading(true);
+      const response = await postImage(endpoints.CREATE_POST, formData);
+      console.log(response.data);
+      if (response?.data?.success) {
+        toast.success("Post created successfully.");
+        handleCloseModal();
+        fetchPosts();
+      }
+    } catch {
+      toast.error("Failed to create post.");
+    } finally {
+      setLoading(false);
+      handleCloseModal();
+    }
+  };
+
+  const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedImage(null);
+    setPostData({
+      title: "",
+      description: "",
+      allowComments: false,
+    });
   };
 
   return (
     <div>
-      <button onClick={() => setIsModalOpen(true)} className="flex flex-col cursor-pointer space-y-2 items-center justify-center bg-black border p-6 border-[#7c7c7c] border-dashed max-w-[660px] rounded-md w-full">
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="flex flex-col cursor-pointer space-y-2 items-center justify-center bg-black border p-6 border-[#7c7c7c] border-dashed max-w-[660px] rounded-md w-full"
+      >
         <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} />
         <h3>Create the post</h3>
         <p className="text-xs text-[#BDBDBD]">
@@ -37,14 +84,28 @@ const UploadPostHandel = () => {
       </button>
 
       <PostModal
-        title="Title"
+        title="Create post"
         description="Enter your details for setting up your session"
         isOpen={isModalOpen}
       >
-        <form onSubmit={handeleSubmit} action="">
-          <div className="flex flex-col space-y-4">
+        <form onSubmit={handeleSubmit}>
+          <div className="flex flex-col space-y-4 mt-2">
+            <input
+              onChange={(e) =>
+                setPostData({ ...postData, title: e.target.value })
+              }
+              value={postData.title}
+              type="text"
+              placeholder="Title"
+              required
+              className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
+            />
             <input
               type="text"
+              onChange={(e) =>
+                setPostData({ ...postData, description: e.target.value })
+              }
+              value={postData.description}
               placeholder="Description"
               required
               className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
@@ -58,9 +119,9 @@ const UploadPostHandel = () => {
                   selectedImage ? "w-96 h-64" : "w-36 h-16 p-1"
                 }`}
               >
-                {selectedImage ? (
+                {imageUrl ? (
                   <img
-                    src={selectedImage}
+                    src={imageUrl}
                     alt="Uploaded"
                     className="object-contain w-full h-full rounded-md"
                   />
@@ -79,7 +140,6 @@ const UploadPostHandel = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
-                required
               />
 
               {/* Optional Clear Button */}
@@ -96,6 +156,13 @@ const UploadPostHandel = () => {
               <label className="flex items-center cursor-pointer relative">
                 <input
                   type="checkbox"
+                  onChange={(e) =>
+                    setPostData({
+                      ...postData,
+                      allowComments: e.target.checked,
+                    })
+                  }
+                  checked={postData.allowComments}
                   className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   id="check4"
                 />
@@ -122,16 +189,26 @@ const UploadPostHandel = () => {
             </div>
 
             <div className="flex items-center space-x-3 w-full ">
-              <button onClick={() => setIsModalOpen(false)} className="bg-transparent border-[#7C7C7C] border  rounded-full p-3 w-full">
+              <button
+                onClick={handleCloseModal}
+                className="bg-transparent border-[#7C7C7C] border  rounded-full p-3 w-full"
+              >
                 {" "}
                 Cancel
               </button>
               <button
                 type="submit"
                 className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full"
+                disabled={loading}
               >
                 {" "}
-                {selectedImage ? "Publish Post" : "Next"}
+                {loading ? (
+                  <Spinner />
+                ) : selectedImage ? (
+                  "Publish Post"
+                ) : (
+                  "Next"
+                )}
               </button>
             </div>
           </div>

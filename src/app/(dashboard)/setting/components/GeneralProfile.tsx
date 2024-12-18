@@ -43,7 +43,7 @@ const GeneralProfile = () => {
           });
 
           setImageUrl(profile_url || "/avatar.jpeg");
-          dispatch(profileActions.updateNavbar({profile_url: response.data.data?.profile_url }))
+          dispatch(profileActions.updateNavbar({profile_url: response.data.data?.profile_url, user_name: response.data.data?.user_name}))
           console.log('this is dispatch', response.data.data?.profile_url  )
         } else {
           toast.error("Failed to load user data.");
