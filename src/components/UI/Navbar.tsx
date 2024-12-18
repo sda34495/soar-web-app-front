@@ -23,7 +23,6 @@ const TitleSection = () => {
 // Function to render the Actions and Profile Section
 const ActionsSection = () => {
   const profiledetails = useSelector((state: any) => state.profileSlice);
-  console.log('this is navbar', profiledetails);
 
 
 
@@ -63,10 +62,7 @@ const ActionsSection = () => {
   }, []);
 
   useEffect(() => {
-    // This will run every time the `profiledetails` changes
-    console.log("Profile details updated:", profiledetails);
-
-    // You can perform any other logic you want here, like updating local state or triggering other side effects
+    
   }, [profiledetails]);
 
   const toggleDropdown = () => {
