@@ -12,7 +12,7 @@ import NotificationDropdown from "../NotificationDropDown";
 // Function to render the Title Section
 const TitleSection = () => {
   const navdetails = useSelector((state: any) => state.navbarSlice);
-  const posts = useSelector((state: any) => state.postSlice.posts); 
+  const posts = useSelector((state: any) => state.postSlice.posts);
 
   const pathname = usePathname();
   return (
@@ -25,7 +25,11 @@ const TitleSection = () => {
               {navdetails.description}
             </p>
           </div>
-          {pathname === '/community' && posts?.length > 0 ? <UploadPostHandel/> :""}
+          {pathname === "/community" && posts?.length > 0 ? (
+            <UploadPostHandel />
+          ) : (
+            ""
+          )}
           {/* <div className="">testg</div> */}
         </div>
       </div>
@@ -37,12 +41,10 @@ const TitleSection = () => {
 const ActionsSection = () => {
   const profiledetails = useSelector((state: any) => state.profileSlice);
 
-
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Add state for notification dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const notificationRef = useRef<HTMLDivElement>(null); 
+  const notificationRef = useRef<HTMLDivElement>(null);
 
   const [userData, setUserData] = useState({
     first_name: "",
@@ -52,7 +54,7 @@ const ActionsSection = () => {
 
   useEffect(() => {
     console.log("Profile details updated:", profiledetails);
-  
+
     setUserData((prevState) => ({
       ...prevState,
       profile_url: profiledetails.profile_url || "/avatar.jpeg",
@@ -73,9 +75,7 @@ const ActionsSection = () => {
     fetchProfileData();
   }, []);
 
-  useEffect(() => {
-    
-  }, [profiledetails]);
+  useEffect(() => {}, [profiledetails]);
 
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen((prev) => !prev);
@@ -115,36 +115,27 @@ const ActionsSection = () => {
         <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
           <img src="/search.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
         </button>
-        <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
-          <img
-            src="/notification.svg"
-            alt=""
-            className="w-4 h-4 md:w-6 md:h-6"
-          />
-        </button>
-    
+
         <div className="relative">
-  {/* Button for Notification Icon */}
-  <button
-    className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
-    onClick={toggleNotificationDropdown} // onClick handler for toggling the dropdown
-  >
-    <img
-      src="/notification.svg"
-      alt="Notification Icon"
-      className="w-4 h-4 md:w-6 md:h-6"
-    />
-  </button>
+          {/* Button for Notification Icon */}
+          <button
+            className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
+            onClick={toggleNotificationDropdown} // onClick handler for toggling the dropdown
+          >
+            <img
+              src="/notification.svg"
+              alt="Notification Icon"
+              className="w-4 h-4 md:w-6 md:h-6"
+            />
+          </button>
 
-  {/* Conditional Rendering of Notification Dropdown */}
-  {isNotificationOpen && (
-    <div ref={notificationRef} className="dropdown-menu">
-      <NotificationDropdown />
-    </div>
-  )}
-</div>
-
-
+          {/* Conditional Rendering of Notification Dropdown */}
+          {isNotificationOpen && (
+            <div ref={notificationRef} className="dropdown-menu">
+              <NotificationDropdown />
+            </div>
+          )}
+        </div>
 
         <button className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl">
           <img src="/message.svg" alt="" className="w-4 h-4 md:w-6 md:h-6" />
