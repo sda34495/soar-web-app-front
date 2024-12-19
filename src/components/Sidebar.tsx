@@ -35,45 +35,41 @@ const Sidebar = () => {
     }
   }, []);
 
-
-
-
-
-
   // Use effect to set activeItem based on pathname using switch
   useEffect(() => {
-
-
     const getFormattedDate = (date: Date) => {
-      return new Intl.DateTimeFormat('en-US', {
-        weekday: 'long',   // Full day name (e.g., "Tuesday")
-        day: '2-digit',    // Day (e.g., "12")
-        month: 'short',    // Abbreviated month (e.g., "Nov")
-        year: 'numeric',   // Year (e.g., "2024")
+      return new Intl.DateTimeFormat("en-US", {
+        weekday: "long", // Full day name (e.g., "Tuesday")
+        day: "2-digit", // Day (e.g., "12")
+        month: "short", // Abbreviated month (e.g., "Nov")
+        year: "numeric", // Year (e.g., "2024")
       }).format(date);
     };
-  
+
     // Today's date
     const today = new Date();
     const formattedToday = getFormattedDate(today);
-  
+
     // Tomorrow's date
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1); // Increment day by 1
     const formattedTomorrow = getFormattedDate(tomorrow);
-  
+
     // Combine dates into the desired string
     const dateRangeString = `${formattedToday} - ${formattedTomorrow}`;
 
-
-    
     switch (pathname) {
       case "/check-in":
         setActiveItem("Check-in");
-        dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: dateRangeString }));
-        
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Welcome Back",
+            description: dateRangeString,
+          })
+        );
+
         break;
-        
+
       case "/dashboard":
         setActiveItem("Dashboard");
         dispatch(
@@ -192,7 +188,7 @@ const Sidebar = () => {
   const lodervalue = useSelector((state: any) => state.loaderSlice.isLoading);
   console.log(lodervalue);
 
-  const updateloader = (targetItem:string) => {
+  const updateloader = (targetItem: string) => {
     if (activeItem !== targetItem) {
       dispatch(endLoadingAction.endLoading(10));
     }
@@ -410,15 +406,43 @@ const Sidebar = () => {
           </div>
 
           {/* Support button handled separately */}
-          <div className="py-4">
-            <div className="mb-6 text-start">
+          {/* <div className="py-4">
+            <div className="mb-6 flex items-center text-start ">
               <button onClick={() => updateloader("Support")}>
                 <Link href="/support">
                   <li
-                    className={`font-semibold text-start px-1 py-2 rounded-xl  w-full flex items-center ${
+                    className={`font-semibold text-start px-1 py-2 rounded-xl flex items-center ${
                       pathname === "/support"
-                        ? "bg-custom-gradient font-semibold text-black  "
+                        ? "bg-custom-gradient font-semibold  text-black"
                         : " "
+                    }`}
+                  >
+                    <img
+                      src={
+                        pathname === "/support"
+                          ? "/sidebar/dark-support.svg"
+                          : "/sidebar/support.svg"
+                      }
+                      alt="Support"
+                      className="mr-4"
+                    />
+                    Support
+                  </li>
+                </Link>
+              </button>
+            </div> */}
+          <div className="py-4">
+            <div className="mb-6 flex items-center text-start">
+              <button
+                onClick={() => updateloader("Support")}
+                className="w-full" // Make the button span the full width
+              >
+                <Link href="/support">
+                  <li
+                    className={`font-semibold text-start px-1 py-2 rounded-xl flex items-center ${
+                      pathname === "/support"
+                        ? "bg-custom-gradient font-semibold text-black w-full" // Full width when selected
+                        : "w-full" // Ensures full width for non-selected too
                     }`}
                   >
                     <img
