@@ -79,6 +79,18 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading}: any) => {
     }
   };
 
+
+  const getFormattedDate = () => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString("default", { month: "short" }); // "Nov"
+    return `${day}, ${month}`; // e.g., "17, Nov"
+  };
+
+  const todayDate = getFormattedDate();
+
+
+
   const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
   
   const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
@@ -140,7 +152,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading}: any) => {
               <span className="text-gray-400">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>No-substance</span>
               <span>10 minutes</span>
             </div>
@@ -176,7 +188,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading}: any) => {
               <span className="text-gray-400">No-substance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>17, Nov</span>
+              <span>{todayDate}</span>
               <span>No-substance</span>
               <span>10 minutes</span>
             </div>

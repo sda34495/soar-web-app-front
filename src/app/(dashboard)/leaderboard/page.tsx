@@ -4,7 +4,7 @@ import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LeaderboardTable from "../../../components/UI/LeaderboardData";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-import useSidebarLoading from "@/Hook/SidebarLoading";
+import useSidebarLoading from "@/Hook/useSidebarLoading";
 
 const LeaderboardPage = () => {
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);

@@ -1,6 +1,6 @@
 'use client'
 import BookingCard from '@/components/BookingCard'
-import useSidebarLoading from '@/Hook/SidebarLoading';
+import useSidebarLoading from '@/Hook/useSidebarLoading';
 import React from 'react'
 
 const CoachingPage = () => {

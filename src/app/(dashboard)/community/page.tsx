@@ -78,8 +78,8 @@ import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 import PostCard from "./component/PostCard";
+import useSidebarLoading from "@/Hook/useSidebarLoading";
 import UploadPostHandel from "./component/UploadPostHandel";
-import useSidebarLoading from "@/Hook/SidebarLoading";
 
 const Communitypage = () => {
   const dispatch = useDispatch();
