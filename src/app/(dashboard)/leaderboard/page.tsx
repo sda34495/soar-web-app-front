@@ -5,8 +5,10 @@ import LeaderboardTable from "../../../components/UI/LeaderboardData";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
+import { useRouter } from "next/navigation";
 
 const LeaderboardPage = () => {
+  const router = useRouter();
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,7 +20,7 @@ const LeaderboardPage = () => {
 
         if (response?.data?.success) {
           const data = response.data.data.map((entry: any) => ({
-            
+            id: entry._id,
             position: entry.rank,
             username: entry.user_name || "N/A",
             points: entry.points || 0,
@@ -79,10 +81,11 @@ const LeaderboardPage = () => {
       {error && <div className="text-red-500">{error}</div>}
 
       <div className="flex justify-center items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
+        <div  className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
           {fetchedLeaderboardData.length > 0 ? (
             fetchedLeaderboardData.map((item, index) => (
-              <div className="flex-1" key={index}>
+              
+              <div onClick={() => router.push(`/leaderboard/details/${item.id}`)}className="flex-1 cursor-pointer" key={index}>
                 <LeaderboardCard
                 
                   position={item.position}
