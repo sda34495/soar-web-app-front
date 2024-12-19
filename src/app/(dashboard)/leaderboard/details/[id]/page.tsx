@@ -5,7 +5,7 @@ import { getData } from "@/utils/axios";
 import Image from "next/image";
 
 interface UserDetails {
-  _id: string;
+  
   position: string;
   username: string;
   points: number;
@@ -14,23 +14,34 @@ interface UserDetails {
   avatar: string;
 }
 
-export default function UserDetailPage({ params }: { params: { id: string } }) {
-  
+export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    const unwrapParams = async () => {
+      const unwrappedParams = await params;
+      setUserId(unwrappedParams.id);
+      console.log("harami",params)
+      
+    };
+
+    unwrapParams();
+  }, [params]);
+
+  useEffect(() => {
+    if (!userId) return;
+
     const fetchUserDetails = async () => {
       try {
-        const response = await getData(
-          `profile/details-by-id/${params.id}`
-        );
+        const response = await getData(`profile/details-by-id/${userId}`);
 
         if (response?.data?.success) {
           const user = response?.data?.data;
           setUserData({
-            _id: user._id,
+            
             position: user.rank || "unknown",
             username: user.user_name || "unknown",
             points: user.points || 0,
@@ -48,7 +59,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
     };
 
     fetchUserDetails();
-  }, [params.id]);
+  }, [userId]);
 
   return (
     <div className="flex flex-col text-white p-4">
@@ -64,7 +75,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
       </div>
 
       {/* User Details Card */}
-      <div className="p-6 border  border-zinc-800 space-y-6 max-w-30 sm:max-w-96 bg-[#141414] rounded-3xl shadow-lg">
+      <div className="p-6 border border-zinc-800 space-y-6 max-w-30 sm:max-w-96 bg-[#141414] rounded-3xl shadow-lg">
         {error ? (
           <div className="text-red-500 text-center">{error}</div>
         ) : userData ? (
@@ -73,7 +84,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
             <div className="flex items-center gap-6 relative">
               <div className="relative w-24 h-24">
                 {/* Avatar */}
-                <Image
+                <img
                   src={userData.avatar}
                   alt="User Avatar"
                   width={100}
@@ -111,16 +122,13 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                 </span>
               </div>
               <div className="flex items-center  justify-between">
-                                      
-            <span className="font-semibold text-gray-300">League</span>
-              <span className="font-semibold text-xl">
-                {userData.league.toLocaleString()}/2000
-              </span>
-            </div>
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-300">
-                  Competition
+                <span className="font-semibold text-gray-300">League</span>
+                <span className="font-semibold text-xl">
+                  {userData.league.toLocaleString()}/2000
                 </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-gray-300">Competition</span>
                 {userData.competition} / 100
               </div>
             </div>
@@ -137,6 +145,4 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
       </div>
     </div>
   );
-};
-
-
+}

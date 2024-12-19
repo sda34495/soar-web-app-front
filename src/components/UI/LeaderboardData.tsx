@@ -12,25 +12,24 @@ const LeaderboardTable = () => {
 
   useEffect(() => {
     const fetchLeaderboardData = async () => {
-  try {
-    setLoading(true);
-    const response = await getData(endpoints.GET_TOP_USERS);
-    console.log("API response:", response);  // Log the full response
+      try {
+        setLoading(true);
+        const response = await getData(endpoints.GET_TOP_USERS);
+        console.log("API response:", response); // Log the full response
 
-    if (response?.data?.success) {
-      // Log the actual data structure
-      console.log("Leaderboard data:", response.data.data);
-      setLeaderboardData(response?.data?.data); // Assuming the data is inside response.data.data
-    } else {
-      setError(response?.data?.message || "Failed to fetch leaderboard data.");
-    }
-  } catch (error: any) {
-    setError(error?.response?.data?.message || error.message || "An error occurred while fetching data.");
-  } finally {
-    setLoading(false);
-  }
-};
-
+        if (response?.data?.success) {
+          // Log the actual data structure
+          console.log("Leaderboard data:", response.data.data);
+          setLeaderboardData(response?.data?.data); // Assuming the data is inside response.data.data
+        } else {
+          setError(response?.data?.message || "Failed to fetch leaderboard data.");
+        }
+      } catch (error: any) {
+        setError(error?.response?.data?.message || error.message || "An error occurred while fetching data.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchLeaderboardData();
   }, []);
@@ -55,12 +54,13 @@ const LeaderboardTable = () => {
               <tr className="border-t border-gray-700 h transition-all"></tr>
             </thead>
             <tbody>
-              {
-                leaderboardData
+              {leaderboardData
                 .filter((entry: any) => parseInt(entry.rank) >= 4) // Show ranks starting from 4th
-                .map((entry: any, index: number) => (
-                  <tr key={index} className="hover:bg-gray-800 transition-all cursor-pointer"
-                  onClick={() => router.push(`/leaderboard/details/${entry._id}`)}
+                .map((entry: any) => (
+                  <tr
+                    key={entry._id}
+                    className="hover:bg-gray-800 transition-all cursor-pointer"
+                    onClick={() => router.push(`/leaderboard/details/${entry._id}`)} // Redirect to the correct user's detail page
                   >
                     <td className="p-3">{entry.rank}</td>
                     <td className="p-3 flex items-center space-x-3">
@@ -71,7 +71,6 @@ const LeaderboardTable = () => {
                       />
                       <span>{entry.user_name || "unknown"}</span>
                     </td>
-                 
                     <td className="p-3">{entry.points || 0}</td>
                     <td className="p-3">{entry.league || 0}</td>
                     <td className="p-3">{entry.competition || 0}</td>
