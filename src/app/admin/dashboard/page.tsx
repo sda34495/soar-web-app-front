@@ -7,6 +7,7 @@ import DashboardCard from "./component/DashboardCard";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import { useEffect, useState } from "react";
+import ScreenLoader from "@/components/UI/ScreenLoader";
 
 const DashboardPage = () => {
   const [loading, setLoading] = useState(false);
@@ -15,8 +16,10 @@ const DashboardPage = () => {
   const [analysis, setAnalysis] = useState([]);
   const [leaderboard, setLeaserboard] = useState([]);
 
+
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await getData(endpoints.GET_ADMIN_DATA);
       if (response?.data?.success) {
         setData(response.data.data);
@@ -65,6 +68,8 @@ const DashboardPage = () => {
     } catch (err) {
       console.log("Error fetching leaderboard data:", err);
       throw err;
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -96,6 +101,7 @@ const DashboardPage = () => {
   useSidebarLoading();
   return (
     <>
+    {loading && <ScreenLoader/>}
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {userCard?.map((card, index) => (
