@@ -6,14 +6,17 @@ import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import store from "@/store/store";
 import { usePathname } from "next/navigation";
+import UploadPostHandel from "@/app/(dashboard)/community/component/UploadPostHandel";
 
 // Function to render the Title Section
 const TitleSection = () => {
   const navdetails = useSelector((state: any) => state.navbarSlice);
+  const posts = useSelector((state: any) => state.postSlice.posts); 
+
   const pathname = usePathname();
   return (
     <div className="flex flex-col justify-center min-w-[300px] w-full mx-auto lg:w-2/3 mr-8 h-full">
-      <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
+      <div className="bg-gradient-to-b from-[#454545] to-[#050404] p-[1px] rounded-2xl">
         <div className="flex items-center justify-between bg-[#121212] py-2 rounded-2xl px-4 h-full">
           <div className="">
             <h1 className="text-2xl font-bold">{navdetails.title}</h1>
@@ -21,7 +24,7 @@ const TitleSection = () => {
               {navdetails.description}
             </p>
           </div>
-          {pathname === '/community' ? "1" :""}
+          {pathname === '/community' && posts?.length > 0 ? <UploadPostHandel/> :""}
           {/* <div className="">testg</div> */}
         </div>
       </div>

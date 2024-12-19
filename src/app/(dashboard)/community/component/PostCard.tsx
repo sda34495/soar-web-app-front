@@ -8,8 +8,10 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { RiShareLine } from "react-icons/ri";
 import Comments from "./Comments";
+import { useDispatch, useSelector } from "react-redux";
+import { postActions } from "@/store/post-data";
 
-const PostCard = ({ posts , fetchPosts}: any) => {
+const PostCard = () => {
   // const [posts, setPosts] = useState([
   //   {
   //     id: 1,
@@ -40,9 +42,27 @@ const PostCard = ({ posts , fetchPosts}: any) => {
   //   },
   // ]);
 
-
+  const posts = useSelector((state: any) => state.postSlice.posts);
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
+  const dispatch = useDispatch();
+
+
+
+  const fetchPosts = async () => {
+    try {
+      const response = await getData(endpoints.GET_POSTS);
+      const postsData = response.data.data;
+
+      if (response?.data?.success) {
+        console.log("Post data before", postsData)
+        console.log("Post data after", postsData)
+        dispatch(postActions.updateNewData({ data: postsData }));
+      }
+    } catch (error) {
+      toast.error(error.message || "Error fetching posts");
+    }
+  };
 
   const handleCommentToggle = async (postId: any) => {
     if (activePostId !== postId) {

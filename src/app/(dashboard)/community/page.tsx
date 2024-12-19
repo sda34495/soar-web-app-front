@@ -70,7 +70,6 @@
 
 // export default Communitypage;
 
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -80,16 +79,15 @@ import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 import PostCard from "./component/PostCard";
 import UploadPostHandel from "./component/UploadPostHandel";
+import useSidebarLoading from "@/Hook/SidebarLoading";
 
 const Communitypage = () => {
   const dispatch = useDispatch();
-  const postsData = useSelector((state: any) => state.postSlice.posts); // Access posts from Redux store
+  const posts = useSelector((state: any) => state.postSlice.posts); // Access posts from Redux store
 
+  // console.log("Data Fixed", postsData)
 
-  console.log("Data Fixed", postsData)
-
-
-  const [posts, setPosts] = useState([])
+  // const [posts, setPosts] = useState([])
 
   const fetchPosts = async () => {
     try {
@@ -97,11 +95,11 @@ const Communitypage = () => {
       const postsData = response.data.data;
 
       if (response?.data?.success) {
-        console.log("Post data before", postsData)
-        console.log("Post data after", postsData)
+        console.log("Post data before", postsData);
+        console.log("Post data after", postsData);
         dispatch(postActions.updateNewData({ data: postsData }));
 
-        setPosts(postsData)
+        // setPosts(postsData)
       }
     } catch (error) {
       toast.error(error.message || "Error fetching posts");
@@ -112,14 +110,15 @@ const Communitypage = () => {
     fetchPosts(); // Fetch posts on mount
   }, []);
 
-
+  useSidebarLoading();
 
   return (
     <div className="">
       {posts?.length > 0 ? (
-        <PostCard posts={posts} fetchPosts={fetchPosts} />
+        <PostCard />
       ) : (
         <div className="">
+          <UploadPostHandel  nav={false}/>
           <div className="flex flex-col items-center justify-center text-center w-[500px] h-[350px] ">
             <div className="flex flex-col max-w-[250px] items-center justify-center p-3 space-y-2">
               <h3>No Post available</h3>
@@ -130,7 +129,6 @@ const Communitypage = () => {
           </div>
         </div>
       )}
-      <UploadPostHandel fetchPosts={fetchPosts} />
     </div>
   );
 };

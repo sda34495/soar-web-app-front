@@ -3,12 +3,14 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PostModal from "./PostModal";
 import { CiCirclePlus } from "react-icons/ci";
-import { post, postImage } from "@/utils/axios";
+import { getData, post, postImage } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 import Spinner from "@/components/UI/Spinner";
+import { useDispatch } from "react-redux";
+import { postActions } from "@/store/post-data";
 
-const UploadPostHandel = ({fetchPosts}:any) => {
+const UploadPostHandel = ({nav = true}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(false);
@@ -18,6 +20,7 @@ const UploadPostHandel = ({fetchPosts}:any) => {
     allowComments: false,
   });
 
+  const dispatch = useDispatch();
   const [imageUrl, setImageUrl] = useState("");
   // Handle Image Upload
   const handleImageChange = (event: any) => {
@@ -28,11 +31,23 @@ const UploadPostHandel = ({fetchPosts}:any) => {
     }
   };
 
+  const fetchPosts = async () => {
+    try {
+      const response = await getData(endpoints.GET_POSTS);
+      const postsData = response.data.data;
+
+      if (response?.data?.success) {
+        console.log("Post data before", postsData);
+        console.log("Post data after", postsData);
+        dispatch(postActions.updateNewData({ data: postsData }));
+      }
+    } catch (error) {
+      toast.error(error.message || "Error fetching posts");
+    }
+  };
   const handeleSubmit = async (e: any) => {
     e.preventDefault();
-    // console.log(postData);
-    // console.log(selectedImage);
-    // setIsModalOpen(false);
+    
 
     const formData = new FormData();
     formData.append("header", postData.title);
@@ -72,16 +87,27 @@ const UploadPostHandel = ({fetchPosts}:any) => {
 
   return (
     <div>
+      {!nav ? (
       <button
         onClick={() => setIsModalOpen(true)}
         className="flex flex-col cursor-pointer space-y-2 items-center justify-center bg-black border p-6 border-[#7c7c7c] border-dashed max-w-[660px] rounded-md w-full"
       >
         <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} />
+        
         <h3>Create the post</h3>
         <p className="text-xs text-[#BDBDBD]">
           For showing your success and watching other growing
         </p>
+      </button>) : (
+        <button
+        onClick={() => setIsModalOpen(true)}
+        className="cursor-pointer space-y-2 items-center justify-center bg-white text-black font-extrabold text-xl  border p-2  rounded-2xl "
+      >
+        {/* <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} /> */}
+        <h3>Create Post</h3>
+        
       </button>
+      )}
 
       <PostModal
         title="Create post"
