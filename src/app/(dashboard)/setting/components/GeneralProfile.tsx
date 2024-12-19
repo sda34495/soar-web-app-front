@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { getData, postImage } from "@/utils/axios"; // Add postData for updating profile
+import { getData, post, postImage } from "@/utils/axios"; // Add postData for updating profile
 import endpoints from "@/utils/endpoints";
 import { useDispatch } from "react-redux";
 import {profileActions} from '@/store/profile-slice'
@@ -72,8 +72,18 @@ const GeneralProfile = () => {
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileInput = e.target;
     const file = e.target.files?.[0];
     if (file) {
+      const maxSizeInMB = 1; // Maximum file size in MB
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Convert MB to Bytes
+  
+      if (file.size > maxSizeInBytes) {
+        toast.error(`File size exceeds ${maxSizeInMB} MB. Please select a smaller file.`);
+        fileInput.value = "";
+        return;
+      }
+  
       setImage(file);
       setImageUrl(URL.createObjectURL(file)); // Display the selected image
     }
@@ -82,10 +92,7 @@ const GeneralProfile = () => {
     return <p>Loading...</p>;
   }
 
-  const handleDeleteImage = () => {
-    setImage(null);
-    setImageUrl("/avatar.jpeg"); // Reset to default avatar image
-  };
+ 
 
   // Local postData function
 
@@ -115,7 +122,25 @@ const GeneralProfile = () => {
       setLoading(false);
     }
   };
-
+  const handleDeleteImage = async (e: React.FormEvent) => {
+    setImage(null);
+    setImageUrl("/avatar.jpeg");
+    try {
+      const imageDataSubmit = new FormData();
+      imageDataSubmit.append("profile_image", null);
+    
+        
+        const response = await post(endpoints.DELETE_PROFILE_IMAGE, imageDataSubmit);
+        if (response?.data?.success) {
+          fetchData();
+          toast.success("Image deleted successfully");
+        
+      }
+      } catch (error) {
+        toast.error("something went wrong");
+      }
+   // Reset to default avatar image
+  };
   return (
     <div>
       <div className="flex flex-col md:flex-row items-center justify-start space-x-4 mb-6">
@@ -131,6 +156,7 @@ const GeneralProfile = () => {
             className="hidden"
             id="image-upload"
             onChange={handleImageUpload}
+            accept="image/jpeg, image/png, image/gif, image/webp"
           />
         </div>
         <button
@@ -143,7 +169,12 @@ const GeneralProfile = () => {
         <button
           type="button"
           onClick={handleDeleteImage}
-          className="w-[220px] border-2 text-xl border-[#7c7c7c] text-[#F8F8F8] font-medium rounded-full p-3 mt-8"
+          disabled={imageUrl === "/avatar.jpeg"} 
+          className={`w-[220px] border-2 text-xl font-medium rounded-full p-3 mt-8 ${
+            imageUrl === "/avatar.jpeg" 
+              ? "border-gray-500 text-gray-500 cursor-not-allowed" // Disabled styles
+              : "border-[#7c7c7c] text-[#F8F8F8]" // Enabled styles
+          }`}
         >
           Delete image
         </button>

@@ -66,6 +66,7 @@ const endpoints = {
   GET_POSTS: "community/posts",
   GET_POST_COMMENTS: "community/comments",
   CREATE_COMMENT: "community/create-comment",
+  DELETE_PROFILE_IMAGE:"profile/delete-profile-image",
   
 };
 
