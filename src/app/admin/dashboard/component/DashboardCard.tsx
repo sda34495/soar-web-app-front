@@ -46,7 +46,7 @@ const DashboardCard = ({
           </button>
         </div>
         <p className="text-2xl font-bold mt-2">{users}</p>
-        <p className="text-sm text-[#BDBDBD]">{description}</p>
+        <p className="text-sm text-[#BDBDBD]">Total users who have signed in.</p>
        
       </div>
     </div>
