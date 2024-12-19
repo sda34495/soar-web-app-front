@@ -44,7 +44,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
             
             position: user.rank || "unknown",
             username: user.user_name || "unknown",
-            points: user.points || 0,
+            points: user.total_points || 0,
             league: user.league || 0,
             competition: user.activity_type || 0,
             avatar: user.profile_url || "/avatar.jpeg",
@@ -85,12 +85,12 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               <div className="relative w-24 h-24">
                 {/* Avatar */}
                 <img
-                  src={userData.avatar}
-                  alt="User Avatar"
-                  width={100}
-                  height={100}
-                  className="rounded-full border-4 border-[#09DE7A] object-cover"
-                />
+                src={userData.avatar}
+                alt={userData.username}
+                className="h-24 w-24 rounded-full object-cover border-2 border-white"
+                onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
+                
+              />
                 {/* Online Status Indicator */}
                 <div className="absolute bottom-0 right-0 bg-[#09DE7A] h-5 w-5 rounded-full border-2 border-[#141414]"></div>
               </div>
