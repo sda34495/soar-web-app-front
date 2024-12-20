@@ -22,8 +22,12 @@ const Sidebar = () => {
   // const user = localStorage.getItem("user");
   // console.log(user);
 
+
+
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    
     if (storedUser !== null) {
       if (storedUser === "admin") {
         setUserType("admin");
@@ -405,32 +409,7 @@ const Sidebar = () => {
             </ul>
           </div>
 
-          {/* Support button handled separately */}
-          {/* <div className="py-4">
-            <div className="mb-6 flex items-center text-start ">
-              <button onClick={() => updateloader("Support")}>
-                <Link href="/support">
-                  <li
-                    className={`font-semibold text-start px-1 py-2 rounded-xl flex items-center ${
-                      pathname === "/support"
-                        ? "bg-custom-gradient font-semibold  text-black"
-                        : " "
-                    }`}
-                  >
-                    <img
-                      src={
-                        pathname === "/support"
-                          ? "/sidebar/dark-support.svg"
-                          : "/sidebar/support.svg"
-                      }
-                      alt="Support"
-                      className="mr-4"
-                    />
-                    Support
-                  </li>
-                </Link>
-              </button>
-            </div> */}
+          
           <div className="py-4">
             <div className="mb-6 flex items-center text-start">
               <button

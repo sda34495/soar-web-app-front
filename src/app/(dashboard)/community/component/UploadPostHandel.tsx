@@ -10,7 +10,7 @@ import Spinner from "@/components/UI/Spinner";
 import { useDispatch } from "react-redux";
 import { postActions } from "@/store/post-data";
 
-const UploadPostHandel = ({nav = true}) => {
+const UploadPostHandel = ({ nav = true }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,6 @@ const UploadPostHandel = ({nav = true}) => {
   };
   const handeleSubmit = async (e: any) => {
     e.preventDefault();
-    
 
     const formData = new FormData();
     formData.append("header", postData.title);
@@ -88,25 +87,30 @@ const UploadPostHandel = ({nav = true}) => {
   return (
     <div>
       {!nav ? (
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="flex flex-col cursor-pointer space-y-2 items-center justify-center bg-black border p-6 border-[#7c7c7c] border-dashed max-w-[660px] rounded-md w-full"
-      >
-        <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} />
-        
-        <h3>Create the post</h3>
-        <p className="text-xs text-[#BDBDBD]">
-          For showing your success and watching other growing
-        </p>
-      </button>) : (
         <button
-        onClick={() => setIsModalOpen(true)}
-        className="cursor-pointer space-y-2 items-center justify-center bg-white text-black font-extrabold text-xl  border p-2  rounded-2xl "
-      >
-        {/* <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} /> */}
-        <h3>Create Post</h3>
-        
-      </button>
+          onClick={() => setIsModalOpen(true)}
+          className="flex flex-col cursor-pointer space-y-2 items-center justify-center bg-black border p-6 border-[#7c7c7c] border-dashed max-w-[660px] rounded-md w-full"
+        >
+          <Image
+            src="/plus.svg"
+            alt="plus icon w-5 h-5"
+            width={30}
+            height={30}
+          />
+
+          <h3>Create the post</h3>
+          <p className="text-xs text-[#BDBDBD]">
+            For showing your success and watching other growing
+          </p>
+        </button>
+      ) : (
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="cursor-pointer space-y-2 items-center justify-center bg-white text-black font-extrabold text-xl  border p-2  rounded-2xl "
+        >
+          {/* <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} /> */}
+          <h3>Create Post</h3>
+        </button>
       )}
 
       <PostModal
@@ -126,8 +130,9 @@ const UploadPostHandel = ({nav = true}) => {
               required
               className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
             />
-            <input
-              type="text"
+          
+
+            <textarea
               onChange={(e) =>
                 setPostData({ ...postData, description: e.target.value })
               }
@@ -135,7 +140,9 @@ const UploadPostHandel = ({nav = true}) => {
               placeholder="Description"
               required
               className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
+              rows={2} 
             />
+
             {/* <input type="image" placeholder="Description" className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"/> */}
             <div className="flex flex-col items-start ">
               {/* Upload Button */}

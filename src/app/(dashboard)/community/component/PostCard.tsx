@@ -75,18 +75,16 @@ const PostCard = () => {
       );
       if (response.data?.success) {
         setActiveComments(response.data.data);
-        fetchPosts();
+       
       }
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
-
-
-  useEffect(() => {
-    console.log(activeComments);
-  }, [activeComments]);
+  // useEffect(() => {
+  //   console.log(activeComments);
+  // }, [activeComments]);
 
   return (
     <div className="flex flex-col p-6  space-y-8 w-auto ">
@@ -98,7 +96,7 @@ const PostCard = () => {
               <div className="flex items-center space-x-4">
                 <img
                   src={`${
-                    post?.user?.profile_url || "https://via.placeholder.com/150"
+                    post?.user?.profile_url || "/avatar.jpeg"
                   }`} // Replace with actual avatar
                   alt={post.user?.user_name || "User"}
                   className="rounded-full w-10 h-10 object-cover"
@@ -156,78 +154,9 @@ const PostCard = () => {
             postData={post}
             activePostId={activePostId}
             setActivePostId={setActivePostId}
-            // newComment={newComment}
-            // setNewComment={setNewComment}
             handleCommentToggle={handleCommentToggle}
             activeComments={activeComments}
           />
-
-          {/* {activePostId === post._id && (
-            <div className="w-full bg-[#121212] p-6 rounded-r-lg shadow-lg max-w-[360px] ">
-              <div className="flex items-center justify-between">
-                <p className="text-white ">Comments</p>
-                <BsThreeDotsVertical />
-              </div>
-              <form className="">
-                <textarea
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Add your comment"
-                  rows={2}
-                  className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
-                />
-                <div className="flex items-center justify-end space-x-4 mt-2">
-                  <button
-                    onClick={() => setActivePostId(null)}
-                    className="bg-transparent border-[#7C7C7C] border  rounded-full p-3 w-full"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={(e) => handleAddComment(post._id, e)}
-                    type="submit"
-                    className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full"
-                  >
-                    Comment
-                  </button>
-                </div>
-              </form>
-              <div className="mt-6 overflow-y-auto max-h-[350px] p-2">
-                {activeComments?.map((comment: any, index: any) => (
-                  <div
-                    key={index}
-                    className={`flex items-center justify-between space-x-6 my-3 ${
-                      index === 0 ? "border-t border-gray-700" : "" // First comment gets top border
-                    } ${
-                      index === activeComments.length - 1
-                        ? "border-b border-gray-700"
-                        : "" // Last comment gets bottom border
-                    } ${
-                      index !== 0 ? "border-t border-gray-700" : "" // All others get top border
-                    } pt-4`}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <img
-                        src="https://via.placeholder.com/30" // Replace with actual avatar
-                        alt="Avatar"
-                        className="rounded-full w-8 h-8"
-                      />
-                      <div>
-                        <p className="text-xs text-[#BDBDBD]">Name</p>
-                        <p className="text-sm text-white">{comment.comment}</p>
-                        <button className="text-xs text-[#BDBDBD] hover:text-white">
-                          reply
-                        </button>
-                      </div>
-                    </div>
-                    <div>
-                      <IoMdHeartEmpty />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )} */}
         </div>
       ))}
     </div>

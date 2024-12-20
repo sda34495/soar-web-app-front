@@ -56,15 +56,12 @@ const Comments = ({
       setReplyOpen(null);
       setReplyText("");
     }
-
-    // setPosts(updatedPosts);
-    // setActivePostId(null);
   };
 
   useEffect(() => {
     console.log(newComment);
     console.log(activeComments);
-  }, [newComment]);
+  }, [newComment, activeComments]);
 
   return (
     <div>
@@ -115,7 +112,7 @@ const Comments = ({
                   <div className="flex flex-row items-center justify-between w-full  ">
                     <div className="flex items-center space-x-2">
                       <img
-                        src="https://via.placeholder.com/30" // Replace with actual avatar
+                        src="/avatar.jpeg" // Replace with actual avatar
                         alt="Avatar"
                         className="rounded-full w-8 h-8"
                       />
