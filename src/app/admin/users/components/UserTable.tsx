@@ -1,40 +1,60 @@
 "use client";
-import { getData } from "@/utils/axios";
+import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
-
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);  
-  
+  const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(null); // Track user being deleted
+
   const rowsPerPage = 10;
 
-  
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      setError(null);
+  const fetchUsers = async () => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const response = await getData("/admin/users"); // Adjust endpoint as needed
-        if (response.data && response.data.success) {
-          setUsers(response.data.data);
-        } else {
-          throw new Error(response.data.message || "Failed to fetch users");
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+    try {
+      const response = await getData("admin/users"); // Adjust endpoint as needed
+      if (response.data && response.data.success) {
+        setUsers(response.data.data);
+        console.log(response?.data.data)
+      } else {
+        throw new Error(response.data.message || "Failed to fetch users");
       }
-    };
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
+  const handleDelete = async (userId) => {
+    const confirmDelete = confirm("Are you sure you want to delete this user?");
+    if (!confirmDelete) return;
 
+    setDeleting(userId); // Indicate the user being deleted
+    try {
+      // Pass an empty object as the second argument for the POST request
+      const response = await post("admin/delete-user", { user_id: userId });
+      if (response.data && response.data.success) {
+        alert("User deleted successfully.");
+        // Refetch the users to stay fully synchronized
+        fetchUsers();
+      } else {
+        throw new Error(response.data.message || "Failed to delete user");
+      }
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    } finally {
+      setDeleting(null); // Reset the deleting state
+    }
+  };
 
   const totalPages = Math.ceil(users.length / rowsPerPage);
 
@@ -70,7 +90,7 @@ const UserTable = () => {
               <th className="p-3">User name</th>
               <th className="p-3">Email</th>
               <th className="p-3">Points</th>
-              
+              <th className="p-3">Actions</th>
             </tr>
             <tr className="border-t border-gray-700 h transition-all"></tr>
           </thead>
@@ -83,17 +103,27 @@ const UserTable = () => {
                 </td>
                 <td className="p-3 flex items-center space-x-3">
                   <img
-                    src={user.profile_url || '/avatar.jpeg'}
+                    src={user.profile_url || "/avatar.jpeg"}
                     alt={user.first_name}
                     className="h-8 w-8 rounded-full object-cover"
                   />
                   <span>{`${user.first_name} ${user.last_name || ""}`}</span>
-                  </td>
+                </td>
                 <td className="p-3">{user.email}</td>
                 <td className="p-3">{user.total_points}</td>
                 <td className="px-4 py-2 space-x-2 flex gap-2">
-                  <button className="text-red-500 hover:underline">
-                    <img src="/delete.svg" alt="delete icon" />
+                  <button
+                    onClick={() => handleDelete(user._id)}
+                    disabled={deleting === user._id}
+                    className={`text-red-500 hover:underline ${
+                      deleting === user._id ? "opacity-50" : ""
+                    }`}
+                  >
+                    {deleting === user._id ? (
+                      "Deleting..."
+                    ) : (
+                      <img src="/delete.svg" alt="delete icon" />
+                    )}
                   </button>
                   <button className="text-blue-500 hover:underline">
                     <img src="/eye.svg" alt="eye icon" />
