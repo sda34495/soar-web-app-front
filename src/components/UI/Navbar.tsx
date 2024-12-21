@@ -106,6 +106,8 @@ const ActionsSection = () => {
     
         <div className="relative">
   {/* Button for Notification Icon */}
+  <div ref={notificationRef} className="dropdown-menu">
+
   <button
     className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
     onClick={toggleNotificationDropdown} // onClick handler for toggling the dropdown
@@ -114,14 +116,13 @@ const ActionsSection = () => {
       src="/notification.svg"
       alt="Notification Icon"
       className="w-4 h-4 md:w-6 md:h-6"
-    />
+      />
   </button>
+      </div>
 
   {/* Conditional Rendering of Notification Dropdown */}
   {isNotificationOpen && (
-    <div ref={notificationRef} className="dropdown-menu">
       <NotificationDropdown />
-    </div>
   )}
 </div>
 
@@ -133,6 +134,7 @@ const ActionsSection = () => {
       </div>
       {/* User Profile */}
       <div className="relative">
+      <div ref={dropdownRef} className="dropdown-menu">
         <div
           className="flex items-center space-x-2 cursor-pointer"
           onClick={toggleDropdown}
@@ -149,12 +151,11 @@ const ActionsSection = () => {
             />
             <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
           </div>
+      </div>
         </div>
         {/* Render the DropdownMenu component conditionally and this will close when click outside */}
         {isDropdownOpen && (
-          <div ref={dropdownRef} className="dropdown-menu">
             <DropdownMenu />
-          </div>
         )}
       </div>
     </div>
