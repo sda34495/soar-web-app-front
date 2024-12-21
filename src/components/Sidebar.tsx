@@ -9,23 +9,43 @@ import { HiOutlineUserGroup } from "react-icons/hi";
 import { Router } from "next/router";
 import LoadingBar from "react-top-loading-bar";
 import { MdHealthAndSafety } from "react-icons/md";
+import { getData } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
+import toast from "react-hot-toast";
+import { profileActions } from "@/store/profile-slice";
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
   console.log(pathname);
-  // const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
 
   const router = useRouter();
-  // const user = localStorage.getItem("user");
-  // console.log(user);
+
+  let userdata = {} ;
+
+  const fetchData = async () => {
+    try {
+     
+      const response = await getData(endpoints.GET_PROFILE_DETAILS);
+      if (response?.data?.success) {
+        dispatch(profileActions.updateUserProfile({ data: response.data.data }))
+
+      } else {
+        toast.error("Failed to load user data.");
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      toast.error("An error occurred while fetching user data.");
+    } 
+  };
 
 
 
-
+  
   useEffect(() => {
+    fetchData();
     const storedUser = localStorage.getItem("user");
     
     if (storedUser !== null) {

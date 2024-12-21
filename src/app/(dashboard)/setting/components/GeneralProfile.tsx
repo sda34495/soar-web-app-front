@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getData, post, postImage } from "@/utils/axios"; // Add postData for updating profile
 import endpoints from "@/utils/endpoints";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {profileActions} from '@/store/profile-slice'
 
 interface UserProfile {
@@ -18,7 +18,7 @@ const GeneralProfile = () => {
   const dispatch = useDispatch()
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("/avatar.jpeg");
-   const [loading, setLoading] = useState(true);
+   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<UserProfile>({
     user_name: "",
     first_name: "",
@@ -28,40 +28,37 @@ const GeneralProfile = () => {
   });
 
 
+  const userData = useSelector((state: any) => state.profileSlice.user);
+  console.log("General profile " , userData)
+
+
+  useEffect(() => {
+    setFormData({
+      user_name: userData.user_name || "",
+      first_name: userData.first_name || "",
+      last_name: userData.last_name || "",
+      email: userData.email || "",
+      profile_url: userData.profile_url,
+    });
+    setImageUrl(userData.profile_url || "/avatar.jpeg");
+    
+  }, [userData]);
+
   const fetchData = async () => {
     try {
      
       const response = await getData(endpoints.GET_PROFILE_DETAILS);
       if (response?.data?.success) {
-        const { user_name, first_name, last_name, email, profile_url } = response.data.data;
+        dispatch(profileActions.updateUserProfile({ data: response.data.data }))
 
-        setFormData({
-          user_name: user_name || "",
-          first_name: first_name || "",
-          last_name: last_name || "",
-          email: email || "",
-          profile_url: profile_url || "/avatar.jpeg",
-        });
-
-        setImageUrl(profile_url || "/avatar.jpeg");
-        dispatch(profileActions.updateNavbar({profile_url: response.data.data?.profile_url }))
       } else {
         toast.error("Failed to load user data.");
       }
     } catch (err) {
       console.error("Error fetching user data:", err);
       toast.error("An error occurred while fetching user data.");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
-
-
-
-  useEffect(() => {
-   
-    fetchData();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

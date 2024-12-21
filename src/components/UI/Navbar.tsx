@@ -39,44 +39,15 @@ const TitleSection = () => {
 
 // Function to render the Actions and Profile Section
 const ActionsSection = () => {
-  const profiledetails = useSelector((state: any) => state.profileSlice);
-
+  // console.log("profiledetails", profiledetails);
+  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Add state for notification dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
-
-  const [userData, setUserData] = useState({
-    first_name: "",
-    last_name: "",
-    profile_url: "",
-  });
-
-  useEffect(() => {
-    console.log("Profile details updated:", profiledetails);
-
-    setUserData((prevState) => ({
-      ...prevState,
-      profile_url: profiledetails.profile_url || "/avatar.jpeg",
-    }));
-  }, [profiledetails]);
-
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await getData(endpoints.GET_PROFILE_DETAIL);
-        const { first_name, last_name, profile_url } = response.data.data;
-        setUserData({ first_name, last_name, profile_url });
-      } catch (error) {
-        console.log("Failed to fetch profile data:", error);
-      }
-    };
-
-    fetchProfileData();
-  }, []);
-
-  useEffect(() => {}, [profiledetails]);
-
+  // Getting all user data from user profile slice
+  const userData = useSelector((state: any) => state.profileSlice.user);
+  
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen((prev) => !prev);
   };
@@ -153,7 +124,7 @@ const ActionsSection = () => {
           </span>
           <div className="relative">
             <img
-              src={profiledetails.profile_url || "/avatar.jpeg"}
+              src={userData.profile_url || "/avatar.jpeg"}
               alt={`${userData.first_name} ${userData.last_name}`}
               className="h-10 w-10 rounded-full object-cover"
             />
