@@ -13,8 +13,7 @@ const navbarSlice = createSlice({
     reducers: {
         updateNavbar: (state, action) => {
             state.title = action.payload.title;
-            state.description = action.payload.description;
-            console.log(action.payload);    
+            state.description = action.payload.description;  
         }
     }
 });

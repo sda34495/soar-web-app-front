@@ -9,7 +9,7 @@ const profileSlice = createSlice({
     reducers: {
         updateUserProfile: (state, action) => {
             state.user = action.payload.data;
-            console.log("Updated user in Redux:", action.payload.data);
+            // console.log("Updated user in Redux:", action.payload.data);
         }
 
     }

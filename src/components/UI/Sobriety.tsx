@@ -3,44 +3,44 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading}: any) => {
-  const [checkInStatus, setCheckInStatus] = useState<{
-    morning: boolean;
-    evening: boolean;
-    progress: number;
-  }>({
-    morning: false,
-    evening: false,
-    progress: 0,
-  });
+const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
+  // const [checkInStatus, setCheckInStatus] = useState<{
+  //   morning: boolean;
+  //   evening: boolean;
+  //   progress: number;
+  // }>({
+  //   morning: false,
+  //   evening: false,
+  //   progress: 0,
+  // });
 
   const [shouldRefetch, setShouldRefetch] = useState(false)
 
-  useEffect(() => {
-    const fetchCheckInDetails = async () => {
-      try {
-        const response = await getData(endpoints.GET_CHECK_IN_DATA);
-        if (response.data?.success) {
-          const data = response.data?.data?.check_in_details?.sobriety || {};
-          setCheckInStatus({
-            morning: data.morning || false,
-            evening: data.evening || false,
-            progress: data.progress || 0,
-          });
-        }
-      } catch (error) {
-        console.log("Failed to fetch check-in details:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCheckInDetails = async () => {
+  //     try {
+  //       const response = await getData(endpoints.GET_CHECK_IN_DATA);
+  //       if (response.data?.success) {
+  //         const data = response.data?.data?.check_in_details?.sobriety || {};
+  //         setCheckInStatus({
+  //           morning: data.morning || false,
+  //           evening: data.evening || false,
+  //           progress: data.progress || 0,
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.log("Failed to fetch check-in details:", error);
+  //     }
+  //   };
 
-    if (shouldRefetch) {
-      fetchCheckInDetails();
-      setShouldRefetch(false); // Reset the refetch flag after fetching
-    }
+  //   if (shouldRefetch) {
+  //     fetchCheckInDetails();
+  //     setShouldRefetch(false); // Reset the refetch flag after fetching
+  //   }
 
-    // Fetch the data on mount only (empty dependency array ensures this effect runs only once)
-    fetchCheckInDetails();
-  }, [shouldRefetch]);
+  //   // Fetch the data on mount only (empty dependency array ensures this effect runs only once)
+  //   fetchCheckInDetails();
+  // }, [shouldRefetch]);
 
 
 
@@ -53,8 +53,12 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading}: any) => {
     // Update the state to reflect the checkbox change (this won't trigger re-fetching)
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
-      [timeOfDay]: checked,
+      sobriety: {
+        ...prevStatus.sobriety,
+        [timeOfDay]: checked, // Dynamically update morning or evening
+      },
     }));
+  
 
     // Prepare the request data
     const data = {
@@ -67,7 +71,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading}: any) => {
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
-        setShouldRefetch(true);
+        fetchCheckInDetails();
         updateModalTitle("Finance Check-ins update successfully");
         setIsModalOpen(true);
         

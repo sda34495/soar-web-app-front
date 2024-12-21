@@ -18,7 +18,7 @@ const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
-  console.log(pathname);
+  // console.log(pathname);
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -210,7 +210,7 @@ const Sidebar = () => {
   }, [pathname]);
 
   const lodervalue = useSelector((state: any) => state.loaderSlice.isLoading);
-  console.log(lodervalue);
+  // console.log(lodervalue);
 
   const updateloader = (targetItem: string) => {
     if (activeItem !== targetItem) {

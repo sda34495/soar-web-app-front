@@ -3,29 +3,8 @@ import endpoints from "@/utils/endpoints";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const CheckinCard = () => {
-  const [checkInDetails, setCheckInDetails] = useState({
-    total_minutes_spent: 0,
-    pending_check_ins: 0,
-    total_done: 0,
-    total_progress: "0",
-  });
+const CheckinCard = ({checkInDetails}:any) => {
 
-  useEffect(() => {
-    const fetchCheckInDetails = async () => {
-      try {
-        const response = await getData(endpoints.GET_CHECK_IN_DATA);
-        if (response.data?.success) {
-          setCheckInDetails(response.data?.data); // Store fetched data in state
-          console.log(response.data);
-        }
-      } catch (error) {
-        toast.error("Failed to fetch check-in details.");
-      }
-    };
-
-    fetchCheckInDetails();
-  }, []);
 
   const { pending_check_ins, total_done, total_minutes_spent, total_progress } =
     checkInDetails;

@@ -3,48 +3,48 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
+const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading,checkInStatus,setCheckInStatus,fetchCheckInDetails} :any) => {
 
-  const [checkInStatus, setCheckInStatus] = useState<{ 
-    morning: boolean; 
-    evening: boolean;
-    progress: number; 
-  }>({
-    morning: false,
-    evening: false,
-    progress: 0, 
-  });
+  // const [checkInStatus, setCheckInStatus] = useState<{ 
+  //   morning: boolean; 
+  //   evening: boolean;
+  //   progress: number; 
+  // }>({
+  //   morning: false,
+  //   evening: false,
+  //   progress: 0, 
+  // });
 
   const [shouldRefetch, setShouldRefetch] = useState(false)
   
 
-  useEffect(() => {
-    const fetchCheckInDetails = async () => {
-      try {
-        const response = await getData(endpoints.GET_CHECK_IN_DATA);
-        if (response.data?.success) {
-          const data = response.data?.data?.check_in_details?.finance || {};
-          setCheckInStatus({
-            morning: data.morning || false,
-            evening: data.evening || false,
-            progress: data.progress || 0, 
-          });
+  // useEffect(() => {
+  //   const fetchCheckInDetails = async () => {
+  //     try {
+  //       const response = await getData(endpoints.GET_CHECK_IN_DATA);
+  //       if (response.data?.success) {
+  //         const data = response.data?.data?.check_in_details?.finance || {};
+  //         setCheckInStatus({
+  //           morning: data.morning || false,
+  //           evening: data.evening || false,
+  //           progress: data.progress || 0, 
+  //         });
           
-        }
-      } catch (error) {
-        console.log("Failed to fetch check-in details:", error);
-      }
-    };
+  //       }
+  //     } catch (error) {
+  //       console.log("Failed to fetch check-in details:", error);
+  //     }
+  //   };
 
 
-    if (shouldRefetch) {
-      fetchCheckInDetails();
-      setShouldRefetch(false); // Reset the refetch flag after fetching
-    }
+  //   if (shouldRefetch) {
+  //     fetchCheckInDetails();
+  //     setShouldRefetch(false); // Reset the refetch flag after fetching
+  //   }
 
 
-    fetchCheckInDetails();
-  }, [shouldRefetch]); // Empty dependency array to make sure it runs only once when the component mounts
+  //   fetchCheckInDetails();
+  // }, [shouldRefetch]); // Empty dependency array to make sure it runs only once when the component mounts
 
 
 
@@ -58,8 +58,12 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
     // Update the state to reflect the checkbox change (this won't trigger re-fetching)
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
-      [timeOfDay]: checked,
+      finance: {
+        ...prevStatus.finance,
+        [timeOfDay]: checked, // Dynamically update morning or evening
+      },
     }));
+  
 
     // Prepare the request data
     const data = {
@@ -72,11 +76,9 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
-        setShouldRefetch(true);
+        fetchCheckInDetails();
         updateModalTitle('Finance Check-ins update successfully')
         setIsModalOpen(true);
-        // setTimeout(() => {
-        // }, 500); 
       } 
 
 
@@ -100,7 +102,7 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading} :any) => {
 
 
 
-  const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
+  const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
   
   const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
   const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
