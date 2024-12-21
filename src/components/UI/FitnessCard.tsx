@@ -68,7 +68,6 @@ const FitnessCard = ({
         setShouldRefetch(true);
         updateModalTitle("Finance Check-ins update successfully");
         setIsModalOpen(true);
-        
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
@@ -85,10 +84,6 @@ const FitnessCard = ({
   };
 
   const todayDate = getFormattedDate();
-
-
-
-  
 
   const progress = parseFloat(checkInStatus.progress.toFixed(1));
 
