@@ -11,6 +11,7 @@ const LeaderboardPage = () => {
   const router = useRouter();
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [leaderboardData, setLeaderboardData] = useState([]);
 
   useEffect(() => {
     const fetchLeaderboardData = async () => {
@@ -29,6 +30,7 @@ const LeaderboardPage = () => {
             avatar: entry.profile_url || "/avatar.jpeg" ,
             color: getCardColor(entry.rank),
           }));
+          setLeaderboardData(response?.data?.data);
 
           const topRanks = data.filter((item) =>
             ["1st", "2nd", "3rd"].includes(item.position)
@@ -106,7 +108,7 @@ const LeaderboardPage = () => {
         </div>
       </div>
 
-      <LeaderboardTable />
+      <LeaderboardTable  leaderboardData={leaderboardData}/>
     </div>
   );
 };

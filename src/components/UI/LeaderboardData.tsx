@@ -4,44 +4,40 @@ import endpoints from "@/utils/endpoints";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-const LeaderboardTable = () => {
-  const [leaderboardData, setLeaderboardData] = useState([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+const LeaderboardTable = ({leaderboardData}:any) => {
+  // const [leaderboardData, setLeaderboardData] = useState([]);
+  // const [error, setError] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchLeaderboardData = async () => {
-      try {
-        setLoading(true);
-        const response = await getData(endpoints.GET_TOP_USERS);
-        console.log("API response:", response); // Log the full response
+  // useEffect(() => {
+  //   const fetchLeaderboardData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await getData(endpoints.GET_TOP_USERS);
+  //       console.log("API response:", response); // Log the full response
 
-        if (response?.data?.success) {
-          // Log the actual data structure
-          console.log("Leaderboard data:", response.data.data);
-          setLeaderboardData(response?.data?.data); // Assuming the data is inside response.data.data
-        } else {
-          setError(response?.data?.message || "Failed to fetch leaderboard data.");
-        }
-      } catch (error: any) {
-        setError(error?.response?.data?.message || error.message || "An error occurred while fetching data.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       if (response?.data?.success) {
+  //         // Log the actual data structure
+  //         console.log("Leaderboard data:", response.data.data);
+  //         setLeaderboardData(response?.data?.data); // Assuming the data is inside response.data.data
+  //       } else {
+  //         setError(response?.data?.message || "Failed to fetch leaderboard data.");
+  //       }
+  //     } catch (error: any) {
+  //       setError(error?.response?.data?.message || error.message || "An error occurred while fetching data.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchLeaderboardData();
-  }, []);
+  //   fetchLeaderboardData();
+  // }, []);
 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl text-white shadow-md overflow-hidden overflow-x-auto">
       <div className="bg-[#121212] text-white rounded-2xl px-2 py-1 overflow-x-auto">
-        {loading ? (
-          <p className="text-center p-3">Loading...</p>
-        ) : error ? (
-          <p className="text-red-500 text-center p-3">{error}</p>
-        ) : (
+        
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-[#7C7C7C]">
@@ -78,7 +74,7 @@ const LeaderboardTable = () => {
                 ))}
             </tbody>
           </table>
-        )}
+        
       </div>
     </div>
   );
