@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Adjust the path based on your project structure
 import toast from "react-hot-toast";
 import endpoints from "@/utils/endpoints";
+import { FaShareAlt } from "react-icons/fa";
 
 const ReferralForm = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +12,10 @@ const ReferralForm = () => {
     comment: "",
   });
 
-  const [formErrors, setFormErrors] = useState<{ referal_link: string; comment: string }>({
+  const [formErrors, setFormErrors] = useState<{
+    referal_link: string;
+    comment: string;
+  }>({
     referal_link: "",
     comment: "",
   });
@@ -36,7 +40,7 @@ const ReferralForm = () => {
     };
 
     if (!formData.referal_link.trim()) {
-      errors.referal_link = "Referral link is required.";
+      errors.referal_link = "Referral email is required.";
     }
     if (!formData.comment.trim()) {
       errors.comment = "Comment is required.";
@@ -56,7 +60,9 @@ const ReferralForm = () => {
     try {
       const response = await post(endpoints.POST_REFERAL_DATA, formData);
       if (response.data.success) {
-        toast.success(response.data.message || "Referral created successfully!");
+        toast.success(
+          response.data.message || "Referral created successfully!"
+        );
         setTimeout(() => {
           setFormData({ referal_link: "", comment: "" });
           setFormErrors({ referal_link: "", comment: "" });
@@ -80,18 +86,21 @@ const ReferralForm = () => {
           </h3>
           <div>
             <label htmlFor="referal_link" className="text-[#7c7c7c]">
-              Referral link
+              Referral Email
             </label>
             <input
               type="text"
               name="referal_link"
               id="referal_link"
+              placeholder="ex: referal@domain.com"
               value={formData.referal_link}
               onChange={handleInputChange}
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
             {formErrors.referal_link && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.referal_link}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formErrors.referal_link}
+              </p>
             )}
           </div>
 
@@ -103,6 +112,7 @@ const ReferralForm = () => {
               type="text"
               name="comment"
               id="comment"
+              placeholder="type Comment"
               value={formData.comment}
               onChange={handleInputChange}
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
@@ -114,9 +124,10 @@ const ReferralForm = () => {
 
           <button
             type="submit"
-            className="w-[220px] bg-custom-gradient hover:bg-custom-gradient-hover text-xl text-black font-bold rounded-full p-3 mt-8"
+            className="w-[220px] bg-custom-gradient hover:bg-custom-gradient-hover text-xl text-black font-bold rounded-full p-3 mt-8 flex items-center justify-center gap-2"
           >
-            Update account
+            <FaShareAlt className="text-lg" />
+            <span>Share</span>
           </button>
         </div>
       </form>
