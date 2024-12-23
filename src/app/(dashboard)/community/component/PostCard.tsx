@@ -45,6 +45,7 @@ const PostCard = () => {
   const posts = useSelector((state: any) => state.postSlice.posts);
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
+  const [activeReply, setActiveReply] = useState("");
   const dispatch = useDispatch();
 
 
@@ -75,6 +76,8 @@ const PostCard = () => {
       );
       if (response.data?.success) {
         setActiveComments(response.data.data);
+        setActiveReply(response?.data?.data);
+        
        
       }
     } catch (error) {
@@ -156,6 +159,8 @@ const PostCard = () => {
             setActivePostId={setActivePostId}
             handleCommentToggle={handleCommentToggle}
             activeComments={activeComments}
+          
+          
           />
         </div>
       ))}
