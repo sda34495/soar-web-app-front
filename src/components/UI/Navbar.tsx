@@ -35,7 +35,7 @@ const TitleSection = () => {
 
 const ActionsSection = () => {
   // console.log("profiledetails", profiledetails);
-  
+
   const router = useRouter();
   const profiledetails = useSelector((state: any) => state.profileSlice);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -47,13 +47,12 @@ const ActionsSection = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
   // Getting all user data from user profile slice
   const userData = useSelector((state: any) => state.profileSlice.user);
-  
+
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen((prev) => !prev);
-  
-  }
-    const searchBarRef = useRef<HTMLDivElement>(null);
-  
+  };
+  const searchBarRef = useRef<HTMLDivElement>(null);
+
   const pages = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Leaderboard", path: "/leaderboard" },
@@ -65,7 +64,7 @@ const ActionsSection = () => {
     { name: "Community", path: "/community" },
     { name: "About Us", path: "/about" },
   ];
-  
+
   const filteredPages = pages.filter((page) =>
     page.name.toLowerCase().includes(searchInput.toLowerCase())
   );
@@ -177,26 +176,23 @@ const ActionsSection = () => {
         )}
 
         <div className="relative">
-  {/* Button for Notification Icon */}
-  <div ref={notificationRef} className="dropdown-menu">
+          {/* Button for Notification Icon */}
+          <div ref={notificationRef} className="dropdown-menu">
+            <button
+              className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
+              onClick={toggleNotificationDropdown} // onClick handler for toggling the dropdown
+            >
+              <img
+                src="/notification.svg"
+                alt="Notification Icon"
+                className="w-4 h-4 md:w-6 md:h-6"
+              />
+            </button>
+          </div>
 
-  <button
-    className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
-    onClick={toggleNotificationDropdown} // onClick handler for toggling the dropdown
-  >
-    <img
-      src="/notification.svg"
-      alt="Notification Icon"
-      className="w-4 h-4 md:w-6 md:h-6"
-      />
-  </button>
-      </div>
-
-  {/* Conditional Rendering of Notification Dropdown */}
-  {isNotificationOpen && (
-      <NotificationDropdown />
-  )}
-</div>
+          {/* Conditional Rendering of Notification Dropdown */}
+          {isNotificationOpen && <NotificationDropdown />}
+        </div>
 
         <Link
           href="/community"
@@ -211,32 +207,29 @@ const ActionsSection = () => {
       </div>
 
       <div className="relative">
-      <div ref={dropdownRef} className="dropdown-menu">
-        <div
-          className="flex items-center space-x-2 cursor-pointer"
-          onClick={() => setIsDropdownOpen((prev) => !prev)}
-        >
-          <span className="text-sm font-medium">
-            {profiledetails.first_name} {profiledetails.last_name}
-          </span>
-          <div className="relative">
-            <img
-              src={userData.profile_url || "/avatar.jpeg"}
-              alt={`${userData.first_name} ${userData.last_name}`}
-              className="h-10 w-10 rounded-full object-cover"
-            />
-            <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
+        <div ref={dropdownRef} className="dropdown-menu">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => setIsDropdownOpen((prev) => !prev)}
+          >
+            <span className="text-sm font-medium">
+              {profiledetails.first_name} {profiledetails.last_name}
+            </span>
+            <div className="relative">
+              <img
+                src={userData.profile_url || "/avatar.jpeg"}
+                alt={`${userData.first_name} ${userData.last_name}`}
+                className="h-10 w-10 rounded-full object-cover"
+              />
+              <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
+            </div>
           </div>
-      </div>
         </div>
         {/* Render the DropdownMenu component conditionally and this will close when click outside */}
-        {isDropdownOpen && (
-            <DropdownMenu />
-        )}
+        {isDropdownOpen && <DropdownMenu />}
       </div>
     </div>
   );
-
 };
 
 const Navbar = () => {
