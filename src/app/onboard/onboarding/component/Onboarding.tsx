@@ -4,6 +4,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation'; // Import useRouter for redirection
 import endpoints from "@/utils/endpoints";
+import useSocket from "@/Hook/usesocket";
 
 interface FormData {
   fitness_plan_description: string;
@@ -18,6 +19,7 @@ interface Errors {
 }
 
 const Page = () => {
+  useSocket()
   const [formData, setFormData] = useState<FormData>({
     fitness_plan_description: "",
     finance_plan_description: "",
