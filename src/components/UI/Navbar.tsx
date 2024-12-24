@@ -16,7 +16,7 @@ const TitleSection = () => {
 
   return (
     <div className="flex flex-col justify-center min-w-[300px] w-full mx-auto lg:w-2/3 mr-8 h-full">
-      <div className="bg-gradient-to-b from-[#454545] to-[#050404] p-[1px] rounded-2xl">
+      <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
         <div className="flex items-center justify-between bg-[#121212] py-2 rounded-2xl px-4 h-full">
           <div>
             <h1 className="text-2xl font-bold">{navdetails.title}</h1>

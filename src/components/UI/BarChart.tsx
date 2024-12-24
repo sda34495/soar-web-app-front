@@ -22,20 +22,20 @@ export default function CustomYAxisBarChart({
   updateFilter,
 }: any) {
   const transformedData = data?.chartData.map((item: any) => ({
-    date: item.day, // Use the `day` field for the X-axis labels
-    AM: item.morning ? 1 : 0, // Convert `morning` boolean to 0/1
-    PM: item.evening ? 2 : 0, // Convert `evening` boolean to 0/1
+    date: item.day,
+    AM: item.morning ? 1 : 0,
+    PM: item.evening ? 2 : 0,
     No: !item.morning && !item.evening ? 0.1 : null,
   }));
 
   // ChartJS data configuration
   const designdata = {
-    labels: transformedData.map((item) => item.date), // X-axis labels (days)
+    labels: transformedData.map((item) => item.date),
     datasets: [
       {
         label: "AM",
         data: transformedData.map((item) => item.AM),
-        backgroundColor: "#FFA500", // Orange
+        backgroundColor: "#FFA500",
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -43,7 +43,7 @@ export default function CustomYAxisBarChart({
       {
         label: "PM",
         data: transformedData.map((item) => item.PM),
-        backgroundColor: "#32CD32", // Green
+        backgroundColor: "#32CD32",
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -51,7 +51,7 @@ export default function CustomYAxisBarChart({
       {
         label: "NO",
         data: transformedData.map((item) => item.No),
-        backgroundColor: "red", // red
+        backgroundColor: "red",
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -59,15 +59,15 @@ export default function CustomYAxisBarChart({
     ],
   };
 
-  
-
   // ChartJS options configuration
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
         labels: {
-          color: "#FFFFFF", // White text for legend
+          color: "#FFFFFF",
         },
       },
       tooltip: {
@@ -81,35 +81,33 @@ export default function CustomYAxisBarChart({
     scales: {
       x: {
         ticks: {
-          color: "#7C7C7C", // White labels for X-axis
+          color: "#7C7C7C",
         },
         grid: {
-          display: false, // No gridlines on X-axis
+          display: false,
         },
       },
       y: {
         ticks: {
           callback: (value: any) => {
             const labels = ["", "AM", "PM"];
-            return labels[value]; // Map numeric values to custom labels
+            return labels[value];
           },
-          color: "#7C7C7C", // White labels for Y-axis
+          color: "#7C7C7C",
         },
         grid: {
-          color: "#7C7C7C", // Subtle gridlines for Y-axis
+          color: "#7C7C7C",
         },
-        min: 0, // Minimum value on the Y-axis
-        max: 2, // Maximum value (to match the 3 labels)
-        stepSize: 1, // Step size to ensure only 3 ticks (0, 1, 2)
+        min: 0,
+        max: 2,
+        stepSize: 1,
       },
     },
-    maintainAspectRatio: false, // Allow resizing
   };
 
   return (
     <>
       {user === "user" && <GraphTabs updateActivityType={updateActivity} />}
-
       <div className="bg-gradient-to-b overflow-hidden from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
         <div className="bg-[#121212] p-4 rounded-2xl">
           <div className="flex flex-row justify-between">
@@ -120,7 +118,7 @@ export default function CustomYAxisBarChart({
               <img src="/vertical.svg" />
             </div>
           </div>
-          <div style={{ width: "100%", height: "320px" }}>
+          <div className="relative w-full h-80 sm:h-96 md:h-[400px]">
             <Bar data={designdata} options={options} />
           </div>
         </div>

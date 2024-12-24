@@ -14,38 +14,7 @@ const FitnessCard = ({
 
 
   const [shouldRefetch, setShouldRefetch] = useState(false);
-  // const handleCheckboxChange = async (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  //   timeOfDay: "morning" | "evening"
-  // ) => {
-  //   const checked = event.target.checked;
 
-  //   // Update the state to reflect the checkbox change
-  //   setCheckInStatus((prevStatus) => ({
-  //     ...prevStatus,
-  //     [timeOfDay]: checked,
-  //   }));
-
-  //   const data = {
-  //     activity_type: "fitness",
-  //     time_of_day: timeOfDay,
-  //   };
-
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await post(endpoints.POST_CHECK_IN_DATA, data);
-
-  //     if (response?.data?.success) {
-  //       fetchCheckInDetails();
-  //       updateModalTitle("Finance Check-ins update successfully");
-  //       setIsModalOpen(true);
-  //     }
-  //   } catch (error) {
-  //     toast.error("An error occurred while updating check-in status.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -106,9 +75,9 @@ const FitnessCard = ({
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md rounded-2xl">
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4">
         {/* Header Section */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center  ">
           <h2 className="text-lg font-bold">Fitness Check-ins</h2>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"bg-transparent  font-semibold" + progressColor}>
               {text}
             </span>

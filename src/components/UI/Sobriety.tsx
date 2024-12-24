@@ -4,43 +4,11 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
-  // const [checkInStatus, setCheckInStatus] = useState<{
-  //   morning: boolean;
-  //   evening: boolean;
-  //   progress: number;
-  // }>({
-  //   morning: false,
-  //   evening: false,
-  //   progress: 0,
-  // });
+ 
 
   const [shouldRefetch, setShouldRefetch] = useState(false)
 
-  // useEffect(() => {
-  //   const fetchCheckInDetails = async () => {
-  //     try {
-  //       const response = await getData(endpoints.GET_CHECK_IN_DATA);
-  //       if (response.data?.success) {
-  //         const data = response.data?.data?.check_in_details?.sobriety || {};
-  //         setCheckInStatus({
-  //           morning: data.morning || false,
-  //           evening: data.evening || false,
-  //           progress: data.progress || 0,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.log("Failed to fetch check-in details:", error);
-  //     }
-  //   };
-
-  //   if (shouldRefetch) {
-  //     fetchCheckInDetails();
-  //     setShouldRefetch(false); // Reset the refetch flag after fetching
-  //   }
-
-  //   // Fetch the data on mount only (empty dependency array ensures this effect runs only once)
-  //   fetchCheckInDetails();
-  // }, [shouldRefetch]);
+  
 
 
 
@@ -108,7 +76,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
           <h2 className="text-lg font-bold">
             No Alcohol / Substance Check-ins
           </h2>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"text-green-500 font-semibold" + progressColor}>
               {text}
             </span>
@@ -128,7 +96,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
         <div className="space-y-4">
           {/* Checked item */}
           <div className="flex items-center justify-between mr-20">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center mr-5 space-x-3">
               <label className="flex items-center cursor-pointer relative">
                 <input
                   type="checkbox"
@@ -153,9 +121,9 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400">No-substance (morning)</span>
+              <span className=" text-gray-400">No-substance <br/> (morning)</span>
             </div>
-            <div className="flex space-x-28 text-gray-400">
+            <div className="flex justify-between flex-grow text-gray-400 ">
               <span>{todayDate}</span>
               <span>No-substance</span>
               <span>10 minutes</span>
@@ -164,7 +132,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
 
           {/* Unchecked item */}
           <div className="flex items-center justify-between mr-20">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center mr-5 space-x-3">
               <label className="flex items-center cursor-pointer relative">
                 <input
                   type="checkbox"
@@ -189,9 +157,9 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400">No-substance (evening)</span>
+              <span className="text-gray-400">No-substance <br/> (evening)</span>
             </div>
-            <div className="flex space-x-28 text-gray-400">
+            <div className="flex justify-between flex-grow text-gray-400">
               <span>{todayDate}</span>
               <span>No-substance</span>
               <span>10 minutes</span>
