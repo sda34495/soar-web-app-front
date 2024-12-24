@@ -72,7 +72,7 @@ const PostCard = () => {
             }),
           })
         );
-        toast.success(isSelfLiked ? "You liked this post!" : "You unliked this post!");
+        // toast.success(isSelfLiked ? "You liked this post!" : "You unliked this post!");
       } else {
         toast.error("Failed to update your like status.");
         // Revert the like state in case of failure
