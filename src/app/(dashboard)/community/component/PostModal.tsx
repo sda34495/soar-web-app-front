@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const PostModal = ({ isOpen, onClose, children, title, description }: any) => {
+const PostModal = ({ isOpen,  children, title, description }: any) => {
   return (
     <div>
       {isOpen && (

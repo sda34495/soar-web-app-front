@@ -70,6 +70,8 @@ const endpoints = {
   GET_ADMIN_DATA:"admin/dashboard",
   GET_NOTIFICATIONS: "notifications/all",
 
+  EDIT_POST: "community/edit-post",
+  DELETE_POST:"community/delete-post"
   
 };
 

@@ -12,10 +12,12 @@ const Comments = ({
   setActivePostId,
   handleCommentToggle,
   activeComments,
+  
 }) => {
   const [newComment, setNewComment] = React.useState("");
   const [replyOpne, setReplyOpen] = React.useState();
   const [replyText, setReplyText] = React.useState("");
+  const [visibleReplies, setVisibleReplies] = React.useState({});
 
   const handleAddComment = async (postId: any, e: any, newComment) => {
     e.preventDefault();
@@ -31,9 +33,7 @@ const Comments = ({
       toast.error(error.message);
     }
 
-    // setPosts(updatedPosts);
     setNewComment("");
-    // setActivePostId(null);
   };
 
   const handleAddReply = async (e: any, postId: any, comment: any) => {
@@ -63,12 +63,19 @@ const Comments = ({
   //   console.log(activeComments);
   // }, [newComment, activeComments]);
 
+  const toggleReplies = (commentId) => {
+    setVisibleReplies((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
+  };
+
   return (
     <div>
       {activePostId === postData._id && (
         <div className="w-full bg-[#121212] p-6 rounded-r-lg shadow-lg lg:min-w-[360px]  max-w-[360px] h-full">
           <div className="flex items-center justify-between">
-            <p className="text-white ">Comments</p>
+            <p className="text-white">Comments</p>
             <BsThreeDotsVertical />
           </div>
           <form onSubmit={(e) => handleAddComment(postData._id, e, newComment)}>
@@ -98,18 +105,15 @@ const Comments = ({
             {activeComments?.map((comment: any, index: any) => (
               <div key={index} className="flex flex-col">
                 <div
-                  className={`flex  items-center justify-between space-x-6 my-3 ${
-                    index === 0 ? "border-t border-gray-700" : "" // First comment gets top border
+                  className={`flex items-center justify-between space-x-6 my-3 ${
+                    index === 0 ? "border-t border-gray-700" : ""
                   } ${
                     index === activeComments.length - 1
                       ? "border-b border-gray-700"
-                      : "" // Last comment gets bottom border
-                  } ${
-                    index !== 0 ? "border-t border-gray-700" : "" // All others get top border
-                  } pt-4`}
+                      : ""
+                  } ${index !== 0 ? "border-t border-gray-700" : ""} pt-4`}
                 >
-                  
-                  <div className="flex flex-row items-center justify-between w-full  ">
+                  <div className="flex flex-row items-center justify-between w-full">
                     <div className="flex items-center space-x-2">
                       <img
                         src="/avatar.jpeg" // Replace with actual avatar
@@ -119,6 +123,7 @@ const Comments = ({
                       <div>
                         <p className="text-xs text-[#BDBDBD]">Name</p>
                         <p className="text-sm text-white">{comment.comment}</p>
+
                         <button
                           className="text-xs text-[#BDBDBD] hover:text-white"
                           onClick={() => setReplyOpen(comment._id)}
@@ -131,24 +136,25 @@ const Comments = ({
                       <IoMdHeartEmpty />
                     </div>
                   </div>
-                  
                 </div>
 
+                {/* Reply Form */}
                 {replyOpne === comment._id && (
                   <form
                     onSubmit={(e) => handleAddReply(e, postData._id, comment)}
+                    className="ml-10"
                   >
                     <textarea
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
-                      placeholder="Add your comment"
+                      placeholder="Add your reply"
                       rows={1}
                       className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
                     />
                     <div className="flex items-center justify-end space-x-4 mt-2">
                       <button
                         onClick={() => setReplyOpen(null)}
-                        className="bg-transparent border-[#7C7C7C] border  rounded-full p-3 w-full"
+                        className="bg-transparent border-[#7C7C7C] border rounded-full p-3 w-full"
                       >
                         Cancel
                       </button>
@@ -160,6 +166,40 @@ const Comments = ({
                       </button>
                     </div>
                   </form>
+                )}
+
+                {/* Replies Section */}
+                {comment.replies?.length > 0 && (
+                  <div className="ml-10">
+                    <button
+                      className="text-xs text-[#BDBDBD] hover:text-white"
+                      onClick={() => toggleReplies(comment._id)}
+                    >
+                      {visibleReplies[comment._id] ? "Hide Replies" : "View Replies"}
+                    </button>
+                  </div>
+                )}
+
+                {/* Replies Section */}
+                {visibleReplies[comment._id] && comment.replies?.length > 0 && (
+                  <div className="ml-10 mt-2">
+                    <p className="text-xs text-[#BDBDBD] font-semibold">Replies</p>
+                    {comment.replies?.map((reply: any, replyIndex: any) => (
+                      <div key={replyIndex} className="flex items-start mt-2 space-x-2">
+                        <img
+                          src={reply?.profile_url || "/avatar.jpeg"} // Replace with actual avatar
+                          alt="Reply Avatar"
+                          className="rounded-full w-6 h-6"
+                        />
+                        <div>
+                          <p className="text-xs text-[#BDBDBD]">
+                            {reply.user_name || "unknown"}
+                          </p>
+                          <p className="text-xs text-[#E0E0E0]">{reply.comment}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             ))}

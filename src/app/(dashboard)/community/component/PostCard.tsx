@@ -10,6 +10,7 @@ import { RiShareLine } from "react-icons/ri";
 import Comments from "./Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "@/store/post-data";
+import EditPost from "./EditPost";
 
 const PostCard = () => {
   // const [posts, setPosts] = useState([
@@ -45,9 +46,9 @@ const PostCard = () => {
   const posts = useSelector((state: any) => state.postSlice.posts);
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
+  const [activeReply, setActiveReply] = useState("");
+  const [editPost, setEditPost] = useState(null);
   const dispatch = useDispatch();
-
-
 
   const fetchPosts = async () => {
     try {
@@ -55,8 +56,8 @@ const PostCard = () => {
       const postsData = response.data.data;
 
       if (response?.data?.success) {
-        console.log("Post data before", postsData)
-        console.log("Post data after", postsData)
+        console.log("Post data before", postsData);
+        console.log("Post data after", postsData);
         dispatch(postActions.updateNewData({ data: postsData }));
       }
     } catch (error) {
@@ -75,7 +76,24 @@ const PostCard = () => {
       );
       if (response.data?.success) {
         setActiveComments(response.data.data);
-       
+        setActiveReply(response?.data?.data);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  const handleEditPost = async (postId: any) => {
+    if (activePostId !== postId) {
+      setActivePostId(activePostId === postId ? null : postId);
+    }
+
+    try {
+      const response = await getData(
+        `${endpoints.GET_POST_COMMENTS}?post_id=${postId}`
+      );
+      if (response.data?.success) {
+        setActiveComments(response.data.data);
+        setActiveReply(response?.data?.data);
       }
     } catch (error) {
       toast.error(error.message);
@@ -95,9 +113,7 @@ const PostCard = () => {
             <div className="flex items-start justify-between mb-4 max-w-[660px] w-full">
               <div className="flex items-center space-x-4">
                 <img
-                  src={`${
-                    post?.user?.profile_url || "/avatar.jpeg"
-                  }`} // Replace with actual avatar
+                  src={`${post?.user?.profile_url || "/avatar.jpeg"}`} // Replace with actual avatar
                   alt={post.user?.user_name || "User"}
                   className="rounded-full w-10 h-10 object-cover"
                 />
@@ -106,9 +122,9 @@ const PostCard = () => {
                   <p className="text-sm text-gray-400">{post.timeAgo}</p>
                 </div>
               </div>
-              <button className="text-gray-400 hover:text-white">
-                <BsThreeDotsVertical />
-              </button>
+              <div className="relative">
+                <EditPost post_id={post._id} postData={post}/>
+              </div>
             </div>
 
             {/* Title and Description */}
