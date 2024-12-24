@@ -8,8 +8,10 @@ import toast from "react-hot-toast";
 import PostCard from "./component/PostCard";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
 import UploadPostHandel from "./component/UploadPostHandel";
+import useSocket from "@/Hook/usesocket";
 
 const Communitypage = () => {
+  useSocket();
   const dispatch = useDispatch();
   const posts = useSelector((state: any) => state.postSlice.posts); // Access posts from Redux store
 
@@ -19,8 +21,8 @@ const Communitypage = () => {
       const postsData = response.data.data;
 
       if (response?.data?.success) {
-        console.log("Post data before", postsData);
-        console.log("Post data after", postsData);
+        // console.log("Post data before", postsData);
+        // console.log("Post data after", postsData);
         dispatch(postActions.updateNewData({ data: postsData }));
       }
     } catch (error) {

@@ -43,9 +43,9 @@ const Comments = ({
     formdata.append("post_id", postId);
     formdata.append("comment", replyText);
     formdata.append("parent_comment_id", comment._id);
-    for (const [key, value] of formdata.entries()) {
-      console.log(`${key}:`, value);
-    }
+    // for (const [key, value] of formdata.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
 
     try {
       const response = await post(endpoints.CREATE_COMMENT, formdata);
@@ -58,10 +58,10 @@ const Comments = ({
     }
   };
 
-  useEffect(() => {
-    console.log(newComment);
-    console.log(activeComments);
-  }, [newComment, activeComments]);
+  // useEffect(() => {
+  //   console.log(newComment);
+  //   console.log(activeComments);
+  // }, [newComment, activeComments]);
 
   return (
     <div>
