@@ -16,7 +16,7 @@ const Page = () => {
 
   return (
    
-      <div className="relative flex flex-col w-full h-screen  bg-zinc-900">
+      <div className="relative flex flex-col w-full lg:h-screen  bg-zinc-900">
       <Image
         src={bgImage}
         alt="bgimage"
@@ -43,7 +43,7 @@ const Page = () => {
           <div className="max-w-md md:max-w-lg lg:max-w-xl h-auto container mt-10 bg-golden/20 border border-golden rounded-3xl py-8 px-10">
             {/* <!-- Header Section --> */}
             <div className="w-full flex flex-row justify-between items-center">
-              <h1 className="text-3xl tracking-tighter text-white font-semibold font-Bricolage-Grotesque">
+              <h1 className="text-2xl sm:text-3xl tracking-tighter text-white font-semibold font-Bricolage-Grotesque">
                 Premium
               </h1>
               <div className="inline-flex items-center">
@@ -77,7 +77,7 @@ const Page = () => {
               $50
             </h1>
 
-            <div className=" grid grid-cols-2 gap-6 mt-4 mr-5">
+            <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
               <div className="flex flex-row items-center gap-2 ">
                 <img src="/check.png" alt="Checkmark" className="h-6 w-6" />
                 <h2 className="text-lg md:text-xl text-white/70">
@@ -111,7 +111,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+          <div className="mt-10 mb-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <button
               onClick={() => setIsDeleteOpen(true)}
               className="py-4 px-10 text-white font-semibold flex items-center justify-center gap-2 rounded-full border border-[#FBF9EB]"
@@ -138,7 +138,7 @@ const Page = () => {
               Apply Coupon Code
             </button>
 
-            <button className="py-4 px-20 font-semibold  text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
+            <button className="py-4 px-20 font-semibold   text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
               Start
             </button>
           </div>

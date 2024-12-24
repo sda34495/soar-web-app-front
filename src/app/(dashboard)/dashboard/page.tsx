@@ -135,63 +135,7 @@ const DashboardPage = () => {
   useSidebarLoading();
 
   return (
-    // <div className="text-white ">
-    //   <div className="  flex justify-start  w-full mb-5 items-center">
-    //     <div className=" flex flex-wrap gap-4 w-full  grow  ">
-    //       {dashboardData &&
-    //         dashboardData?.stats.map((data:any, index) => (
-    //           <div className="flex-1" key={index}>
-    //             <DashboardCard
-    //               title={data?.name}
-    //               time={data?.minutes}
-    //               points={points}
-    //               progressWidth={points}
-    //             />
-    //           </div>
-    //         ))}
-    //     </div>
-    //   </div>
-
-    //   <div className="my-3 ">
-    //     {dashboardData && (
-    //       <CustomChart
-    //         user="user"
-    //         data={dashboardData}
-    //         updateActivity={updateActivityType}
-    //         updateFilter={updateFilterType}
-    //       />
-    //     )}
-    //   </div>
-
-    //   <div className="  flex justify-start  w-full mb-5 items-center">
-    //     <div className="flex flex-wrap gap-4 w-full  grow">
-    //       {dashboardData &&
-    //         dashboardData?.leaderboardUsers.map((item:any, index) => {
-    //           const color = leaderboardData[index]?.color; // Get color based on index
-    //           const league = leaderboardData[index]?.league ||"1988 / 2000";
-    //           const points = leaderboardData[index]?.points || 1280;
-    //           const competition = leaderboardData[index]?.competition || "89 / 100";
-    //           const avatar = leaderboardData[index]?.avatar || "/avatar.jpeg";
-    //           // const competition = "89 / 100";
-    //           // const avatar = "/avatar.jpeg";
-
-    //           return (
-    //             <div className="flex-1" key={index}>
-    //               <LeaderboardCard
-    //                 position={item.rank}
-    //                 username={item.first_name}
-    //                 color={color} // Pass only the color object
-    //                 points={points}
-    //                 league={league}
-    //                 competition={competition}
-    //                 avatar={avatar}
-    //               />
-    //             </div>
-    //           );
-    //         })}
-    //     </div>
-    //   </div>
-    // </div>
+   
 
     <div className="text-white">
       <div className="flex justify-start w-full mb-5 items-center">
