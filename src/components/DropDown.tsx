@@ -2,32 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getData } from "../utils/axios"; // Adjust the path to your axios utility file
 import { useRouter } from "next/navigation";
 import endpoints from "@/utils/endpoints";
+import { useSelector } from "react-redux";
 
 
 const DropdownMenu = () => {
-  const [userData, setUserData] = useState<{
-    first_name: string;
-    last_name: string;
-    email: string;
-    profile_url: string;
-  } | null>(null);
+  const userData = useSelector((state: any) => state.profileSlice.user);
   const router = useRouter();
-
-  useEffect(() => {
-    // Fetch profile data on mount
-    const fetchProfileData = async () => {
-      try {
-        const response = await getData(endpoints.GET_PROFILE_DETAIL);
-        const { first_name, last_name, email, profile_url } = response.data.data;
-        setUserData({ first_name, last_name, email, profile_url });
-      } catch (error) {
-        console.error("Failed to fetch profile data:", error);
-      }
-    };
-
-    fetchProfileData();
-  }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("token"); // Delete the token to log out the user
     router.push("/auth/login"); // Redirect to the login page
@@ -44,11 +24,11 @@ const DropdownMenu = () => {
           {/* Profile Information */}
           <img
             src={userData.profile_url}
-            alt={`${userData.first_name} ${userData.last_name}`}
+            alt={`${userData.first_name} ${userData?.last_name}`}
             className="h-16 w-16 rounded-full object-cover border-2 border-gray-700"
           />          
           <p className="mt-2 text-sm font-semibold">
-            {userData.first_name} {userData.last_name}
+            {userData.first_name} {userData?.last_name}
           </p>
           <p className="text-sm text-gray-400">{userData.email}</p>
 

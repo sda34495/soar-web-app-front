@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
-import LeaderboardTable from "../../../components/UI/LeaderboardData";
+import LeaderBoardTable from "@/app/admin/components/LeaderBoardTable";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
+import useSidebarLoading from "@/Hook/useSidebarLoading";
 
 const LeaderboardPage = () => {
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
@@ -67,6 +68,8 @@ const LeaderboardPage = () => {
     }
   };
 
+
+  useSidebarLoading()
   return (
     <div className="space-y-6">
       {error && <div className="text-red-500">{error}</div>}
@@ -95,7 +98,7 @@ const LeaderboardPage = () => {
         </div>
       </div>
 
-      <LeaderboardTable />
+      <LeaderBoardTable/>
     </div>
   );
 };

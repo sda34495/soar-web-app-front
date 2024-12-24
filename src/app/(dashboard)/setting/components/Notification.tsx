@@ -3,37 +3,47 @@ import React, { useState, useEffect } from "react";
 import { getData, post } from "@/utils/axios";
 import toast from "react-hot-toast";
 import endpoints from "@/utils/endpoints";
+import { useDispatch, useSelector } from "react-redux";
+import { profileActions } from "@/store/profile-slice";
 
 const Notification = () => {
   const [deviceNotifications, setDeviceNotifications] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch initial state from the server
+  const dispatch  = useDispatch();
+
+
+
+  const userData = useSelector((state: any) => state.profileSlice.user);
+
   useEffect(() => {
-    const fetchNotificationSettings = async () => {
-      try {
-        const response = await getData(endpoints.GET_PROFILE_DETAILS);
-        console.log("API Response:", response.data);
+    setDeviceNotifications(userData.device_notification || false);
+    setEmailNotifications(userData.email_notification || false);
+  },[userData]);
 
-        if (response?.data?.success) {
-          const { device_notification, email_notification } = response.data.data;
 
-          setDeviceNotifications(device_notification || false);
-          setEmailNotifications(email_notification || false);
-        } else {
-          toast.error(response?.data?.message || "Failed to fetch preferences.");
-        }
-      } catch (error) {
-        console.error("Error fetching notification settings:", error);
-        toast.error("Failed to load notification preferences. Please try again.");
-      } finally {
-        setLoading(false);
+  useEffect(() => {
+    console.log("email value",emailNotifications,"Device value", deviceNotifications);
+  }, [emailNotifications, deviceNotifications]);
+
+  const fetchData = async () => {
+    try {
+     
+      const response = await getData(endpoints.GET_PROFILE_DETAILS);
+      if (response?.data?.success) {
+        dispatch(profileActions.updateUserProfile({ data: response.data.data }))
+
+      } else {
+        toast.error("Failed to load user data.");
       }
-    };
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      toast.error("An error occurred while fetching user data.");
+    } 
+  };
 
-    fetchNotificationSettings();
-  }, []);
+
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,7 +54,10 @@ const Notification = () => {
         device_notification: deviceNotifications,
         email_notification: emailNotifications,
       });
+      fetchData()
       toast.success(response.data?.message || "Preferences updated successfully.");
+      
+
     } catch (error) {
       console.error("Error updating notification settings:", error);
       toast.error("Failed to update notification preferences. Please try again.");
@@ -94,7 +107,7 @@ const Notification = () => {
           type="submit"
           className="w-[220px] bg-custom-gradient hover:bg-custom-gradient-hover text-xl text-black font-bold rounded-full p-3 mt-8"
         >
-          Save Preferences
+          Save Settings
         </button>
       </form>
     </div>

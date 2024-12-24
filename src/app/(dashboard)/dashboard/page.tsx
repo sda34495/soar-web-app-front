@@ -20,7 +20,7 @@ const DashboardPage = () => {
   const [dashboardData, setDashboardData] = useState<dashboard>(); // State to store dashboard data
   const [loading, setLoading] = useState(false); // State to handle loading indicator
   const [error, setError] = useState(null); // State to handle errors
-  const [activityType, setActivityType] = useState("sobriety");
+  const [activityType, setActivityType] = useState("fitness");
   const [filterType, setFilterType] = useState("thisMonth");
 
   const fetchDashboardData = async (activity, filter) => {
@@ -57,16 +57,12 @@ const DashboardPage = () => {
         setLoading(false); // End loading
       }
     };
-
+    console.log("Fetching data for:", activityType, filterType);
     loadDashboardData(); // Call the data-loading function
   }, [filterType, activityType]); // Empty dependency array to run once on component mount
 
-  // useEffect(() => {
-  //   // console.log("activityType", activityType);
-  //   // console.log("filterType", filterType);
-  // }, [updateFilterType, activityType]);
 
-  // const progress = 80;
+
   const cardData = [
     {
       title: "Fitness",
@@ -90,8 +86,6 @@ const DashboardPage = () => {
       progressWidth: 80, // Represents 80% progress
     },
   ];
-
-  const points = 70;
 
   const leaderboardData = [
     {
@@ -135,8 +129,6 @@ const DashboardPage = () => {
   useSidebarLoading();
 
   return (
-   
-
     <div className="text-white">
       <div className="flex justify-start w-full mb-5 items-center">
         <div className="flex flex-wrap gap-4 w-full grow">
@@ -148,7 +140,7 @@ const DashboardPage = () => {
                     title={data?.name}
                     time={data?.minutes}
                     points={data.points}
-                    progressWidth={data.points}                                                   
+                    progressWidth={data.points}
                   />
                 </div>
               ))
@@ -196,7 +188,9 @@ const DashboardPage = () => {
                       points={item.points}
                       league={league}
                       competition={competition}
-                      avatar={item.profile_url || "https://via.placeholder.com/100"}
+                      avatar={
+                        item.profile_url || "https://via.placeholder.com/100"
+                      }
                     />
                   </div>
                 );

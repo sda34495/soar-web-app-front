@@ -7,68 +7,74 @@ const FitnessCard = ({
   updateModalTitle,
   setIsModalOpen,
   setIsLoading,
+  checkInStatus,
+  setCheckInStatus,
+  fetchCheckInDetails
 }: any) => {
-  const [checkInStatus, setCheckInStatus] = useState<{
-    morning: boolean;
-    evening: boolean;
-    progress: number; // Add progress to the state
-  }>({
-    morning: false,
-    evening: false,
-    progress: 0, // Default progress value
-  });
+
 
   const [shouldRefetch, setShouldRefetch] = useState(false);
+  // const handleCheckboxChange = async (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   timeOfDay: "morning" | "evening"
+  // ) => {
+  //   const checked = event.target.checked;
 
-  useEffect(() => {
-    const fetchCheckInDetails = async () => {
-      try {
-        const response = await getData(endpoints.GET_CHECK_IN_DATA);
-        if (response.data?.success) {
-          const data = response.data?.data?.check_in_details?.fitness || {};
-          setCheckInStatus({
-            morning: data.morning || false,
-            evening: data.evening || false,
-            progress: data.progress || 0, // Set the progress from the fetched data
-          });
-        }
-      } catch (error) {
-        console.log("Failed to fetch check-in details:", error);
-      }
-    };
-    if (shouldRefetch) {
-      fetchCheckInDetails();
-      setShouldRefetch(false); // Reset the refetch flag after fetching
-    }
-    fetchCheckInDetails();
-  }, [shouldRefetch]);
+  //   // Update the state to reflect the checkbox change
+  //   setCheckInStatus((prevStatus) => ({
+  //     ...prevStatus,
+  //     [timeOfDay]: checked,
+  //   }));
+
+  //   const data = {
+  //     activity_type: "fitness",
+  //     time_of_day: timeOfDay,
+  //   };
+
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await post(endpoints.POST_CHECK_IN_DATA, data);
+
+  //     if (response?.data?.success) {
+  //       fetchCheckInDetails();
+  //       updateModalTitle("Finance Check-ins update successfully");
+  //       setIsModalOpen(true);
+  //     }
+  //   } catch (error) {
+  //     toast.error("An error occurred while updating check-in status.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
   ) => {
     const checked = event.target.checked;
-
-    // Update the state to reflect the checkbox change
+  
+    // Update only the 'fitness' part of the checkInStatus state
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
-      [timeOfDay]: checked,
+      fitness: {
+        ...prevStatus.fitness,
+        [timeOfDay]: checked, // Dynamically update morning or evening
+      },
     }));
-
+  
     const data = {
       activity_type: "fitness",
       time_of_day: timeOfDay,
     };
-
+  
     try {
       setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
-
+  
       if (response?.data?.success) {
-        setShouldRefetch(true);
-        updateModalTitle("Finance Check-ins update successfully");
+        fetchCheckInDetails(); // Refresh the entire checkInStatus
+        updateModalTitle("Fitness Check-in updated successfully");
         setIsModalOpen(true);
-        
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
@@ -76,6 +82,7 @@ const FitnessCard = ({
       setIsLoading(false);
     }
   };
+  
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -86,11 +93,7 @@ const FitnessCard = ({
 
   const todayDate = getFormattedDate();
 
-
-
-  
-
-  const progress = parseFloat(checkInStatus.progress.toFixed(1));
+  const progress = parseFloat(checkInStatus?.progress.toFixed(1));
 
   const progressColor =
     progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
@@ -130,7 +133,7 @@ const FitnessCard = ({
                 <input
                   type="checkbox"
                   className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                  checked={checkInStatus.morning}
+                  checked={checkInStatus?.morning}
                   onChange={(e) => handleCheckboxChange(e, "morning")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -166,7 +169,7 @@ const FitnessCard = ({
                 <input
                   type="checkbox"
                   className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                  checked={checkInStatus.evening}
+                  checked={checkInStatus?.evening}
                   onChange={(e) => handleCheckboxChange(e, "evening")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

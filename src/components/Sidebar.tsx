@@ -9,21 +9,45 @@ import { HiOutlineUserGroup } from "react-icons/hi";
 import { Router } from "next/router";
 import LoadingBar from "react-top-loading-bar";
 import { MdHealthAndSafety } from "react-icons/md";
+import { getData } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
+import toast from "react-hot-toast";
+import { profileActions } from "@/store/profile-slice";
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
-  console.log(pathname);
-  // const [progress, setProgress] = useState(0);
+  // console.log(pathname);
   const dispatch = useDispatch();
 
   const router = useRouter();
-  // const user = localStorage.getItem("user");
-  // console.log(user);
 
+  let userdata = {} ;
+
+  const fetchData = async () => {
+    try {
+     
+      const response = await getData(endpoints.GET_PROFILE_DETAILS);
+      if (response?.data?.success) {
+        dispatch(profileActions.updateUserProfile({ data: response.data.data }))
+
+      } else {
+        toast.error("Failed to load user data.");
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      toast.error("An error occurred while fetching user data.");
+    } 
+  };
+
+
+
+  
   useEffect(() => {
+    fetchData();
     const storedUser = localStorage.getItem("user");
+    
     if (storedUser !== null) {
       if (storedUser === "admin") {
         setUserType("admin");
@@ -35,45 +59,41 @@ const Sidebar = () => {
     }
   }, []);
 
-
-
-
-
-
   // Use effect to set activeItem based on pathname using switch
   useEffect(() => {
-
-
     const getFormattedDate = (date: Date) => {
-      return new Intl.DateTimeFormat('en-US', {
-        weekday: 'long',   // Full day name (e.g., "Tuesday")
-        day: '2-digit',    // Day (e.g., "12")
-        month: 'short',    // Abbreviated month (e.g., "Nov")
-        year: 'numeric',   // Year (e.g., "2024")
+      return new Intl.DateTimeFormat("en-US", {
+        weekday: "long", // Full day name (e.g., "Tuesday")
+        day: "2-digit", // Day (e.g., "12")
+        month: "short", // Abbreviated month (e.g., "Nov")
+        year: "numeric", // Year (e.g., "2024")
       }).format(date);
     };
-  
+
     // Today's date
     const today = new Date();
     const formattedToday = getFormattedDate(today);
-  
+
     // Tomorrow's date
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1); // Increment day by 1
     const formattedTomorrow = getFormattedDate(tomorrow);
-  
+
     // Combine dates into the desired string
     const dateRangeString = `${formattedToday} - ${formattedTomorrow}`;
 
-
-    
     switch (pathname) {
       case "/check-in":
         setActiveItem("Check-in");
-        dispatch(navbarActions.updateNavbar({ title: "Welcome Back", description: dateRangeString }));
-        
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Welcome Back",
+            description: dateRangeString,
+          })
+        );
+
         break;
-        
+
       case "/dashboard":
         setActiveItem("Dashboard");
         dispatch(
@@ -190,9 +210,9 @@ const Sidebar = () => {
   }, [pathname]);
 
   const lodervalue = useSelector((state: any) => state.loaderSlice.isLoading);
-  console.log(lodervalue);
+  // console.log(lodervalue);
 
-  const updateloader = (targetItem:string) => {
+  const updateloader = (targetItem: string) => {
     if (activeItem !== targetItem) {
       dispatch(endLoadingAction.endLoading(10));
     }
@@ -409,16 +429,19 @@ const Sidebar = () => {
             </ul>
           </div>
 
-          {/* Support button handled separately */}
+          
           <div className="py-4">
-            <div className="mb-6 text-start">
-              <button onClick={() => updateloader("Support")}>
+            <div className="mb-6 flex items-center text-start">
+              <button
+                onClick={() => updateloader("Support")}
+                className="w-full" // Make the button span the full width
+              >
                 <Link href="/support">
                   <li
-                    className={`font-semibold text-start px-1 py-2 rounded-xl  w-full flex items-center ${
+                    className={`font-semibold text-start px-1 py-2 rounded-xl flex items-center ${
                       pathname === "/support"
-                        ? "bg-custom-gradient font-semibold text-black  "
-                        : " "
+                        ? "bg-custom-gradient font-semibold text-black w-full" // Full width when selected
+                        : "w-full" // Ensures full width for non-selected too
                     }`}
                   >
                     <img

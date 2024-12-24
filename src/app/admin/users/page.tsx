@@ -1,10 +1,13 @@
 'use client'
 import React, { useState } from 'react'
 import UserTable from './components/UserTable'
+import useSidebarLoading from '@/Hook/useSidebarLoading';
 
 
 const Userpage = () => {
   const [activeTab, setActiveTab] = useState("users");
+
+  useSidebarLoading();
   return (
     <div>
        <div className="space-x-4 mb-6">
