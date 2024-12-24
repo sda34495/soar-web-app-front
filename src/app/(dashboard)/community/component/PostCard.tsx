@@ -10,7 +10,7 @@ import { RiShareLine } from "react-icons/ri";
 import Comments from "./Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "@/store/post-data";
-import EditPost from "./EditPost";
+import EditOrDeletePost from "./EditOrDeletePost";
 
 const PostCard = () => {
   // const [posts, setPosts] = useState([
@@ -123,7 +123,7 @@ const PostCard = () => {
                 </div>
               </div>
               <div className="relative">
-                <EditPost post_id={post._id} postData={post}/>
+                <EditOrDeletePost post_id={post._id} postData={post} />
               </div>
             </div>
 
