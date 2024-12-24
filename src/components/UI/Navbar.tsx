@@ -35,10 +35,8 @@ const TitleSection = () => {
 };
 
 const ActionsSection = () => {
-  // console.log("profiledetails", profiledetails);
-
   const router = useRouter();
-  const profiledetails = useSelector((state: any) => state.profileSlice);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
@@ -92,18 +90,20 @@ const ActionsSection = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // if (
+      //   dropdownRef.current &&
+      //   !dropdownRef.current.contains(event.target as Node)
+      // ) {
+      //   setIsDropdownOpen(false);
+      // } 
+      
       if (
         searchBarRef.current &&
         !searchBarRef.current.contains(event.target as Node)
       ) {
         setIsSearchBarVisible(false);
-      }
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
+      } 
+      
       if (
         notificationRef.current &&
         !notificationRef.current.contains(event.target as Node)
@@ -119,17 +119,13 @@ const ActionsSection = () => {
     };
   }, []);
 
-
-
   const getNotifications = async () => {
     const response = await getData(endpoints.GET_NOTIFICATIONS);
     dispatch(profileActions.setNotifications({ data: response.data.data }));
-
-  }
+  };
   useEffect(() => {
     getNotifications();
-
-  }, [])
+  }, []);
 
   return (
     <div className="relative flex items-center justify-between space-x-5 border bg-[#121212] border-[#454545] p-3 rounded-2xl lg:w-1/3 h-[58px]">
@@ -221,13 +217,13 @@ const ActionsSection = () => {
       </div>
 
       <div className="relative">
-        <div ref={dropdownRef} className="dropdown-menu">
+        <div className="dropdown-menu">
           <div
             className="flex items-center space-x-2 cursor-pointer"
             onClick={() => setIsDropdownOpen((prev) => !prev)}
           >
-            <span className="text-sm font-medium">
-              {profiledetails.first_name} {profiledetails.last_name}
+            <span className="text-sm font-medium text-white">
+              {userData.user_name || "New User"}
             </span>
             <div className="relative">
               <img
@@ -240,7 +236,11 @@ const ActionsSection = () => {
           </div>
         </div>
         {/* Render the DropdownMenu component conditionally and this will close when click outside */}
-        {isDropdownOpen && <DropdownMenu />}
+        {isDropdownOpen && (
+          <div className="">
+            <DropdownMenu setIsOpen={setIsDropdownOpen}/>
+          </div>
+        )}
       </div>
     </div>
   );

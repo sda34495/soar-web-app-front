@@ -29,7 +29,7 @@ const GeneralProfile = () => {
 
 
   const userData = useSelector((state: any) => state.profileSlice.user);
-  console.log("General profile " , userData)
+
 
 
   useEffect(() => {

@@ -23,31 +23,34 @@ const Sidebar = () => {
 
   const router = useRouter();
 
-  let userdata = {} ;
+  let userdata = {};
 
   const fetchData = async () => {
     try {
-     
       const response = await getData(endpoints.GET_PROFILE_DETAILS);
       if (response?.data?.success) {
-        dispatch(profileActions.updateUserProfile({ data: response.data.data }))
+        if (!response?.data?.data.is_subscribed) {
+          router.push("/onboard/onboarding");
+          return;
+        }
+        dispatch(
+          profileActions.updateUserProfile({ data: response.data.data })
+        );
 
+        console.log("User data:", response.data.data);
       } else {
         toast.error("Failed to load user data.");
       }
     } catch (err) {
       console.error("Error fetching user data:", err);
       toast.error("An error occurred while fetching user data.");
-    } 
+    }
   };
 
-
-
-  
   useEffect(() => {
     fetchData();
     const storedUser = localStorage.getItem("user");
-    
+
     if (storedUser !== null) {
       if (storedUser === "admin") {
         setUserType("admin");
@@ -429,7 +432,6 @@ const Sidebar = () => {
             </ul>
           </div>
 
-          
           <div className="py-4">
             <div className="mb-6 flex items-center text-start">
               <button
