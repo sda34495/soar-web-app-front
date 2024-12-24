@@ -71,7 +71,8 @@ const endpoints = {
   GET_NOTIFICATIONS: "notifications/all",
 
   EDIT_POST: "community/edit-post",
-  DELETE_POST:"community/delete-post"
+  DELETE_POST:"community/delete-post",
+  STRIPE_PAYMENT: "payments/subscription-intent"
   
 };
 

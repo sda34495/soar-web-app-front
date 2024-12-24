@@ -4,9 +4,14 @@ import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import CenterImageModal from "./UI/CenterImageModal";
+import { getData } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
+import { useRouter } from "next/navigation";
 
 // Load Stripe with your publishable key
-const stripePromise = loadStripe("pk_test_51OKibhHp0rU7NH90hPjbadXkJHXYRFStnHnJGBn6YOWo19ikplzKDw64jZnbUQtLPVmIZXjjfvlVZdyDWeNcpOUH00m2PdJlVR"); // Replace with your Stripe publishable key
+const stripekey = process.env.NEXT_PUBLIC_STRIPE_KEY
+
+const stripePromise = loadStripe(stripekey); // Replace with your Stripe publishable key
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -19,6 +24,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
 
   const [showSecondModal, setShowSecondModal] = useState(false);
 
+  const router = useRouter()
+  const handelClose = () => {
+    onClose();
+    setShowSecondModal(false);
+    router.push("/check-in")
+  }
+
   return (
     <Elements stripe={stripePromise}>
       <StripePaymentModal
@@ -30,10 +42,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
       />
       <CenterImageModal
         title="Congratulations"
-        description="Your session has been booked."
+        description="You have successfully subscribed to our service."
         isOpen={showSecondModal}
         image="/cone.png"
-        onClose={() => setShowSecondModal(false)}
+        onClose={handelClose}
       />
     </Elements>
   );
@@ -52,16 +64,19 @@ const StripePaymentModal: React.FC<{
   const handleSubscription = async () => {
     setLoading(true);
     setError("");
-
     try {
-      const { data: result } = await axios.get("http://localhost:8082/api/payments/subscription-intent", {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRlZWYyMDYwNGExMzcyMDJhM2ZkM2MiLCJpYXQiOjE3MzMyMjYyNzJ9.ZIu4aHn99u5WZDi-2rsXSYRx3CA_TUHrakOq94b3LzY`, // Replace with actual JWT token
-        },
-        params: {
-          priceId: price, // Pass the price ID to your backend
-        },
-      });
+      const { data: result } = await getData(endpoints.STRIPE_PAYMENT);
+      
+      
+      
+      // axios.get("http://localhost:8082/api/payments/subscription-intent", {
+      //   headers: {
+      //     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRlZWYyMDYwNGExMzcyMDJhM2ZkM2MiLCJpYXQiOjE3MzMyMjYyNzJ9.ZIu4aHn99u5WZDi-2rsXSYRx3CA_TUHrakOq94b3LzY`, // Replace with actual JWT token
+      //   },
+      //   params: {
+      //     priceId: price, // Pass the price ID to your backend
+      //   },
+      // });
 
       const clientSecret = result.data.clientSecret;
 

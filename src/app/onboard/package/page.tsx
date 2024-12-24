@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import Modal from "@/components/Modal";
 import Image from "next/image";
 import bgImage from '../../../../public/bg.png'
+import BookingModal from "@/components/StripeModal";
 
 const Page = () => {
   // Correct use of useState to manage the modal's open state
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [stripeModalOpen, setStripeModalOpen] = useState(false);
 
   // Function to handle closing the modal
   // update build
@@ -52,6 +54,8 @@ const Page = () => {
                     type="checkbox"
                     className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-green-600 checked:border-green-600"
                     id="check4"
+                    defaultChecked={true}
+                    
                   />
                   <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <svg
@@ -138,7 +142,7 @@ const Page = () => {
               Apply Coupon Code
             </button>
 
-            <button className="py-4 px-20 font-semibold  text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
+            <button onClick={() => setStripeModalOpen(true)} className="py-4 px-20 font-semibold  text-black c bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
               Start
             </button>
           </div>
@@ -150,6 +154,10 @@ const Page = () => {
             setisOpen={setIsDeleteOpen}
             onClose={handleClose}
             ></Modal>
+
+          <BookingModal isOpen={stripeModalOpen} onClose={() => setStripeModalOpen(false)} price={"50"} />
+
+
         </div>
       </div>
       
