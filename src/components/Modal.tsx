@@ -47,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({
       >
         <div className="relative p-4 w-full max-w-lg h-full md:h-auto mx-4 my-auto">
           <div className="relative p-4 bg-[#202020] rounded-3xl shadow-md md:p-8 border border-[#7c7c7c]">
-            <div className="mb-4 text-sm font-light">
+            <div className="mb- text-sm font-light">
               <img src={image_url} alt="" className="h-16" />
               <h3 className="mb-3 text-2xl font-bold text-white">{title}</h3>
               <p className="text-[#BDBDBD]">{description}</p>
@@ -58,7 +58,7 @@ const Modal: React.FC<ModalProps> = ({
               />
               <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <button
-                  className="px-10 w-full py-1 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
+                  className="px-10 w-full py-3 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
                   onClick={onClose}
                 >
                   Cancel
