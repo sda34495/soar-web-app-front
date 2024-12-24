@@ -1,11 +1,17 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import EditPostModal from "./EditPostModal";
+import PostModal from "./PostModal";
+import { post } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
+import toast from "react-hot-toast";
 
 const EditPost = ({ post_id, postData }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [editMode, setEditMode] = React.useState(false);
+  const [loading  , setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [deleteMode , setDeleteMode] =useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -21,7 +27,39 @@ const EditPost = ({ post_id, postData }) => {
     };
   }, []);
 
-  const handleEditPost = async (postId: any) => {};
+  
+  const handleDeletePost = async (postId:any) => {
+
+    try {
+      const formData = new FormData()
+      formData.append("post_id" , postId)
+      setLoading(true);
+      const response = await post(endpoints.DELETE_POST, formData);
+      if(response.data.success){
+        console.log("Post deleted successfully");
+        // window.location.reload();
+        toast.success("Post Deleted Successfully");
+      }
+
+
+      // const response = await fetch(`/api/community/delete-post`, {
+      //   method: "DELETE",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ post_id }),
+      // });  
+      // if (response.ok) {
+      //   console.log("Post deleted successfully");
+      //   window.location.reload();
+      // }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div>
@@ -43,17 +81,38 @@ const EditPost = ({ post_id, postData }) => {
         >
           Edit
         </button>
-        <button className="py-2 hover:bg-gray-400 rounded-b-lg">Delete</button>
+        <button className="py-2 hover:bg-gray-400 rounded-b-lg"  onClick={() => setDeleteMode(true)}>Delete</button>
       </div>
 
-      {editMode && (
+      
         <EditPostModal
           postData={postData}
           editMode={editMode}
           setEditMode={setEditMode}
           editOpen={setIsOpen}
         />
-      )}
+     
+
+     <PostModal isOpen={deleteMode}  title="Delete Post" description="Are you sure you want to delete this post?" >
+     <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <button
+                className="px-10 w-full py-1 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
+                onClick={() => setDeleteMode(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-10 w-full py-3 text-black bg-red-600 hover:bg-red-800 rounded-full font-semibold"
+                onClick={() => handleDeletePost(post_id)}
+                disabled={loading} 
+              >
+                
+                {loading ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+
+     </PostModal>
+
     </div>
   );
 };

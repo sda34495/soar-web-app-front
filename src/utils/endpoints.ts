@@ -68,7 +68,8 @@ const endpoints = {
   CREATE_COMMENT: "community/create-comment",
   DELETE_PROFILE_IMAGE:"profile/delete-profile-image",
   GET_ADMIN_DATA:"admin/dashboard",
-  EDIT_POST: "community/edit-post"
+  EDIT_POST: "community/edit-post",
+  DELETE_POST:"community/delete-post"
   
 };
 
