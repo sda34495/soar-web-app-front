@@ -1,8 +1,8 @@
 // src/socket.js
+import { profileActions } from "@/store/profile-slice";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
-
 
 const url = process.env.NEXT_PUBLIC_SOCKET_URL;
 
@@ -10,18 +10,21 @@ const url = process.env.NEXT_PUBLIC_SOCKET_URL;
 const socket = io(url); // Replace with your server URL
 
 const useSocket = () => {
-
-
+  const dispatch = useDispatch();
   const userId = useSelector((state: any) => state.profileSlice.user._id);
-  console.log(userId)
-  console.log(url)
-  // const userId = "hello123" //replace with the actual user id
+
   useEffect(() => {
+    // Function to play click sound
+    const playClickSound = () => {
+      const audio = new Audio('/click.mp3'); // Ensure this path points to your audio file
+      audio.play();
+    };
+
     socket.emit("identify", userId);
 
     socket.on("notification", (data) => {
-      console.log("New notification:", data.message);
-      alert(`Notification: ${data.message}`);
+      playClickSound(); // Play sound on notification
+      dispatch(profileActions.appendNotifications({ data: data.notification }));
     });
 
     return () => {

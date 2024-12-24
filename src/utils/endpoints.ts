@@ -67,7 +67,9 @@ const endpoints = {
   GET_POST_COMMENTS: "community/comments",
   CREATE_COMMENT: "community/create-comment",
   DELETE_PROFILE_IMAGE:"profile/delete-profile-image",
-  GET_ADMIN_DATA:"admin/dashboard"
+  GET_ADMIN_DATA:"admin/dashboard",
+  GET_NOTIFICATIONS: "notifications/all",
+
   
 };
 

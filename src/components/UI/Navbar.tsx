@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DropdownMenu from "../DropDown";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import UploadPostHandel from "@/app/(dashboard)/community/component/UploadPostHandel";
 import NotificationDropdown from "../NotificationDropDown";
 import Link from "next/link";
+import { profileActions } from "@/store/profile-slice";
 
 const TitleSection = () => {
   const navdetails = useSelector((state: any) => state.navbarSlice);
@@ -47,6 +48,7 @@ const ActionsSection = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
   // Getting all user data from user profile slice
   const userData = useSelector((state: any) => state.profileSlice.user);
+  const dispatch = useDispatch();
 
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen((prev) => !prev);
@@ -116,6 +118,18 @@ const ActionsSection = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+
+
+  const getNotifications = async () => {
+    const response = await getData(endpoints.GET_NOTIFICATIONS);
+    dispatch(profileActions.setNotifications({ data: response.data.data }));
+
+  }
+  useEffect(() => {
+    getNotifications();
+
+  }, [])
 
   return (
     <div className="relative flex items-center justify-between space-x-5 border bg-[#121212] border-[#454545] p-3 rounded-2xl lg:w-1/3 h-[58px]">
