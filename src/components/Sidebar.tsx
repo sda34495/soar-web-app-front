@@ -401,7 +401,7 @@ const Sidebar = () => {
                       alt="Professional Referral"
                       className="mr-4"
                     />
-                    <p>Professional Referral</p>
+                    <p>Refer a Friend</p>
                   </li>
                 </Link>
               </button>
