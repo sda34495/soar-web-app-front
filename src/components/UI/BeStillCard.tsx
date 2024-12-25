@@ -3,7 +3,7 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
+const BeStillCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
   // const [checkInStatus, setCheckInStatus] = useState<{
   //   morning: boolean;
   //   evening: boolean;
@@ -44,44 +44,44 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
 
 
 
-  const handleCheckboxChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-    timeOfDay: "morning" | "evening"
-  ) => {
-    const checked = event.target.checked;
+//   const handleCheckboxChange = async (
+//     event: React.ChangeEvent<HTMLInputElement>,
+//     timeOfDay: "morning" | "evening"
+//   ) => {
+//     const checked = event.target.checked;
 
-    // Update the state to reflect the checkbox change (this won't trigger re-fetching)
-    setCheckInStatus((prevStatus) => ({
-      ...prevStatus,
-      sobriety: {
-        ...prevStatus.sobriety,
-        [timeOfDay]: checked, // Dynamically update morning or evening
-      },
-    }));
+//     // Update the state to reflect the checkbox change (this won't trigger re-fetching)
+//     setCheckInStatus((prevStatus) => ({
+//       ...prevStatus,
+//       sobriety: {
+//         ...prevStatus.sobriety,
+//         [timeOfDay]: checked, // Dynamically update morning or evening
+//       },
+//     }));
   
 
-    // Prepare the request data
-    const data = {
-      activity_type: "sobriety",
-      time_of_day: timeOfDay,
-    };
+//     // Prepare the request data
+//     const data = {
+//       activity_type: "be_still",
+//       time_of_day: timeOfDay,
+//     };
 
-    try {
-      setIsLoading(true);
-      const response = await post(endpoints.POST_CHECK_IN_DATA, data);
+//     try {
+//       setIsLoading(true);
+//       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
-      if (response?.data?.success) {
-        fetchCheckInDetails();
-        // updateModalTitle("Finance Check-ins update successfully");
-        // setIsModalOpen(true);
+//       if (response?.data?.success) {
+//         fetchCheckInDetails();
+//         // updateModalTitle("Finance Check-ins update successfully");
+//         // setIsModalOpen(true);
         
-      } 
-    } catch (error) {
-      toast.error("An error occurred while updating check-in status.");
-    }finally{
-      setIsLoading(false)
-    }
-  };
+//       } 
+//     } catch (error) {
+//       toast.error("An error occurred while updating check-in status.");
+//     }finally{
+//       setIsLoading(false)
+//     }
+//   };
 
 
   const getFormattedDate = () => {
@@ -95,7 +95,8 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
 
 
 
-  const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
+//   const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
+  const progress = 10 ;
   
   const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
   const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
@@ -106,7 +107,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
         {/* Header Section */}
         <div className="flex justify-between items-center ">
           <h2 className="text-lg font-bold">
-            No Alcohol / Substance Check-ins
+            Be Still Check-ins
           </h2>
           <div className="flex items-center space-x-2">
             <span className={"text-green-500 font-semibold" + progressColor}>
@@ -133,8 +134,8 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
                 <input
                   type="checkbox"
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                  checked={checkInStatus.morning}
-                  onChange={(e) => handleCheckboxChange(e, "morning")}
+                  checked={checkInStatus?.morning}
+                //   onChange={(e) => handleCheckboxChange(e, "morning")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
@@ -169,8 +170,8 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
                 <input
                   type="checkbox"
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
-                  checked={checkInStatus.evening}
-                  onChange={(e) => handleCheckboxChange(e, "evening")}
+                  checked={checkInStatus?.evening}
+                //   onChange={(e) => handleCheckboxChange(e, "evening")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
@@ -203,4 +204,4 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
   );
 };
 
-export default SobrietyCard;
+export default BeStillCard;
