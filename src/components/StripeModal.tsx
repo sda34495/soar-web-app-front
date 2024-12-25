@@ -20,9 +20,10 @@ interface BookingModalProps {
 }
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) => {
-  if (!isOpen) return null;
+
 
   const [showSecondModal, setShowSecondModal] = useState(false);
+
 
   const router = useRouter()
   const handelClose = () => {
@@ -31,6 +32,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
     router.push("/check-in")
   }
 
+
+  if (!isOpen) return null;
   return (
     <Elements stripe={stripePromise}>
       <StripePaymentModal
@@ -66,17 +69,7 @@ const StripePaymentModal: React.FC<{
     setError("");
     try {
       const { data: result } = await getData(endpoints.STRIPE_PAYMENT);
-      
-      
-      
-      // axios.get("http://localhost:8082/api/payments/subscription-intent", {
-      //   headers: {
-      //     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRlZWYyMDYwNGExMzcyMDJhM2ZkM2MiLCJpYXQiOjE3MzMyMjYyNzJ9.ZIu4aHn99u5WZDi-2rsXSYRx3CA_TUHrakOq94b3LzY`, // Replace with actual JWT token
-      //   },
-      //   params: {
-      //     priceId: price, // Pass the price ID to your backend
-      //   },
-      // });
+
 
       const clientSecret = result.data.clientSecret;
 
