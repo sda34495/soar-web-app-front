@@ -23,7 +23,7 @@ const DropdownMenu = () => {
         <div className="px-4 py-2 flex flex-col items-center">
           {/* Profile Information */}
           <img
-            src={userData.profile_url}
+            src={userData.profile_url || '/avatar.jpeg' }
             alt={`${userData.first_name} ${userData?.last_name}`}
             className="h-16 w-16 rounded-full object-cover border-2 border-gray-700"
           />          
