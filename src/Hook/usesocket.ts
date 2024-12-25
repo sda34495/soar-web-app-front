@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 const url = process.env.NEXT_PUBLIC_SOCKET_URL;
 
 // Initialize socket connection
-const socket = io(url); // Replace with your server URL
+const socket = io(url); // Replace with your server URLs
 
 const useSocket = () => {
   const dispatch = useDispatch();
