@@ -11,7 +11,6 @@ import useSidebarLoading from "@/Hook/useSidebarLoading";
 import ScreenLoader from "@/components/UI/ScreenLoader";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-// import SidebarLoading from '@/Hook/SidebarLoading';
 
 interface CheckInDetails {
   morning: boolean;
@@ -30,36 +29,6 @@ interface CheckInData {
     fitness: CheckInDetails;
   };
 }
-
-const leaderboardData = [
-  {
-    position: "1st",
-    username: "marshmellow",
-    points: 1280,
-    league: "1988 / 2000",
-    competition: "89 / 100",
-    avatar: "/avatar.jpeg",
-    color: "linear-gradient(135deg, #043927, #055532)",
-  },
-  {
-    position: "2nd",
-    username: "oliviarhye",
-    points: 1260,
-    league: "1988 / 2000",
-    competition: "89 / 100",
-    avatar: "/avatar.jpeg",
-    color: "linear-gradient(135deg, #4E342E, #6D4C41)",
-  },
-  {
-    position: "3rd",
-    username: "marshmellow",
-    points: 1240,
-    league: "1988 / 2000",
-    competition: "89 / 100",
-    avatar: "/avatar.jpeg",
-    color: "linear-gradient(135deg, #1A237E, #3949AB)",
-  },
-];
 
 const CheckInPage = () => {
   const dispatch = useDispatch();
@@ -89,16 +58,16 @@ const CheckInPage = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [refreshCheckIn, setRefreshCheckIn] = useState(false); // Track refresh state
+  const [refreshCheckIn, setRefreshCheckIn] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);  // Set loading to true initially
 
   const updateModalTitle = (value: any) => {
     setModalTitle(value);
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false); // Close the modal
+    setIsModalOpen(false);
     setRefreshCheckIn((prev) => !prev);
   };
 
@@ -108,55 +77,65 @@ const CheckInPage = () => {
       if (response.data?.success) {
         const checkInDetails = response.data?.data;
         setCheckInStatus(checkInDetails);
+        setIsLoading(false);  // Set loading to false after data is fetched
       }
     } catch (error) {
       console.log("Failed to fetch check-in details:", error);
+      setIsLoading(false);  // Set loading to false if there's an error
     }
   };
 
   useEffect(() => {
-    fetchCheckInDetails(); // Fetches data only on initial mount
+    fetchCheckInDetails();
   }, []);
-  useEffect(() => {
-    console.log("checkInStatus", checkInStatus);
-  }, [fetchCheckInDetails]);
 
   useSidebarLoading();
+
   return (
-    <div className="space-y-6 ">
-      {/* <SidebarLoading/> */}
+    <div className="space-y-6 relative">
+      {/* Show the loader while data is being fetched */}
+      {isLoading && (
+        <div className="mx-auto mt-44 z-10">
+          <ScreenLoader />
+        </div>
+      )}
 
-      {isLoading && <ScreenLoader />}
-      <CheckinCard
-        key={refreshCheckIn ? 1 : 0}
-        checkInDetails={checkInStatus}
-      />
+      {/* Content is rendered only after the data has been fully fetched */}
+      {!isLoading && (
+        <>
+          <CheckinCard
+            key={refreshCheckIn ? 1 : 0}
+            checkInDetails={checkInStatus}
+          />
 
-      <FitnessCard
-        setIsLoading={setIsLoading}
-        setIsModalOpen={setIsModalOpen}
-        updateModalTitle={updateModalTitle}
-        checkInStatus={checkInStatus?.check_in_details.fitness}
-        setCheckInStatus={setCheckInStatus}
-        fetchCheckInDetails={fetchCheckInDetails}
-      />
+          <FitnessCard
+            setIsLoading={setIsLoading}
+            setIsModalOpen={setIsModalOpen}
+            updateModalTitle={updateModalTitle}
+            checkInStatus={checkInStatus?.check_in_details.fitness}
+            setCheckInStatus={setCheckInStatus}
+            fetchCheckInDetails={fetchCheckInDetails}
+          />
 
-      <FinanceCard
-        setIsLoading={setIsLoading}
-        setIsModalOpen={setIsModalOpen}
-        updateModalTitle={updateModalTitle}
-        checkInStatus={checkInStatus?.check_in_details.finance}
-        setCheckInStatus={setCheckInStatus}
-        fetchCheckInDetails={fetchCheckInDetails}
-      />
-      <Sobriety
-        setIsLoading={setIsLoading}
-        setIsModalOpen={setIsModalOpen}
-        updateModalTitle={updateModalTitle}
-        checkInStatus={checkInStatus?.check_in_details.sobriety}
-        setCheckInStatus={setCheckInStatus}
-        fetchCheckInDetails={fetchCheckInDetails}
-      />
+          <FinanceCard
+            setIsLoading={setIsLoading}
+            setIsModalOpen={setIsModalOpen}
+            updateModalTitle={updateModalTitle}
+            checkInStatus={checkInStatus?.check_in_details.finance}
+            setCheckInStatus={setCheckInStatus}
+            fetchCheckInDetails={fetchCheckInDetails}
+          />
+
+          <Sobriety
+            setIsLoading={setIsLoading}
+            setIsModalOpen={setIsModalOpen}
+            updateModalTitle={updateModalTitle}
+            checkInStatus={checkInStatus?.check_in_details.sobriety}
+            setCheckInStatus={setCheckInStatus}
+            fetchCheckInDetails={fetchCheckInDetails}
+          />
+        </>
+      )}
 
       {isModalOpen && (
         <CenterImageModal

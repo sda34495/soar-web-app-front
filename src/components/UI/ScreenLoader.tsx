@@ -8,7 +8,7 @@ const ScreenLoader = () => {
           <svg
             aria-hidden="true"
             role="status"
-            className="inline w-20 h-20 me-3 text-black animate-spin"
+            className="inline w-12 h-12 me-3 text-golden bg-transparent animate-spin"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
