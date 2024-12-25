@@ -1,10 +1,9 @@
-'use client'
+"use client";
 import { post } from "@/utils/axios";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from 'next/navigation'; // Import useRouter for redirection
+import { useRouter } from "next/navigation"; // Import useRouter for redirection
 import endpoints from "@/utils/endpoints";
-
 
 interface FormData {
   fitness_plan_description: string;
@@ -19,15 +18,15 @@ interface Errors {
 }
 
 const Page = () => {
-  
   const [formData, setFormData] = useState<FormData>({
     fitness_plan_description: "",
     finance_plan_description: "",
-    sobriety_plan_description: ""
+    sobriety_plan_description: "",
   });
 
   const [errors, setErrors] = useState<Errors>({});
   const router = useRouter(); // Initialize the router for redirection
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,9 +38,12 @@ const Page = () => {
 
   const validateForm = (): Errors => {
     let formErrors: Errors = {};
-    if (!formData.fitness_plan_description) formErrors.fitness_plan_description = "Fitness goal is required.";
-    if (!formData.finance_plan_description) formErrors.finance_plan_description = "Finance goal is required.";
-    if (!formData.sobriety_plan_description) formErrors.sobriety_plan_description = "Sobriety goal is required.";
+    if (!formData.fitness_plan_description)
+      formErrors.fitness_plan_description = "Fitness goal is required.";
+    if (!formData.finance_plan_description)
+      formErrors.finance_plan_description = "Finance goal is required.";
+    if (!formData.sobriety_plan_description)
+      formErrors.sobriety_plan_description = "Sobriety goal is required.";
 
     return formErrors;
   };
@@ -84,13 +86,19 @@ const Page = () => {
               </div>
             </header>
             <div className="mt-10 items-start">
-              <h2 className="text-white text-2xl">How are you planning to use SOAR?</h2>
+              <h2 className="text-white text-2xl">
+                How are you planning to use SOAR?
+              </h2>
               <p className="text-zinc-500 mt-2">
-                We&apos;ll fit the experience to your needs. Don&apos;t worry, you can change it later.
+                We&apos;ll fit the experience to your needs. Don&apos;t worry,
+                you can change it later.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col mt-8 max-w-lg text-white gap-6">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col mt-8 max-w-lg text-white gap-6"
+            >
               {/* Fitness Goal Input */}
               <div className="flex items-center space-x-2 gap-3">
                 <div className="flex gap-1">
@@ -106,7 +114,11 @@ const Page = () => {
                     placeholder="Enter your fitness goal here"
                     className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
-                  {errors.fitness_plan_description && <p className="text-red-500 text-sm">{errors.fitness_plan_description}</p>}
+                  {errors.fitness_plan_description && (
+                    <p className="text-red-500 text-sm">
+                      {errors.fitness_plan_description}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -125,7 +137,11 @@ const Page = () => {
                     placeholder="Enter your finance goal here"
                     className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
-                  {errors.finance_plan_description && <p className="text-red-500 text-sm">{errors.finance_plan_description}</p>}
+                  {errors.finance_plan_description && (
+                    <p className="text-red-500 text-sm">
+                      {errors.finance_plan_description}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -135,7 +151,9 @@ const Page = () => {
                   <img src="/al.png" alt="Icon 1" className="w-12 h-12" />
                 </div>
                 <div className="flex w-full space-y-2 flex-col">
-                  <label className="text-xl font-semibold">Alcohol / No-substance</label>
+                  <label className="text-xl font-semibold">
+                    Alcohol / No-substance
+                  </label>
                   <input
                     type="text"
                     name="sobriety_plan_description"
@@ -144,7 +162,11 @@ const Page = () => {
                     placeholder="Enter your alcohol/No-substance goal here"
                     className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
-                  {errors.sobriety_plan_description && <p className="text-red-500 text-sm">{errors.sobriety_plan_description}</p>}
+                  {errors.sobriety_plan_description && (
+                    <p className="text-red-500 text-sm">
+                      {errors.sobriety_plan_description}
+                    </p>
+                  )}
                 </div>
               </div>
 

@@ -1,11 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import Image from "next/image";
 import bgImage from '../../../../public/bg.png'
 import BookingModal from "@/components/StripeModal";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
+      useEffect (( ) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          router.push("/auth/login");
+        }
+      },[]);
   // Correct use of useState to manage the modal's open state
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [stripeModalOpen, setStripeModalOpen] = useState(false);
