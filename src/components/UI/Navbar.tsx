@@ -222,9 +222,9 @@ const ActionsSection = () => {
         </Link>
       </div>
 
-      <span className="text-sm font-medium">
+      {/* <span className="text-sm font-medium">
         {userData.first_name} {userData.last_name}
-      </span>
+      </span> */}
       <div className="relative">
         <div className="dropdown-menu">
           <div
