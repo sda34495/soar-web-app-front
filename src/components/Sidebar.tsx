@@ -238,14 +238,14 @@ const Sidebar = () => {
               </div>
               <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
             </div>
-            <ul className=" flex flex-col space-y-1 ">
+            <ul className=" flex flex-col space-y-2 lg:space-y-1 ">
               {/* Check-in link */}
               <button onClick={() => updateloader("Check-in")}>
                 <Link href="/check-in">
                   <li
                     className={`flex items-center px-1 py-2  cursor-pointer font-semibold  ${
                       activeItem === "Check-in"
-                        ? "bg-custom-gradient rounded-xl p-1  text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1  text-black font-semibold"
                         : "text-[#BDBDBD] "
                     }`}
                   >
@@ -269,7 +269,7 @@ const Sidebar = () => {
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
                       activeItem === "Dashboard"
-                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
                         : "text-[#BDBDBD]"
                     }`}
                   >
@@ -293,7 +293,7 @@ const Sidebar = () => {
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Leaderboard"
-                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
                         : "text-[#BDBDBD]"
                     }`}
                   >
@@ -317,7 +317,7 @@ const Sidebar = () => {
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Coaching"
-                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
                         : "text-[#BDBDBD]"
                     }`}
                   >
@@ -340,7 +340,7 @@ const Sidebar = () => {
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Talk to Doctor"
-                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
                         : "text-[#BDBDBD]"
                     }`}
                   >
@@ -364,7 +364,7 @@ const Sidebar = () => {
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Settings"
-                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
                         : "text-[#BDBDBD]"
                     }`}
                   >
@@ -388,7 +388,7 @@ const Sidebar = () => {
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "Professional Referral"
-                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
                         : "text-[#BDBDBD]"
                     }`}
                   >
@@ -399,9 +399,9 @@ const Sidebar = () => {
                           : "/sidebar/chain.svg"
                       }
                       alt="Professional Referral"
-                      className="mr-4"
+                      className="mr-4 "
                     />
-                    <p>Professional Referral</p>
+                    <p className="text-start">Professional Referral</p>
                   </li>
                 </Link>
               </button>
@@ -411,7 +411,7 @@ const Sidebar = () => {
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
                       activeItem === "community"
-                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
                         : "text-[#BDBDBD]"
                     }`}
                   >
@@ -438,7 +438,7 @@ const Sidebar = () => {
               >
                 <Link href="/support">
                   <li
-                    className={`font-semibold text-start px-1 py-2 rounded-xl flex items-center ${
+                    className={`font-semibold text-start px-1 py-2 lg:rounded-xl flex items-center ${
                       pathname === "/support"
                         ? "bg-custom-gradient font-semibold text-black w-full" // Full width when selected
                         : "w-full" // Ensures full width for non-selected too
