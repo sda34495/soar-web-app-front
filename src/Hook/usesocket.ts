@@ -16,7 +16,7 @@ const useSocket = () => {
   useEffect(() => {
     // Function to play click sound
     const playClickSound = () => {
-      const audio = new Audio('/click.mp3'); // Ensure this path points to your audio file
+      const audio = new Audio('/click.mp3'); // Ensure this path points to your audio files
       audio.play();
     };
 
