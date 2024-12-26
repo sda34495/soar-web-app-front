@@ -20,6 +20,7 @@ export default function CustomYAxisBarChart({
   data,
   updateActivity,
   updateFilter,
+  activityType,
 }: any) {
   const transformedData = data?.chartData.map((item: any) => ({
     date: item.day, // Use the `day` field for the X-axis labels
@@ -28,22 +29,25 @@ export default function CustomYAxisBarChart({
     No: !item.morning && !item.evening ? 0.1 : null,
   }));
 
+  const AM = activityType === "sobriety" ? "night" : "AM";
+  const PM = activityType === "sobriety" ? "day" : "PM";
+
   // ChartJS data configuration
   const designdata = {
     labels: transformedData.map((item) => item.date), // X-axis labels (days)
     datasets: [
       {
-        label: "AM",
+        label: AM,
         data: transformedData.map((item) => item.AM),
-        backgroundColor: "#FFA500", // Orange
+        backgroundColor: activityType === "sobriety" ? "#FFA500" : "#FFA500",// orange
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
       },
       {
-        label: "PM",
+        label: PM,
         data: transformedData.map((item) => item.PM),
-        backgroundColor: "#32CD32", // Green
+        backgroundColor: activityType === "sobriety" ? "#ffff" : "#00FF00",// Green
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -51,7 +55,7 @@ export default function CustomYAxisBarChart({
       {
         label: "NO",
         data: transformedData.map((item) => item.No),
-        backgroundColor: "red", // red
+        backgroundColor:"red",// Red
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -90,7 +94,7 @@ export default function CustomYAxisBarChart({
       y: {
         ticks: {
           callback: (value: any) => {
-            const labels = ["", "AM", "PM"];
+            const labels = ["", AM, PM];
             return labels[value]; // Map numeric values to custom labels
           },
           color: "#7C7C7C", // White labels for Y-axis
