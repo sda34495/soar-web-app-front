@@ -117,11 +117,11 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading,checkInStatu
         {/* Header Section */}
         <div className="flex justify-between items-center ">
           <h2 className="text-lg font-bold">Finance Check-ins</h2>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"text-green-500 font-semibold" +progressColor}>
               {text}
             </span>
-            <div className="flex items-center">
+            <div className="flex  items-center">
               <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
                 <div
                   className={"h-full rounded-full " + progressColor}
