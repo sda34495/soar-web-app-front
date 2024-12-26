@@ -14,7 +14,7 @@ function GraphTabs({updateActivityType }) {
       <div className="space-x-4 items-center mt-6  mb-6">
         <button
           onClick={() => setActiveTab("fitness")}
-          className={`w-[150px] text-[#989898] bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2 ${
+          className={`w-[150px] text-[#989898] cursor-pointer bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2 ${
             activeTab === "fitness" ? "bg-[#EFEFEF] font-bold text-black" : ""
           }`}
         >
@@ -33,13 +33,13 @@ function GraphTabs({updateActivityType }) {
                 <path d="M5.48561 6.73074C5.3741 6.71521 5.25755 6.72179 5.14196 6.75275L3.46775 7.20135C3.00542 7.32528 2.73111 7.80039 2.85495 8.26275L2.96668 8.68088C3.02805 8.91176 2.891 9.14876 2.66027 9.21074L2.24215 9.32416C1.77981 9.44809 1.5055 9.9232 1.62934 10.3856L2.97514 15.4082C3.09907 15.8705 3.57418 16.1448 4.03654 16.021L4.45467 15.9093C4.6861 15.8468 4.92427 15.9841 4.98622 16.2157L5.09795 16.6338C5.22188 17.0961 5.69699 17.3704 6.15935 17.2466L7.83356 16.798C8.2959 16.6741 8.5702 16.199 8.44636 15.7366L7.60888 12.6121C7.54692 12.3809 7.67719 12.1221 7.90307 12.0431C9.00382 11.6577 10.3712 11.3572 11.9996 11.3572C13.628 11.3572 14.9955 11.6577 16.0962 12.0431C16.3221 12.1221 16.4523 12.3809 16.3903 12.6121L15.5529 15.7366C15.429 16.199 15.7033 16.6741 16.1657 16.798L17.8399 17.2466C18.3022 17.3704 18.7773 17.0961 18.9013 16.6338L19.013 16.2157C19.0749 15.9841 19.3131 15.8468 19.5445 15.9093L19.9627 16.021C20.425 16.1448 20.9001 15.8705 21.0241 15.4082L22.3699 10.3856C22.4937 9.9232 22.2194 9.44809 21.7571 9.32416L21.3389 9.21074C21.1082 9.14876 20.9712 8.91176 21.0325 8.68088L21.1443 8.26275C21.2681 7.80039 20.9938 7.32528 20.5315 7.20135L18.8573 6.75275C18.3949 6.62891 17.9198 6.90322 17.7959 7.36555L17.0633 10.1007C17.0013 10.3319 16.7698 10.4502 16.5432 10.3729C15.2919 9.94587 13.7634 9.62379 11.9996 9.62379C10.2358 9.62379 8.70731 9.94588 7.45591 10.373C7.22944 10.4503 6.99789 10.3319 6.93596 10.1007L6.20336 7.36555C6.11042 7.0188 5.82013 6.77734 5.48561 6.73074Z" />
               </svg>
             </div>
-            <label className="text-xl ">Fitness</label>
+            <label className="text-xl cursor-pointer">Fitness</label>
           </div>
         </button>
 
         <button
           onClick={() => setActiveTab("finance")}
-          className={`w-[150px]  text-[#989898] bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]   rounded-full px-3 py-2  ${
+          className={`w-[150px]  text-[#989898] bg-[#262626] cursor-pointer hover:bg-[#EFEFEF] hover:text-[#202020]   rounded-full px-3 py-2  ${
             activeTab === "finance"
               ? "bg-[#EFEFEF]  text-black"
               : ""
@@ -63,18 +63,18 @@ function GraphTabs({updateActivityType }) {
                 />
               </svg>
             </div>
-            <label className="text-xl">Finance</label>
+            <label className="text-xl cursor-pointer">Finance</label>
           </div>
         </button>
 
         <button
           onClick={() => setActiveTab("sobriety")}
-          className={`w-[280px] text-[#989898] bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2  ${
+          className={`w-[280px] text-[#989898] bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020] cursor-pointer  rounded-full px-3 py-2  ${
             activeTab === "sobriety" ? "bg-[#EFEFEF] font-bold text-black" : ""
           } `}
         >
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1">
+          <div className="flex items-center gap-3 cursor-pointer">
+            <div className="flex gap-1 cursor-pointer">
               <svg
                 width="40"
                 height="40"
@@ -103,10 +103,36 @@ function GraphTabs({updateActivityType }) {
                 />
               </svg>
             </div>
-            <label className=" text-xl">Alcohol/No-substance</label>
+            <label className=" text-xl cursor-pointer">Alcohol/No-substance</label>
 
           </div>
         </button>
+        <button
+        // disabled
+          onClick={() => setActiveTab("beStill")}
+          className={`w-[150px] text-[#989898] bg-[#262626]  cursor-pointer hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2 ${
+            activeTab === "beStill" ? "bg-[#EFEFEF] font-bold text-black" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={`${
+                  activeTab === "fitness" ? "text-black" : "text-[#989898]"
+                } fill-current`}
+              >
+                <path d="M5.48561 6.73074C5.3741 6.71521 5.25755 6.72179 5.14196 6.75275L3.46775 7.20135C3.00542 7.32528 2.73111 7.80039 2.85495 8.26275L2.96668 8.68088C3.02805 8.91176 2.891 9.14876 2.66027 9.21074L2.24215 9.32416C1.77981 9.44809 1.5055 9.9232 1.62934 10.3856L2.97514 15.4082C3.09907 15.8705 3.57418 16.1448 4.03654 16.021L4.45467 15.9093C4.6861 15.8468 4.92427 15.9841 4.98622 16.2157L5.09795 16.6338C5.22188 17.0961 5.69699 17.3704 6.15935 17.2466L7.83356 16.798C8.2959 16.6741 8.5702 16.199 8.44636 15.7366L7.60888 12.6121C7.54692 12.3809 7.67719 12.1221 7.90307 12.0431C9.00382 11.6577 10.3712 11.3572 11.9996 11.3572C13.628 11.3572 14.9955 11.6577 16.0962 12.0431C16.3221 12.1221 16.4523 12.3809 16.3903 12.6121L15.5529 15.7366C15.429 16.199 15.7033 16.6741 16.1657 16.798L17.8399 17.2466C18.3022 17.3704 18.7773 17.0961 18.9013 16.6338L19.013 16.2157C19.0749 15.9841 19.3131 15.8468 19.5445 15.9093L19.9627 16.021C20.425 16.1448 20.9001 15.8705 21.0241 15.4082L22.3699 10.3856C22.4937 9.9232 22.2194 9.44809 21.7571 9.32416L21.3389 9.21074C21.1082 9.14876 20.9712 8.91176 21.0325 8.68088L21.1443 8.26275C21.2681 7.80039 20.9938 7.32528 20.5315 7.20135L18.8573 6.75275C18.3949 6.62891 17.9198 6.90322 17.7959 7.36555L17.0633 10.1007C17.0013 10.3319 16.7698 10.4502 16.5432 10.3729C15.2919 9.94587 13.7634 9.62379 11.9996 9.62379C10.2358 9.62379 8.70731 9.94588 7.45591 10.373C7.22944 10.4503 6.99789 10.3319 6.93596 10.1007L6.20336 7.36555C6.11042 7.0188 5.82013 6.77734 5.48561 6.73074Z" />
+              </svg>
+            </div>
+            <label className="text-xl cursor-pointer">Be Still </label>
+          </div>
+        </button>
+        
       </div>
     </div>
   );

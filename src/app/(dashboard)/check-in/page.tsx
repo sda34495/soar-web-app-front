@@ -11,6 +11,7 @@ import useSidebarLoading from "@/Hook/useSidebarLoading";
 import ScreenLoader from "@/components/UI/ScreenLoader";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
+import BeStillCard from "@/components/UI/BeStillCard";
 
 interface CheckInDetails {
   morning: boolean;
@@ -48,6 +49,11 @@ const CheckInPage = () => {
         progress: 0,
       },
       fitness: {
+        morning: false,
+        evening: false,
+        progress: 0,
+      },
+      be_still: {
         morning: false,
         evening: false,
         progress: 0,
@@ -134,8 +140,16 @@ const CheckInPage = () => {
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
           />
+          <BeStillCard
+            setIsLoading={setIsLoading}
+            setIsModalOpen={setIsModalOpen}
+            updateModalTitle={updateModalTitle}
+            checkInStatus={checkInStatus?.check_in_details.be_still}
+            setCheckInStatus={setCheckInStatus}
+            fetchCheckInDetails={fetchCheckInDetails}
+          />
         </>
-      )}
+       )} 
 
       {isModalOpen && (
         <CenterImageModal

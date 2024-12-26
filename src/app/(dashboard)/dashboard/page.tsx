@@ -166,6 +166,7 @@ const DashboardPage = () => {
             data={dashboardData}
             updateActivity={updateActivityType}
             updateFilter={updateFilterType}
+            activityType={activityType}
           />
         ) : (
           // Render loading skeleton for the chart
