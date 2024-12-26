@@ -120,7 +120,9 @@ export default function CustomYAxisBarChart({
               <img src="/vertical.svg" />
             </div>
           </div>
-          <div style={{ width: "100%", height: "320px" }}>
+          <div style={{ width: "100%", height: "320px" }}
+          // className="relative w-full h-80 sm:h-96 md:h-[400px]"
+          >
             <Bar data={designdata} options={options} />
           </div>
         </div>
