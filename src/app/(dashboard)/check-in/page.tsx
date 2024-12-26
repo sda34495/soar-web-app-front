@@ -98,7 +98,7 @@ const CheckInPage = () => {
   useSidebarLoading();
 
   return (
-    <div className="space-y-6 relative">
+    <div className="space-y-6 relative mb-5">
       {/* Show the loader while data is being fetched */}
       {isLoading && (
         <div className="mx-auto mt-44 z-10">

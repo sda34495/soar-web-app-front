@@ -7,7 +7,6 @@ import UploadPostHandel from "@/app/(dashboard)/community/component/UploadPostHa
 import NotificationDropdown from "../NotificationDropDown";
 import Link from "next/link";
 import { profileActions } from "@/store/profile-slice";
-import TestSideBar from "../SmallSideBar";
 import SmallSideBar from "../SmallSideBar";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";

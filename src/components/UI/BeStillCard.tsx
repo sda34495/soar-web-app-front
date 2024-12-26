@@ -109,7 +109,7 @@ const BeStillCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus
           <h2 className="text-lg font-bold">
             Be Still Check-ins
           </h2>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"text-green-500 font-semibold" + progressColor}>
               {text}
             </span>
@@ -125,7 +125,6 @@ const BeStillCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus
           </div>
         </div>
 
-        {/* Sobriety Items */}
         <div className="space-y-4">
           {/* Checked item */}
           <div className="flex items-center justify-between mr-20">
