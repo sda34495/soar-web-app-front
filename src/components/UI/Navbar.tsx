@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DropdownMenu from "../DropDown";
 import { usePathname, useRouter } from "next/navigation";
 import UploadPostHandel from "@/app/(dashboard)/community/component/UploadPostHandel";
 import NotificationDropdown from "../NotificationDropDown";
 import Link from "next/link";
-import TestSideBar from "../SmallSideBar";
-import SmallSideBar from "../SmallSideBar";
+import { profileActions } from "@/store/profile-slice";
 
 const TitleSection = () => {
   const navdetails = useSelector((state: any) => state.navbarSlice);
@@ -66,10 +65,8 @@ const TitleSection = () => {
 };
 
 const ActionsSection = () => {
-  // console.log("profiledetails", profiledetails);
-
   const router = useRouter();
-  const profiledetails = useSelector((state: any) => state.profileSlice);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
@@ -77,24 +74,26 @@ const ActionsSection = () => {
   const [showAllResults, setShowAllResults] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
-  // Getting all user data from user profile slice
   const userData = useSelector((state: any) => state.profileSlice.user);
+  const dispatch = useDispatch();
 
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen((prev) => !prev);
   };
+
   const searchBarRef = useRef<HTMLDivElement>(null);
 
   const pages = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Leaderboard", path: "/leaderboard" },
     { name: "Professional", path: "/professional-referral" },
-    { name: "Setting", path: "/setting" },
+    { name: "Settings", path: "/setting" },
     { name: "Support", path: "/support" },
     { name: "Talk to Doctor", path: "/talktodoctor" },
     { name: "Coaching", path: "/coaching" },
     { name: "Community", path: "/community" },
     { name: "About Us", path: "/about" },
+    { name: "Notification", path: "/setting/#notification" },
   ];
 
   const filteredPages = pages.filter((page) =>
@@ -105,7 +104,7 @@ const ActionsSection = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchInput(event.target.value);
-    setShowAllResults(false); // Reset "Show More" when input changes
+    setShowAllResults(false);
   };
 
   const handlePageRedirect = (path: string) => {
@@ -122,18 +121,20 @@ const ActionsSection = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // if (
+      //   dropdownRef.current &&
+      //   !dropdownRef.current.contains(event.target as Node)
+      // ) {
+      //   setIsDropdownOpen(false);
+      // } 
+      
       if (
         searchBarRef.current &&
         !searchBarRef.current.contains(event.target as Node)
       ) {
         setIsSearchBarVisible(false);
-      }
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
+      } 
+      
       if (
         notificationRef.current &&
         !notificationRef.current.contains(event.target as Node)
@@ -147,6 +148,14 @@ const ActionsSection = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
+
+  const getNotifications = async () => {
+    const response = await getData(endpoints.GET_NOTIFICATIONS);
+    dispatch(profileActions.setNotifications({ data: response.data.data }));
+  };
+  useEffect(() => {
+    getNotifications();
   }, []);
 
   return (
@@ -163,56 +172,63 @@ const ActionsSection = () => {
           />
         </button>
 
-        {isSearchBarVisible && (
-          <div className="absolute top-full mt-2 left-0 right-0 mx-auto max-w-md z-50">
-            <div
-              ref={searchBarRef}
-              className="border border-zinc-800 rounded-lg shadow-lg p-3 w-full"
-            >
-              <input
-                type="text"
-                value={searchInput}
-                onChange={handleSearchInputChange}
-                placeholder="Search..."
-                className="w-full p-2 rounded-md bg-[#121212] text-white border border-zinc-800 focus:outline-none focus:ring-2 focus:ring-white"
-              />
-              {filteredPages.length > 0 && (
-                <ul className="mt-2 bg-[#121212] rounded-lg shadow-md">
-                  {(showAllResults
-                    ? filteredPages
-                    : filteredPages.slice(0, 3)
-                  ).map((page) => (
-                    <li
-                      key={page.name}
-                      className="p-2 text-white hover:bg-custom-gradient hover:font-semi-bold hover:text-black cursor-pointer"
-                      onClick={() => handlePageRedirect(page.path)}
-                    >
-                      {page.name}
-                    </li>
-                  ))}
-                  {!showAllResults && filteredPages.length > 3 && (
-                    <li
-                      className="p-2 text-center text-gray-400 hover:text-white cursor-pointer"
-                      onClick={() => setShowAllResults(true)}
-                    >
-                      Show More
-                    </li>
-                  )}
-                </ul>
-              )}
-              {filteredPages.length === 0 && searchInput && (
-                <p className="mt-2 text-gray-400 text-sm">No results found</p>
-              )}
-            </div>
+        <div
+          ref={searchBarRef}
+          className={`absolute top-0 right-full z-50 transition-all duration-300 ease-in-out ${
+            isSearchBarVisible
+              ? "w-full opacity-100 scale-100"
+              : "w-0 opacity-0 scale-95"
+          }`}
+        >
+          <div className="border border-zinc-800 rounded-lg shadow-lg p-2 bg-[#121212]">
+            <input
+              type="text"
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              placeholder="Search..."
+              className="w-full p-2 rounded-md bg-[#121212] text-white border border-zinc-800 "
+            />
+            {searchInput && (
+              <>
+                {filteredPages.length > 0 && (
+                  <ul className="mt-2 bg-[#121212] rounded-lg shadow-md">
+                    {(showAllResults
+                      ? filteredPages
+                      : filteredPages.slice(0, 3)
+                    ).map((page) => (
+                      <li
+                        key={page.name}
+                        className="p-2 text-white hover:bg-custom-gradient hover:font-semi-bold hover:text-black cursor-pointer"
+                        onClick={() => {
+                          handlePageRedirect(page.path);
+                        }}
+                      >
+                        {page.name}
+                      </li>
+                    ))}
+                    {!showAllResults && filteredPages.length > 3 && (
+                      <li
+                        className="p-2 text-center text-gray-400 hover:text-white cursor-pointer"
+                        onClick={() => setShowAllResults(true)}
+                      >
+                        Show More
+                      </li>
+                    )}
+                  </ul>
+                )}
+                {filteredPages.length === 0 && (
+                  <p className="mt-2 text-gray-400 text-sm">No results found</p>
+                )}
+              </>
+            )}
           </div>
-        )}
+        </div>
 
         <div className="relative">
-          {/* Button for Notification Icon */}
           <div ref={notificationRef} className="dropdown-menu">
             <button
               className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
-              onClick={toggleNotificationDropdown} // onClick handler for toggling the dropdown
+              onClick={toggleNotificationDropdown}
             >
               <img
                 src="/notification.svg"
@@ -221,8 +237,6 @@ const ActionsSection = () => {
               />
             </button>
           </div>
-
-          {/* Conditional Rendering of Notification Dropdown */}
           {isNotificationOpen && <NotificationDropdown />}
         </div>
 
@@ -238,14 +252,17 @@ const ActionsSection = () => {
         </Link>
       </div>
 
+      {/* <span className="text-sm font-medium">
+        {userData.first_name} {userData.last_name}
+      </span> */}
       <div className="relative">
-        <div ref={dropdownRef} className="dropdown-menu">
+        <div className="dropdown-menu">
           <div
             className="flex items-center space-x-2 cursor-pointer"
             onClick={() => setIsDropdownOpen((prev) => !prev)}
           >
-            <span className="text-sm font-medium">
-              {profiledetails.first_name} {profiledetails.last_name}
+            <span className="text-sm font-medium text-white">
+              {userData.user_name || "New User"}
             </span>
             <div className="relative">
               <img
@@ -258,7 +275,11 @@ const ActionsSection = () => {
           </div>
         </div>
         {/* Render the DropdownMenu component conditionally and this will close when click outside */}
-        {isDropdownOpen && <DropdownMenu />}
+        {isDropdownOpen && (
+          <div className="">
+            <DropdownMenu setIsOpen={setIsDropdownOpen}/>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,24 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getData } from "../utils/axios"; // Adjust the path to your axios utility file
 import { useRouter } from "next/navigation";
 import endpoints from "@/utils/endpoints";
 import { useSelector } from "react-redux";
 
 
-const DropdownMenu = () => {
+const DropdownMenu = ({setIsOpen}) => {
   const userData = useSelector((state: any) => state.profileSlice.user);
   const router = useRouter();
+   const dropdownRef = useRef(null);
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Delete the token to log out the user
+    localStorage.clear(); // Delete the token to log out the user
     router.push("/auth/login"); // Redirect to the login page
   };
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setIsOpen(false);
+        }
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
 
   const handleSettings = () => {
     router.push("/setting"); // Navigate to the settings page
   };
 
   return (
-    <div className="absolute top-14 right-0 bg-[#1e1e1e] border border-[#454545] rounded-xl shadow-lg py-2 w-64 z-50">
+    <div className="absolute top-14 right-0 bg-[#1e1e1e] border border-[#454545] rounded-xl shadow-lg py-2 w-64 z-50" ref={dropdownRef} >
       {userData ? (
         <div className="px-4 py-2 flex flex-col items-center">
           {/* Profile Information */}
@@ -39,18 +53,18 @@ const DropdownMenu = () => {
 
       {/* Action Buttons */}
       <ul className="mt-3 border-t border-[#454545] flex flex-col space-y-1">
-        <li
+        <button
           className="px-4 py-2 hover:bg-custom-gradient-hover cursor-pointer text-center"
           onClick={handleSettings}
         >
           Settings
-        </li>
-        <li
+        </button>
+        <button
           className="px-4 py-2 hover:bg-custom-gradient-hover cursor-pointer text-center"
           onClick={handleLogout}
         >
           Logout
-        </li>
+        </button>
       </ul>
     </div>
   );
