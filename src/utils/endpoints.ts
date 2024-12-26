@@ -68,8 +68,11 @@ const endpoints = {
   CREATE_COMMENT: "community/create-comment",
   DELETE_PROFILE_IMAGE:"profile/delete-profile-image",
   GET_ADMIN_DATA:"admin/dashboard",
+  GET_NOTIFICATIONS: "notifications/all",
   EDIT_POST: "community/edit-post",
-  DELETE_POST:"community/delete-post"
+  DELETE_POST:"community/delete-post",
+  STRIPE_PAYMENT: "payments/subscription-intent",
+  POST_LIKE:"community/like"
   
 };
 

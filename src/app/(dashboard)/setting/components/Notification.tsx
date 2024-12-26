@@ -69,8 +69,8 @@ const Notification = () => {
   }
 
   return (
-    <div>
-      <form className="max-w-[660px] space-y-8" onSubmit={handleSubmit}>
+    <div >
+      <form id="notification" className="max-w-[660px] space-y-8" onSubmit={handleSubmit}>
         <h3 className="text-2xl font-bold text-[#EFEFEF]">Notification preferences</h3>
 
         <div className="flex items-center justify-between">

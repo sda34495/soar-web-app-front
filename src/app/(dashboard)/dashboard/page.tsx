@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 // import SidebarLoading from "@/Hook/SidebarLoading";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
+import useSocket from "@/Hook/usesocket";
 
 interface dashboard {
   chartData: [];
@@ -17,6 +18,7 @@ interface dashboard {
 }
 
 const DashboardPage = () => {
+  useSocket()
   const [dashboardData, setDashboardData] = useState<dashboard>(); // State to store dashboard data
   const [loading, setLoading] = useState(false); // State to handle loading indicator
   const [error, setError] = useState(null); // State to handle errors

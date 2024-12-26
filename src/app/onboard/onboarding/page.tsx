@@ -1,9 +1,17 @@
-import React from 'react'
-import Onboarding from "./component/Onboarding"
-const page = () => {
-  return (
-    <Onboarding/>
-  )
-}
+"use client";
+import React, { useEffect } from "react";
+import Onboarding from "./component/Onboarding";
+import { useRouter } from "next/navigation";
+const Page = () => {
+  const router = useRouter(); // Initialize the router for redirection
 
-export default page
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/auth/login");
+    }
+  });
+  return <Onboarding />;
+};
+
+export default Page;

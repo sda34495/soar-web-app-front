@@ -1,27 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const NotificationDropdown = () => {
-  // Dummy notification data
-  const [notifications] = useState([
-    {
-      id: 1,
-      title: "New Message",
-      description: "You have received a new message from John.",
-      timestamp: "2 hours ago",
-    },
-    {
-      id: 2,
-      title: "System Update",
-      description: "Your system has been updated successfully.",
-      timestamp: "1 day ago",
-    },
-    {
-      id: 3,
-      title: "New Comment",
-      description: "Anna commented on your post.",
-      timestamp: "3 days ago",
-    },
-  ]);
+
+  const notifications = useSelector((state: any) => state.profileSlice.notifications);
+
+
 
   return (
     <div className="absolute top-14 right-0 bg-[#1e1e1e] border border-[#454545] rounded-xl shadow-lg py-2 w-64 z-50">
@@ -32,12 +16,12 @@ const NotificationDropdown = () => {
         <ul className="flex flex-col space-y-1">
           {notifications.map((notification) => (
             <li
-              key={notification.id}
+              key={notification._id}
               className="px-4 py-2 hover:bg-custom-gradient-hover cursor-pointer text-gray-300 border-b border-[#454545]"
             >
               <div className="text-sm font-medium">{notification.title}</div>
-              <div className="text-xs text-gray-400">{notification.description}</div>
-              <div className="text-xs text-gray-500 mt-1">{notification.timestamp}</div>
+              <div className="text-xs text-gray-400">{notification.message}</div>
+              <div className="text-xs text-gray-500 mt-1">{notification.createdAt}</div>
             </li>
           ))}
         </ul>
