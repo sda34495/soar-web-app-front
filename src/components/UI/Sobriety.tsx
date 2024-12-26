@@ -121,9 +121,9 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
                   </svg>
                 </span>
               </label>
-              <span className=" text-gray-400">No-substance <br/> (morning)</span>
+              <span className=" text-gray-400">No-substance  (morning)</span>
             </div>
-            <div className="flex justify-between flex-grow text-gray-400 ">
+            <div className="flex space-x-28 text-gray-400 ">
               <span>{todayDate}</span>
               <span>No-substance</span>
               <span>10 minutes</span>
@@ -157,9 +157,9 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400">No-substance <br/> (evening)</span>
+              <span className="text-gray-400">No-substance (evening)</span>
             </div>
-            <div className="flex justify-between flex-grow text-gray-400">
+            <div className="flex space-x-28 text-gray-400">
               <span>{todayDate}</span>
               <span>No-substance</span>
               <span>10 minutes</span>
