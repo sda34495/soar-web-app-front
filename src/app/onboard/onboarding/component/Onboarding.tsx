@@ -73,7 +73,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="relative w-full h-screen bg-image bg-cover bg-center bg-zinc-900 dark:bg-zinc-900">
+      <div className="relative w-full lg:h-screen  bg-image bg-cover bg-center bg-zinc-900 dark:bg-zinc-900">
         <div className="flex flex-col  mx-6 sm:mx-40 lg:mx-auto">
           <div className="sm:mx-auto  md:mx-20 w-full sm:w-2/3 lg:w-1/2">
             <header className="w-full mt-10 bg-red">
@@ -170,7 +170,7 @@ const Page = () => {
                 </div>
               </div>
 
-              <button className="py-4 mt-8 w-40 font-semibold text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
+              <button className="py-4 mb-4 mt-8 w-40 font-semibold text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full">
                 Next
               </button>
             </form>

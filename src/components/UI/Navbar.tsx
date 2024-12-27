@@ -2,22 +2,31 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DropdownMenu from "../DropDown";
-import { getData } from "@/utils/axios";
-import endpoints from "@/utils/endpoints";
 import { usePathname, useRouter } from "next/navigation";
 import UploadPostHandel from "@/app/(dashboard)/community/component/UploadPostHandel";
 import NotificationDropdown from "../NotificationDropDown";
 import Link from "next/link";
 import { profileActions } from "@/store/profile-slice";
+import TestSideBar from "../SmallSideBar";
+import SmallSideBar from "../SmallSideBar";
+import { getData } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
 
 const TitleSection = () => {
   const navdetails = useSelector((state: any) => state.navbarSlice);
   const posts = useSelector((state: any) => state.postSlice.posts);
   const pathname = usePathname();
 
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+
+    
+
   return (
-    <div className="flex flex-col justify-center min-w-[300px] w-full mx-auto lg:w-2/3 mr-8 h-full">
-      <div className="bg-gradient-to-b from-[#454545] to-[#050404] p-[1px] rounded-2xl">
+    <div className="flex flex-col justify-between min-w-[300px] w-full mx-auto lg:w-2/3 mr-8 h-full">
+      <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl">
         <div className="flex items-center justify-between bg-[#121212] py-2 rounded-2xl px-4 h-full">
           <div>
             <h1 className="text-2xl font-bold">{navdetails.title}</h1>
@@ -28,6 +37,31 @@ const TitleSection = () => {
           {pathname === "/community" && posts?.length > 0 && (
             <UploadPostHandel />
           )}
+          <div className="relative">
+      {/* SVG Icon */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className="size-6 md:hidden block cursor-pointer"
+        onClick={toggleSidebar} // Toggle the sidebar visibility
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M3.75 9h16.5m-16.5 6.75h16.5"
+        />
+      </svg>
+
+      {/* Sidebar */}
+      {isSidebarOpen && (
+        <div className="fixed top-0 left-0 w-64 h-screen z-50">
+          <SmallSideBar/>
+         </div>
+      )}
+    </div>
         </div>
       </div>
     </div>

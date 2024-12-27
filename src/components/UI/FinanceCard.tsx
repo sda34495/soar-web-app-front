@@ -77,8 +77,8 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading,checkInStatu
 
       if (response?.data?.success) {
         fetchCheckInDetails();
-        updateModalTitle('Finance Check-ins update successfully')
-        setIsModalOpen(true);
+        // updateModalTitle('Finance Check-ins update successfully')
+        // setIsModalOpen(true);
       } 
 
 
@@ -117,11 +117,11 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading,checkInStatu
         {/* Header Section */}
         <div className="flex justify-between items-center ">
           <h2 className="text-lg font-bold">Finance Check-ins</h2>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"text-green-500 font-semibold" +progressColor}>
               {text}
             </span>
-            <div className="flex items-center">
+            <div className="flex  items-center">
               <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
                 <div
                   className={"h-full rounded-full " + progressColor}
@@ -141,14 +141,14 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading,checkInStatu
             <label className="flex items-center cursor-pointer relative">
                   <input
                     type="checkbox"
-                    className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
+                    className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                     checked={checkInStatus.morning}
                   onChange={(e) => handleCheckboxChange(e, "morning")}
                   />
                   <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-3.5 w-3.5"
+                      className="h-5 w-5"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       stroke="currentColor"
@@ -177,14 +177,14 @@ const FinanceCard = ({updateModalTitle, setIsModalOpen,setIsLoading,checkInStatu
             <label className="flex items-center cursor-pointer relative">
                   <input
                     type="checkbox"
-                    className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
+                    className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                     checked={checkInStatus.evening}
                   onChange={(e) => handleCheckboxChange(e, "evening")}
                   />
                   <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-3.5 w-3.5"
+                      className="h-5 w-5"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       stroke="currentColor"

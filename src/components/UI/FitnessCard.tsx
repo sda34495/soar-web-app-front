@@ -14,38 +14,7 @@ const FitnessCard = ({
 
 
   const [shouldRefetch, setShouldRefetch] = useState(false);
-  // const handleCheckboxChange = async (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  //   timeOfDay: "morning" | "evening"
-  // ) => {
-  //   const checked = event.target.checked;
 
-  //   // Update the state to reflect the checkbox change
-  //   setCheckInStatus((prevStatus) => ({
-  //     ...prevStatus,
-  //     [timeOfDay]: checked,
-  //   }));
-
-  //   const data = {
-  //     activity_type: "fitness",
-  //     time_of_day: timeOfDay,
-  //   };
-
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await post(endpoints.POST_CHECK_IN_DATA, data);
-
-  //     if (response?.data?.success) {
-  //       fetchCheckInDetails();
-  //       updateModalTitle("Finance Check-ins update successfully");
-  //       setIsModalOpen(true);
-  //     }
-  //   } catch (error) {
-  //     toast.error("An error occurred while updating check-in status.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -73,8 +42,8 @@ const FitnessCard = ({
   
       if (response?.data?.success) {
         fetchCheckInDetails(); // Refresh the entire checkInStatus
-        updateModalTitle("Fitness Check-in updated successfully");
-        setIsModalOpen(true);
+        // updateModalTitle("Fitness Check-in updated successfully");
+        // setIsModalOpen(true);
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
@@ -106,9 +75,9 @@ const FitnessCard = ({
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md rounded-2xl">
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4">
         {/* Header Section */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center  ">
           <h2 className="text-lg font-bold">Fitness Check-ins</h2>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"bg-transparent  font-semibold" + progressColor}>
               {text}
             </span>
@@ -132,14 +101,14 @@ const FitnessCard = ({
               <label className="flex items-center cursor-pointer relative">
                 <input
                   type="checkbox"
-                  className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
+                  className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.morning}
                   onChange={(e) => handleCheckboxChange(e, "morning")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-3.5 w-3.5"
+                    className="h-5 w-5"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     stroke="currentColor"
@@ -168,14 +137,14 @@ const FitnessCard = ({
               <label className="flex items-center cursor-pointer relative">
                 <input
                   type="checkbox"
-                  className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
+                  className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.evening}
                   onChange={(e) => handleCheckboxChange(e, "evening")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-3.5 w-3.5"
+                    className="h-5 w-5"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     stroke="currentColor"
