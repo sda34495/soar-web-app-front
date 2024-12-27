@@ -133,7 +133,7 @@ const Comments = ({
                       />
                       <div>
                         <p className="text-xs text-[#BDBDBD]">
-                          {comment?.user.username || "Danish ALi"}
+                          {comment?.user.username || "unknown"}
                         </p>
                         <p className="text-sm text-white">{comment.comment}</p>
                         <button
