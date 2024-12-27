@@ -1,7 +1,7 @@
 "use client";
 import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
@@ -23,7 +23,7 @@ const PostCard = () => {
   const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
 
   // Fetch posts data from the server
-  const fetchPosts =  async () => {
+  const fetchPosts = useCallback( async () => {
   try {
     const response = await getData(endpoints.GET_POSTS);
     if (response?.data?.success) {
@@ -42,11 +42,14 @@ const PostCard = () => {
   } catch (error) {
     toast.error(error.message || "Error fetching posts");
   }
-};
+}, []);
 
 
   useEffect(() => {
-    fetchPosts();
+    // fetchPosts();
+    if (posts.length === 0) {
+      fetchPosts();
+    }
   }, []);
 
   // Handle like button click
@@ -112,6 +115,11 @@ const PostCard = () => {
       toast.error(error.message);
     }
   };
+
+
+
+
+
   const handleEditPost = async (postId: any) => {
     if (activePostId !== postId) {
       setActivePostId(activePostId === postId ? null : postId);
@@ -202,6 +210,7 @@ const PostCard = () => {
             setActivePostId={setActivePostId}
             handleCommentToggle={handleCommentToggle}
             activeComments={activeComments}
+            setActiveComments={setActiveComments}
           />
         </div>
       ))}

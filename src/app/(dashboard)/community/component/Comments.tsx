@@ -1,5 +1,5 @@
 "use client";
-import { post } from "@/utils/axios";
+import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
@@ -12,6 +12,8 @@ const Comments = ({
   setActivePostId,
   handleCommentToggle,
   activeComments,
+  setActiveComments
+  
 }) => {
   const [newComment, setNewComment] = React.useState("");
   const [replyOpne, setReplyOpen] = React.useState();
@@ -35,6 +37,21 @@ const Comments = ({
     setNewComment("");
   };
 
+  const handleUpdateComment = async (postId: any) => {
+
+    try {
+      const response = await getData(
+        `${endpoints.GET_POST_COMMENTS}?post_id=${postId}`
+      );
+      if (response.data?.success) {
+        setActiveComments(response.data.data);
+        // setActiveReply(response?.data?.data);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   const handleAddReply = async (e: any, postId: any, comment: any) => {
     e.preventDefault();
     if (!replyText.trim()) return;
@@ -48,7 +65,8 @@ const Comments = ({
 
     try {
       await post(endpoints.CREATE_COMMENT, formdata);
-      handleCommentToggle(comment._id);
+      handleUpdateComment(postId);
+      // handleCommentToggle(comment._id);
       console.log("Reply posted successfully");
     } catch (error) {
       toast.error(error.message);
@@ -57,6 +75,8 @@ const Comments = ({
       setReplyText("");
     }
   };
+
+
 
   const handleLikeToggle = async (id, type) => {
     try {
