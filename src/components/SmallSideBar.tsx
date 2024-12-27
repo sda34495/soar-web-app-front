@@ -19,25 +19,10 @@ function SmallSideBar() {
   return (
     <>
     {isOpen && (
-    <aside className="bg-black h-screen md:hidden text-gray-200 flex flex-col justify-between">
- <button
-            onClick={() => setIsOpen(false)}
-            className="self-end p-2"
-            aria-label="Close Sidebar"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+    <aside className=" text-gray-200 flex flex-col justify-between">
+
           <div>
-            <div className="flex flex-col items-center justify-center mb-16">
+            <div className="flex flex-col mt-5 items-center justify-center mb-16">
               <hr className="w-[150px] h-[1.5px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
               <div className="text-gold font-semibold text-4xl text-transparent bg-clip-text bg-custom-heading-gradient mt-1 mb-1">
                 SOAR

@@ -38,13 +38,29 @@ const TitleSection = () => {
           )}
           <div className="relative">
       {/* SVG Icon */}
-      <svg
+
+      {isSidebarOpen ? <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="size-6 cursor-pointer"
+            aria-label="Close Sidebar"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6 lg:hidden cursor-pointer"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button> :   <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth="1.5"
         stroke="currentColor"
-        className="size-6 md:hidden block cursor-pointer"
+        className="size-6 lg:hidden cursor-pointer"
         onClick={toggleSidebar} // Toggle the sidebar visibility
       >
         <path
@@ -52,11 +68,12 @@ const TitleSection = () => {
           strokeLinejoin="round"
           d="M3.75 9h16.5m-16.5 6.75h16.5"
         />
-      </svg>
+      </svg>}
+    
 
       {/* Sidebar */}
       {isSidebarOpen && (
-        <div className="fixed top-0 left-0 w-64 h-screen z-50">
+        <div className="fixed top-0 left-0 w-64 h-full lg:hidden bg-black z-50">
           <SmallSideBar/>
          </div>
       )}
