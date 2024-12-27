@@ -3,33 +3,15 @@ import CheckinCard from "@/components/UI/CheckInCard";
 import FitnessCard from "@/components/UI/FitnessCard";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { endLoadingAction } from "@/store/loader-slice";
 import FinanceCard from "@/components/UI/FinanceCard";
 import Sobriety from "@/components/UI/Sobriety";
 import CenterImageModal from "@/components/UI/CenterImageModal";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
-import ScreenLoader from "@/components/UI/ScreenLoader";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import BeStillCard from "@/components/UI/BeStillCard";
-
-interface CheckInDetails {
-  morning: boolean;
-  evening: boolean;
-  progress: number;
-}
-
-interface CheckInData {
-  pending_check_ins: number;
-  total_done: number;
-  total_minutes_spent: number;
-  total_progress: number;
-  check_in_details: {
-    sobriety: CheckInDetails;
-    finance: CheckInDetails;
-    fitness: CheckInDetails;
-  };
-}
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const CheckInPage = () => {
   const dispatch = useDispatch();
@@ -38,26 +20,10 @@ const CheckInPage = () => {
     pending_check_ins: 0,
     total_done: 0,
     check_in_details: {
-      sobriety: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
-      finance: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
-      fitness: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
-      be_still: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
+      sobriety: { morning: false, evening: false, progress: 0 },
+      finance: { morning: false, evening: false, progress: 0 },
+      fitness: { morning: false, evening: false, progress: 0 },
+      be_still: { morning: false, evening: false, progress: 0 },
     },
     total_minutes_spent: 0,
     total_progress: 0,
@@ -66,11 +32,15 @@ const CheckInPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [refreshCheckIn, setRefreshCheckIn] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [isLoading, setIsLoading] = useState(true);  // Set loading to true initially
 
-  const updateModalTitle = (value: any) => {
-    setModalTitle(value);
-  };
+  // Individual loading states for each card
+  const [loading, setLoading] = useState({
+    checkIn: true,
+    fitness: true,
+    finance: true,
+    sobriety: true,
+    beStill: true,
+  });
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -83,73 +53,103 @@ const CheckInPage = () => {
       if (response.data?.success) {
         const checkInDetails = response.data?.data;
         setCheckInStatus(checkInDetails);
-        setIsLoading(false);  // Set loading to false after data is fetched
+
+        // Stop loading for all cards after fetching
+        setLoading({
+          checkIn: false,
+          fitness: false,
+          finance: false,
+          sobriety: false,
+          beStill: false,
+        });
       }
     } catch (error) {
       console.log("Failed to fetch check-in details:", error);
-      setIsLoading(false);  // Set loading to false if there's an error
     }
   };
 
   useEffect(() => {
     fetchCheckInDetails();
-  }, []);
+  }, [refreshCheckIn]);
 
   useSidebarLoading();
 
+  const renderCard = (isLoading: boolean, Component: any, props: any) => {
+    return isLoading ? (
+      <div className="rounded-lg shadow-lg p-4 bg-#121212 border border-zinc-800">
+        <Skeleton height={70} baseColor="#121212" highlightColor="#C2A171" />
+      </div>
+    ) : (
+      <Component {...props} />
+    );
+  };
+
   return (
-    <div className="space-y-6 relative">
-      {/* Show the loader while data is being fetched */}
-      {isLoading && (
-        <div className="mx-auto mt-44 z-10">
-          <ScreenLoader />
-        </div>
+    <div className="space-y- relative">
+      {renderCard(
+        loading.checkIn,
+        CheckinCard,
+        {
+          key: refreshCheckIn ? 1 : 0,
+          checkInDetails: checkInStatus,
+        }
       )}
 
-      {/* Content is rendered only after the data has been fully fetched */}
-      {!isLoading && (
-        <>
-          <CheckinCard
-            key={refreshCheckIn ? 1 : 0}
-            checkInDetails={checkInStatus}
-          />
+      {renderCard(
+        loading.fitness,
+        FitnessCard,
+        {
+          setIsLoading: (state: boolean) =>
+            setLoading((prev) => ({ ...prev, fitness: state })),
+          setIsModalOpen,
+          updateModalTitle: setModalTitle,
+          checkInStatus: checkInStatus?.check_in_details.fitness,
+          setCheckInStatus,
+          fetchCheckInDetails,
+        }
+      )}
 
-          <FitnessCard
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
-            checkInStatus={checkInStatus?.check_in_details.fitness}
-            setCheckInStatus={setCheckInStatus}
-            fetchCheckInDetails={fetchCheckInDetails}
-          />
+      {renderCard(
+        loading.finance,
+        FinanceCard,
+        {
+          setIsLoading: (state: boolean) =>
+            setLoading((prev) => ({ ...prev, finance: state })),
+          setIsModalOpen,
+          updateModalTitle: setModalTitle,
+          checkInStatus: checkInStatus?.check_in_details.finance,
+          setCheckInStatus,
+          fetchCheckInDetails,
+        }
+      )}
 
-          <FinanceCard
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
-            checkInStatus={checkInStatus?.check_in_details.finance}
-            setCheckInStatus={setCheckInStatus}
-            fetchCheckInDetails={fetchCheckInDetails}
-          />
+      {renderCard(
+        loading.sobriety,
+        Sobriety,
+        {
+          setIsLoading: (state: boolean) =>
+            setLoading((prev) => ({ ...prev, sobriety: state })),
+          setIsModalOpen,
+          updateModalTitle: setModalTitle,
+          checkInStatus: checkInStatus?.check_in_details.sobriety,
+          setCheckInStatus,
+          fetchCheckInDetails,
+        }
+      )}
 
-          <Sobriety
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
-            checkInStatus={checkInStatus?.check_in_details.sobriety}
-            setCheckInStatus={setCheckInStatus}
-            fetchCheckInDetails={fetchCheckInDetails}
-          />
-          <BeStillCard
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
-            checkInStatus={checkInStatus?.check_in_details.be_still}
-            setCheckInStatus={setCheckInStatus}
-            fetchCheckInDetails={fetchCheckInDetails}
-          />
-        </>
-       )} 
+      {renderCard(
+        loading.beStill,
+        BeStillCard,
+        {
+          setIsLoading: (state: boolean) =>
+            setLoading((prev) => ({ ...prev, beStill: state })),
+          setIsModalOpen,
+          updateModalTitle: setModalTitle,
+          checkInStatus: checkInStatus?.check_in_details.be_still,
+          setCheckInStatus,
+          fetchCheckInDetails,
+        }
+      )}
 
       {isModalOpen && (
         <CenterImageModal

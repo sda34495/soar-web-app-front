@@ -133,7 +133,7 @@ const DashboardPage = () => {
   return (
     <div className="text-white">
       <div className="flex justify-start w-full mb-5 items-center">
-        <div className="flex flex-col md:flex-row gap-4 w-full grow">
+        <div className="flex flex-wrap gap-4 w-full grow">
           {/* <SidebarLoading/> */}
           {dashboardData
             ? dashboardData?.stats.map((data: any, index) => (
@@ -166,7 +166,6 @@ const DashboardPage = () => {
             data={dashboardData}
             updateActivity={updateActivityType}
             updateFilter={updateFilterType}
-            activityType={activityType}
           />
         ) : (
           // Render loading skeleton for the chart
