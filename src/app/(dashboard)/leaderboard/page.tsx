@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import LeaderboardCard from "@/components/UI/LeaderboardCard";
 import LeaderboardTable from "../../../components/UI/LeaderboardData";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
@@ -12,6 +14,7 @@ const LeaderboardPage = () => {
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [loading, setLoading] = useState(true); // State for loading
 
   useEffect(() => {
     const fetchLeaderboardData = async () => {
@@ -27,7 +30,7 @@ const LeaderboardPage = () => {
             points: entry.points || 0,
             league: entry.league || 0,
             competition: entry.activity_type || "N/A",
-            avatar: entry.profile_url || "/avatar.jpeg" ,
+            avatar: entry.profile_url || "/avatar.jpeg",
             color: getCardColor(entry.rank),
           }));
           setLeaderboardData(response?.data?.data);
@@ -44,6 +47,8 @@ const LeaderboardPage = () => {
       } catch (err: any) {
         console.error("Error fetching leaderboard data:", err);
         setError(err.response?.data?.message || "Failed to fetch data.");
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
@@ -52,7 +57,6 @@ const LeaderboardPage = () => {
 
   useSidebarLoading();
 
-  // Function to set card color based on rank
   const getCardColor = (rank: string) => {
     switch (rank) {
       case "1st":
@@ -83,32 +87,42 @@ const LeaderboardPage = () => {
       {error && <div className="text-red-500">{error}</div>}
 
       <div className="flex justify-center items-center">
-        <div  className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
-          {fetchedLeaderboardData.length > 0 ? (
-            fetchedLeaderboardData.map((item, index) => (
-              
-              <div onClick={() => router.push(`/leaderboard/details/${item.id}`)}className="flex-1 cursor-pointer" key={index}>
-                <LeaderboardCard
-                
-                  position={item.position}
-                  username={item.username}
-                  points={item.points}
-                  league={item.league}
-                  competition={item.competition}
-                  avatar={item.avatar}
-                  color={item.color}
-                />
-              </div>
-            ))
-          ) : (
-            <div className="text-center text-gray-500">
-              No leaderboard data available.
-            </div>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
+          {loading
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <div className="flex-1" key={index}>
+                  <Skeleton
+                    height={200} // Adjust height to match card size
+                    baseColor="#2f2f2f"
+                    highlightColor="#3c3c3c"
+                    className="rounded-3xl"
+                  />
+                </div>
+              ))
+            : fetchedLeaderboardData.length > 0
+            ? fetchedLeaderboardData.map((item, index) => (
+                <div
+                  onClick={() => router.push(`/leaderboard/details/${item.id}`)}
+                  className="flex-1 cursor-pointer"
+                  key={index}
+                >
+                  <LeaderboardCard
+                    position={item.position}
+                    username={item.username}
+                    points={item.points}
+                    league={item.league}
+                    competition={item.competition}
+                    avatar={item.avatar}
+                    color={item.color}
+                  />
+                </div>
+              ))
+            : <div className="text-center text-gray-500">No leaderboard data available.</div>
+          }
         </div>
       </div>
 
-      <LeaderboardTable  leaderboardData={leaderboardData}/>
+      <LeaderboardTable leaderboardData={leaderboardData} />
     </div>
   );
 };
