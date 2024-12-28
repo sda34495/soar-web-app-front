@@ -1,18 +1,17 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import CheckinCard from "@/components/UI/CheckInCard";
 import FitnessCard from "@/components/UI/FitnessCard";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { endLoadingAction } from "@/store/loader-slice";
 import FinanceCard from "@/components/UI/FinanceCard";
 import Sobriety from "@/components/UI/Sobriety";
+import BeStillCard from "@/components/UI/BeStillCard";
 import CenterImageModal from "@/components/UI/CenterImageModal";
-import useSidebarLoading from "@/Hook/useSidebarLoading";
-import ScreenLoader from "@/components/UI/ScreenLoader";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-import BeStillCard from "@/components/UI/BeStillCard";
-// test
+import useSidebarLoading from "@/Hook/useSidebarLoading";
+
 interface CheckInDetails {
   morning: boolean;
   evening: boolean;
@@ -28,49 +27,18 @@ interface CheckInData {
     sobriety: CheckInDetails;
     finance: CheckInDetails;
     fitness: CheckInDetails;
+    be_still: CheckInDetails;
   };
 }
 
 const CheckInPage = () => {
-  const dispatch = useDispatch();
-
-  const [checkInStatus, setCheckInStatus] = useState({
-    pending_check_ins: 0,
-    total_done: 0,
-    check_in_details: {
-      sobriety: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
-      finance: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
-      fitness: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
-      be_still: {
-        morning: false,
-        evening: false,
-        progress: 0,
-      },
-    },
-    total_minutes_spent: 0,
-    total_progress: 0,
-  });
-
+  const [checkInStatus, setCheckInStatus] = useState<CheckInData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [refreshCheckIn, setRefreshCheckIn] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [isLoading, setIsLoading] = useState(true);  // Set loading to true initially
+  const [isLoading, setIsLoading] = useState(true);
 
-  const updateModalTitle = (value: any) => {
-    setModalTitle(value);
-  };
+  const updateModalTitle = (value: string) => setModalTitle(value);
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -83,11 +51,11 @@ const CheckInPage = () => {
       if (response.data?.success) {
         const checkInDetails = response.data?.data;
         setCheckInStatus(checkInDetails);
-        setIsLoading(false);  // Set loading to false after data is fetched
       }
     } catch (error) {
-      console.log("Failed to fetch check-in details:", error);
-      setIsLoading(false);  // Set loading to false if there's an error
+      console.error("Failed to fetch check-in details:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -99,15 +67,17 @@ const CheckInPage = () => {
 
   return (
     <div className="space-y-6 relative">
-      {/* Show the loader while data is being fetched */}
       {isLoading && (
-        <div className="mx-auto mt-44 z-10">
-          <ScreenLoader />
+        <div className="space-y-10">
+          <Skeleton height={70} baseColor="#2f2f2f" highlightColor="#3c3c3c"  className="rounded-3xl mt-5 mb-3 border-gray-700" />
+          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10 " />
+          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10 " />
+          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10 " />
+          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10" />
         </div>
       )}
 
-      {/* Content is rendered only after the data has been fully fetched */}
-      {!isLoading && (
+      {!isLoading && checkInStatus && (
         <>
           <CheckinCard
             key={refreshCheckIn ? 1 : 0}
@@ -149,7 +119,7 @@ const CheckInPage = () => {
             fetchCheckInDetails={fetchCheckInDetails}
           />
         </>
-       )} 
+      )}
 
       {isModalOpen && (
         <CenterImageModal
