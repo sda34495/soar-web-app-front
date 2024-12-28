@@ -66,7 +66,8 @@ const CheckInPage = () => {
   useSidebarLoading();
 
   return (
-    <div className="space-y-6 relative">
+    <div className="space-y-6 relative mb-5">
+      {/* Show the loader while data is being fetched */}
       {isLoading && (
         <div className="space-y-10">
           <Skeleton height={70} baseColor="#2f2f2f" highlightColor="#3c3c3c"  className="rounded-3xl mt-5 mb-3 border-gray-700" />
