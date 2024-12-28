@@ -12,7 +12,7 @@ import ScreenLoader from "@/components/UI/ScreenLoader";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import BeStillCard from "@/components/UI/BeStillCard";
-
+// test
 interface CheckInDetails {
   morning: boolean;
   evening: boolean;
