@@ -1,9 +1,9 @@
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const CheckinCard = ({checkInDetails}:any) => {
+const CheckinCard = memo(({checkInDetails}:any) => {
 
 
   const { pending_check_ins, total_done, total_minutes_spent, total_progress } =
@@ -59,6 +59,6 @@ const CheckinCard = ({checkInDetails}:any) => {
   </div>
   
   );
-};
+});
 
 export default CheckinCard;

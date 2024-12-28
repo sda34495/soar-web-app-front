@@ -33,17 +33,8 @@ interface CheckInData {
 
 const CheckInPage = () => {
   const [checkInStatus, setCheckInStatus] = useState<CheckInData | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [refreshCheckIn, setRefreshCheckIn] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
-  const updateModalTitle = (value: string) => setModalTitle(value);
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setRefreshCheckIn((prev) => !prev);
-  };
 
   const fetchCheckInDetails = async () => {
     try {
@@ -70,11 +61,36 @@ const CheckInPage = () => {
       {/* Show the loader while data is being fetched */}
       {isLoading && (
         <div className="space-y-10">
-          <Skeleton height={70} baseColor="#2f2f2f" highlightColor="#3c3c3c"  className="rounded-3xl mt-5 mb-3 border-gray-700" />
-          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10 " />
-          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10 " />
-          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10 " />
-          <Skeleton height={150} baseColor="#2f2f2f" highlightColor="#3c3c3c" className="rounded-3xl mt-10" />
+          <Skeleton
+            height={70}
+            baseColor="#2f2f2f"
+            highlightColor="#3c3c3c"
+            className="rounded-3xl mt-5 mb-3 border-gray-700"
+          />
+          <Skeleton
+            height={150}
+            baseColor="#2f2f2f"
+            highlightColor="#3c3c3c"
+            className="rounded-3xl mt-10 "
+          />
+          <Skeleton
+            height={150}
+            baseColor="#2f2f2f"
+            highlightColor="#3c3c3c"
+            className="rounded-3xl mt-10 "
+          />
+          <Skeleton
+            height={150}
+            baseColor="#2f2f2f"
+            highlightColor="#3c3c3c"
+            className="rounded-3xl mt-10 "
+          />
+          <Skeleton
+            height={150}
+            baseColor="#2f2f2f"
+            highlightColor="#3c3c3c"
+            className="rounded-3xl mt-10"
+          />
         </div>
       )}
 
@@ -86,50 +102,28 @@ const CheckInPage = () => {
           />
 
           <FitnessCard
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
             checkInStatus={checkInStatus?.check_in_details.fitness}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
           />
 
           <FinanceCard
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
             checkInStatus={checkInStatus?.check_in_details.finance}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
           />
 
           <Sobriety
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
             checkInStatus={checkInStatus?.check_in_details.sobriety}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
           />
           <BeStillCard
-            setIsLoading={setIsLoading}
-            setIsModalOpen={setIsModalOpen}
-            updateModalTitle={updateModalTitle}
             checkInStatus={checkInStatus?.check_in_details.be_still}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
           />
         </>
-      )}
-
-      {isModalOpen && (
-        <CenterImageModal
-          title={modalTitle}
-          description=""
-          isOpen={isModalOpen}
-          image="/icon_success.png"
-          onClose={handleModalClose}
-        />
       )}
     </div>
   );

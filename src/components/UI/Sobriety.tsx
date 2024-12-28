@@ -3,13 +3,11 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
- 
-
-  const [shouldRefetch, setShouldRefetch] = useState(false)
-
-  
-
+const SobrietyCard = ({
+  checkInStatus,
+  setCheckInStatus,
+  fetchCheckInDetails,
+}: any) => {
 
 
   const handleCheckboxChange = async (
@@ -26,7 +24,6 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
         [timeOfDay]: checked, // Dynamically update morning or evening
       },
     }));
-  
 
     // Prepare the request data
     const data = {
@@ -35,22 +32,17 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
     };
 
     try {
-      setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
         fetchCheckInDetails();
         // updateModalTitle("Finance Check-ins update successfully");
         // setIsModalOpen(true);
-        
-      } 
+      }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
-    }finally{
-      setIsLoading(false)
     }
   };
-
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -61,12 +53,14 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
 
   const todayDate = getFormattedDate();
 
+  const progress = parseFloat(checkInStatus.progress.toFixed(1));
 
-
-  const progress = parseFloat(checkInStatus.progress.toFixed(1)) ;
-  
-  const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
-  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
+  const progressColor =
+    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const text =
+    progress < 50
+      ? "Hey! You’re leaving things behind"
+      : "Hurray! You're making progress";
 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ">
@@ -121,7 +115,7 @@ const SobrietyCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatu
                   </svg>
                 </span>
               </label>
-              <span className=" text-gray-400">No-substance  (morning)</span>
+              <span className=" text-gray-400">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400 ">
               <span>{todayDate}</span>
