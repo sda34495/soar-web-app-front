@@ -151,7 +151,7 @@ const UserTable = () => {
         title="Want to Delete?"
         description="Are you sure you want to delete this user from your database this will be deleted permanently?"
       >
-        <div className="flex justify-center space-x-8 mt-4">
+        <div className="flex justify-center space-x-4 mt-4">
           <button
             onClick={() => setModalOpen(false)}
             className="px-24 py-4 border-[#7c7c7c] text-white border font-semibold hover:bg-custom-gradient-hover rounded-full"
