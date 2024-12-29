@@ -1,14 +1,15 @@
 "use client";
-import { getData, post } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
+import { getData, post } from "@/utils/axios";
+import CenterImageModal from "@/components/UI/DeleteModal";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [deleting, setDeleting] = useState(null); // Track user being deleted
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const rowsPerPage = 10;
 
   const fetchUsers = async () => {
@@ -19,7 +20,7 @@ const UserTable = () => {
       const response = await getData("admin/users"); // Adjust endpoint as needed
       if (response.data && response.data.success) {
         setUsers(response.data.data);
-        console.log(response?.data.data)
+        console.log(response?.data.data);
       } else {
         throw new Error(response.data.message || "Failed to fetch users");
       }
@@ -34,17 +35,11 @@ const UserTable = () => {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (userId) => {
-    const confirmDelete = confirm("Are you sure you want to delete this user?");
-    if (!confirmDelete) return;
-
-    setDeleting(userId); // Indicate the user being deleted
+  const handleDelete = async () => {
+    if (!selectedUser) return;
     try {
-      // Pass an empty object as the second argument for the POST request
-      const response = await post("admin/delete-user", { user_id: userId });
+      const response = await post("admin/delete-user", { user_id: selectedUser._id });
       if (response.data && response.data.success) {
-        alert("User deleted successfully.");
-        // Refetch the users to stay fully synchronized
         fetchUsers();
       } else {
         throw new Error(response.data.message || "Failed to delete user");
@@ -52,7 +47,8 @@ const UserTable = () => {
     } catch (err) {
       alert(`Error: ${err.message}`);
     } finally {
-      setDeleting(null); // Reset the deleting state
+      setModalOpen(false);
+      setSelectedUser(null);
     }
   };
 
@@ -83,7 +79,6 @@ const UserTable = () => {
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl text-white shadow-md overflow-hidden overflow-x-auto">
       <div className="bg-[#121212] text-white rounded-t-2xl px-2 py-1 overflow-x-auto">
         <table className="w-full text-left border-collapse">
-          {/* Table Header */}
           <thead>
             <tr className="text-[#7C7C7C]">
               <th className="p-3">Sr,</th>
@@ -94,7 +89,6 @@ const UserTable = () => {
             </tr>
             <tr className="border-t border-gray-700 h transition-all"></tr>
           </thead>
-          {/* Table Body */}
           <tbody>
             {paginatedData.map((user, index) => (
               <tr key={user._id} className="hover:bg-gray-800 transition-all">
@@ -113,17 +107,13 @@ const UserTable = () => {
                 <td className="p-3">{user.total_points}</td>
                 <td className="px-4 py-2 space-x-2 flex gap-2">
                   <button
-                    onClick={() => handleDelete(user._id)}
-                    disabled={deleting === user._id}
-                    className={`text-red-500 hover:underline ${
-                      deleting === user._id ? "opacity-50" : ""
-                    }`}
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setModalOpen(true);
+                    }}
+                    className="text-red-500 hover:underline"
                   >
-                    {deleting === user._id ? (
-                      "Deleting..."
-                    ) : (
-                      <img src="/delete.svg" alt="delete icon" />
-                    )}
+                    <img src="/delete.svg" alt="delete icon" />
                   </button>
                   <button className="text-blue-500 hover:underline">
                     <img src="/eye.svg" alt="eye icon" />
@@ -134,7 +124,6 @@ const UserTable = () => {
           </tbody>
         </table>
       </div>
-      {/* Pagination Controls */}
       <div className="flex justify-between rounded-b-2xl items-center bg-[#121212] p-4">
         <button
           onClick={handlePrev}
@@ -154,6 +143,29 @@ const UserTable = () => {
           Next
         </button>
       </div>
+
+      <CenterImageModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        image="/delete.png"
+        title="Want to Delete?"
+        description="Are you sure you want to delete this user from your database this will be deleted permanently?"
+      >
+        <div className="flex justify-center space-x-4 mt-4">
+          <button
+            onClick={() => setModalOpen(false)}
+            className="px-24 py-4 border-[#7c7c7c] text-white border font-semibold hover:bg-custom-gradient-hover rounded-full"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleDelete}
+            className="px-24 py-4 text-white bg-[#D92D20] rounded-full font-semibold"
+          >
+            Delete
+          </button>
+        </div>
+      </CenterImageModal>
     </div>
   );
 };
