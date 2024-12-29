@@ -1,51 +1,53 @@
-import React, { useEffect, useRef, useState } from "react";
-import { getData } from "../utils/axios"; // Adjust the path to your axios utility file
+import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import endpoints from "@/utils/endpoints";
 import { useSelector } from "react-redux";
 
-
-const DropdownMenu = ({setIsOpen}) => {
+const DropdownMenu = ({ setIsOpen }) => {
   const userData = useSelector((state: any) => state.profileSlice.user);
   const router = useRouter();
-   const dropdownRef = useRef(null);
+  const dropdownRef = useRef(null);
+
   const handleLogout = () => {
     localStorage.clear(); // Delete the token to log out the user
     router.push("/auth/login"); // Redirect to the login page
+    setIsOpen(false); // Close the dropdown
   };
-
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setIsOpen(false);
-        }
-      };
-  
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, []);
 
   const handleSettings = () => {
     router.push("/setting"); // Navigate to the settings page
+    setIsOpen(false); // Close the dropdown
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="absolute top-14 right-0 bg-[#1e1e1e] border border-[#454545] rounded-xl shadow-lg py-2 w-64 z-50" ref={dropdownRef} >
+    <div
+      className="absolute top-14 right-0 bg-[#1e1e1e] border border-[#454545] rounded-xl shadow-lg py-2 w-64 z-50"
+      ref={dropdownRef}
+    >
       {userData ? (
         <div className="px-4 py-2 flex flex-col items-center">
           {/* Profile Information */}
           <img
-            src={userData.profile_url || '/avatar.jpeg' }
+            src={userData.profile_url || "/avatar.jpeg"}
             alt={`${userData.first_name} ${userData?.last_name}`}
             className="h-16 w-16 rounded-full object-cover border-2 border-gray-700"
-          />          
+          />
           <p className="mt-2 text-sm font-semibold">
             {userData.first_name} {userData?.last_name}
           </p>
           <p className="text-sm text-gray-400">{userData.email}</p>
-
         </div>
       ) : (
         <div className="px-4 py-2 text-sm text-gray-400">Loading...</div>
