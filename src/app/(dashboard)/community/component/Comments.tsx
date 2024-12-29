@@ -1,5 +1,5 @@
 "use client";
-import { post } from "@/utils/axios";
+import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
@@ -12,6 +12,8 @@ const Comments = ({
   setActivePostId,
   handleCommentToggle,
   activeComments,
+  setActiveComments
+  
 }) => {
   const [newComment, setNewComment] = React.useState("");
   const [replyOpne, setReplyOpen] = React.useState();
@@ -35,6 +37,21 @@ const Comments = ({
     setNewComment("");
   };
 
+  const handleUpdateComment = async (postId: any) => {
+
+    try {
+      const response = await getData(
+        `${endpoints.GET_POST_COMMENTS}?post_id=${postId}`
+      );
+      if (response.data?.success) {
+        setActiveComments(response.data.data);
+        // setActiveReply(response?.data?.data);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   const handleAddReply = async (e: any, postId: any, comment: any) => {
     e.preventDefault();
     if (!replyText.trim()) return;
@@ -48,7 +65,8 @@ const Comments = ({
 
     try {
       await post(endpoints.CREATE_COMMENT, formdata);
-      handleCommentToggle(comment._id);
+      handleUpdateComment(postId);
+      // handleCommentToggle(comment._id);
       console.log("Reply posted successfully");
     } catch (error) {
       toast.error(error.message);
@@ -57,6 +75,8 @@ const Comments = ({
       setReplyText("");
     }
   };
+
+
 
   const handleLikeToggle = async (id, type) => {
     try {
@@ -107,7 +127,7 @@ const Comments = ({
               <button
                 type="submit"
                 className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full"
-              >
+                >
                 Comment
               </button>
             </div>
@@ -115,6 +135,7 @@ const Comments = ({
           <div className="mt-6 overflow-y-auto max-h-[350px] p-2">
             {activeComments?.map((comment: any, index: any) => (
               <div key={index} className="flex flex-col">
+                
                 <div
                   className={`flex items-center justify-between space-x-6 my-3 ${
                     index === 0 ? "border-t border-gray-700" : ""
@@ -122,24 +143,24 @@ const Comments = ({
                     index === activeComments.length - 1
                       ? "border-b border-gray-700"
                       : ""
-                  } ${index !== 0 ? "border-t border-gray-700" : ""} pt-4`}
-                >
-                  <div className="flex flex-row items-center justify-between w-full">
+                    } ${index !== 0 ? "border-t border-gray-700" : ""} pt-4`}
+                      >
+                      <div className="flex flex-row items-center justify-between w-full">
                     <div className="flex items-center space-x-2">
                       <img
                         src={comment.user.profile_url||"/avatar.jpeg"} // Replace with actual avatar
                         alt="Avatar"
                         className="rounded-full w-12 h-12 mb-5"
-                      />
+                        />
                       <div>
                         <p className="text-xs text-[#BDBDBD]">
-                          {comment?.user.username || "Danish ALi"}
+                          {comment?.user.username || "unknown"}
                         </p>
                         <p className="text-sm text-white">{comment.comment}</p>
                         <button
                           className="text-xs text-[#BDBDBD] hover:text-white"
                           onClick={() => setReplyOpen(comment._id)}
-                        >
+                          >
                           Reply
                         </button>
                       </div>
@@ -158,13 +179,13 @@ const Comments = ({
                           onClick={() =>
                             handleLikeToggle(comment._id, "comment")
                           }
-                        />
+                          />
                       )}
                       <span
                         className={`text-sm ${
                           comment.self_liked ? "text-white" : "text-[#E0E0E0]"
                         }`}
-                      >
+                        >
                         {comment.likes}
                       </span>
                     </div>
@@ -174,8 +195,8 @@ const Comments = ({
                 {/* Reply Form */}
                 {replyOpne === comment._id && (
                   <form
-                    onSubmit={(e) => handleAddReply(e, postData._id, comment)}
-                    className="ml-10"
+                  onSubmit={(e) => handleAddReply(e, postData._id, comment)}
+                  className="ml-10"
                   >
                     <textarea
                       value={replyText}
@@ -183,12 +204,12 @@ const Comments = ({
                       placeholder="Add your reply"
                       rows={1}
                       className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
-                    />
+                      />
                     <div className="flex items-center justify-end space-x-4 mt-2">
                       <button
                         onClick={() => setReplyOpen(null)}
                         className="bg-transparent border-[#7C7C7C] border rounded-full p-3 w-full"
-                      >
+                        >
                         Cancel
                       </button>
                       <button

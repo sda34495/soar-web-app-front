@@ -1,21 +1,30 @@
-// components/UI/LeaderboardTable.tsx
 "use client";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import SearchModal from "./SearchModal"; // Import modal
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css"; // Import the styles
+import SearchModal from "./SearchModal";
 
 const LeaderboardTable = ({ leaderboardData }: any) => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(true);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    setFilteredData(leaderboardData.slice(3)); // Show the first 3 leaderboard items
+    const loadData = () => {
+      setTimeout(() => {
+        setFilteredData(leaderboardData.slice(3)); // Show the first 3 leaderboard items
+        setIsTableLoading(false); // Stop table loading after fetching data
+      }, 2000); // Simulate data loading delay
+    };
+
+    loadData();
   }, [leaderboardData]);
 
   const handleRowClick = (id: string) => {
@@ -27,25 +36,19 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
 
     setLoading(true);
     try {
-      console.log("Searching for user:", searchQuery);
-
-      // Create query string with 'q' as user_name
       const response = await getData(`${endpoints.GET_TOP_USERS}?q=${searchQuery}&timestamp=${Date.now()}`);
 
-      
-      // Check if the response is successful and contains the expected data
       if (response?.data?.data) {
-        console.log("Search Results:", response.data.data);
-        setSearchResults(response.data.data);  // Set the search results
-        setIsModalOpen(true);  // Open the modal
+        setSearchResults(response.data.data);
+        setIsModalOpen(true);
       } else {
-        setSearchResults([]);  // If no data found, set empty array
+        setSearchResults([]);
       }
     } catch (error) {
       console.error("Error searching leaderboard:", error);
-      setSearchResults([]);  // If an error occurs, clear the search results
+      setSearchResults([]);
     } finally {
-      setLoading(false);  // Stop loading indicator
+      setLoading(false);
     }
   };
 
@@ -72,25 +75,63 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
           </button>
         </div>
 
-        {loading ? (
-          <div className="text-center text-white p-4">Loading...</div>
+        {isTableLoading ? (
+          <div className="p-3">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="text-[#7C7C7C]">
+                  <th className="p-3"><Skeleton baseColor="#3d3d3d" /></th>
+                  <th className="p-3"><Skeleton baseColor="#3d3d3d" /></th>
+                  <th className="p-3"><Skeleton baseColor="#3d3d3d" /></th>
+                  <th className="p-3"><Skeleton baseColor="#3d3d3d" /></th>
+                  <th className="p-3"><Skeleton baseColor="#3d3d3d" /></th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <tr key={index} className="border-t border-gray-700">
+                    <td className="p-3">
+                      <Skeleton baseColor="#3d3d3d" />
+                    </td>
+                    <td className="p-3 flex items-center space-x-3">
+                      <Skeleton
+                        baseColor="#3d3d3d"
+                        circle
+                        height={32}
+                        width={32}
+                      />
+                      <Skeleton baseColor="#3d3d3d" width={100} />
+                    </td>
+                    <td className="p-3">
+                      <Skeleton baseColor="#3d3d3d" width={50} />
+                    </td>
+                    <td className="p-3">
+                      <Skeleton baseColor="#3d3d3d" width={50} />
+                    </td>
+                    <td className="p-3">
+                      <Skeleton baseColor="#3d3d3d" width={80} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="text-[#7C7C7C]">
+              <tr className="text-[#7C7C7C] border-gray-800 border-b">
                 <th className="p-3">Rank</th>
                 <th className="p-3">User</th>
                 <th className="p-3">Points</th>
                 <th className="p-3">League</th>
                 <th className="p-3">Competition</th>
               </tr>
-              <tr className="border-t border-gray-700 h transition-all"></tr>
             </thead>
             <tbody>
               {filteredData.map((entry: any) => (
                 <tr
                   key={entry._id}
-                  className="hover:bg-gray-800 transition-all cursor-pointer"
+                  className="hover:bg-gray-800 transition-all cursor-pointer "
                   onClick={() => handleRowClick(entry._id)}
                 >
                   <td className="p-3">{entry.rank}</td>
@@ -112,7 +153,6 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
         )}
       </div>
 
-      {/* Modal Component */}
       <SearchModal
         isOpen={isModalOpen}
         results={searchResults}

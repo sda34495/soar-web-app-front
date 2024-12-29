@@ -1,27 +1,15 @@
 import { getData, post } from "@/utils/axios";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 
-const FitnessCard = ({
-  updateModalTitle,
-  setIsModalOpen,
-  setIsLoading,
-  checkInStatus,
-  setCheckInStatus,
-  fetchCheckInDetails
-}: any) => {
-
-
-  const [shouldRefetch, setShouldRefetch] = useState(false);
-
-
+const FitnessCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: any) => {
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
   ) => {
     const checked = event.target.checked;
-  
+
     // Update only the 'fitness' part of the checkInStatus state
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
@@ -30,16 +18,15 @@ const FitnessCard = ({
         [timeOfDay]: checked, // Dynamically update morning or evening
       },
     }));
-  
+
     const data = {
       activity_type: "fitness",
       time_of_day: timeOfDay,
     };
-  
+
     try {
-      setIsLoading(true);
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
-  
+
       if (response?.data?.success) {
         fetchCheckInDetails(); // Refresh the entire checkInStatus
         // updateModalTitle("Fitness Check-in updated successfully");
@@ -47,11 +34,8 @@ const FitnessCard = ({
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
-    } finally {
-      setIsLoading(false);
     }
   };
-  
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -170,6 +154,6 @@ const FitnessCard = ({
       </div>
     </div>
   );
-};
+}
 
-export default FitnessCard;
+export default memo(FitnessCard);

@@ -3,7 +3,7 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const BeStillCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
+const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
   // const [checkInStatus, setCheckInStatus] = useState<{
   //   morning: boolean;
   //   evening: boolean;
@@ -14,7 +14,7 @@ const BeStillCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus
   //   progress: 0,
   // });
 
-  const [shouldRefetch, setShouldRefetch] = useState(false)
+
 
   // useEffect(() => {
   //   const fetchCheckInDetails = async () => {
@@ -67,19 +67,17 @@ const BeStillCard = ({setIsModalOpen,updateModalTitle,setIsLoading,checkInStatus
 //     };
 
 //     try {
-//       setIsLoading(true);
+//       
 //       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
 //       if (response?.data?.success) {
 //         fetchCheckInDetails();
 //         // updateModalTitle("Finance Check-ins update successfully");
-//         // setIsModalOpen(true);
+//         
         
 //       } 
 //     } catch (error) {
 //       toast.error("An error occurred while updating check-in status.");
-//     }finally{
-//       setIsLoading(false)
 //     }
 //   };
 
