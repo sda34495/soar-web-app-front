@@ -18,7 +18,7 @@ const CenterImageModal = ({
               <div className="flex justify-center mb-4">
                 <img src={`${image}`} alt="Modal" className="h-20 mb-2" />
               </div>
-              <h3 className="mb-3 text-2xl font-bold text-white">{title}</h3>
+              <h3 className="mb-2 text-4xl font-semibold text-white font-Bricolage-Grotesque">{title}</h3>
               <p className="text-[#BDBDBD]">{description || ""}</p>
               <div className="mt-5 flex justify-center">{children}</div> {/* Render children */}
             </div>
