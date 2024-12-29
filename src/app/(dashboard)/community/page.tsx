@@ -9,11 +9,13 @@ import PostCard from "./component/PostCard";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
 import UploadPostHandel from "./component/UploadPostHandel";
 import useSocket from "@/Hook/usesocket";
+import Loader from "./component/Loader"; // Import StaticPostCard
 
 const Communitypage = () => {
   useSocket();
   const dispatch = useDispatch();
   const posts = useSelector((state: any) => state.postSlice.posts); // Access posts from Redux store
+  const [loading, setLoading] = useState(true); // Loading state
 
   const fetchPosts = async () => {
     try {
@@ -21,12 +23,12 @@ const Communitypage = () => {
       const postsData = response.data.data;
 
       if (response?.data?.success) {
-        // console.log("Post data before", postsData);
-        // console.log("Post data after", postsData);
         dispatch(postActions.updateNewData({ data: postsData }));
       }
     } catch (error) {
       toast.error(error.message || "Error fetching posts");
+    } finally {
+      setLoading(false); // Stop loading after fetch
     }
   };
 
@@ -37,19 +39,19 @@ const Communitypage = () => {
   useSidebarLoading();
 
   return (
-    <div className="">
-      {posts?.length > 0 ? (
+    <div className="flex flex-col">
+      {loading ? (
+        <Loader isLoading={true} /> // Show skeleton loading
+      ) : posts?.length > 0 ? (
         <PostCard />
       ) : (
-        <div className="">
+        <div className="flex flex-col items-center justify-center text-center w-[500px] h-[350px]">
           <UploadPostHandel nav={false} />
-          <div className="flex flex-col items-center justify-center text-center w-[500px] h-[350px] ">
-            <div className="flex flex-col max-w-[250px] items-center justify-center p-3 space-y-2">
-              <h3>No Post available</h3>
-              <p className="text-xs text-[#BDBDBD]">
-                Posts will be shown when some people will upload
-              </p>
-            </div>
+          <div className="flex flex-col max-w-[250px] items-center justify-center p-3 space-y-2">
+            <h3>No Post available</h3>
+            <p className="text-xs text-[#BDBDBD]">
+              Posts will be shown when some people will upload
+            </p>
           </div>
         </div>
       )}
