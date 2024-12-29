@@ -44,42 +44,42 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
 
 
 
-//   const handleCheckboxChange = async (
-//     event: React.ChangeEvent<HTMLInputElement>,
-//     timeOfDay: "morning" | "evening"
-//   ) => {
-//     const checked = event.target.checked;
+  const handleCheckboxChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    timeOfDay: "morning" | "evening"
+  ) => {
+    const checked = event.target.checked;
 
-//     // Update the state to reflect the checkbox change (this won't trigger re-fetching)
-//     setCheckInStatus((prevStatus) => ({
-//       ...prevStatus,
-//       sobriety: {
-//         ...prevStatus.sobriety,
-//         [timeOfDay]: checked, // Dynamically update morning or evening
-//       },
-//     }));
+    // Update the state to reflect the checkbox change (this won't trigger re-fetching)
+    setCheckInStatus((prevStatus) => ({
+      ...prevStatus,
+      praying: {
+        ...prevStatus.praying,
+        [timeOfDay]: checked, // Dynamically update morning or evening
+      },
+    }));
   
 
-//     // Prepare the request data
-//     const data = {
-//       activity_type: "be_still",
-//       time_of_day: timeOfDay,
-//     };
+    // Prepare the request data
+    const data = {
+      activity_type: "praying",
+      time_of_day: timeOfDay,
+    };
 
-//     try {
-//       
-//       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
+    try {
+      
+      const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
-//       if (response?.data?.success) {
-//         fetchCheckInDetails();
-//         // updateModalTitle("Finance Check-ins update successfully");
-//         
+      if (response?.data?.success) {
+        fetchCheckInDetails();
+        // updateModalTitle("Finance Check-ins update successfully");
         
-//       } 
-//     } catch (error) {
-//       toast.error("An error occurred while updating check-in status.");
-//     }
-//   };
+        
+      } 
+    } catch (error) {
+      toast.error("An error occurred while updating check-in status.");
+    }
+  };
 
 
   const getFormattedDate = () => {
@@ -132,7 +132,7 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
                   type="checkbox"
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.morning}
-                //   onChange={(e) => handleCheckboxChange(e, "morning")}
+                  onChange={(e) => handleCheckboxChange(e, "morning")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
@@ -168,7 +168,7 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
                   type="checkbox"
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.evening}
-                //   onChange={(e) => handleCheckboxChange(e, "evening")}
+                  onChange={(e) => handleCheckboxChange(e, "evening")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
