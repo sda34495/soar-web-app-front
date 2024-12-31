@@ -29,7 +29,7 @@ const Comments = ({
 
     try {
       await post(endpoints.CREATE_COMMENT, formdata);
-      handleCommentToggle(postId);
+      handleUpdateComment(postId);
     } catch (error) {
       toast.error(error.message);
     }
@@ -125,7 +125,7 @@ const Comments = ({
                 Cancel
               </button>
               <button
-                type="submit"
+                
                 className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full"
                 >
                 Comment
