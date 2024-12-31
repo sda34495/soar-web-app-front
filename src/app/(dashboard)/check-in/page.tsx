@@ -27,7 +27,7 @@ interface CheckInData {
     sobriety: CheckInDetails;
     finance: CheckInDetails;
     fitness: CheckInDetails;
-    be_still: CheckInDetails;
+    praying: CheckInDetails;
   };
 }
 
@@ -119,7 +119,7 @@ const CheckInPage = () => {
             fetchCheckInDetails={fetchCheckInDetails}
           />
           <BeStillCard
-            checkInStatus={checkInStatus?.check_in_details.be_still}
+            checkInStatus={checkInStatus?.check_in_details.praying}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
           />

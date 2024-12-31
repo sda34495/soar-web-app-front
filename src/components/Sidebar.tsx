@@ -15,6 +15,8 @@ import toast from "react-hot-toast";
 import { profileActions } from "@/store/profile-slice";
 
 const Sidebar = () => {
+  const [userRank, setUserRank] = useState(null); // Add state to store user rank
+
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
@@ -37,7 +39,7 @@ const Sidebar = () => {
           profileActions.updateUserProfile({ data: response.data.data })
         );
 
-        console.log("User data:", response.data.data);
+        setUserRank(response.data.data.rank)
       } else {
         toast.error("Failed to load user data.");
       }
@@ -464,7 +466,7 @@ const Sidebar = () => {
               <div className="bg-black/80 rounded-2xl">
                 <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
                   <div className="text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
-                    2nd
+                    {userRank}
                   </div>
                   <div className=" text-[#BDBDBD] font-semibold ">
                     Your Position
