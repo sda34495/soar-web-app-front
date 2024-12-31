@@ -20,7 +20,7 @@ const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
-  // console.log(pathname);
+  // console.log(pathnames);
   const dispatch = useDispatch();
 
   const router = useRouter();
