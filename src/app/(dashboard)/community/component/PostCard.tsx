@@ -46,7 +46,10 @@ const PostCard = () => {
 
 
   useEffect(() => {
-    fetchPosts();
+
+      
+      fetchPosts();
+    
   }, []);
 
   // Handle like button click
