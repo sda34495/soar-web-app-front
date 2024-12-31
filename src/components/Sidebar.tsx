@@ -31,10 +31,10 @@ const Sidebar = () => {
     try {
       const response = await getData(endpoints.GET_PROFILE_DETAILS);
       if (response?.data?.success) {
-        if (!response?.data?.data.is_subscribed) {
-          router.push("/onboard/onboarding");
-          return;
-        }
+        // if (!response?.data?.data.is_subscribed) {
+        //   router.push("/onboard/onboarding");
+        //   return;
+        // }
         dispatch(
           profileActions.updateUserProfile({ data: response.data.data })
         );
