@@ -19,7 +19,7 @@ interface BookingModalProps {
   price: string; // Price ID for the subscription
 }
 
-const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) => {
+export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) => {
 
 
   const [showSecondModal, setShowSecondModal] = useState(false);
@@ -35,9 +35,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
 
   if (!isOpen) return null;
   return (
+
     <Elements stripe={stripePromise}>
       <StripePaymentModal
         price={price}
+        endpoint={endpoints.STRIPE_PAYMENT}
         onClose={onClose}
         onPaymentSuccess={() => {
           setShowSecondModal(true);
@@ -54,11 +56,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
   );
 };
 
-const StripePaymentModal: React.FC<{
+export const StripePaymentModal: React.FC<{
   price: string;
+  endpoint: string;
   onClose: () => void;
   onPaymentSuccess: () => void;
-}> = ({ price, onClose, onPaymentSuccess }) => {
+}> = ({ price, onClose, onPaymentSuccess, endpoint }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -68,7 +71,7 @@ const StripePaymentModal: React.FC<{
     setLoading(true);
     setError("");
     try {
-      const { data: result } = await getData(endpoints.STRIPE_PAYMENT);
+      const { data: result } = await getData(endpoint);
 
 
       const clientSecret = result.data.clientSecret;
@@ -128,6 +131,7 @@ const StripePaymentModal: React.FC<{
 
 
   return (
+
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#202020] text-white rounded-3xl border border-zinc-700 max-w-md w-full p-6 relative">
         {/* Header */}
@@ -219,4 +223,22 @@ const StripePaymentModal: React.FC<{
   );
 };
 
-export default BookingModal;
+
+
+export const OneTimePaymentModal: React.FC<{
+  price: string;
+  endpoint: string;
+  onClose: () => void;
+  onPaymentSuccess: () => void;
+}> = ({ price, endpoint, onClose, onPaymentSuccess }) => {
+  return (
+    <Elements stripe={stripePromise}>
+      <StripePaymentModal
+        price={price}
+        endpoint={endpoint}
+        onClose={onClose}
+        onPaymentSuccess={onPaymentSuccess}
+      />
+    </Elements>
+  );
+};

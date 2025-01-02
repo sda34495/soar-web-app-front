@@ -2,8 +2,10 @@
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Import the post function to make the API call
 import CenterImageModal from "./UI/CenterImageModal"; // Success modal
+// import StripePaymentModal from "./UI/StripePaymentModal"; // Stripe Payment Modal
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
+import { OneTimePaymentModal } from "./StripeModal";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -21,6 +23,7 @@ interface FormErrors {
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) => {
   const [showSecondModal, setShowSecondModal] = useState(false); // For the second modal
+  const [showPaymentModal, setShowPaymentModal] = useState(false); // For Stripe Payment Modal
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -61,14 +64,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = async () => {
-    if (!validate()) {
-      return; // Stop execution if validation fails
-    }
-
+  // Submit form data to the API
+  const formSubmission = async () => {
     setLoading(true);
     setError(null); // Clear previous errors
-    console.log("User Input Data:", formData);
+    console.log("Submitting User Data:", formData);
 
     const payload = {
       first_name: formData.firstName,
@@ -79,14 +79,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
     };
 
     try {
-      // Call the API to book the coaching session
       const response = await post(endpoints.BOOK_COACHING_SESSION, payload);
 
       if (response.data?.success) {
-        // Close the first modal and show the second modal
+        // Close the first modal and show the success modal
         onClose();
         setTimeout(() => {
-          setShowSecondModal(true); // Open the second modal after a short delay
+          setShowSecondModal(true); // Open the success modal after a short delay
         }, 500);
 
         console.log(response.data);
@@ -95,12 +94,20 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
         setError("Booking failed. Please try again.");
       }
     } catch (err) {
-      // Catch any errors from the API request
       console.error("Booking failed:", err);
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleNext = () => {
+    if (!validate()) {
+      return; // Stop execution if validation fails
+    }
+
+    // Open the payment modal
+    setShowPaymentModal(true);
   };
 
   return (
@@ -208,7 +215,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, price }) =
         </div>
       )}
 
-      {/* Second Modal (CenterImageModal) */}
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <OneTimePaymentModal
+          price={price}
+          endpoint={endpoints.STRIPE_PAYMENT}
+          onClose={() => setShowPaymentModal(false)}
+          onPaymentSuccess={formSubmission} // Submit form after successful payment
+        />
+      )}
+
+      {/* Second Modal (Success) */}
       {showSecondModal && (
         <CenterImageModal
           description="Your session has been booked."
