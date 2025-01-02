@@ -3,7 +3,11 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
+const BeStillCard = ({
+  checkInStatus,
+  setCheckInStatus,
+  fetchCheckInDetails,
+}: any) => {
   // const [checkInStatus, setCheckInStatus] = useState<{
   //   morning: boolean;
   //   evening: boolean;
@@ -13,8 +17,6 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
   //   evening: false,
   //   progress: 0,
   // });
-
-
 
   // useEffect(() => {
   //   const fetchCheckInDetails = async () => {
@@ -42,45 +44,41 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
   //   fetchCheckInDetails();
   // }, [shouldRefetch]);
 
+  //   const handleCheckboxChange = async (
+  //     event: React.ChangeEvent<HTMLInputElement>,
+  //     timeOfDay: "morning" | "evening"
+  //   ) => {
+  //     const checked = event.target.checked;
 
+  //     // Update the state to reflect the checkbox change (this won't trigger re-fetching)
+  //     setCheckInStatus((prevStatus) => ({
+  //       ...prevStatus,
+  //       sobriety: {
+  //         ...prevStatus.sobriety,
+  //         [timeOfDay]: checked, // Dynamically update morning or evening
+  //       },
+  //     }));
 
-//   const handleCheckboxChange = async (
-//     event: React.ChangeEvent<HTMLInputElement>,
-//     timeOfDay: "morning" | "evening"
-//   ) => {
-//     const checked = event.target.checked;
+  //     // Prepare the request data
+  //     const data = {
+  //       activity_type: "be_still",
+  //       time_of_day: timeOfDay,
+  //     };
 
-//     // Update the state to reflect the checkbox change (this won't trigger re-fetching)
-//     setCheckInStatus((prevStatus) => ({
-//       ...prevStatus,
-//       sobriety: {
-//         ...prevStatus.sobriety,
-//         [timeOfDay]: checked, // Dynamically update morning or evening
-//       },
-//     }));
-  
+  //     try {
+  //
+  //       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
-//     // Prepare the request data
-//     const data = {
-//       activity_type: "be_still",
-//       time_of_day: timeOfDay,
-//     };
+  //       if (response?.data?.success) {
+  //         fetchCheckInDetails();
+  //         // updateModalTitle("Finance Check-ins update successfully");
+  //
 
-//     try {
-//       
-//       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
-
-//       if (response?.data?.success) {
-//         fetchCheckInDetails();
-//         // updateModalTitle("Finance Check-ins update successfully");
-//         
-        
-//       } 
-//     } catch (error) {
-//       toast.error("An error occurred while updating check-in status.");
-//     }
-//   };
-
+  //       }
+  //     } catch (error) {
+  //       toast.error("An error occurred while updating check-in status.");
+  //     }
+  //   };
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -91,22 +89,22 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
 
   const todayDate = getFormattedDate();
 
+  //   const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
+  const progress = 10;
 
-
-//   const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
-  const progress = 10 ;
-  
-  const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
-  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
+  const progressColor =
+    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const text =
+    progress < 50
+      ? "Hey! You’re leaving things behind"
+      : "Hurray! You're making progress";
 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ">
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">
-            Be Still Check-ins
-          </h2>
+          <h2 className="text-lg font-bold">Be Still Check-ins</h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"text-green-500 font-semibold" + progressColor}>
               {text}
@@ -132,7 +130,7 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
                   type="checkbox"
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.morning}
-                //   onChange={(e) => handleCheckboxChange(e, "morning")}
+                  //   onChange={(e) => handleCheckboxChange(e, "morning")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
@@ -154,9 +152,9 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
               <span className="text-gray-400">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>No-substance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">No-sub</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
 
@@ -168,7 +166,7 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
                   type="checkbox"
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.evening}
-                //   onChange={(e) => handleCheckboxChange(e, "evening")}
+                  //   onChange={(e) => handleCheckboxChange(e, "evening")}
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
@@ -190,9 +188,9 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
               <span className="text-gray-400">No-substance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>No-substance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">No-sub</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
         </div>

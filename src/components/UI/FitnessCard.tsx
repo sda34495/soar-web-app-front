@@ -3,7 +3,11 @@ import React, { memo, useEffect, useState } from "react";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 
-const FitnessCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: any) => {
+const FitnessCard = ({
+  checkInStatus,
+  setCheckInStatus,
+  fetchCheckInDetails,
+}: any) => {
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
@@ -62,7 +66,7 @@ const FitnessCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: a
         <div className="flex justify-between items-center  ">
           <h2 className="text-lg font-bold">Fitness Check-ins</h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-            <span className={"bg-transparent  font-semibold" + progressColor}>
+            <span className={"text-green-500  font-semibold" + progressColor}>
               {text}
             </span>
             <div className="flex items-center">
@@ -109,9 +113,9 @@ const FitnessCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: a
               <span className="text-gray-400">Fitness (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>Fitness</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">Fitness</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
 
@@ -145,15 +149,15 @@ const FitnessCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: a
               <span className="text-gray-400">Fitness (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>Fitness</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">Fitness</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default memo(FitnessCard);
