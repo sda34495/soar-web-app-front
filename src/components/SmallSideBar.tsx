@@ -19,7 +19,7 @@ function SmallSideBar() {
   return (
     <>
     {isOpen && (
-    <aside className=" text-gray-200 flex flex-col justify-between">
+    <aside className=" text-gray-200 bg-black h-screen flex flex-col justify-between">
 
           <div>
             <div className="flex flex-col mt-5 items-center justify-center mb-16">
@@ -31,7 +31,12 @@ function SmallSideBar() {
             </div>       
             <ul className=" flex flex-col space-y-2 ">
               {/* Check-in link */}
-              <button onClick={() => updateloader("Check-in")}>
+              <button onClick={() => {
+                updateloader("Check-in")
+                setIsOpen(false);
+              } 
+                
+                }>
                 <Link href="/check-in">
                   <li
                     className={`flex items-center px-1 py-2  cursor-pointer font-semibold  ${
@@ -55,7 +60,9 @@ function SmallSideBar() {
               </button>
 
               {/* Dashboard link */}
-              <button onClick={() => updateloader("Dashboard")}>
+              <button onClick={() => {updateloader("Dashboard");
+                setIsOpen(false)
+              }}>
                 <Link href="/dashboard">
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold  ${
@@ -79,7 +86,10 @@ function SmallSideBar() {
               </button>
 
               {/* Leaderboard link */}
-              <button onClick={() => updateloader("Leaderboard")}>
+              <button onClick={() => {updateloader("Leaderboard");
+              setIsOpen(false);
+
+              }}>
                 <Link href="/leaderboard">
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
@@ -103,7 +113,9 @@ function SmallSideBar() {
               </button>
 
               {/* Coaching link */}
-              <button onClick={() => updateloader("Coaching")}>
+              <button onClick={() => {updateloader("Coaching");
+              setIsOpen(false)
+              }}>
                 <Link href="/coaching">
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
@@ -126,7 +138,9 @@ function SmallSideBar() {
                 </Link>
               </button>
 
-              <button onClick={() => updateloader("Talk to Doctor")}>
+              <button onClick={() => {updateloader("Talk to Doctor");
+                setIsOpen(false);
+              }}>
                 <Link href="/talktodoctor">
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
@@ -149,7 +163,9 @@ function SmallSideBar() {
                 </Link>
               </button>
 
-              <button onClick={() => updateloader("Settings")}>
+              <button onClick={() => {updateloader("Settings");
+                setIsOpen(false);
+              }}>
                 {/* Settings link */}
                 <Link href="/setting">
                   <li
@@ -174,7 +190,9 @@ function SmallSideBar() {
               </button>
 
               {/* Professional Referral link */}
-              <button onClick={() => updateloader("Professional Referral")}>
+              <button onClick={() => {updateloader("Professional Referral");
+                setIsOpen(false);
+              }}>
                 <Link href="/professional-referral">
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
@@ -197,7 +215,9 @@ function SmallSideBar() {
                 </Link>
               </button>
 
-              <button onClick={() => updateloader("community")}>
+              <button onClick={() => {updateloader("community");
+                setIsOpen(false);
+              }}>
                 <Link href="/community">
                   <li
                     className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
@@ -224,7 +244,9 @@ function SmallSideBar() {
           <div className="py-4">
             <div className="mb-6 flex items-center text-start">
               <button
-                onClick={() => updateloader("Support")}
+                onClick={() => {updateloader("Support");
+                  setIsOpen(false);
+                }}
                 className="w-full" // Make the button span the full width
               >
                 <Link href="/support">
