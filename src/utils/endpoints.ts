@@ -45,6 +45,7 @@ const endpoints = {
   GET_ADMIN_LEADERBOARD:"admin/leaderboard",
   LOGIN: "users/login",
   REGISTER: "users/signup",
+  GET_TOTAL_USERS:"profile/total-competing-users",
   FORGET_PASSWORD_REQUEST_OTP: "users/request-otp",
   RESET_NEW_PASSWORD: "users/set-new-password",
   GET_DASHBOARD_DATA: "dashboard/details",
