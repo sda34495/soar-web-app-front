@@ -1,7 +1,7 @@
 "use client";
 import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
@@ -23,33 +23,29 @@ const PostCard = () => {
   const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
 
   // Fetch posts data from the server
-  const fetchPosts = useCallback( async () => {
-  try {
-    const response = await getData(endpoints.GET_POSTS);
-    if (response?.data?.success) {
-      const postsData = response.data.data;
+  const fetchPosts = async () => {
+    try {
+      const response = await getData(endpoints.GET_POSTS);
+      if (response?.data?.success) {
+        const postsData = response.data.data;
 
-      // Dispatch posts to Redux
-      dispatch(postActions.updateNewData({ data: postsData }));
+        // Dispatch posts to Redux
 
-      // Initialize likedPosts based on self_like
-      const initialLikedPosts: { [key: string]: boolean } = {};
-      postsData.forEach((post: any) => {
-        initialLikedPosts[post._id] = post.self_liked; // Use self_like from the server
-      });
-      setLikedPosts(initialLikedPosts);
+        // Initialize likedPosts based on self_like
+        const initialLikedPosts: { [key: string]: boolean } = {};
+        postsData.forEach((post: any) => {
+          initialLikedPosts[post._id] = post.self_liked; // Use self_like from the server
+        });
+        setLikedPosts(initialLikedPosts);
+        dispatch(postActions.updateNewData({ data: postsData }));
+      }
+    } catch (error) {
+      toast.error(error.message || "Error fetching posts");
     }
-  } catch (error) {
-    toast.error(error.message || "Error fetching posts");
-  }
-}, []);
-
+  };
 
   useEffect(() => {
-    // fetchPosts();
-    if (posts.length === 0) {
-      fetchPosts();
-    }
+    fetchPosts();
   }, []);
 
   // Handle like button click
@@ -58,12 +54,15 @@ const PostCard = () => {
       console.error("Invalid postId", postId);
       return;
     }
-  
+
     const isSelfLiked = !likedPosts[postId]; // Toggle the current self_like state
     setLikedPosts((prev) => ({ ...prev, [postId]: isSelfLiked })); // Optimistically update the local state
-  
+
     try {
-      const response = await post(endpoints.POST_LIKE, { post_id: postId, self_liked: isSelfLiked });
+      const response = await post(endpoints.POST_LIKE, {
+        post_id: postId,
+        self_liked: isSelfLiked,
+      });
       if (response.data.success) {
         // Update Redux store with the new self_like state and like count
         dispatch(
@@ -93,10 +92,6 @@ const PostCard = () => {
       setLikedPosts((prev) => ({ ...prev, [postId]: !isSelfLiked }));
     }
   };
-  
-  
-
-
 
   const handleCommentToggle = async (postId: any) => {
     if (activePostId !== postId) {
@@ -115,11 +110,6 @@ const PostCard = () => {
       toast.error(error.message);
     }
   };
-
-
-
-
-
   const handleEditPost = async (postId: any) => {
     if (activePostId !== postId) {
       setActivePostId(activePostId === postId ? null : postId);
@@ -146,9 +136,7 @@ const PostCard = () => {
             <div className="flex items-start justify-between mb-4 max-w-[660px] w-full">
               <div className="flex items-center space-x-4">
                 <img
-                  src={`${
-                    post?.user?.profile_url || "/avatar.jpeg"
-                  }`} // Replace with actual avatar
+                  src={`${post?.user?.profile_url || "/avatar.jpeg"}`} // Replace with actual avatar
                   alt={post.user?.user_name || "User"}
                   className="rounded-full w-10 h-10 object-cover"
                 />
@@ -163,7 +151,9 @@ const PostCard = () => {
             </div>
 
             <h2 className="text-lg font-semibold">{post.header}</h2>
-            <p className="text-gray-400 mt-2 max-w-[650px] w-full">{post.description}</p>
+            <p className="text-gray-400 mt-2 max-w-[650px] w-full">
+              {post.description}
+            </p>
 
             {post.media && (
               <div className="mt-4 items-center max-w-[640px] justify-center mx-auto px-4 bg-slate-400 w-full rounded-xl">

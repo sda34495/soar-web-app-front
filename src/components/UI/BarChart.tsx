@@ -39,7 +39,12 @@ export default function CustomYAxisBarChart({
       {
         label: AM,
         data: transformedData.map((item) => item.AM),
-        backgroundColor: activityType === "sobriety" ? "#FFA500" : "#FFA500",// orange
+        // backgroundColor: activityType === "sobriety" ? "#FFA500" : "#FFA500",// orange
+        backgroundColor: activityType === "sobriety" 
+        ? "#FFA500" 
+        : activityType === "praying" 
+          ? "#ffff" 
+          : "#FFA500",
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -47,7 +52,11 @@ export default function CustomYAxisBarChart({
       {
         label: PM,
         data: transformedData.map((item) => item.PM),
-        backgroundColor: activityType === "sobriety" ? "#ffff" : "#00FF00",// Green
+        backgroundColor: activityType === "sobriety" 
+        ? "#ffff" 
+        : activityType === "praying" 
+          ? "#005Db3" 
+          : "#00FF00", 
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,

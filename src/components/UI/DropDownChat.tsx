@@ -107,12 +107,7 @@ const DateDropdown = ({ updateFilter }) => {
             >
               Last month
             </li>
-            <li
-              onClick={() => handleSelect("All Time" , "allTime")}
-              className="px-4 py-3 hover:bg-[#191919] cursor-pointer rounded-b-lg"
-            >
-              All time
-            </li>
+            
           </ul>
         </div>
       )}
