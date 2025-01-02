@@ -8,15 +8,15 @@ import { FaShareAlt } from "react-icons/fa";
 
 const ReferralForm = () => {
   const [formData, setFormData] = useState({
-    referal_link: "",
+    email: "",
     comment: "",
   });
 
   const [formErrors, setFormErrors] = useState<{
-    referal_link: string;
+    email: string;
     comment: string;
   }>({
-    referal_link: "",
+    email: "",
     comment: "",
   });
 
@@ -34,20 +34,20 @@ const ReferralForm = () => {
   };
 
   const validate = () => {
-    const errors: { referal_link: string; comment: string } = {
-      referal_link: "",
+    const errors: { email: string; comment: string } = {
+      email: "",
       comment: "",
     };
 
-    if (!formData.referal_link.trim()) {
-      errors.referal_link = "Referral email is required.";
+    if (!formData.email.trim()) {
+      errors.email = "Referral email is required.";
     }
     if (!formData.comment.trim()) {
       errors.comment = "Comment is required.";
     }
 
     setFormErrors(errors);
-    return !errors.referal_link && !errors.comment;
+    return !errors.email && !errors.comment;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,8 +64,8 @@ const ReferralForm = () => {
           response.data.message || "Referral created successfully!"
         );
         setTimeout(() => {
-          setFormData({ referal_link: "", comment: "" });
-          setFormErrors({ referal_link: "", comment: "" });
+          setFormData({ email: "", comment: "" });
+          setFormErrors({ email: "", comment: "" });
         }, 500);
       } else {
         toast.error(response.data.message || "Failed to create referral.");
@@ -85,21 +85,21 @@ const ReferralForm = () => {
             Provide the professional referral
           </h3>
           <div>
-            <label htmlFor="referal_link" className="text-[#7c7c7c]">
+            <label htmlFor="email" className="text-[#7c7c7c]">
               Referral Email
             </label>
             <input
               type="text"
-              name="referal_link"
-              id="referal_link"
+              name="email"
+              id="email"
               placeholder="ex: referal@domain.com"
-              value={formData.referal_link}
+              value={formData.email}
               onChange={handleInputChange}
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
-            {formErrors.referal_link && (
+            {formErrors.email && (
               <p className="text-red-500 text-sm mt-1">
-                {formErrors.referal_link}
+                {formErrors.email}
               </p>
             )}
           </div>
