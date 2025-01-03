@@ -1,7 +1,6 @@
 "use client";
-import CenterImageModal from "@/components/UI/CenterImageModal";
-import React, { useState } from "react";
-import { post } from "@/utils/axios"; // Adjust the path based on your project structure
+import { useState } from "react";
+import { post } from "@/utils/axios";
 import toast from "react-hot-toast";
 import endpoints from "@/utils/endpoints";
 import { FaShareAlt } from "react-icons/fa";
@@ -41,7 +40,10 @@ const ReferralForm = () => {
 
     if (!formData.email.trim()) {
       errors.email = "Referral email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Invalid email address.";
     }
+
     if (!formData.comment.trim()) {
       errors.comment = "Comment is required.";
     }
@@ -57,22 +59,26 @@ const ReferralForm = () => {
       return; // Prevent form submission if validation fails
     }
 
+    const toastId = toast.loading("Submitting your referral..."); // Show loading toast
+
     try {
       const response = await post(endpoints.POST_REFERAL_DATA, formData);
       if (response.data.success) {
         toast.success(
-          response.data.message || "Referral created successfully!"
+          response.data.message || "Referral created successfully!",
+          { id: toastId } // Update toast
         );
-        setTimeout(() => {
-          setFormData({ email: "", comment: "" });
-          setFormErrors({ email: "", comment: "" });
-        }, 500);
+        setFormData({ email: "", comment: "" });
+        setFormErrors({ email: "", comment: "" });
       } else {
-        toast.error(response.data.message || "Failed to create referral.");
+        toast.error(response.data.message || "Failed to create referral.", {
+          id: toastId, // Update toast
+        });
       }
     } catch (error: any) {
       toast.error(
-        error.response?.data?.message || "An error occurred while submitting."
+        error.response?.data?.message || "An error occurred while submitting.",
+        { id: toastId } // Update toast
       );
     }
   };
@@ -81,9 +87,7 @@ const ReferralForm = () => {
     <div>
       <form onSubmit={handleSubmit} className="max-w-[660px] mb-10">
         <div className="space-y-4">
-          <h3 className="text-2xl font-bold">
-            Provide the professional referral
-          </h3>
+          <h3 className="text-2xl font-bold">Provide the professional referral</h3>
           <div>
             <label htmlFor="email" className="text-[#7c7c7c]">
               Referral Email
@@ -98,9 +102,7 @@ const ReferralForm = () => {
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] focus:outline-none border"
             />
             {formErrors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {formErrors.email}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
             )}
           </div>
 
