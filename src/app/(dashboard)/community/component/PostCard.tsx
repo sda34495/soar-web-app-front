@@ -14,6 +14,7 @@ import EditOrDeletePost from "./EditOrDeletePost";
 
 const PostCard = () => {
   const posts = useSelector((state: any) => state.postSlice.posts);
+  const currentUserId = useSelector((state: any) => state.profileSlice.user._id);
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
   const [activeReply, setActiveReply] = useState("");
@@ -27,7 +28,7 @@ const PostCard = () => {
   try {
     const response = await getData(endpoints.GET_POSTS);
     if (response?.data?.success) {
-      const postsData = response.data.data;
+      const postsData = response.data.data.posts;
       
         // Dispatch posts to Redux
 
@@ -99,6 +100,7 @@ const PostCard = () => {
   };
 
   const handleCommentToggle = async (postId: any) => {
+    console.log("postId:", postId);
     if (activePostId === postId) {
       setActivePostId(null);
       setActiveComments([]); // Clear comments when toggling off
@@ -158,7 +160,10 @@ const PostCard = () => {
                 </div>
               </div>
               <div className="relative">
-                <EditOrDeletePost post_id={post._id} postData={post} />
+                {post?.user?._id}
+              {post?.user?._id === currentUserId && (
+                  <EditOrDeletePost post_id={post._id} postData={post} />
+                )}
               </div>
             </div>
 
