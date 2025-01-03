@@ -18,7 +18,7 @@ interface dashboard {
 }
 
 const DashboardPage = () => {
-  useSocket()
+  useSocket();
   const [dashboardData, setDashboardData] = useState<dashboard>(); // State to store dashboard data
   const [loading, setLoading] = useState(false); // State to handle loading indicator
   const [error, setError] = useState(null); // State to handle errors
@@ -62,8 +62,6 @@ const DashboardPage = () => {
     console.log("Fetching data for:", activityType, filterType);
     loadDashboardData(); // Call the data-loading function
   }, [filterType, activityType]); // Empty dependency array to run once on component mount
-
-
 
   const cardData = [
     {
@@ -147,12 +145,12 @@ const DashboardPage = () => {
                 </div>
               ))
             : // Render loading skeletons while stats are loading
-              Array.from({ length: 3 }).map((_, index) => (
+              Array.from({ length: 4 }).map((_, index) => (
                 <div className="flex-1" key={index}>
                   <Skeleton
                     height={150}
-                    baseColor="#22222e"
-                    highlightColor="#46465e"
+                    baseColor="#2f2f2f"
+                    highlightColor="#3c3c3c"
                   />
                 </div>
               ))}
@@ -170,7 +168,7 @@ const DashboardPage = () => {
           />
         ) : (
           // Render loading skeleton for the chart
-          <Skeleton height={300} baseColor="#22222e" highlightColor="#46465e" />
+          <Skeleton height={300} baseColor="#2f2f2f" highlightColor="#3c3c3c" />
         )}
       </div>
 
@@ -203,8 +201,8 @@ const DashboardPage = () => {
                 <div className="flex-1" key={index}>
                   <Skeleton
                     height={150}
-                    baseColor="#22222e"
-                    highlightColor="#46465e"
+                    baseColor="#2f2f2f"
+                    highlightColor="#3c3c3c"
                   />
                 </div>
               ))}

@@ -17,8 +17,10 @@ import { profileActions } from "@/store/profile-slice";
 const Sidebar = () => {
   const [userRank, setUserRank] = useState(null); // Add state to store user rank
 
+
   const [activeItem, setActiveItem] = useState("");
   const [usertype, setUserType] = useState<any>(null);
+  const [totalUsers, setTotalUser] = useState<any>(null);
   const pathname = usePathname(); // Hook to get current pathname
   // console.log(pathnames);
   const dispatch = useDispatch();
@@ -30,16 +32,19 @@ const Sidebar = () => {
   const fetchData = async () => {
     try {
       const response = await getData(endpoints.GET_PROFILE_DETAILS);
+      
       if (response?.data?.success) {
         // if (!response?.data?.data.is_subscribed) {
         //   router.push("/onboard/onboarding");
         //   return;
         // }
         dispatch(
-          profileActions.updateUserProfile({ data: response.data.data })
+          profileActions.updateUserProfile({ data: response.data.data})
         );
-
+        
         setUserRank(response.data.data.rank)
+     
+        
       } else {
         toast.error("Failed to load user data.");
       }
@@ -51,6 +56,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     fetchData();
+    
     const storedUser = localStorage.getItem("user");
 
     if (storedUser !== null) {
@@ -64,6 +70,28 @@ const Sidebar = () => {
     }
   }, []);
 
+
+
+  useEffect(() => {
+    const fetchTotalUsers = async () => {
+      try {
+        const res = await getData(endpoints.GET_TOTAL_USERS);
+        if (res?.data?.success) {
+         dispatch(profileActions.updateUserProfile({ data: res.data.data})) 
+          setTotalUser(res.data.data);
+          console.log("Data",res?.data?.data)
+        } else {
+          console.error("Failed to fetch total users.");
+        }
+      } catch (error) {
+        console.error("Error fetching total users.", error);
+      }
+    };
+    
+    fetchTotalUsers();
+  }, []);
+
+  
   // Use effect to set activeItem based on pathname using switch
   useEffect(() => {
     const getFormattedDate = (date: Date) => {
@@ -74,7 +102,9 @@ const Sidebar = () => {
         year: "numeric", // Year (e.g., "2024")
       }).format(date);
     };
-
+  
+  
+   
     // Today's date
     const today = new Date();
     const formattedToday = getFormattedDate(today);
@@ -86,7 +116,7 @@ const Sidebar = () => {
 
     // Combine dates into the desired string
     const dateRangeString = `${formattedToday} - ${formattedTomorrow}`;
-
+   
     switch (pathname) {
       case "/check-in":
         setActiveItem("Check-in");
@@ -115,7 +145,7 @@ const Sidebar = () => {
         dispatch(
           navbarActions.updateNavbar({
             title: "Leaderboard",
-            description: "Total competing users 1,622",
+            description: `Total competing users ${totalUsers}` ,
           })
         );
 
@@ -125,7 +155,7 @@ const Sidebar = () => {
         dispatch(
           navbarActions.updateNavbar({
             title: "Coaching",
-            description: "Total competing users 1,622",
+            description: `Total competing users ${totalUsers}` ,
           })
         );
 
@@ -212,7 +242,7 @@ const Sidebar = () => {
         setActiveItem(""); // Default if no match
         break;
     }
-  }, [pathname]);
+  }, [pathname,totalUsers]);
 
   const lodervalue = useSelector((state: any) => state.loaderSlice.isLoading);
   // console.log(lodervalue);
@@ -222,6 +252,7 @@ const Sidebar = () => {
       dispatch(endLoadingAction.endLoading(10));
     }
   };
+ 
 
   return (
     <>

@@ -20,7 +20,7 @@ const SettingPage = () => {
           General profile
         </button>
         <button
-          
+         
           onClick={() => setActiveTab("notification")}
           className={`w-[160px]  bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[18px]   rounded-full p-3 mt-8 ${activeTab === "notification" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
         >
@@ -35,8 +35,8 @@ const SettingPage = () => {
         </button>
       </div>
 
-      {activeTab === "general" && <GeneralProfile />}
-      {activeTab === "notification" && <Notification />}
+      {activeTab === "general" && <GeneralProfile  />}
+      {activeTab === "notification" &&<div id="notification"><Notification /></div>}
       {activeTab === "password" && <PasswordSecurity />}
       
     </div>
