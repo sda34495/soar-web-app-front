@@ -8,43 +8,6 @@ const BeStillCard = ({
   setCheckInStatus,
   fetchCheckInDetails,
 }: any) => {
-  // const [checkInStatus, setCheckInStatus] = useState<{
-  //   morning: boolean;
-  //   evening: boolean;
-  //   progress: number;
-  // }>({
-  //   morning: false,
-  //   evening: false,
-  //   progress: 0,
-  // });
-
-  // useEffect(() => {
-  //   const fetchCheckInDetails = async () => {
-  //     try {
-  //       const response = await getData(endpoints.GET_CHECK_IN_DATA);
-  //       if (response.data?.success) {
-  //         const data = response.data?.data?.check_in_details?.sobriety || {};
-  //         setCheckInStatus({
-  //           morning: data.morning || false,
-  //           evening: data.evening || false,
-  //           progress: data.progress || 0,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.log("Failed to fetch check-in details:", error);
-  //     }
-  //   };
-
-  //   if (shouldRefetch) {
-  //     fetchCheckInDetails();
-  //     setShouldRefetch(false); // Reset the refetch flag after fetching
-  //   }
-
-  //   // Fetch the data on mount only (empty dependency array ensures this effect runs only once)
-  //   fetchCheckInDetails();
-  // }, [shouldRefetch]);
-
-
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -52,7 +15,6 @@ const BeStillCard = ({
   ) => {
     const checked = event.target.checked;
 
-    // Update the state to reflect the checkbox change (this won't trigger re-fetching)
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
       praying: {
@@ -94,7 +56,7 @@ const BeStillCard = ({
   const todayDate = getFormattedDate();
 
   //   const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
-  const progress = 10;
+  const progress = parseFloat(checkInStatus?.progress.toFixed(1));
 
   const progressColor =
     progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
