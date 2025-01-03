@@ -8,8 +8,6 @@ const SobrietyCard = ({
   setCheckInStatus,
   fetchCheckInDetails,
 }: any) => {
-
-
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
@@ -118,9 +116,9 @@ const SobrietyCard = ({
               <span className=" text-gray-400">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400 ">
-              <span>{todayDate}</span>
-              <span>No-substance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">No-sub</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
 
@@ -154,9 +152,9 @@ const SobrietyCard = ({
               <span className="text-gray-400">No-substance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>No-substance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">No-sub</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
         </div>

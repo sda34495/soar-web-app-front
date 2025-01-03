@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaTwitter } from "react-icons/fa6";
+import { FaXTwitter } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import Link from "next/link";
@@ -205,7 +205,7 @@ function Login() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FaTwitter className="text-[#C2A171] w-8 h-8" />
+          <FaXTwitter className="text-[#C2A171] w-8 h-8" />
         </a>
         <a
           href="https://www.instagram.com"

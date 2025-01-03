@@ -3,46 +3,11 @@ import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) => {
-  // const [checkInStatus, setCheckInStatus] = useState<{
-  //   morning: boolean;
-  //   evening: boolean;
-  //   progress: number;
-  // }>({
-  //   morning: false,
-  //   evening: false,
-  //   progress: 0,
-  // });
-
-
-
-  // useEffect(() => {
-  //   const fetchCheckInDetails = async () => {
-  //     try {
-  //       const response = await getData(endpoints.GET_CHECK_IN_DATA);
-  //       if (response.data?.success) {
-  //         const data = response.data?.data?.check_in_details?.sobriety || {};
-  //         setCheckInStatus({
-  //           morning: data.morning || false,
-  //           evening: data.evening || false,
-  //           progress: data.progress || 0,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.log("Failed to fetch check-in details:", error);
-  //     }
-  //   };
-
-  //   if (shouldRefetch) {
-  //     fetchCheckInDetails();
-  //     setShouldRefetch(false); // Reset the refetch flag after fetching
-  //   }
-
-  //   // Fetch the data on mount only (empty dependency array ensures this effect runs only once)
-  //   fetchCheckInDetails();
-  // }, [shouldRefetch]);
-
-
+const BeStillCard = ({
+  checkInStatus,
+  setCheckInStatus,
+  fetchCheckInDetails,
+}: any) => {
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -50,7 +15,6 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
   ) => {
     const checked = event.target.checked;
 
-    // Update the state to reflect the checkbox change (this won't trigger re-fetching)
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
       praying: {
@@ -91,22 +55,22 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
 
   const todayDate = getFormattedDate();
 
+  //   const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
+  const progress = parseFloat(checkInStatus?.progress.toFixed(1));
 
-
-//   const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
-  const progress = 10 ;
-  
-  const progressColor = progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
-  const text = progress < 50 ? "Hey! You’re leaving things behind" : "Hurray! You're making progress"
+  const progressColor =
+    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const text =
+    progress < 50
+      ? "Hey! You’re leaving things behind"
+      : "Hurray! You're making progress";
 
   return (
     <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ">
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">
-            Be Still Check-ins
-          </h2>
+          <h2 className="text-lg font-bold">Be Still Check-ins</h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={"text-green-500 font-semibold" + progressColor}>
               {text}
@@ -154,9 +118,9 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
               <span className="text-gray-400">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>No-substance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">No-sub</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
 
@@ -190,9 +154,9 @@ const BeStillCard = ({checkInStatus,setCheckInStatus,fetchCheckInDetails}: any) 
               <span className="text-gray-400">No-substance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>No-substance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">No-sub</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
         </div>

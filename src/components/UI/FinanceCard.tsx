@@ -3,8 +3,11 @@ import endpoints from "@/utils/endpoints";
 import React, { memo, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const FinanceCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: any) => {
-
+const FinanceCard = ({
+  checkInStatus,
+  setCheckInStatus,
+  fetchCheckInDetails,
+}: any) => {
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
@@ -111,9 +114,9 @@ const FinanceCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: a
               <span className="text-gray-400">Finance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>Finance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">Finance</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
 
@@ -147,16 +150,15 @@ const FinanceCard = ({ checkInStatus, setCheckInStatus, fetchCheckInDetails }: a
               <span className="text-gray-400">Finance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
-              <span>{todayDate}</span>
-              <span>Finance</span>
-              <span>10 minutes</span>
+              <span className="w-20">{todayDate}</span>
+              <span className="w-20">Finance</span>
+              <span className="w-20">6 hours</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
-
+};
 
 export default memo(FinanceCard);
