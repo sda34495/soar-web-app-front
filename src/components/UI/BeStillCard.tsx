@@ -81,7 +81,7 @@ const BeStillCard = ({
   return (
     <div
       className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ${
-        isProcessing ? "cursor-not-allowed" : ""
+        isProcessing ? "cursor-not-allowed blur-sm" : ""
       }`}
     >
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
