@@ -146,6 +146,12 @@ const ActionsSection = () => {
       ) {
         setIsNotificationOpen(false);
       }
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -261,7 +267,7 @@ const ActionsSection = () => {
         {userData.first_name} {userData.last_name}
       </span> */}
       <div className="relative">
-        <div className="dropdown-menu">
+        <div className="dropdown-menu" ref={dropdownRef}>
           <div
             className="flex items-center space-x-2 cursor-pointer"
             onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -278,13 +284,13 @@ const ActionsSection = () => {
               <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
             </div>
           </div>
-        </div>
         {/* Render the DropdownMenu component conditionally and this will close when click outside */}
         {isDropdownOpen && (
           <div className="">
             <DropdownMenu setIsOpen={setIsDropdownOpen}/>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
