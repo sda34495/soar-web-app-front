@@ -19,7 +19,7 @@ const CheckinCard = ({ checkInDetails }: any) => {
         <div className="flex flex-col space-y-1 text-center md:text-left">
           <h2 className="text-lg font-semibold">Today's Checkins</h2>
           <p className="text-sm text-gray-400">
-            Total 6, mark them before the end of the day
+            Total 8, mark them before the end of the day
           </p>
         </div>
 
