@@ -45,6 +45,7 @@ const endpoints = {
   GET_ADMIN_LEADERBOARD:"admin/leaderboard",
   LOGIN: "users/login",
   REGISTER: "users/signup",
+  GET_TOTAL_USERS:"profile/total-competing-users",
   FORGET_PASSWORD_REQUEST_OTP: "users/request-otp",
   RESET_NEW_PASSWORD: "users/set-new-password",
   GET_DASHBOARD_DATA: "dashboard/details",
@@ -54,6 +55,7 @@ const endpoints = {
   BOOK_COACHING_SESSION: "sessions/book-coaching-session",
   POST_REFERAL_DATA: "referals/create",
   POST_SUPPORT_DATA: "support/create",
+  POST_DOCTOR_DATA:"support/talk-to-doc",
   GET_PROFILE_DETAIL: "profile/details",
   POST_ONBOARDING_PLANS:"onboarding/set-plans",
   GET_TOP_USERS: "leaderboard/all",
@@ -72,6 +74,7 @@ const endpoints = {
   EDIT_POST: "community/edit-post",
   DELETE_POST:"community/delete-post",
   STRIPE_PAYMENT: "payments/subscription-intent",
+  BOOKING_SESSSION_PAYMENT:"payments/booking-session-intent",
   POST_LIKE:"community/like"
   
 };

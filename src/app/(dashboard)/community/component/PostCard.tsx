@@ -1,7 +1,7 @@
 "use client";
 import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
@@ -23,29 +23,34 @@ const PostCard = () => {
   const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
 
   // Fetch posts data from the server
-  const fetchPosts = async () => {
-    try {
-      const response = await getData(endpoints.GET_POSTS);
-      if (response?.data?.success) {
-        const postsData = response.data.data;
-
+  const fetchPosts = useCallback( async () => {
+  try {
+    const response = await getData(endpoints.GET_POSTS);
+    if (response?.data?.success) {
+      const postsData = response.data.data;
+      
         // Dispatch posts to Redux
 
-        // Initialize likedPosts based on self_like
-        const initialLikedPosts: { [key: string]: boolean } = {};
-        postsData.forEach((post: any) => {
-          initialLikedPosts[post._id] = post.self_liked; // Use self_like from the server
-        });
-        setLikedPosts(initialLikedPosts);
-        dispatch(postActions.updateNewData({ data: postsData }));
-      }
-    } catch (error) {
-      toast.error(error.message || "Error fetching posts");
+      // Initialize likedPosts based on self_like
+      const initialLikedPosts: { [key: string]: boolean } = {};
+      postsData.forEach((post: any) => {
+        initialLikedPosts[post._id] = post.self_liked; // Use self_like from the server
+      });
+      setLikedPosts(initialLikedPosts);
     }
-  };
+  } catch (error) {
+    toast.error(error.message || "Error fetching posts");
+  }
+}, []);
+
 
   useEffect(() => {
-    fetchPosts();
+    // fetchPosts();
+  
+      
+      fetchPosts();
+    
+    
   }, []);
 
   // Handle like button click
@@ -94,9 +99,15 @@ const PostCard = () => {
   };
 
   const handleCommentToggle = async (postId: any) => {
-    if (activePostId !== postId) {
-      setActivePostId(activePostId === postId ? null : postId);
+    if (activePostId === postId) {
+      setActivePostId(null);
+      setActiveComments([]); // Clear comments when toggling off
+      return;
     }
+  
+    // Otherwise, fetch comments for the new post and set it as active
+    setActivePostId(postId);
+    
 
     try {
       const response = await getData(
@@ -127,6 +138,7 @@ const PostCard = () => {
       toast.error(error.message);
     }
   };
+  
 
   return (
     <div className="flex flex-col p-6 space-y-8 w-auto">
@@ -180,14 +192,15 @@ const PostCard = () => {
               </button>
 
               <button
+              
                 onClick={() => handleCommentToggle(post._id)}
-                className="text-gray-400 hover:text-blue-500 text-sm flex items-center"
+                className="text-gray-400 hover:text-white text-sm flex items-center"
               >
                 <IoChatbubbleEllipsesOutline className="mr-2" />
                 {post.total_comments}{" "}
                 {post.total_comments >= 2 ? "Comments" : "Comment"}
               </button>
-              <button className="text-gray-400 hover:text-blue-500 flex items-center">
+              <button className="text-gray-400 hover:text-white flex items-center">
                 <RiShareLine className="mr-2" />
                 Share
               </button>

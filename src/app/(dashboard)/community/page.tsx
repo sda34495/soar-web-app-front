@@ -33,6 +33,7 @@ const Communitypage = () => {
   };
 
   useEffect(() => {
+    
     fetchPosts(); // Fetch posts on mount
   }, []);
 

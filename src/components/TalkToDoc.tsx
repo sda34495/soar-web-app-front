@@ -71,7 +71,7 @@ const TalkToDocForm = () => {
     if (!validate()) return; // Prevent submission if validation fails
 
     try {
-      const response = await post(endpoints.POST_SUPPORT_DATA, formData);
+      const response = await post(endpoints.POST_DOCTOR_DATA, formData);
       if (response.data.success) {
         toast.success(response.data.message || 'Support request submitted successfully!');
         setTimeout(() => {
