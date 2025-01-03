@@ -50,7 +50,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   const fetchPosts = async () => {
     try {
       const response = await getData(endpoints.GET_POSTS);
-      const postsData = response.data.data;
+      const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
         console.log("Post data before", postsData);
