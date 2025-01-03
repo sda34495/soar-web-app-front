@@ -8,17 +8,27 @@ const BeStillCard = ({
   setCheckInStatus,
   fetchCheckInDetails,
 }: any) => {
+  const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
+
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
   ) => {
     const checked = event.target.checked;
 
+    // Prevent any further clicks if processing
+    if (isProcessing) return;
+
+    setIsProcessing(true); // Set processing state to true
+
+    // Show the loading toast
+    const loadingToast = toast.loading("Updating...");
+
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
       praying: {
         ...prevStatus.praying,
-        [timeOfDay]: checked, // Dynamically update morning or evening
+        [timeOfDay]: !checked, // Dynamically update morning or evening
       },
     }));
 
@@ -33,10 +43,19 @@ const BeStillCard = ({
 
       if (response?.data?.success) {
         fetchCheckInDetails();
-        // updateModalTitle("Finance Check-ins update successfully");
+        toast.success("Be Still Check-ins updated successfully", {
+          id: loadingToast,
+        });
       }
     } catch (error) {
-      toast.error("An error occurred while updating check-in status.");
+      toast.error("An error occurred while updating check-in status.", {
+        id: loadingToast,
+      });
+    } finally {
+      // Wait 2-3 seconds before re-enabling clicks
+      setTimeout(() => {
+        setIsProcessing(false); // Reset processing state
+      }, 2000); // 2000ms (2 seconds) delay
     }
   };
 
@@ -50,7 +69,7 @@ const BeStillCard = ({
   const todayDate = getFormattedDate();
 
   //   const progress = parseFloat(checkInStatus?.progress.toFixed(1)) ;
-  const progress = parseFloat(checkInStatus?.progress.toFixed(1));
+  const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
   const progressColor =
     progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
@@ -60,7 +79,11 @@ const BeStillCard = ({
       : "Hurray! You're making progress";
 
   return (
-    <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ">
+    <div
+      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ${
+        isProcessing ? "cursor-not-allowed" : ""
+      }`}
+    >
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
@@ -91,6 +114,7 @@ const BeStillCard = ({
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.morning}
                   onChange={(e) => handleCheckboxChange(e, "morning")}
+                  disabled={isProcessing} // Disable the checkbox during processing
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg
@@ -127,6 +151,7 @@ const BeStillCard = ({
                   className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   checked={checkInStatus?.evening}
                   onChange={(e) => handleCheckboxChange(e, "evening")}
+                  disabled={isProcessing} // Disable the checkbox during processing
                 />
                 <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <svg

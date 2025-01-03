@@ -6,13 +6,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Welcome = () => {
-    const router = useRouter();
-    useEffect(() => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        router.push("/auth/login");
-      }
-    },[]);
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, []);
   return (
     <>
       <div className="relative w-full h-screen  bg-zinc-900 dark:bg-zinc-900">
@@ -57,7 +57,7 @@ const Welcome = () => {
               You've taken the first step toward an exciting journey. Get ready
               to
               <br />
-              explore all the features waiting for you. We're thrilled to have
+              explore all the features Updating for you. We're thrilled to have
               you
               <br />
               with us!
