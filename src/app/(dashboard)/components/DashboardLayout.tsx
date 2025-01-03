@@ -43,7 +43,7 @@ const MainContent = ({ children }: any) => {
       </div>
 
       {/* Blurry Overlay for Unsubscribed Users */}
-      {!isSubscribed && (
+      {userData.is_subscribed == false && (
         <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
           <div className="text-center text-white px-6 py-4 bg-gray-900 bg-opacity-80 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-2">Subscription Required</h2>
