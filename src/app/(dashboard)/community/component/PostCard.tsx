@@ -160,7 +160,7 @@ const PostCard = () => {
                 </div>
               </div>
               <div className="relative">
-                {post?.user?._id}
+               
               {post?.user?._id === currentUserId && (
                   <EditOrDeletePost post_id={post._id} postData={post} />
                 )}
