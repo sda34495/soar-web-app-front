@@ -115,7 +115,7 @@ const FitnessCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">Fitness</span>
-              <span className="w-20">6 hours</span>
+              <span className="w-20">10 minute</span>
             </div>
           </div>
 
@@ -151,7 +151,7 @@ const FitnessCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">Fitness</span>
-              <span className="w-20">6 hours</span>
+              <span className="w-20">10 minute</span>
             </div>
           </div>
         </div>

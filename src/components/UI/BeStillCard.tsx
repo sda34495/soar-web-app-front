@@ -8,7 +8,6 @@ const BeStillCard = ({
   setCheckInStatus,
   fetchCheckInDetails,
 }: any) => {
-
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
@@ -22,7 +21,6 @@ const BeStillCard = ({
         [timeOfDay]: checked, // Dynamically update morning or evening
       },
     }));
-  
 
     // Prepare the request data
     const data = {
@@ -31,20 +29,16 @@ const BeStillCard = ({
     };
 
     try {
-      
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
 
       if (response?.data?.success) {
         fetchCheckInDetails();
         // updateModalTitle("Finance Check-ins update successfully");
-        
-        
-      } 
+      }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.");
     }
   };
-
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -120,7 +114,7 @@ const BeStillCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">No-sub</span>
-              <span className="w-20">6 hours</span>
+              <span className="w-20">10 minute</span>
             </div>
           </div>
 
@@ -156,7 +150,7 @@ const BeStillCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">No-sub</span>
-              <span className="w-20">6 hours</span>
+              <span className="w-20">10 minute</span>
             </div>
           </div>
         </div>
