@@ -9,21 +9,24 @@ import PostCard from "./component/PostCard";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
 import UploadPostHandel from "./component/UploadPostHandel";
 import useSocket from "@/Hook/usesocket";
-import Loader from "./component/Loader"; // Import StaticPostCard
+import Loader from "./component/Loader";
 
 const Communitypage = () => {
   useSocket();
   const dispatch = useDispatch();
-  const posts = useSelector((state: any) => state.postSlice.posts); // Access posts from Redux store
-  const [loading, setLoading] = useState(true); // Loading state
+  const posts = useSelector((state: any) => state.postSlice.posts); 
+  const [loading, setLoading] = useState(true); 
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [totalPages, setTotalPages] = useState(1); 
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page: number) => {
     try {
-      const response = await getData(endpoints.GET_POSTS);
-      const postsData = response.data.data;
+      const response = await getData(`${endpoints.GET_POSTS}?page=${page}`);
+      const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        dispatch(postActions.updateNewData({ data: postsData }));
+        dispatch(postActions.updateNewData({ data:  [...posts,...postsData] }));
+        setTotalPages(response.data.data.totalPages); // Set totalPages from the response
       }
     } catch (error) {
       toast.error(error.message || "Error fetching posts");
@@ -32,10 +35,22 @@ const Communitypage = () => {
     }
   };
 
+  const handleShowMore = () => {
+
+    if (currentPage < totalPages) {
+      const nextPage = currentPage + 1;
+   
+      setCurrentPage(nextPage);
+      fetchPosts(nextPage); // Fetch posts for the next page
+    }
+  };
+
   useEffect(() => {
-    
-    fetchPosts(); // Fetch posts on mount
-  }, []);
+    fetchPosts(currentPage);
+    console.log("this is current Page", currentPage);
+    console.log("this is current totalPages", totalPages);
+    // Fetch posts on mount
+  }, [currentPage]);
 
   useSidebarLoading();
 
@@ -44,7 +59,17 @@ const Communitypage = () => {
       {loading ? (
         <Loader isLoading={true} /> // Show skeleton loading
       ) : posts?.length > 0 ? (
-        <PostCard />
+        <>
+          <PostCard />
+          {currentPage < totalPages && (
+            <button
+              onClick={handleShowMore}
+              className="mt-4 text-white hover:underline"
+            >
+              Show More
+            </button>
+          )}
+        </>
       ) : (
         <div className="flex flex-col items-center justify-center text-center w-[500px] h-[350px]">
           <UploadPostHandel nav={false} />

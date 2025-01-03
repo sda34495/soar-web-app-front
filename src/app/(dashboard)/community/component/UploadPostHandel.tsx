@@ -14,6 +14,7 @@ const UploadPostHandel = ({ nav = true }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(false);
+  
   const [postData, setPostData] = useState({
     title: "",
     description: "",
@@ -34,7 +35,7 @@ const UploadPostHandel = ({ nav = true }) => {
   const fetchPosts = async () => {
     try {
       const response = await getData(endpoints.GET_POSTS);
-      const postsData = response.data.data;
+      const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
         console.log("Post data before", postsData);

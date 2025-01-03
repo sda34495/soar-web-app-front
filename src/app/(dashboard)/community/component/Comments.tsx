@@ -78,14 +78,40 @@ const Comments = ({
 
 
 
-  const handleLikeToggle = async (id, type) => {
+  const handleLikeToggle = async (id, type, currentLikeStatus) => {
+    const updatedLikeStatus = !currentLikeStatus;
+    
+    // Optimistically update the like status immediately
+    const updatedComments = activeComments.map(comment => {
+      if (comment._id === id) {
+        return {
+          ...comment,
+          self_liked: updatedLikeStatus,
+          likes: updatedLikeStatus ? comment.likes + 1 : comment.likes - 1
+        };
+      }
+      return comment;
+    });
+    setActiveComments(updatedComments);
+
     try {
       const formdata = new FormData();
-      formdata.append(`${type}_id`, id); // `type` is either "comment" or "reply"
+      formdata.append(`${type}_id`, id);
       await post(endpoints.POST_LIKE, formdata);
-      // Optionally refresh data or update UI
     } catch (error) {
       toast.error(error.message);
+      // Rollback if there's an error
+      const rollbackComments = activeComments.map(comment => {
+        if (comment._id === id) {
+          return {
+            ...comment,
+            self_liked: !updatedLikeStatus,
+            likes: updatedLikeStatus ? comment.likes - 1 : comment.likes + 1
+          };
+        }
+        return comment;
+      });
+      setActiveComments(rollbackComments);
     }
   };
 
@@ -168,16 +194,16 @@ const Comments = ({
                     <div className="flex items-center space-x-1">
                       {comment.self_liked ? (
                         <IoMdHeart
-                          className="text-red-500 cursor-pointer"
+                          className="text-white cursor-pointer"
                           onClick={() =>
-                            handleLikeToggle(comment._id, "comment")
+                            handleLikeToggle(comment._id, "comment",comment.self_liked)
                           }
                         />
                       ) : (
                         <IoMdHeartEmpty
                           className="text-[#E0E0E0] cursor-pointer"
                           onClick={() =>
-                            handleLikeToggle(comment._id, "comment")
+                            handleLikeToggle(comment._id, "comment",comment.self_liked)
                           }
                           />
                       )}
@@ -261,14 +287,14 @@ const Comments = ({
                             <IoMdHeart
                               className="text-red-500 cursor-pointer"
                               onClick={() =>
-                                handleLikeToggle(reply._id, "reply")
+                                handleLikeToggle(reply._id, "reply",reply.self_liked)
                               }
                             />
                           ) : (
                             <IoMdHeartEmpty
                               className="text-[#E0E0E0] cursor-pointer"
                               onClick={() =>
-                                handleLikeToggle(reply._id, "reply")
+                                handleLikeToggle(reply._id, "reply",reply.self_liked)
                               }
                             />
                           )}
