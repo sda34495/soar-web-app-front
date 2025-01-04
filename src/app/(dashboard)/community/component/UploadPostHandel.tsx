@@ -18,7 +18,7 @@ const UploadPostHandel = ({ nav = true }) => {
   const [postData, setPostData] = useState({
     title: "",
     description: "",
-    allowComments: false,
+    allowComments: true,
   });
 
   const dispatch = useDispatch();

@@ -285,7 +285,7 @@ const Comments = ({
                         <div className="flex items-center space-x-1">
                           {reply.self_liked ? (
                             <IoMdHeart
-                              className="text-red-500 cursor-pointer"
+                              className="text-white cursor-pointer"
                               onClick={() =>
                                 handleLikeToggle(reply._id, "reply",reply.self_liked)
                               }
