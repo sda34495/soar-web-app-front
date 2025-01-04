@@ -28,7 +28,10 @@ const PostCard = () => {
   try {
     const response = await getData(endpoints.GET_POSTS);
     if (response?.data?.success) {
-      const postsData = response.data.data.posts;
+      const postsData = response.data.data.posts.map((post: any) => ({
+        ...post,
+        allow_comments: post.allow_comments ?? false, // Ensure allow_comments is boolean
+      }));
       
         // Dispatch posts to Redux
 
@@ -199,8 +202,12 @@ const PostCard = () => {
               <button
               
                 onClick={() => handleCommentToggle(post._id)}
-                className="text-gray-400 hover:text-white text-sm flex items-center"
+                className={`text-sm flex items-center ${
+                  post.allow_comments ? "text-gray-400 hover:text-white cursor-pointer" : "text-gray-600 cursor-not-allowed"
+                }`}
+                disabled={!post.allow_comments}
               >
+                
                 <IoChatbubbleEllipsesOutline className="mr-2" />
                 {post.total_comments}{" "}
                 {post.total_comments >= 2 ? "Comments" : "Comment"}
