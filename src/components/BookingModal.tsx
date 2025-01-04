@@ -65,7 +65,11 @@ const BookingModal: React.FC<BookingModalProps> = ({
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email address.";
     }
-    if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required.";
+    } else if (formData.phone.length !== 11) {
+      newErrors.phone = "Phone number must be exactly 11 digits.";
+    }
     if (!formData.consultationReason.trim())
       newErrors.consultationReason = "Reason for consultation is required.";
 
