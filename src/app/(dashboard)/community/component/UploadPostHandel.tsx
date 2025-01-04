@@ -81,8 +81,9 @@ const UploadPostHandel = ({ nav = true }) => {
     setPostData({
       title: "",
       description: "",
-      allowComments: false,
-    });
+      allowComments: true,
+    })
+    setImageUrl("");
   };
 
   return (
