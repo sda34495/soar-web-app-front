@@ -138,7 +138,7 @@ const BeStillCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">No-sub</span>
-              <span className="w-20">10 minute</span>
+              <span className="w-20">10 minutes</span>
             </div>
           </div>
 
@@ -175,7 +175,7 @@ const BeStillCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">No-sub</span>
-              <span className="w-20">10 minute</span>
+              <span className="w-20">10 minutes</span>
             </div>
           </div>
         </div>
