@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Import the post function to make the API call
 import CenterImageModal from "./UI/CenterImageModal"; // Success modal
+// import StripePaymentModal from "./UI/StripePaymentModal"; // Stripe Payment Modal
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 import { OneTimePaymentModal } from "./StripeModal";
@@ -35,9 +36,11 @@ const BookingModal: React.FC<BookingModalProps> = ({
     consultationReason: "",
   });
 
-  const [loginErrors, setLoginErrors] = useState<FormErrors>({});
+  const [loginErrors, setLoginErrors] = useState<FormErrors>({}); // Validation errors
   const [loading, setLoading] = useState(false); // For loading state
+  const [error, setError] = useState<string | null>(null); // For error state
 
+  // Handle input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -49,6 +52,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
     setLoginErrors((prevErrors) => ({ ...prevErrors, [name]: undefined })); // Clear specific field error on change
   };
 
+  // Validate the form fields
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -61,11 +65,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email address.";
     }
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required.";
-    } else if (formData.phone.length !== 11) {
-      newErrors.phone = "Phone number must be exactly 11 digits.";
-    }
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
     if (!formData.consultationReason.trim())
       newErrors.consultationReason = "Reason for consultation is required.";
 
@@ -73,20 +73,59 @@ const BookingModal: React.FC<BookingModalProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
+  // Submit form data to the API
+  const formSubmission = async () => {
+    setLoading(true);
+    setError(null); // Clear previous errors
+    console.log("Submitting User Data:", formData);
+
+    const payload = {
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email_address: formData.email,
+      phone: formData.phone,
+      consultation_reason: formData.consultationReason,
+    };
+
+    try {
+      const response = await post(endpoints.BOOK_COACHING_SESSION, payload);
+
+      if (response.data?.success) {
+        // Close the first modal and show the success modal
+        onClose();
+        setTimeout(() => {
+          setShowSecondModal(true); // Open the success modal after a short delay
+        }, 500);
+
+        console.log(response.data);
+      } else {
+        // Handle failure (show error)
+        setError("Booking failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Booking failed:", err);
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleNext = () => {
     if (!validate()) {
       return; // Stop execution if validation fails
     }
 
-    // Open the payment modal if validation passes
+    // Open the payment modal
     setShowPaymentModal(true);
   };
 
   return (
     <>
+      {/* First Modal */}
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-[#202020] text-white rounded-3xl border border-zinc-700 max-w-md w-full p-6 relative">
+            {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <img src="/laptop.png" alt="Laptop" className="h-16" />
               <span className="border-2 border-golden bg-golden/10 rounded-xl py-2 px-3 text-xl font-semibold">
@@ -97,6 +136,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
               </span>
             </div>
 
+            {/* Title */}
             <h2 className="text-2xl font-semibold mb-2 font-Bricolage-Grotesque">
               Booking your session
             </h2>
@@ -104,6 +144,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
               Enter your details for setting up your session
             </p>
 
+            {/* Form */}
             <form className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -162,9 +203,11 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     onChange={(e) => {
                       const value = e.target.value;
                       if (/^\d*$/.test(value) && value.length <= 11) {
+                        // Allow only digits and max length of 15
                         handleInputChange(e);
                       }
                     }}
+                    maxLength={15} // Set max digits allowed
                     className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
                   {loginErrors.phone && (
@@ -189,8 +232,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
                   </p>
                 )}
               </div>
+
+              {/* Show general error message if there's any */}
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </form>
 
+            {/* Footer */}
             <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <button
                 className="px-10 w-full py-1 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
@@ -200,17 +247,34 @@ const BookingModal: React.FC<BookingModalProps> = ({
               </button>
               <button
                 className="px-10 w-full py-3 text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-semibold"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNext();
-                }}
-                disabled={loading}
+                onClick={handleNext}
+                disabled={loading} // Disable button while loading
               >
                 {loading ? "Booking..." : "Next"}
               </button>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <OneTimePaymentModal
+          price={price}
+          endpoint={endpoints.STRIPE_PAYMENT}
+          onClose={() => setShowPaymentModal(false)}
+          onPaymentSuccess={formSubmission} // Submit form after successful payment
+        />
+      )}
+
+      {/* Second Modal (Success) */}
+      {showSecondModal && (
+        <CenterImageModal
+          description="Your session has been booked."
+          isOpen={showSecondModal}
+          onClose={() => setShowSecondModal(false)}
+          image="/cone.png"
+        />
       )}
     </>
   );
