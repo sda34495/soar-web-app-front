@@ -8,11 +8,9 @@ import toast from "react-hot-toast";
 import PostCard from "./component/PostCard";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
 import UploadPostHandel from "./component/UploadPostHandel";
-import useSocket from "@/Hook/usesocket";
 import Loader from "./component/Loader";
 
 const Communitypage = () => {
-  useSocket();
   const dispatch = useDispatch();
   const posts = useSelector((state: any) => state.postSlice.posts); 
   const [loading, setLoading] = useState(true); 

@@ -5,9 +5,12 @@ import Navbar from "@/components/UI/Navbar";
 import { Provider, useSelector } from "react-redux";
 import store from "@/store/store";
 import Link from "next/link";
+import useSocket from "@/Hook/usesocket";
 
 const MainContent = ({ children }: any) => {
+  useSocket()
   const userData = useSelector((state: any) => state.profileSlice.user);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
