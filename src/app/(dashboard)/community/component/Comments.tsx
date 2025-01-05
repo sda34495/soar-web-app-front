@@ -287,14 +287,14 @@ const Comments = ({
                             <IoMdHeart
                               className="text-white cursor-pointer"
                               onClick={() =>
-                                handleLikeToggle(reply._id, "reply",reply.self_liked)
+                                handleLikeToggle(reply._id, "comment",reply.self_liked)
                               }
                             />
                           ) : (
                             <IoMdHeartEmpty
                               className="text-[#E0E0E0] cursor-pointer"
                               onClick={() =>
-                                handleLikeToggle(reply._id, "reply",reply.self_liked)
+                                handleLikeToggle(reply._id, "comment",reply.self_liked)
                               }
                             />
                           )}
