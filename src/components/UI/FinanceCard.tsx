@@ -139,7 +139,7 @@ const FinanceCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">Finance</span>
-              <span className="w-20">10 minute</span>
+              <span className="w-20">10 minutes</span>
             </div>
           </div>
 
@@ -176,7 +176,7 @@ const FinanceCard = ({
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">Finance</span>
-              <span className="w-20">10 minute</span>
+              <span className="w-20">10 minutes</span>
             </div>
           </div>
         </div>
