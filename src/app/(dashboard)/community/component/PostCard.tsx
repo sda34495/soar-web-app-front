@@ -14,7 +14,9 @@ import EditOrDeletePost from "./EditOrDeletePost";
 
 const PostCard = () => {
   const posts = useSelector((state: any) => state.postSlice.posts);
-  const currentUserId = useSelector((state: any) => state.profileSlice.user._id);
+  const currentUserId = useSelector(
+    (state: any) => state.profileSlice.user._id
+  );
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
   const [activeReply, setActiveReply] = useState("");
@@ -24,46 +26,49 @@ const PostCard = () => {
   const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
 
   // Fetch posts data from the server
-  const fetchPosts = useCallback( async () => {
-  try {
-    const response = await getData(endpoints.GET_POSTS);
-    if (response?.data?.success) {
-      const postsData = response.data.data.posts.map((post: any) => ({
-        ...post,
-        allow_comments: post.allow_comments ?? false, // Ensure allow_comments is boolean
-      }));
-      
+  const fetchPosts = useCallback(async () => {
+    try {
+      const response = await getData(endpoints.GET_POSTS);
+      if (response?.data?.success) {
+        const postsData = response.data.data.posts.map((post: any) => ({
+          ...post,
+          allow_comments: post.allow_comments ?? false, // Ensure allow_comments is boolean
+        }));
+
         // Dispatch posts to Redux
 
-      // Initialize likedPosts based on self_like
-      const initialLikedPosts: { [key: string]: boolean } = {};
-      postsData.forEach((post: any) => {
-        initialLikedPosts[post._id] = post.self_liked; // Use self_like from the server
-      });
-      setLikedPosts(initialLikedPosts);
+        // Initialize likedPosts based on self_like
+        const initialLikedPosts: { [key: string]: boolean } = {};
+        postsData.forEach((post: any) => {
+          initialLikedPosts[post._id] = post.self_liked; // Use self_like from the server
+        });
+        setLikedPosts(initialLikedPosts);
+      }
+    } catch (error) {
+      toast.error(error.message || "Error fetching posts");
     }
-  } catch (error) {
-    toast.error(error.message || "Error fetching posts");
-  }
-}, []);
-
+  }, []);
 
   useEffect(() => {
     // fetchPosts();
-  
-      
-      fetchPosts();
-    
-    
+
+    fetchPosts();
   }, []);
 
   // Handle like button click
-  const handleLikeClick = async (postId: string) => {
+  const handleLikeClick = async (postId: string,currentLikes: number, selfLiked: boolean) => {
     if (!postId) {
       console.error("Invalid postId", postId);
       return;
     }
 
+    dispatch(
+      postActions.updateLike({
+        postId,
+        likes: selfLiked ? currentLikes - 1 : currentLikes + 1,
+        selfLiked: !selfLiked,
+      })
+    );
     const isSelfLiked = !likedPosts[postId]; // Toggle the current self_like state
     setLikedPosts((prev) => ({ ...prev, [postId]: isSelfLiked })); // Optimistically update the local state
 
@@ -109,10 +114,9 @@ const PostCard = () => {
       setActiveComments([]); // Clear comments when toggling off
       return;
     }
-  
+
     // Otherwise, fetch comments for the new post and set it as active
     setActivePostId(postId);
-    
 
     try {
       const response = await getData(
@@ -143,7 +147,6 @@ const PostCard = () => {
       toast.error(error.message);
     }
   };
-  
 
   return (
     <div className="flex flex-col p-6 space-y-8 w-auto">
@@ -163,8 +166,7 @@ const PostCard = () => {
                 </div>
               </div>
               <div className="relative">
-               
-              {post?.user?._id === currentUserId && (
+                {post?.user?._id === currentUserId && (
                   <EditOrDeletePost post_id={post._id} postData={post} />
                 )}
               </div>
@@ -188,7 +190,7 @@ const PostCard = () => {
             {/* Like Button */}
             <div className="flex items-center justify-between mt-4 mr-2">
               <button
-                onClick={() => handleLikeClick(post._id)}
+                onClick={() => handleLikeClick(post._id, post.likes, post.self_liked)}
                 className="text-gray-400 text-sm flex items-center cursor-pointer"
               >
                 {likedPosts[post._id] ? (
@@ -200,14 +202,14 @@ const PostCard = () => {
               </button>
 
               <button
-              
                 onClick={() => handleCommentToggle(post._id)}
                 className={`text-sm flex items-center ${
-                  post.allow_comments ? "text-gray-400 hover:text-white cursor-pointer" : "text-gray-600 cursor-not-allowed"
+                  post.allow_comments
+                    ? "text-gray-400 hover:text-white cursor-pointer"
+                    : "text-gray-600 cursor-not-allowed"
                 }`}
                 disabled={!post.allow_comments}
               >
-                
                 <IoChatbubbleEllipsesOutline className="mr-2" />
                 {post.total_comments}{" "}
                 {post.total_comments >= 2 ? "Comments" : "Comment"}

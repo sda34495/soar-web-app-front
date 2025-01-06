@@ -1,10 +1,12 @@
 "use client";
+import { postActions } from "@/store/post-data";
 import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 
 const Comments = ({
   postData,
@@ -12,13 +14,25 @@ const Comments = ({
   setActivePostId,
   handleCommentToggle,
   activeComments,
-  setActiveComments
-  
+  setActiveComments,
 }) => {
+  const posts = useSelector((state: any) => state.postSlice.posts);
   const [newComment, setNewComment] = React.useState("");
   const [replyOpne, setReplyOpen] = React.useState();
   const [replyText, setReplyText] = React.useState("");
   const [visibleReplies, setVisibleReplies] = React.useState({});
+  const dispatch = useDispatch();
+  const updateCommentValue = (postId: string, newCommentCount: number) => {
+    dispatch(
+      postActions.updateNewData({
+        data: posts.map((post: any) =>
+          post._id === postId
+            ? { ...post, total_comments: newCommentCount }
+            : post
+        ),
+      })
+    );
+  };
 
   const handleAddComment = async (postId: any, e: any, newComment) => {
     e.preventDefault();
@@ -30,6 +44,11 @@ const Comments = ({
     try {
       await post(endpoints.CREATE_COMMENT, formdata);
       handleUpdateComment(postId);
+      const newCommentCount =
+        posts.find((post: any) => post._id === postId).total_comments + 1;
+
+      // Update the total_comments value
+      updateCommentValue(postId, newCommentCount);
     } catch (error) {
       toast.error(error.message);
     }
@@ -38,7 +57,6 @@ const Comments = ({
   };
 
   const handleUpdateComment = async (postId: any) => {
-
     try {
       const response = await getData(
         `${endpoints.GET_POST_COMMENTS}?post_id=${postId}`
@@ -76,37 +94,88 @@ const Comments = ({
     }
   };
 
-
-
-  const handleLikeToggle = async (id, type, currentLikeStatus) => {
+  const handleLikeToggle = async (
+    id,
+    type,
+    currentLikeStatus,
+    is_reply = false,
+    reply_id = null
+  ) => {
     const updatedLikeStatus = !currentLikeStatus;
-    
+
     // Optimistically update the like status immediately
-    const updatedComments = activeComments.map(comment => {
-      if (comment._id === id) {
-        return {
-          ...comment,
-          self_liked: updatedLikeStatus,
-          likes: updatedLikeStatus ? comment.likes + 1 : comment.likes - 1
-        };
-      }
-      return comment;
-    });
-    setActiveComments(updatedComments);
+    if (!is_reply) {
+      const updatedComments = activeComments.map((comment) => {
+        if (comment._id === id) {
+          console.log("test");
+          return {
+            ...comment,
+            self_liked: updatedLikeStatus,
+            likes: updatedLikeStatus ? comment.likes + 1 : comment.likes - 1,
+          };
+        }
+        return comment;
+      });
+      setActiveComments(updatedComments);
+    } else {
+      console.log("active comm", activeComments);
+      console.log("test2");
+      const updatedComments = activeComments.map((comment) => {
+        if (comment._id === id) {
+          console.log("test3");
+          comment.replies.map((reply) => {
+            if (reply._id === reply_id) {
+              console.log(reply_id);
+              return {
+                ...reply,
+                self_liked: updatedLikeStatus,
+                likes: updatedLikeStatus ? reply.likes + 1 : reply.likes - 1,
+              };
+            } else {
+
+              return reply;
+            }
+          });
+          // if(reply_id === comment.replies._id){
+          //               console.log("right Place")
+          // }
+          // console.log(comment);
+
+          // comment.replies.map((reply) => {
+          //   if (reply._id === id) {
+          //     return {
+          //       ...reply,
+          //       self_liked: updatedLikeStatus,
+          //       likes: updatedLikeStatus ? reply.likes + 1 : reply.likes - 1,
+          //     };
+          //   } else {
+          //     return reply;
+          //   }
+          // });
+        }
+        return comment;
+      });
+      setActiveComments(updatedComments);
+    }
 
     try {
       const formdata = new FormData();
-      formdata.append(`${type}_id`, id);
+      if (is_reply) {
+        formdata.append(`${type}_id`, reply_id);
+      } else {
+        formdata.append(`${type}_id`, id);
+      }
+
       await post(endpoints.POST_LIKE, formdata);
     } catch (error) {
       toast.error(error.message);
       // Rollback if there's an error
-      const rollbackComments = activeComments.map(comment => {
+      const rollbackComments = activeComments.map((comment) => {
         if (comment._id === id) {
           return {
             ...comment,
             self_liked: !updatedLikeStatus,
-            likes: updatedLikeStatus ? comment.likes - 1 : comment.likes + 1
+            likes: updatedLikeStatus ? comment.likes - 1 : comment.likes + 1,
           };
         }
         return comment;
@@ -115,10 +184,10 @@ const Comments = ({
     }
   };
 
-  useEffect(() => {
-    console.log(newComment);
-    console.log(activeComments);
-  }, [newComment, activeComments]);
+  // useEffect(() => {
+  //   console.log(newComment);
+  //   console.log(activeComments);
+  // }, [newComment, activeComments]);
 
   const toggleReplies = (commentId) => {
     setVisibleReplies((prev) => ({
@@ -150,10 +219,7 @@ const Comments = ({
               >
                 Cancel
               </button>
-              <button
-                
-                className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full"
-                >
+              <button className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full">
                 Comment
               </button>
             </div>
@@ -161,7 +227,6 @@ const Comments = ({
           <div className="mt-6 overflow-y-auto max-h-[350px] p-2">
             {activeComments?.map((comment: any, index: any) => (
               <div key={index} className="flex flex-col">
-                
                 <div
                   className={`flex items-center justify-between space-x-6 my-3 ${
                     index === 0 ? "border-t border-gray-700" : ""
@@ -169,15 +234,15 @@ const Comments = ({
                     index === activeComments.length - 1
                       ? "border-b border-gray-700"
                       : ""
-                    } ${index !== 0 ? "border-t border-gray-700" : ""} pt-4`}
-                      >
-                      <div className="flex flex-row items-center justify-between w-full">
+                  } ${index !== 0 ? "border-t border-gray-700" : ""} pt-4`}
+                >
+                  <div className="flex flex-row items-center justify-between w-full">
                     <div className="flex items-center space-x-2">
                       <img
-                        src={comment.user.profile_url||"/avatar.jpeg"} // Replace with actual avatar
+                        src={comment.user.profile_url || "/avatar.jpeg"} // Replace with actual avatar
                         alt="Avatar"
                         className="rounded-full w-12 h-12 mb-5"
-                        />
+                      />
                       <div>
                         <p className="text-xs text-[#BDBDBD]">
                           {comment?.user.username || "unknown"}
@@ -186,7 +251,7 @@ const Comments = ({
                         <button
                           className="text-xs text-[#BDBDBD] hover:text-white"
                           onClick={() => setReplyOpen(comment._id)}
-                          >
+                        >
                           Reply
                         </button>
                       </div>
@@ -196,22 +261,30 @@ const Comments = ({
                         <IoMdHeart
                           className="text-white cursor-pointer"
                           onClick={() =>
-                            handleLikeToggle(comment._id, "comment",comment.self_liked)
+                            handleLikeToggle(
+                              comment._id,
+                              "comment",
+                              comment.self_liked
+                            )
                           }
                         />
                       ) : (
                         <IoMdHeartEmpty
                           className="text-[#E0E0E0] cursor-pointer"
                           onClick={() =>
-                            handleLikeToggle(comment._id, "comment",comment.self_liked)
+                            handleLikeToggle(
+                              comment._id,
+                              "comment",
+                              comment.self_liked
+                            )
                           }
-                          />
+                        />
                       )}
                       <span
                         className={`text-sm ${
                           comment.self_liked ? "text-white" : "text-[#E0E0E0]"
                         }`}
-                        >
+                      >
                         {comment.likes}
                       </span>
                     </div>
@@ -221,8 +294,8 @@ const Comments = ({
                 {/* Reply Form */}
                 {replyOpne === comment._id && (
                   <form
-                  onSubmit={(e) => handleAddReply(e, postData._id, comment)}
-                  className="ml-10"
+                    onSubmit={(e) => handleAddReply(e, postData._id, comment)}
+                    className="ml-10"
                   >
                     <textarea
                       value={replyText}
@@ -230,12 +303,12 @@ const Comments = ({
                       placeholder="Add your reply"
                       rows={1}
                       className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
-                      />
+                    />
                     <div className="flex items-center justify-end space-x-4 mt-2">
                       <button
                         onClick={() => setReplyOpen(null)}
                         className="bg-transparent border-[#7C7C7C] border rounded-full p-3 w-full"
-                        >
+                      >
                         Cancel
                       </button>
                       <button
@@ -287,14 +360,26 @@ const Comments = ({
                             <IoMdHeart
                               className="text-white cursor-pointer"
                               onClick={() =>
-                                handleLikeToggle(reply._id, "comment",reply.self_liked)
+                                handleLikeToggle(
+                                  comment._id,
+                                  "comment",
+                                  reply.self_liked,
+                                  true,
+                                  reply._id
+                                )
                               }
                             />
                           ) : (
                             <IoMdHeartEmpty
                               className="text-[#E0E0E0] cursor-pointer"
                               onClick={() =>
-                                handleLikeToggle(reply._id, "comment",reply.self_liked)
+                                handleLikeToggle(
+                                  comment._id,
+                                  "comment",
+                                  reply.self_liked,
+                                  true,
+                                  reply._id
+                                )
                               }
                             />
                           )}
