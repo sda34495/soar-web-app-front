@@ -1,4 +1,5 @@
 "use client";
+import Spinner from "@/components/UI/Spinner";
 import { postActions } from "@/store/post-data";
 import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
@@ -21,6 +22,7 @@ const Comments = ({
   const [replyOpne, setReplyOpen] = React.useState();
   const [replyText, setReplyText] = React.useState("");
   const [visibleReplies, setVisibleReplies] = React.useState({});
+  const [loading , setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const updateCommentValue = (postId: string, newCommentCount: number) => {
     dispatch(
@@ -42,6 +44,7 @@ const Comments = ({
     formdata.append("comment", newComment);
 
     try {
+      setLoading(true);
       await post(endpoints.CREATE_COMMENT, formdata);
       handleUpdateComment(postId);
       const newCommentCount =
@@ -51,7 +54,9 @@ const Comments = ({
       updateCommentValue(postId, newCommentCount);
     } catch (error) {
       toast.error(error.message);
-    }
+    }finally{
+      setLoading(false);
+    } 
 
     setNewComment("");
   };
@@ -219,8 +224,12 @@ const Comments = ({
               >
                 Cancel
               </button>
-              <button className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full">
-                Comment
+              <button className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full" disabled={loading}>
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  "Comment"
+                )}
               </button>
             </div>
           </form>

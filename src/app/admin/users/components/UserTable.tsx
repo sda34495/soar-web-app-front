@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { getData, post } from "@/utils/axios";
 import CenterImageModal from "@/components/UI/DeleteModal";
+import Link from "next/link";
 
-const UserTable = () => {
+const UserTable = ({ activeTab }) => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -15,9 +16,9 @@ const UserTable = () => {
   const fetchUsers = async () => {
     setLoading(true);
     setError(null);
-
+    console.log(activeTab);
     try {
-      const response = await getData("admin/users"); // Adjust endpoint as needed
+      const response = await getData(`admin/users?type=${activeTab}`); // Adjust endpoint as needed
       if (response.data && response.data.success) {
         setUsers(response.data.data);
         console.log(response?.data.data);
@@ -33,12 +34,14 @@ const UserTable = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [activeTab]);
 
   const handleDelete = async () => {
     if (!selectedUser) return;
     try {
-      const response = await post("admin/delete-user", { user_id: selectedUser._id });
+      const response = await post("admin/delete-user", {
+        user_id: selectedUser._id,
+      });
       if (response.data && response.data.success) {
         fetchUsers();
       } else {
@@ -115,9 +118,11 @@ const UserTable = () => {
                   >
                     <img src="/delete.svg" alt="delete icon" />
                   </button>
-                  <button className="text-blue-500 hover:underline">
-                    <img src="/eye.svg" alt="eye icon" />
-                  </button>
+                  <Link href={`/admin/users/details/${user._id}`}>
+                    <button className="text-blue-500 hover:underline">
+                      <img src="/eye.svg" alt="eye icon" />
+                    </button>
+                  </Link>
                 </td>
               </tr>
             ))}
