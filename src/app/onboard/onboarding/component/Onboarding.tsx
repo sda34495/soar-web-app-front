@@ -9,12 +9,14 @@ interface FormData {
   fitness_plan_description: string;
   finance_plan_description: string;
   sobriety_plan_description: string;
+  be_still_plan_description:string
 }
 
 interface Errors {
   fitness_plan_description?: string;
   finance_plan_description?: string;
   sobriety_plan_description?: string;
+  be_still_plan_description?:string
 }
 
 const Page = () => {
@@ -22,6 +24,8 @@ const Page = () => {
     fitness_plan_description: "",
     finance_plan_description: "",
     sobriety_plan_description: "",
+    be_still_plan_description:""
+
   });
 
   const [errors, setErrors] = useState<Errors>({});
@@ -44,6 +48,8 @@ const Page = () => {
       formErrors.finance_plan_description = "Finance goal is required.";
     if (!formData.sobriety_plan_description)
       formErrors.sobriety_plan_description = "Sobriety goal is required.";
+    if (!formData.be_still_plan_description)
+      formErrors.be_still_plan_description = "Be still goal is required.";
 
     return formErrors;
   };
@@ -165,6 +171,30 @@ const Page = () => {
                   {errors.sobriety_plan_description && (
                     <p className="text-red-500 text-sm">
                       {errors.sobriety_plan_description}
+                    </p>
+                  )}
+                </div>
+              </div>
+                  {/* Sobriety Goal Input */}
+              <div className="flex items-center space-x-2 gap-3">
+                <div className="flex gap-1">
+                <img src="/fitness.png" alt="Icon 1" className="w-12 h-12" />
+                </div>
+                <div className="flex w-full space-y-2 flex-col">
+                  <label className="text-xl font-semibold">
+                    Be Still
+                  </label>
+                  <input
+                    type="text"
+                    name="be_still_plan_description"
+                    value={formData.be_still_plan_description}
+                    onChange={handleInputChange}
+                    placeholder="Enter your be still goal here"
+                    className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+                  />
+                  {errors.be_still_plan_description && (
+                    <p className="text-red-500 text-sm">
+                      {errors.be_still_plan_description}
                     </p>
                   )}
                 </div>
