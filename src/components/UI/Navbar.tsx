@@ -10,6 +10,7 @@ import { profileActions } from "@/store/profile-slice";
 import SmallSideBar from "../SmallSideBar";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
+import { FaRegBell } from "react-icons/fa6";
 
 const TitleSection = () => {
   const navdetails = useSelector((state: any) => state.navbarSlice);
@@ -84,7 +85,10 @@ const ActionsSection = () => {
 
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen((prev) => !prev);
+    dispatch(profileActions.setNewNotification({ data: false }));
   };
+
+  const notificationLogo = useSelector((state:any) => state.profileSlice.newNotification);
 
   const searchBarRef = useRef<HTMLDivElement>(null);
 
@@ -241,11 +245,19 @@ const ActionsSection = () => {
               className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
               onClick={toggleNotificationDropdown}
             >
-              <img
-                src="/notification.svg"
-                alt="Notification Icon"
-                className="w-4 h-4 md:w-6 md:h-6"
-              />
+              {
+                notificationLogo ? (
+
+                  <img
+                    src="/notification.svg"
+                    alt="Notification Icon"
+                    className="w-4 h-4 md:w-6 md:h-6"
+                  />
+                ):(
+                  <FaRegBell className="w-4 h-4 md:w-6 md:h-6" />
+
+                )
+              }
             </button>
           </div>
           {isNotificationOpen && <NotificationDropdown />}

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: {},
   notifications: [],
+  newNotification: false
 };
 const profileSlice = createSlice({
   name: "profile",
@@ -19,6 +20,9 @@ const profileSlice = createSlice({
     setNotifications: (state, action) => {
       state.notifications = action.payload.data;
     },
+    setNewNotification: (state, action) => {
+      state.newNotification = action.payload.data;
+    }
   },
 });
 
