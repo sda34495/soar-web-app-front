@@ -23,13 +23,14 @@ const LeaderboardPage = () => {
         console.log("API Response:", response.data);
 
         if (response?.data?.success) {
+          console.log('hello this is my res',response)
           const data = response.data.data.map((entry: any) => ({
             id: entry._id,
             position: entry.rank,
             username: entry.user_name || "N/A",
             points: entry.points || 0,
-            league: entry.league || 0,
-            competition: entry.activity_type || "N/A",
+            daily_check_ins: entry.total_check_ins || 0,
+            weekly_check_ins: entry.total_weekly_check_ins || "N/A",
             avatar: entry.profile_url || "/avatar.jpeg",
             color: getCardColor(entry.rank),
           }));
@@ -110,8 +111,8 @@ const LeaderboardPage = () => {
                     position={item.position}
                     username={item.username}
                     points={item.points}
-                    league={item.league}
-                    competition={item.competition}
+                    daily_check_ins={item.daily_check_ins}
+                    weekly_check_ins={item.weekly_check_ins}
                     avatar={item.avatar}
                     color={item.color}
                   />
