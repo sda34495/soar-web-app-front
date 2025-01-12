@@ -238,6 +238,14 @@ const Sidebar = () => {
           })
         );
         break;
+        case "/community/post/[id]":
+          dispatch(
+            navbarActions.updateNavbar({
+              title: "Details Post",
+              description: "Your Post",
+            })
+          );
+          break;
       default:
         setActiveItem(""); // Default if no match
         break;
