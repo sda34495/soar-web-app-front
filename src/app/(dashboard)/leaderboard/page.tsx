@@ -23,7 +23,6 @@ const LeaderboardPage = () => {
         console.log("API Response:", response.data);
 
         if (response?.data?.success) {
-          console.log('hello this is my res',response)
           const data = response.data.data.map((entry: any) => ({
             id: entry._id,
             position: entry.rank,
