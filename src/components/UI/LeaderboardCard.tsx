@@ -6,8 +6,8 @@ const LeaderboardCard = ({
   position,
   username,
   points,
-  league,
-  competition,
+  daily_check_ins,
+  weekly_check_ins,
   avatar,
   color,
 }: any) => {
@@ -50,14 +50,14 @@ const LeaderboardCard = ({
           {/* League and Competition */}
           <div className="mt-4">
             <p className="flex text-sm justify-between">
-              <span className="text-gray-300">League</span>
+              <span className="text-gray-300">Daily Check-ins</span>
 
-              {league}
+              {daily_check_ins}
             </p>
             <p className="flex justify-between text-sm mt-2">
-              <span className="text-gray-300">Competition</span>
+              <span className="text-gray-300">Weekly Check-ins</span>
 
-              {competition}
+              {weekly_check_ins}
             </p>
           </div>
         </div>

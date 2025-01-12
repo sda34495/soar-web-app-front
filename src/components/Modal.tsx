@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { post } from "@/utils/axios"; // Assuming the axios instance is in utils/axios
 
 interface ModalProps {
   title: string;
@@ -23,14 +24,28 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
 }) => {
   const [showSecondModal, setShowSecondModal] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
   // Function to handle Apply Code
-  const handleApplyCode = () => {
-    setisOpen(false); // Close the current modal
-    setShowSecondModal(true); // Open the second modal after a short delay
-    setTimeout(() => {
-      router.push("/check-in")
-    }, 1500); // Optional delay to improve UI smoothness
+  const handleApplyCode = async () => {
+    try {
+      setError(null); // Clear any existing error
+      const response = await post("/profile/use-coupon", { code: couponCode });
+
+      if (response.data.success) {
+        setisOpen(false); // Close the current modal
+        setShowSecondModal(true); // Show success modal
+        setTimeout(() => {
+          router.push("/check-in"); // Navigate after a short delay
+        }, 1500);
+      } else {
+        setError(response.data.message || "Invalid coupon code.");
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Something went wrong.");
+    }
   };
 
   const handleCloseSecondModal = () => {
@@ -53,9 +68,12 @@ const Modal: React.FC<ModalProps> = ({
               <p className="text-[#BDBDBD]">{description}</p>
               <input
                 type="text"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
                 placeholder="Enter code"
                 className="mt-3 text-white mb-3 py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
               />
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
               <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <button
                   className="px-10 w-full py-3 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
@@ -98,7 +116,7 @@ const Modal: React.FC<ModalProps> = ({
               </p>
               <div className="mt-5 flex justify-center">
                 <button
-                  className="px-10 py-3  text-black font-semi-bold bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-semibold"
+                  className="px-10 py-3 text-black font-semi-bold bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-semibold"
                   onClick={handleCloseSecondModal}
                 >
                   Close

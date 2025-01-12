@@ -53,7 +53,7 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl text-white shadow-md overflow-hidden overflow-x-auto">
+    <div className="bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] rounded-2xl text-white shadow-md overflow-hidden overflow-x-auto ">
       <div className="bg-[#121212] text-white rounded-2xl px-2 py-1 overflow-x-auto">
         <div className="p-3 flex justify-end space-x-2">
           <input
@@ -123,8 +123,8 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
                 <th className="p-3">Rank</th>
                 <th className="p-3">User</th>
                 <th className="p-3">Points</th>
-                <th className="p-3">League</th>
-                <th className="p-3">Competition</th>
+                <th className="p-3">Daily Check-ins</th>
+                <th className="p-3">Weekly Check-ins</th>
               </tr>
             </thead>
             <tbody>
@@ -144,8 +144,8 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
                     <span>{entry.user_name || "unknown"}</span>
                   </td>
                   <td className="p-3">{entry.points || 0}</td>
-                  <td className="p-3">{entry.league || 0}</td>
-                  <td className="p-3">{entry.competition || 0}</td>
+                  <td className="p-3">{entry.total_check_ins || 0}</td>
+                  <td className="p-3">{entry.weekly_check_ins || 0}</td>
                 </tr>
               ))}
             </tbody>
