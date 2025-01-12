@@ -11,6 +11,8 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { RiShareLine } from "react-icons/ri";
 import EditOrDeletePost from "../../component/EditOrDeletePost";
 import Comments from "../../component/Comments";
+import ShareModal from "@/components/ShareModal";
+
 
 const PostDetail = () => {
   const { id } = useParams(); // Get params directly
@@ -21,6 +23,7 @@ const PostDetail = () => {
   const [loading, setLoading] = useState(true);
   const [commentsVisible, setCommentsVisible] = useState(false); // State to toggle comments visibility
   const baseURL = "http://localhost:3000/community/post/";
+  const [shareModal, setShareModal] = useState(false);
 
   // Fetch post data by ID
   useEffect(() => {
@@ -29,7 +32,7 @@ const PostDetail = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const response = await getData(`community/get-post/${id}`);
+        const response = await getData(`${endpoints.GET_POST_BY_ID}/${id}`);
         console.log("Fetched Post Response:", response);
 
         if (response?.data?.success) {
@@ -82,8 +85,7 @@ const PostDetail = () => {
 
   // Copy share link to clipboard
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(`${baseURL}${post?._id}`);
-    toast.success("Link copied to clipboard!");
+    setShareModal(true);
   };
 
   // Toggle comment visibility
@@ -97,6 +99,7 @@ const PostDetail = () => {
   if (!post) return <p className="text-center text-white">Post not found.</p>;
 
   return (
+    <>
     <div className="flex flex-col items-center p-6 text-white space-y-6">
       <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-full">
         <div className="flex items-start justify-between mb-4">
@@ -161,6 +164,7 @@ const PostDetail = () => {
             <RiShareLine className="mr-2" />
             Share
           </button>
+          
         </div>
         <div>
 
@@ -180,8 +184,11 @@ const PostDetail = () => {
       </div>
 
       {/* Comments Section */}
-    
+      
     </div>
+    <ShareModal title={"Share Post"} description={"Copy the link or Share via Social plattform"} isOpen={shareModal} image_url={"/copy.svg"} linkToShare={`${baseURL}/${id}`} onClose={()=>setShareModal(false)}
+    />
+    </>
   );
 };
 
