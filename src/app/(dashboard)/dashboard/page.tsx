@@ -27,8 +27,9 @@ const DashboardPage = () => {
     try {
       const response = await getData(
         `${endpoints.GET_DASHBOARD_DATA}?activity_type=${activity}&filter_type=${filter}`
-        // "dashboard/details?activity_type=finance&filter_type=thisMonth"
       );
+
+      console.log("this is res", response.data.data.leaderboardUsers)
       return response.data; // Directly return the data
     } catch (err) {
       console.log("Error fetching dashboard data:", err);
@@ -49,8 +50,7 @@ const DashboardPage = () => {
       try {
         setLoading(true); // Start loading
         const response = await fetchDashboardData(activityType, filterType); // Fetch the data
-        setDashboardData(response.data); // Set the data
-        // console.log(response.data);
+        setDashboardData(response.data);
       } catch (err) {
         setError("Failed to load dashboard data. Please try again."); // Set error message
       } finally {
@@ -90,8 +90,8 @@ const DashboardPage = () => {
       position: "1st",
       username: "marshmellow",
       points: 1280,
-      league: "1988 / 2000",
-      competition: "89 / 100",
+      total_check_ins: "1988 / 2000",
+      total_weekly_check_ins: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
         card1: "bg-gradient-to-br from-[#09DE7A] to-[#525552]",
@@ -102,8 +102,8 @@ const DashboardPage = () => {
       position: "2nd",
       username: "oliviarhye",
       points: 1260,
-      league: "1988 / 2000",
-      competition: "89 / 100",
+      total_check_ins: "1988 / 2000",
+      total_weekly_check_ins: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
         card1: "bg-gradient-to-br from-[#c784269b] to-[#3d3e3d]",
@@ -114,8 +114,8 @@ const DashboardPage = () => {
       position: "3rd",
       username: "marshmellow",
       points: 1240,
-      league: "1988 / 2000",
-      competition: "89 / 100",
+      total_check_ins: "1988 / 2000",
+      total_weekly_check_ins: "89 / 100",
       avatar: "/avatar.jpeg",
       color: {
         card1: "bg-gradient-to-br from-[#438ff2eb] to-[#08274c]",
@@ -175,18 +175,18 @@ const DashboardPage = () => {
           {dashboardData
             ? dashboardData?.leaderboardUsers.map((item: any, index) => {
                 const color = leaderboardData[index]?.color; // Get color based on index
-                const league = leaderboardData[index]?.league || "1988 / 2000";
-                const competition =
-                  leaderboardData[index]?.competition || "89 / 100";
+                const total_check_ins = leaderboardData[index]?.total_check_ins || "1988 / 2000";
+                const total_weekly_check_ins =
+                  leaderboardData[index]?.total_weekly_check_ins || "89 / 100";
                 return (
                   <div className="flex-1" key={index}>
                     <LeaderboardCard
                       position={item.rank}
-                      username={item.user_name}
+                      username={item.user_name || "unknown"}
                       color={color}
                       points={item.points}
-                      league={league}
-                      competition={competition}
+                      daily_check_ins={`${item.total_check_ins || 0} / 2000`}
+                      weekly_check_ins={`${item.total_weekly_check_ins || 0} / 100`} 
                       avatar={
                         item.profile_url || "https://via.placeholder.com/100"
                       }

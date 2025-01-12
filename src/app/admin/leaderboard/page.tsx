@@ -20,11 +20,12 @@ const LeaderboardPage = () => {
           position: entry.rank, // Ensure rank is correctly extracted
           username: entry.user_name || "unknown",
           points: entry.points || 0,
-          league: entry.league || 0, // Default value if not available
-          competition: entry.activity_type || "N/A",
+          daily_check_ins: entry.total_check_ins || 0,
+            weekly_check_ins: entry.total_weekly_check_ins || 0,
           avatar: "/avatar.jpeg", // Add logic for dynamic avatar if available
           color: getCardColor(entry.rank), // Use rank to determine the color
         }));
+
 
         // Filter only the top 3 ranks
         const topRanks = data.filter((item) =>
@@ -83,8 +84,8 @@ const LeaderboardPage = () => {
                   position={item.position}
                   username={item.username}
                   points={item.points}
-                  league={item.league}
-                  competition={item.competition}
+                  daily_check_ins={item.daily_check_ins}
+                    weekly_check_ins={item.weekly_check_ins}
                   avatar={item.avatar}
                   color={item.color}
                 />

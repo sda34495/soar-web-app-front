@@ -26,10 +26,10 @@ const LeaderboardPage = () => {
           const data = response.data.data.map((entry: any) => ({
             id: entry._id,
             position: entry.rank,
-            username: entry.user_name || "N/A",
+            username: entry.user_name || "unknown",
             points: entry.points || 0,
             daily_check_ins: entry.total_check_ins || 0,
-            weekly_check_ins: entry.total_weekly_check_ins || "N/A",
+            weekly_check_ins: entry.total_weekly_check_ins || 0,
             avatar: entry.profile_url || "/avatar.jpeg",
             color: getCardColor(entry.rank),
           }));
@@ -83,7 +83,7 @@ const LeaderboardPage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mb-5">
       {error && <div className="text-red-500">{error}</div>}
 
       <div className="flex justify-center items-center">

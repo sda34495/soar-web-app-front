@@ -32,6 +32,7 @@ const Sidebar = () => {
   const fetchData = async () => {
     try {
       const response = await getData(endpoints.GET_PROFILE_DETAILS);
+      console.log("THis is userprofile x43", response)
       
       if (response?.data?.success) {
         // if (!response?.data?.data.is_subscribed) {
@@ -235,6 +236,15 @@ const Sidebar = () => {
           navbarActions.updateNavbar({
             title: "All Users",
             description: "Control your users by admin pannels",
+          })
+        );
+        break;
+        case "/admin/coupon":
+        setActiveItem("Coupon");
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Coupon",
+            description: "Add coupon for users",
           })
         );
         break;
@@ -594,6 +604,33 @@ const Sidebar = () => {
                   </li>
                 </Link>
               </button>
+
+                {/* Coupon Link */}
+
+                <button onClick={() => updateloader("Coupon")}>
+                <Link href="/admin/coupon">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
+                      activeItem === "Coupon"
+                        ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Coupon"
+                          ? "/sidebar/dark_coupon.svg"
+                          : "/sidebar/coupon.svg"
+                      }
+                      alt="Coupon"
+                      className="mr-4"
+                    />
+                    <p>Add Coupon </p>
+                  </li>
+                </Link>
+              </button>
+
+
             </ul>
           </div>
         </aside>

@@ -128,6 +128,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
+
         <div className="  flex justify-start  w-full mb-5 items-center">
           <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
             {leaderboard?.map((item, index) => {
@@ -137,10 +138,10 @@ const DashboardPage = () => {
                   <LeaderboardCard
                     key={index}
                     position={item.rank}
-                    username={item.user_name || "Anonymous"}
+                    username={item.user_name || "unknown"}
                     points={item.points || 0}
-                    league={item.league || "N/A"}
-                    competition={item.competition || "N/A"}
+                    daily_check_ins={`${item.total_check_ins || 0} / 2000`}
+                      weekly_check_ins={`${item.total_weekly_check_ins || 0} / 100`} 
                     avatar={item.profile_url || "/avatar.jpeg"}
                     color={color}
                   />
