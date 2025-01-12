@@ -14,6 +14,7 @@ import Comments from "../../component/Comments";
 import ShareModal from "@/components/ShareModal";
 
 const PostDetail = () => {
+  // push code
   const { id } = useParams(); // Get params directly
   const currentUserId = useSelector(
     (state: any) => state.profileSlice.user._id
