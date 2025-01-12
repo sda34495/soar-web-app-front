@@ -17,6 +17,12 @@ const PostCard = () => {
   const currentUserId = useSelector((state: any) => state.profileSlice.user._id);
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
+  
+  const baseURL = "http://localhost:3000/community/post/";
+  
+  
+  const [activeSharePostId, setActiveSharePostId] = useState(null);
+
   const [activeReply, setActiveReply] = useState("");
   const [editPost, setEditPost] = useState(null);
   const dispatch = useDispatch();
@@ -47,7 +53,14 @@ const PostCard = () => {
   }
 }, []);
 
+const handleCopyLink = (postId: any) => {
+  const shareLink = `${baseURL}${postId}`;
+  navigator.clipboard.writeText(shareLink);
+  toast.success("Link copied to clipboard!");
+  setActiveSharePostId(null);
+  
 
+};
   useEffect(() => {
     // fetchPosts();
   
@@ -212,10 +225,35 @@ const PostCard = () => {
                 {post.total_comments}{" "}
                 {post.total_comments >= 2 ? "Comments" : "Comment"}
               </button>
-              <button className="text-gray-400 hover:text-white flex items-center">
+              <div>
+
+              <button className="text-gray-400 hover:text-white flex items-center"
+              onClick={() =>
+                setActiveSharePostId(activeSharePostId === post._id ? null : post._id)
+              }
+              >
                 <RiShareLine className="mr-2" />
                 Share
               </button>
+              {activeSharePostId === post._id && (
+        <div className="absolute mt-2 bg-[#121212] border border-gray-700 rounded p-2 shadow-md">
+          <div className="flex items-center space-x-2">
+            <input
+              type="text"
+              value={`${baseURL}${post._id}`}
+              readOnly
+              className="text-sm bg-transparent text-white px-2 py-1  w-full opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
+              />
+            <button
+              onClick={()=>handleCopyLink(post._id)}
+              className="text-xs text-black bg-custom-gradient  px-3 py-1 rounded"
+              >
+              Copy Link
+            </button>
+          </div>
+          </div>
+      )}
+      </div>
             </div>
           </div>
 
