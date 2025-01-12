@@ -207,7 +207,7 @@ const Comments = ({
         <div className="w-full bg-[#121212] p-6 rounded-r-lg shadow-lg lg:min-w-[360px] max-w-[360px] h-full">
           <div className="flex items-center justify-between">
             <p className="text-white">Comments</p>
-            <BsThreeDotsVertical />
+            {/* <BsThreeDotsVertical /> */}
           </div>
           <form onSubmit={(e) => handleAddComment(postData._id, e, newComment)}>
             <textarea
