@@ -75,7 +75,10 @@ const endpoints = {
   DELETE_POST:"community/delete-post",
   STRIPE_PAYMENT: "payments/subscription-intent",
   BOOKING_SESSSION_PAYMENT:"payments/booking-session-intent",
-  POST_LIKE:"community/like"
+  POST_LIKE:"community/like",
+  SET_COUPON_CODE:'/admin/create-coupon',
+  USE_COUPON_CODE:'/profile/use-coupon',
+
   
 };
 

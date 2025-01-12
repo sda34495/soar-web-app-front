@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Import the post function
 import toast from "react-hot-toast";
+import endpoints from "@/utils/endpoints";
 
 const AddCoupon: React.FC = () => {
   const [couponCode, setCouponCode] = useState("");
@@ -24,13 +25,12 @@ const AddCoupon: React.FC = () => {
     setLoading(true);
 
     try {
-      const endpoint = "/admin/create-coupon"; // API endpoint
       const payload = {
         code: couponCode,
         is_one_time: oneTime,
       };
 
-      const response = await post(endpoint, payload);
+      const response = await post(endpoints.SET_COUPON_CODE, payload);
 
       if (response.data.success) {
         toast.success(response.data.message || "Coupon created successfully!");
