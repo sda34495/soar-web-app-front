@@ -72,7 +72,7 @@ const LeaderboardPage = () => {
 
   useSidebarLoading()
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mb-5">
       {error && <div className="text-red-500">{error}</div>}
 
       <div className="flex justify-center items-center">

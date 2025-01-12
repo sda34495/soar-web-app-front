@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { post } from "@/utils/axios"; // Assuming the axios instance is in utils/axios
+import endpoints from "@/utils/endpoints";
 
 interface ModalProps {
   title: string;
@@ -32,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({
   const handleApplyCode = async () => {
     try {
       setError(null); // Clear any existing error
-      const response = await post("/profile/use-coupon", { code: couponCode });
+      const response = await post(endpoints.USE_COUPON_CODE, { code: couponCode });
 
       if (response.data.success) {
         setisOpen(false); // Close the current modal
