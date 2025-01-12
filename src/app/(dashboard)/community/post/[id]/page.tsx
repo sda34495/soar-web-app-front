@@ -100,15 +100,17 @@ const PostDetail = () => {
 
   return (
     <>
-    <div className="flex flex-col items-center p-6 text-white space-y-6">
-      <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-full">
+    <div className="flex flex-row items-center h-min-screen text-white  mx-auto">
+       
+          
+        <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-full">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-4">
             <img
               src={post?.user?.profile_url || "/avatar.jpeg"}
               alt={post.user?.user_name || "User"}
               className="rounded-full w-10 h-10 object-cover"
-            />
+              />
             <div>
               <p className="font-bold">{post.user?.user_name || "User"}</p>
               <p className="text-sm text-gray-400">{new Date(post.createdAt).toLocaleString()}</p>
@@ -131,7 +133,7 @@ const PostDetail = () => {
               src={post.media}
               alt="Post media"
               className="rounded-lg w-full max-w-[640px] object-cover mx-auto"
-            />
+              />
           </div>
         )}
 
@@ -140,12 +142,12 @@ const PostDetail = () => {
           <button
             onClick={handleLikeClick}
             className="flex items-center text-gray-400 text-sm hover:text-white"
-          >
+            >
             {liked ? (
               <IoMdHeart className="mr-2 text-white" />
-            ) : (
-              <IoMdHeartEmpty className="mr-2" />
-            )}
+              ) : (
+                <IoMdHeartEmpty className="mr-2" />
+                )}
             {post.likes.toLocaleString()} Likes
           </button>
 
@@ -155,7 +157,7 @@ const PostDetail = () => {
               post.allow_comments ? "text-gray-400 hover:text-white" : "text-gray-600 cursor-not-allowed"
             }`}
             disabled={!post.allow_comments}
-          >
+            >
             <IoChatbubbleEllipsesOutline className="mr-2" />
             {post.total_comments} {post.total_comments === 1 ? "Comment" : "Comments"}
           </button>
@@ -168,6 +170,15 @@ const PostDetail = () => {
         </div>
         <div>
 
+      
+          </div>
+         
+          
+        </div>
+
+        <div className="flex h-full">
+          
+       
       {commentsVisible && post.allow_comments && (
         <Comments
         postData={post}
@@ -175,17 +186,14 @@ const PostDetail = () => {
         activeComments={activeComments}
         setActiveComments={setActiveComments} setActivePostId={undefined} handleCommentToggle={handleCommentToggle}        />
         )}
-       
         </div>
-
-        
             
        
       </div>
 
       {/* Comments Section */}
       
-    </div>
+    
     <ShareModal title={"Share Post"} description={"Copy the link or Share via Social plattform"} isOpen={shareModal} image_url={"/copy.svg"} linkToShare={`${baseURL}/${id}`} onClose={()=>setShareModal(false)}
     />
     </>
