@@ -75,7 +75,8 @@ const endpoints = {
   DELETE_POST:"community/delete-post",
   STRIPE_PAYMENT: "payments/subscription-intent",
   BOOKING_SESSSION_PAYMENT:"payments/booking-session-intent",
-  POST_LIKE:"community/like"
+  POST_LIKE: "community/like",
+  GET_POST_BY_ID:"community/get-post"
   
 };
 
