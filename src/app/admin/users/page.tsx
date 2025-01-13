@@ -5,7 +5,7 @@ import useSidebarLoading from '@/Hook/useSidebarLoading';
 
 
 const Userpage = () => {
-  const [activeTab, setActiveTab] = useState("users");
+  const [activeTab, setActiveTab] = useState("all");
 
   useSidebarLoading();
   return (
@@ -13,8 +13,8 @@ const Userpage = () => {
        <div className="space-x-4 mb-6">
         <button
           
-          onClick={() => setActiveTab("users")}
-          className={`  bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[18px]   rounded-full p-3 px-6 mt-8 ${activeTab === "users" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
+          onClick={() => setActiveTab("all")}
+          className={`  bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[18px]   rounded-full p-3 px-6 mt-8 ${activeTab === "all" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
         >
           All users
         </button>
@@ -40,7 +40,7 @@ const Userpage = () => {
           Removed
         </button>
       </div>
-     <UserTable />
+     <UserTable activeTab={activeTab}/>
     </div>
   )
 }

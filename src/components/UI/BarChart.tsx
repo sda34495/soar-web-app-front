@@ -89,6 +89,22 @@ export default function CustomYAxisBarChart({
         bodyColor: "#FFFFFF",
         borderColor: "#FFFFFF",
         borderWidth: 1,
+        callbacks: {
+          label: function (context) {
+            const datasetLabel = context.dataset.label || "";
+            const value = context.raw;
+  
+            // Customize tooltips for AM and PM
+            if (datasetLabel === "AM" && value === 1) {
+              return "AM";
+            } else if (datasetLabel === "PM" && value === 2) {
+              return "PM";
+            } else if (datasetLabel === "NO" && value === 0.1) {
+              return "No Activity";
+            }
+            return "";
+          },
+        },
       },
     },
     scales: {
@@ -130,7 +146,7 @@ export default function CustomYAxisBarChart({
             <div className="flex flex-row gap-5 items-center">
               <p className="text-sm text-[#7C7C7C]">Last month</p>
               <DropDownChat updateFilter={updateFilter} />
-              <img src="/vertical.svg" />
+             
             </div>
           </div>
           <div style={{ width: "100%", height: "320px" }}

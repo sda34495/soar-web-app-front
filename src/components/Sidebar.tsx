@@ -239,6 +239,14 @@ const Sidebar = () => {
           })
         );
         break;
+        case "/community/post/[id]":
+          dispatch(
+            navbarActions.updateNavbar({
+              title: "Details Post",
+              description: "Your Post",
+            })
+          );
+          break;
         case "/admin/coupon":
         setActiveItem("Coupon");
         dispatch(

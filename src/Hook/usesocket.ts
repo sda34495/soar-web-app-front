@@ -25,6 +25,7 @@ const useSocket = () => {
     socket.on("notification", (data) => {
       playClickSound(); // Play sound on notification
       dispatch(profileActions.appendNotifications({ data: data.notification }));
+      dispatch(profileActions.setNewNotification({ data: true }));
     });
 
     return () => {

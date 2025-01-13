@@ -67,9 +67,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required.";
-    } else if (formData.phone.length !== 11) {
-      newErrors.phone = "Phone number must be exactly 11 digits.";
-    }
+    } 
+    // else if (formData.phone.length !== 11) {
+    //   newErrors.phone = "Phone number must be exactly 11 digits.";
+    // }
     if (!formData.consultationReason.trim())
       newErrors.consultationReason = "Reason for consultation is required.";
 
@@ -111,6 +112,14 @@ const BookingModal: React.FC<BookingModalProps> = ({
       setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        consultationReason: "",
+      })
+      
     }
   };
 
