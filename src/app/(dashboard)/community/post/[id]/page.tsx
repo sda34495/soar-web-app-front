@@ -23,10 +23,10 @@ const PostDetail = () => {
   const [liked, setLiked] = useState(false);
   const [activeComments, setActiveComments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [commentsVisible, setCommentsVisible] = useState(false); // State to toggle comments visibility
-  const baseURL = `${window.location.origin}/community/post/`;
-  // const baseURL = `'http://localhost:3000/community/post/`;
-  const [shareModal, setShareModal] = useState(false);
+  const [commentsVisible, setCommentsVisible] = useState(true); // State to toggle comments visibility
+  // const baseURL = `${window.location.origin}/community/post/`;
+  const baseURL = `'http://localhost:3000/community/post/`;
+  const [shareModal, setShareModal] = useState(null);
 
   // Fetch post data by ID
   useEffect(() => {
@@ -56,6 +56,7 @@ const PostDetail = () => {
     };
 
     fetchPost();
+    handleCommentToggle({ postId: id });
   }, [id]);
 
   // Handle like/unlike button click
@@ -112,10 +113,10 @@ const PostDetail = () => {
   if (!post) return <p className="text-center text-white">Post not found.</p>;
   console.log("Post data", post);
   return (
-    <div className=" flex p-6 space-y-8 w-auto">
-      <div className="flex  items-center justify-center p-6 text-white space-y-6 ">
-        <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-full h-full">
-          <div className="flex items-start justify-between mb-4">
+    <div className=" flex p-6 space-y-8 w-auto bg-[#121212]">
+      <div className={`flex  items-center justify-center p-6 text-white space-y-6 w-auto `}>
+        <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-auto h-auto">
+          <div className="flex items-start justify-between mb-4 w-auto">
             <div className="flex items-center space-x-4">
               <img
                 src={post?.user?.profile_url || "/avatar.jpeg"}
@@ -186,8 +187,9 @@ const PostDetail = () => {
             </button>
           </div>
         </div>
-        <div className="">
-          {commentsVisible && post.allow_comments && (
+        
+        {commentsVisible && post.allow_comments && (
+          <div className="h-full  mt-2">
             <Comments
               postData={post}
               activePostId={post._id}
@@ -196,8 +198,8 @@ const PostDetail = () => {
               setActivePostId={setCommentsVisible}
               handleCommentToggle={handleCommentToggle}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {/* Comments Section */}
 

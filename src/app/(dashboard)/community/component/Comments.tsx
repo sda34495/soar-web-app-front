@@ -53,7 +53,7 @@ const Comments = ({
       // Update the total_comments value
       updateCommentValue(postId, newCommentCount);
     } catch (error) {
-      toast.error(error.message);
+      // toast.error(error.message);
     }finally{
       setLoading(false);
     } 
