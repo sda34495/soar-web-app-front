@@ -11,12 +11,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Comments = ({
   postData,
+  setPostData,
   activePostId,
   setActivePostId,
   handleCommentToggle,
   activeComments,
   setActiveComments,
+  singlePost = false,
 }) => {
+
+  console.log("all",postData)
   const posts = useSelector((state: any) => state.postSlice.posts);
   const [newComment, setNewComment] = React.useState("");
   const [replyOpne, setReplyOpen] = React.useState();
@@ -25,6 +29,7 @@ const Comments = ({
   const [loading , setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const updateCommentValue = (postId: string, newCommentCount: number) => {
+    console.log(newCommentCount)
     dispatch(
       postActions.updateNewData({
         data: posts.map((post: any) =>
@@ -47,13 +52,20 @@ const Comments = ({
       setLoading(true);
       await post(endpoints.CREATE_COMMENT, formdata);
       handleUpdateComment(postId);
-      const newCommentCount =
+      if(!singlePost){
+        
+        const newCommentCount = 
         posts.find((post: any) => post._id === postId).total_comments + 1;
+        updateCommentValue(postId, newCommentCount);
+      }else{
+        const newCommentCount = postData.total_comments + 1;
+        setPostData({ ...postData, total_comments: newCommentCount });
+
+      }
 
       // Update the total_comments value
-      updateCommentValue(postId, newCommentCount);
     } catch (error) {
-      // toast.error(error.message);
+      toast.error(error.message);
     }finally{
       setLoading(false);
     } 

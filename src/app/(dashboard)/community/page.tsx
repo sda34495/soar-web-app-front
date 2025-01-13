@@ -23,7 +23,7 @@ const Communitypage = () => {
       const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        dispatch(postActions.updateNewData({ data:  [...posts,...postsData] }));
+        dispatch(postActions.updateNewData({ data:  [...postsData] }));
         setTotalPages(response.data.data.totalPages); // Set totalPages from the response
       }
     } catch (error) {

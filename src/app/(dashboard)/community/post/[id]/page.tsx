@@ -192,11 +192,13 @@ const PostDetail = () => {
           <div className="h-full  mt-2">
             <Comments
               postData={post}
+              setPostData={setPost}
               activePostId={post._id}
               activeComments={activeComments}
               setActiveComments={setActiveComments}
               setActivePostId={setCommentsVisible}
               handleCommentToggle={handleCommentToggle}
+              singlePost = {true}
             />
           </div>
         )}
