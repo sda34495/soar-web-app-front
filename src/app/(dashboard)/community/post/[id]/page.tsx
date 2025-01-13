@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // Use useParams for dynamic route params
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
@@ -12,6 +12,7 @@ import { RiShareLine } from "react-icons/ri";
 import EditOrDeletePost from "../../component/EditOrDeletePost";
 import Comments from "../../component/Comments";
 import ShareModal from "@/components/ShareModal";
+import { navbarActions } from "@/store/navbar-slice";
 
 const PostDetail = () => {
   // push code
@@ -27,6 +28,8 @@ const PostDetail = () => {
   // const baseURL = `${window.location.origin}/community/post/`;
   const baseURL = `'http://localhost:3000/community/post/`;
   const [shareModal, setShareModal] = useState(null);
+  const dispatch = useDispatch();
+
 
   // Fetch post data by ID
   useEffect(() => {
@@ -57,6 +60,12 @@ const PostDetail = () => {
 
     fetchPost();
     handleCommentToggle({ postId: id });
+      dispatch(
+    navbarActions.updateNavbar({
+      title: "Details Post",
+      description: "Your Post",
+    })
+  );
   }, [id]);
 
   // Handle like/unlike button click
@@ -114,7 +123,9 @@ const PostDetail = () => {
   console.log("Post data", post);
   return (
     <div className=" flex p-6 space-y-8 w-auto bg-[#121212]">
-      <div className={`flex  items-center justify-center p-6 text-white space-y-6 w-auto `}>
+      <div
+        className={`flex  items-center justify-center p-6 text-white space-y-6 w-auto `}
+      >
         <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-auto h-auto">
           <div className="flex items-start justify-between mb-4 w-auto">
             <div className="flex items-center space-x-4">
@@ -187,7 +198,7 @@ const PostDetail = () => {
             </button>
           </div>
         </div>
-        
+
         {commentsVisible && post.allow_comments && (
           <div className="h-full  mt-2">
             <Comments
@@ -198,7 +209,7 @@ const PostDetail = () => {
               setActiveComments={setActiveComments}
               setActivePostId={setCommentsVisible}
               handleCommentToggle={handleCommentToggle}
-              singlePost = {true}
+              singlePost={true}
             />
           </div>
         )}

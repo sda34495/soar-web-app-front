@@ -210,7 +210,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                 <div>
                   <input
                     type="text"
-                    placeholder="Phone number"
+                    placeholder="(123) 456-7890"
                     name="phone"
                     value={formData.phone}
                     onChange={(e) => {

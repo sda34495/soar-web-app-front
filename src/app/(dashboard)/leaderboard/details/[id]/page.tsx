@@ -14,6 +14,7 @@ interface UserDetails {
   avatar: string;
 }
 
+
 export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -124,12 +125,12 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               <div className="flex items-center  justify-between">
                 <span className="font-semibold text-gray-300">Daily Check-ins</span>
                 <span className="font-semibold text-xl">
-                  {userData.daily_check_ins.toLocaleString()}/2000
+                  {userData.daily_check_ins.toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-gray-300">Weekly Check-ins</span>
-                {userData.weekly_check_ins} / 100
+                {userData.weekly_check_ins}
               </div>
             </div>
 

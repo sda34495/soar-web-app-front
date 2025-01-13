@@ -10,7 +10,7 @@ const SettingPage = () => {
   const [activeTab, setActiveTab] = useState("general");
   useSidebarLoading();
   return (
-    <div>
+    <div className="mb-5">
       <div className="space-x-4 mb-6">
         <button
           

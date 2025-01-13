@@ -32,7 +32,7 @@ const Sidebar = () => {
   const fetchData = async () => {
     try {
       const response = await getData(endpoints.GET_PROFILE_DETAILS);
-      console.log("THis is userprofile x43", response)
+    
       
       if (response?.data?.success) {
         // if (!response?.data?.data.is_subscribed) {
