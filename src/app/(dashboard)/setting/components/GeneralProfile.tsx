@@ -192,6 +192,7 @@ const GeneralProfile = () => {
               onChange={handleChange}
               placeholder="username"
               id="user_name"
+              required
               className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
             />
           </div>
@@ -208,6 +209,7 @@ const GeneralProfile = () => {
                 onChange={handleChange}
                 placeholder="First name"
                 id="firstname"
+                required
                 className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
               />
             </div>
@@ -222,6 +224,7 @@ const GeneralProfile = () => {
                 onChange={handleChange}
                 placeholder="Last name"
                 id="lastname"
+                required
                 className="peer p-5 text-xl mt-1 block w-full bg-transparent opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
               />
             </div>
