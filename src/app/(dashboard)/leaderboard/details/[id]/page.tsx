@@ -14,6 +14,7 @@ interface UserDetails {
   avatar: string;
 }
 
+
 export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);

@@ -69,8 +69,8 @@ const LeaderboardTable = () => {
                     </td>
                  
                     <td className="p-3">{entry.points || 0}</td>
-                    <td className="p-3">{entry.league || 0}</td>
-                    <td className="p-3">{entry.competition || 0}</td>
+                    <td className="p-3">{entry.total_check_ins || 0}</td>
+                    <td className="p-3">{entry.total_weekly_check_ins || 0}</td>
                   </tr>
                 ))}
             </tbody>

@@ -14,14 +14,16 @@ const LeaderboardPage = () => {
     const fetchLeaderboardData = async () => {
       try {
        
+
         const response = await getData(endpoints.GET_ADMIN_LEADERBOARD);
+        console.log("This is admin res",response)
 
         const data = response?.data?.data?.map((entry: any) => ({
           position: entry.rank, // Ensure rank is correctly extracted
           username: entry.user_name || "unknown",
           points: entry.points || 0,
           daily_check_ins: entry.total_check_ins || 0,
-            weekly_check_ins: entry.total_weekly_check_ins || 0,
+          weekly_check_ins: entry.total_weekly_check_ins || 0,
           avatar: "/avatar.jpeg", // Add logic for dynamic avatar if available
           color: getCardColor(entry.rank), // Use rank to determine the color
         }));
@@ -99,7 +101,7 @@ const LeaderboardPage = () => {
         </div>
       </div>
 
-      <LeaderBoardTable/>
+      <LeaderBoardTable />
     </div>
   );
 };
