@@ -11,6 +11,7 @@ import Comments from "./Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "@/store/post-data";
 import EditOrDeletePost from "./EditOrDeletePost";
+import ShareModal from "@/components/ShareModal";
 
 const PostCard = () => {
   const posts = useSelector((state: any) => state.postSlice.posts);
@@ -19,15 +20,15 @@ const PostCard = () => {
   );
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [sharePostDetails, setSharePostDetails] = useState({
+    postId: "",
+    linkToShare: "",
+  });
 
   const baseURL = `${window.location.origin}/community/post/`;
-
-  const [activeSharePostId, setActiveSharePostId] = useState(null);
-
   const [activeReply, setActiveReply] = useState("");
-  const [editPost, setEditPost] = useState(null);
   const dispatch = useDispatch();
-
   const [likedPosts, setLikedPosts] = useState<{ [key: string]: boolean }>({});
 
   // Fetch posts data from the server
@@ -54,17 +55,9 @@ const PostCard = () => {
     }
   }, []);
 
-  const handleCopyLink = (postId: any) => {
-    const shareLink = `${baseURL}${postId}`;
-    navigator.clipboard.writeText(shareLink);
-    toast.success("Link copied to clipboard!");
-    setActiveSharePostId(null);
-  };
   useEffect(() => {
-    // fetchPosts();
-
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   // Handle like button click
   const handleLikeClick = async (
@@ -108,7 +101,6 @@ const PostCard = () => {
             }),
           })
         );
-        // toast.success(isSelfLiked ? "You liked this post!" : "You unliked this post!");
       } else {
         toast.error("Failed to update your like status.");
         // Revert the like state in case of failure
@@ -123,7 +115,6 @@ const PostCard = () => {
   };
 
   const handleCommentToggle = async (postId: any) => {
-    console.log("postId:", postId);
     if (activePostId === postId) {
       setActivePostId(null);
       setActiveComments([]); // Clear comments when toggling off
@@ -145,22 +136,13 @@ const PostCard = () => {
       toast.error(error.message);
     }
   };
-  const handleEditPost = async (postId: any) => {
-    if (activePostId !== postId) {
-      setActivePostId(activePostId === postId ? null : postId);
-    }
 
-    try {
-      const response = await getData(
-        `${endpoints.GET_POST_COMMENTS}?post_id=${postId}`
-      );
-      if (response.data?.success) {
-        setActiveComments(response.data.data);
-        setActiveReply(response?.data?.data);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
+  const openShareModal = (postId: string) => {
+    setIsShareModalOpen(true);
+    setSharePostDetails({
+      postId,
+      linkToShare: `${baseURL}${postId}`,
+    });
   };
 
   return (
@@ -202,7 +184,6 @@ const PostCard = () => {
               </div>
             )}
 
-            {/* Like Button */}
             <div className="flex items-center justify-between mt-4 mr-2">
               <button
                 onClick={() =>
@@ -228,40 +209,17 @@ const PostCard = () => {
                 disabled={!post.allow_comments}
               >
                 <IoChatbubbleEllipsesOutline className="mr-2" />
-                {post.total_comments}{" "}
+                {post.total_comments} {" "}
                 {post.total_comments >= 2 ? "Comments" : "Comment"}
               </button>
-              <div>
-                <button
-                  className="text-gray-400 hover:text-white flex items-center"
-                  onClick={() =>
-                    setActiveSharePostId(
-                      activeSharePostId === post._id ? null : post._id
-                    )
-                  }
-                >
-                  <RiShareLine className="mr-2" />
-                  Share
-                </button>
-                {activeSharePostId === post._id && (
-                  <div className="absolute mt-2 bg-[#121212] border border-gray-700 rounded p-2 shadow-md">
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="text"
-                        value={`${baseURL}${post._id}`}
-                        readOnly
-                        className="text-sm bg-transparent text-white px-2 py-1  w-full opacity-90 border-[#7c7c7c] rounded-xl placeholder-[#7c7c7c] focus:outline-none border"
-                      />
-                      <button
-                        onClick={() => handleCopyLink(post._id)}
-                        className="text-xs text-black bg-custom-gradient  px-3 py-1 rounded"
-                      >
-                        Copy Link
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+
+              <button
+                className="text-gray-400 hover:text-white flex items-center"
+                onClick={() => openShareModal(post._id)}
+              >
+                <RiShareLine className="mr-2" />
+                Share
+              </button>
             </div>
           </div>
 
@@ -275,6 +233,16 @@ const PostCard = () => {
           />
         </div>
       ))}
+
+      {/* Share Modal */}
+      <ShareModal
+        title="Share This Post"
+        description="Easily share this post with your friends."
+        isOpen={isShareModalOpen}
+        image_url="/share-image.png" // Replace with your image URL
+        linkToShare={sharePostDetails.linkToShare}
+        onClose={() => setIsShareModalOpen(false)}
+      />
     </div>
   );
 };
