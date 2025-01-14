@@ -63,7 +63,7 @@ const PostDetail = () => {
     handleCommentToggle({ postId: id });
       dispatch(
     navbarActions.updateNavbar({
-      title: "Details Post",
+      title: "Post Details ",
       description: "Your Post",
     })
   );
