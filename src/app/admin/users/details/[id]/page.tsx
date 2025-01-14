@@ -5,7 +5,6 @@ import { getData } from "@/utils/axios";
 import Image from "next/image";
 
 interface UserDetails {
-  
   position: string;
   username: string;
   points: number;
@@ -14,7 +13,11 @@ interface UserDetails {
   avatar: string;
 }
 
-export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function UserDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -24,8 +27,6 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
     const unwrapParams = async () => {
       const unwrappedParams = await params;
       setUserId(unwrappedParams.id);
-      
-      
     };
 
     unwrapParams();
@@ -40,7 +41,6 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
         if (response?.data?.success) {
           const user = response?.data?.data;
           setUserData({
-            
             position: user.rank || "unknown",
             username: user.user_name || "unknown",
             points: user.total_points || 0,
@@ -83,12 +83,11 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               <div className="relative w-24 h-24">
                 {/* Avatar */}
                 <img
-                src={userData.avatar}
-                alt={userData.username}
-                className="h-24 w-24 rounded-full object-cover border-2 border-white"
-                onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
-                
-              />
+                  src={userData.avatar}
+                  alt={userData.username}
+                  className="h-24 w-24 rounded-full object-cover border-2 border-white"
+                  onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
+                />
                 {/* Online Status Indicator */}
                 <div className="absolute bottom-0 right-0 bg-[#09DE7A] h-5 w-5 rounded-full border-2 border-[#141414]"></div>
               </div>
@@ -116,17 +115,22 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                   </span>
                 </div>
                 <span className="font-semibold text-xl">
-                  {userData.points.toLocaleString()} <span className="text-sm opacity-45 ">pts</span>
+                  {userData.points.toLocaleString()}{" "}
+                  <span className="text-sm opacity-45 ">pts</span>
                 </span>
               </div>
               <div className="flex items-center  justify-between">
-                <span className="font-semibold text-gray-300">Daily Check-ins</span>
+                <span className="font-semibold text-gray-300">
+                  Total Check-ins
+                </span>
                 <span className="font-semibold text-xl">
-                {userData.daily_check_ins.toLocaleString()}
+                  {userData.daily_check_ins.toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-300">Weekly Check-ins</span>
+                <span className="font-semibold text-gray-300">
+                  Weekly Check-ins
+                </span>
                 {userData.weekly_check_ins}
               </div>
             </div>

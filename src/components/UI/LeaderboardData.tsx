@@ -123,7 +123,7 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
                 <th className="p-3">Rank</th>
                 <th className="p-3">User</th>
                 <th className="p-3">Points</th>
-                <th className="p-3">Daily Check-ins</th>
+                <th className="p-3">Total Check-ins</th>
                 <th className="p-3">Weekly Check-ins</th>
               </tr>
             </thead>
@@ -145,7 +145,7 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
                   </td>
                   <td className="p-3">{entry.points || 0}</td>
                   <td className="p-3">{entry.total_check_ins || 0}</td>
-                  <td className="p-3">{entry.weekly_check_ins || 0}</td>
+                  <td className="p-3">{entry.total_weekly_check_ins || 0}</td>
                 </tr>
               ))}
             </tbody>

@@ -23,7 +23,7 @@ const Communitypage = () => {
       const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        dispatch(postActions.updateNewData({ data:  [...postsData] }));
+        dispatch(postActions.updateNewData({ data:  [...posts,...postsData] }));
         setTotalPages(response.data.data.totalPages); // Set totalPages from the response
       }
     } catch (error) {
@@ -37,6 +37,7 @@ const Communitypage = () => {
 
     if (currentPage < totalPages) {
       const nextPage = currentPage + 1;
+      
    
       setCurrentPage(nextPage);
       fetchPosts(nextPage); // Fetch posts for the next page
@@ -62,9 +63,9 @@ const Communitypage = () => {
           {currentPage < totalPages && (
             <button
               onClick={handleShowMore}
-              className="mt-4 text-white hover:underline"
+              className="mt-4 bg-black/50 py-2 mx-auto mb-8 rounded-3xl w-[150px] border border-zinc-600  text-white hover:underline"
             >
-              Show More
+              Show More..
             </button>
           )}
         </>

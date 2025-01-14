@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // Use useParams for dynamic route params
 import { useDispatch, useSelector } from "react-redux";
-import { getData, post } from "@/utils/axios";
+import { getData } from "@/utils/axios";
+import {post as postActions} from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
@@ -76,7 +77,7 @@ const PostDetail = () => {
     setLiked(isSelfLiked); // Optimistically update local like state
 
     try {
-      const response = await post(endpoints.POST_LIKE, {
+      const response = await postActions(endpoints.POST_LIKE, {
         post_id: post._id,
         self_liked: isSelfLiked,
       });
@@ -127,7 +128,7 @@ const PostDetail = () => {
         className={`flex  items-center justify-center p-6 text-white space-y-6 w-auto `}
       >
         <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-auto h-auto">
-          <div className="flex items-start justify-between mb-4 w-auto">
+          <div className="flex items-start justify-between min-w-96  mb-4 w-full">
             <div className="flex items-center space-x-4">
               <img
                 src={post?.user?.profile_url || "/avatar.jpeg"}

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 
@@ -11,9 +11,10 @@ const LeaderboardCard = ({
   avatar,
   color,
 }: any) => {
-  
   return (
-    <div  className={`rounded-2xl overflow-hidden p-[1px] ${color.card1} text-white min-w-[300px]`}>
+    <div
+      className={`rounded-2xl overflow-hidden p-[1px] ${color.card1} text-white min-w-[300px]`}
+    >
       <div className={` bg-black/80 rounded-2xl `}>
         <div className={` h-full py-4 rounded-2xl  px-5 ${color.card2} `}>
           <div className="flex items-center justify-between">
@@ -33,7 +34,6 @@ const LeaderboardCard = ({
                 alt={username}
                 className="h-12 w-12 rounded-full object-cover border-2 border-white"
                 onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
-                
               />
             </div>
           </div>
@@ -50,7 +50,7 @@ const LeaderboardCard = ({
           {/* League and Competition */}
           <div className="mt-4">
             <p className="flex text-sm justify-between">
-              <span className="text-gray-300">Daily Check-ins</span>
+              <span className="text-gray-300">Total Check-ins</span>
 
               {daily_check_ins}
             </p>

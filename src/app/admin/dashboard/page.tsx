@@ -140,8 +140,8 @@ const DashboardPage = () => {
                     position={item.rank}
                     username={item.user_name || "unknown"}
                     points={item.points || 0}
-                    daily_check_ins={`${item.total_check_ins || 0} / 2000`}
-                      weekly_check_ins={`${item.total_weekly_check_ins || 0} / 100`} 
+                    daily_check_ins={item.total_check_ins || 0}
+                      weekly_check_ins={item.total_weekly_check_ins || 0}
                     avatar={item.profile_url || "/avatar.jpeg"}
                     color={color}
                   />

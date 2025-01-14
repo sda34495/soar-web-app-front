@@ -185,8 +185,8 @@ const DashboardPage = () => {
                       username={item.user_name || "unknown"}
                       color={color}
                       points={item.points}
-                      daily_check_ins={`${item.total_check_ins || 0} / 2000`}
-                      weekly_check_ins={`${item.total_weekly_check_ins || 0} / 100`} 
+                      daily_check_ins={item.total_check_ins || 0}
+                      weekly_check_ins={item.total_weekly_check_ins || 0}
                       avatar={
                         item.profile_url || "https://via.placeholder.com/100"
                       }
