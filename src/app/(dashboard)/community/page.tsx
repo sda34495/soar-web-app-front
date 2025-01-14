@@ -63,9 +63,9 @@ const Communitypage = () => {
           {currentPage < totalPages && (
             <button
               onClick={handleShowMore}
-              className="mt-4 text-white hover:underline mb-8"
+              className="mt-4 bg-black/50 py-2 mx-auto mb-8 rounded-3xl w-[150px] border border-zinc-600  text-white hover:underline"
             >
-              Show More
+              Show More..
             </button>
           )}
         </>
