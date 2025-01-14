@@ -45,8 +45,8 @@ const Communitypage = () => {
 
   useEffect(() => {
     fetchPosts(currentPage);
-    console.log("this is current Page", currentPage);
-    console.log("this is current totalPages", totalPages);
+    // console.log("this is current Page", currentPage);
+    // console.log("this is current totalPages", totalPages);
     // Fetch posts on mount
   }, [currentPage]);
 

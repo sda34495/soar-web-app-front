@@ -57,13 +57,13 @@ function CreatePassword() {
         const formData = new FormData();
         formData.append("newPassword", password.password);
 
-        console.log(formData);
+       
         const response = await post(endpoints.RESET_NEW_PASSWORD, formData);
-        console.log(" verification in successfully:", response.data);
+        
         if (!response) return;
-        console.log(response);
+        
 
-        console.log("reset password response:", response.data);
+        
 
         if (response.status !== 200) {
           throw new Error(response.data.message || " failed");
@@ -75,7 +75,7 @@ function CreatePassword() {
         const errorMessage =
           error.response?.data?.message || "Reset password failed";
         toast.error(errorMessage);
-        console.log(" error:", error);
+        
       } finally {
         setLoading(false);
       }

@@ -39,7 +39,7 @@ const PostDetail = () => {
       try {
         setLoading(true);
         const response = await getData(`${endpoints.GET_POST_BY_ID}/${id}`);
-        console.log("Fetched Post Response:", response);
+        // console.log("Fetched Post Response:", response);
 
         if (response?.data?.success) {
           const fetchedPost = response.data.data;
@@ -103,7 +103,7 @@ const PostDetail = () => {
 
   // Toggle comment visibility
   const handleCommentToggle = async ({ postId }) => {
-    console.log(postId);
+    // console.log(postId);
     setCommentsVisible(true);
     try {
       const response = await getData(
@@ -120,7 +120,7 @@ const PostDetail = () => {
 
   if (loading) return <p className="text-center text-white">Loading post...</p>;
   if (!post) return <p className="text-center text-white">Post not found.</p>;
-  console.log("Post data", post);
+  // console.log("Post data", post);
   return (
     <div className=" flex p-6 space-y-8 w-auto bg-[#121212]">
       <div

@@ -66,7 +66,7 @@ const Page = () => {
 
     try {
       const response = await post(endpoints.POST_ONBOARDING_PLANS, formData);
-      console.log("Form submitted successfully:", response.data);
+      
       toast.success("Submitted");
 
       // Redirect to the next page (replace '/next-page' with your actual target page)

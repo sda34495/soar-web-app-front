@@ -20,7 +20,7 @@ const Comments = ({
   singlePost = false,
 }) => {
 
-  console.log("all",postData)
+  // console.log("all",postData)
   const posts = useSelector((state: any) => state.postSlice.posts);
   const [newComment, setNewComment] = React.useState("");
   const [replyOpne, setReplyOpen] = React.useState();
@@ -29,7 +29,7 @@ const Comments = ({
   const [loading , setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const updateCommentValue = (postId: string, newCommentCount: number) => {
-    console.log(newCommentCount)
+    // console.log(newCommentCount)
     dispatch(
       postActions.updateNewData({
         data: posts.map((post: any) =>
@@ -102,7 +102,7 @@ const Comments = ({
       await post(endpoints.CREATE_COMMENT, formdata);
       handleUpdateComment(postId);
       // handleCommentToggle(comment._id);
-      console.log("Reply posted successfully");
+      // console.log("Reply posted successfully");
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -124,7 +124,7 @@ const Comments = ({
     if (!is_reply) {
       const updatedComments = activeComments.map((comment) => {
         if (comment._id === id) {
-          console.log("test");
+          // console.log("test");
           return {
             ...comment,
             self_liked: updatedLikeStatus,
@@ -135,14 +135,14 @@ const Comments = ({
       });
       setActiveComments(updatedComments);
     } else {
-      console.log("active comm", activeComments);
-      console.log("test2");
+      // console.log("active comm", activeComments);
+      // console.log("test2");
       const updatedComments = activeComments.map((comment) => {
         if (comment._id === id) {
-          console.log("test3");
+          // console.log("test3");
           comment.replies.map((reply) => {
             if (reply._id === reply_id) {
-              console.log(reply_id);
+              // console.log(reply_id);
               return {
                 ...reply,
                 self_liked: updatedLikeStatus,

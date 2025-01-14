@@ -25,7 +25,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
     const unwrapParams = async () => {
       const unwrappedParams = await params;
       setUserId(unwrappedParams.id);
-      console.log("harami",params)
+      // console.log("harami",params)
       
     };
 
@@ -54,7 +54,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
           setError(response?.data?.message || "Failed to fetch user details.");
         }
       } catch (err: any) {
-        console.log("Error fetching user details:", err);
+        // console.log("Error fetching user details:", err);
         setError(err.response?.data?.message || "Failed to load user details.");
       }
     };

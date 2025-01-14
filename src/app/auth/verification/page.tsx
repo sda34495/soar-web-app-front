@@ -220,14 +220,14 @@ function Verification() {
       formData.append("email", email);
       formData.append("otp", otpValue);
 
-      console.log(formData);
+      
       const response = await post(endpoints.OTP_VERIFY, formData);
-      console.log(" verification in successfully:", response.data);
+      
       if (!response) return;
-      console.log(response);
+      
 
       toast.success("OTP verified successfully");
-      console.log("OTP response:", response.data);
+      
 
       if (response.status !== 200) {
         throw new Error(response.data.message || " failed");
@@ -237,7 +237,7 @@ function Verification() {
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Verification failed";
       toast.error(errorMessage);
-      console.log(error)
+      
     } finally{
       setLoading(false)
     }

@@ -122,7 +122,6 @@ export const StripePaymentModal: React.FC<{
       }
 
     } catch (err: any) {
-      console.log(err);
       setError(err?.response?.data?.message || "An error occurred.");
     } finally {
       onClose();

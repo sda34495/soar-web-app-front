@@ -16,11 +16,11 @@ const LeaderboardTable = () => {
       try {
         setLoading(true);
         const response = await getData(endpoints.GET_ADMIN_LEADERBOARD);
-        console.log("API response:", response);  // Log the full response
+        // console.log("API response:", response);  // Log the full response
 
         if (response?.data?.success) {
           // Log the actual data structure
-          console.log("Leaderboard data:", response.data.data);
+          // console.log("Leaderboard data:", response.data.data);
           setLeaderboardData(response.data.data); // Assuming the data is inside response.data.data
         } else {
           setError(response?.data?.message || "Failed to fetch leaderboard data.");

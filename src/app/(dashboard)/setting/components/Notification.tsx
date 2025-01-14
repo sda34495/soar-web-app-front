@@ -24,7 +24,7 @@
 
 
     useEffect(() => {
-      console.log("email value",emailNotifications,"Device value", deviceNotifications);
+      // console.log("email value",emailNotifications,"Device value", deviceNotifications);
     }, [emailNotifications, deviceNotifications]);
 
     const fetchData = async () => {

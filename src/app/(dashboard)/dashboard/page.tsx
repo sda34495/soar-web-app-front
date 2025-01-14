@@ -29,10 +29,10 @@ const DashboardPage = () => {
         `${endpoints.GET_DASHBOARD_DATA}?activity_type=${activity}&filter_type=${filter}`
       );
 
-      console.log("this is res", response.data.data.leaderboardUsers)
+      // console.log("this is res", response.data.data.leaderboardUsers)
       return response.data; // Directly return the data
     } catch (err) {
-      console.log("Error fetching dashboard data:", err);
+      // console.log("Error fetching dashboard data:", err);
       throw err; // Re-throw the error to handle it in the caller
     }
   };
@@ -57,7 +57,7 @@ const DashboardPage = () => {
         setLoading(false); // End loading
       }
     };
-    console.log("Fetching data for:", activityType, filterType);
+    // console.log("Fetching data for:", activityType, filterType);
     loadDashboardData(); // Call the data-loading function
   }, [filterType, activityType]); // Empty dependency array to run once on component mount
 

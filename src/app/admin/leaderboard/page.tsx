@@ -18,7 +18,7 @@ const LeaderboardPage = () => {
       const fetchLeaderboardData = async () => {
         try {
           const response = await getData(endpoints.GET_ADMIN_LEADERBOARD);
-          console.log("This is admin res", response);
+          // console.log("This is admin res", response);
     
           const data = response?.data?.data?.map((entry: any) => ({
             position: entry.rank, // Ensure rank is correctly extracted

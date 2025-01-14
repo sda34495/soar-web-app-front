@@ -46,26 +46,20 @@ function AdminLogin() {
       setLoginErrors(errors);
     } else {
       setLoginErrors({});
-      console.log("Login data submitted", loginData);
       try {
         setLoading(true);
         localStorage.clear();
-        console.log("Attempting login with:", loginData);
 
         const response = await post(endpoints.ADMIN_LOGIN, loginData);
-        console.log("Logged in successfully:", response.data);
         if (!response) return;
-        console.log(response);
 
-        console.log("Login response:", response.data);
 
         if (response.status !== 200) {
           throw new Error(response.data.message || "Login failed");
         }
 
         const { user, token } = response.data.data;
-        console.log(response.data);
-        console.log("usre , token" + JSON.stringify(user), token);
+       
 
         toast.success("Logged in successfully");
         localStorage.setItem("user", "admin");
@@ -74,7 +68,7 @@ function AdminLogin() {
         router.push("/admin/users");
       } catch (error: any) {
         const errorMessage = error.response?.data?.message || "Login failed";
-        console.log("Login error:", error);
+        
         toast.error(errorMessage);
       } finally {
         setLoading(false);

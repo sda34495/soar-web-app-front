@@ -80,7 +80,7 @@ const Sidebar = () => {
         if (res?.data?.success) {
          dispatch(profileActions.updateUserProfile({ data: res.data.data})) 
           setTotalUser(res.data.data);
-          console.log("Data",res?.data?.data)
+          // console.log("Data",res?.data?.data)
         } else {
           console.error("Failed to fetch total users.");
         }
