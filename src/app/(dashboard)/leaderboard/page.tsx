@@ -20,7 +20,7 @@ const LeaderboardPage = () => {
     const fetchLeaderboardData = async () => {
       try {
         const response = await getData(endpoints.GET_TOP_USERS);
-        // console.log("API Response:", response.data);
+        console.log("API Response%$:", response.data);
 
         if (response?.data?.success) {
           const data = response.data.data.map((entry: any) => ({
