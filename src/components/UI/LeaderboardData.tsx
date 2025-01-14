@@ -123,7 +123,7 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
                 <th className="p-3">Rank</th>
                 <th className="p-3">User</th>
                 <th className="p-3">Points</th>
-                <th className="p-3">Daily Check-ins</th>
+                <th className="p-3">Total Check-ins</th>
                 <th className="p-3">Weekly Check-ins</th>
               </tr>
             </thead>
