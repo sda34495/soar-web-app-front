@@ -37,7 +37,7 @@ const CoachingPage = () => {
       <BookingCard />
       <div className="flex items-center justify-center w-full  max-w-xl">
 
-      <PreviousBookingsTable bookings={bookings} />
+      <PreviousBookingsTable />
       </div>
     </div>
   );
