@@ -16,7 +16,6 @@ const LeaderboardTable = () => {
       try {
         setLoading(true);
         const response = await getData(endpoints.GET_ADMIN_LEADERBOARD);
-        // console.log("API response:", response);  // Log the full response
 
         if (response?.data?.success) {
           // Log the actual data structure
@@ -82,7 +81,7 @@ const LeaderboardTable = () => {
                 <th className="p-3">Rank</th>
                 <th className="p-3">User</th>
                 <th className="p-3">Points</th>
-                <th className="p-3">Daily Check-ins</th>
+                <th className="p-3">Total Check-ins</th>
                 <th className="p-3">Weekly Check-ins</th>
               </tr>
               <tr className="border-t border-gray-700 h transition-all"></tr>
