@@ -16,12 +16,11 @@ const UserTable = ({ activeTab }) => {
   const fetchUsers = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await getData(`admin/users?type=${activeTab}`); // Adjust endpoint as needed
       if (response.data && response.data.success) {
         setUsers(response.data.data);
-        
       } else {
         throw new Error(response.data.message || "Failed to fetch users");
       }
@@ -88,7 +87,9 @@ const UserTable = ({ activeTab }) => {
               <th className="p-3">User name</th>
               <th className="p-3">Email</th>
               <th className="p-3">Points</th>
-              <th className="p-3">Actions</th>
+              {!["removed"].includes(activeTab) && (
+                <th className="p-3">Actions</th> 
+              )}
             </tr>
             <tr className="border-t border-gray-700 h transition-all"></tr>
           </thead>
@@ -108,22 +109,25 @@ const UserTable = ({ activeTab }) => {
                 </td>
                 <td className="p-3">{user.email}</td>
                 <td className="p-3">{user.total_points}</td>
-                <td className="px-4 py-2 space-x-2 flex gap-2">
-                  <button
-                    onClick={() => {
-                      setSelectedUser(user);
-                      setModalOpen(true);
-                    }}
-                    className="text-red-500 hover:underline"
-                  >
-                    <img src="/delete.svg" alt="delete icon" />
-                  </button>
-                  <Link href={`/admin/users/details/${user._id}`}>
-                    <button className="text-blue-500 hover:underline">
-                      <img src="/eye.svg" alt="eye icon" />
+                {/* Conditionally render actions */}
+                {!["removed"].includes(activeTab) && (
+                  <td className="px-4 py-2 space-x-2 flex gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedUser(user);
+                        setModalOpen(true);
+                      }}
+                      className="text-red-500 hover:underline"
+                    >
+                      <img src="/delete.svg" alt="delete icon" />
                     </button>
-                  </Link>
-                </td>
+                    <Link href={`/admin/users/details/${user._id}`}>
+                      <button className="text-blue-500 hover:underline">
+                        <img src="/eye.svg" alt="eye icon" />
+                      </button>
+                    </Link>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -154,7 +158,7 @@ const UserTable = ({ activeTab }) => {
         onClose={() => setModalOpen(false)}
         image="/delete.png"
         title="Want to Delete?"
-        description="Are you sure you want to delete this user from your database this will be deleted permanently?"
+        description="Are you sure you want to delete this user from your database? This will be deleted permanently."
       >
         <div className="flex justify-center space-x-4 mt-4">
           <button
