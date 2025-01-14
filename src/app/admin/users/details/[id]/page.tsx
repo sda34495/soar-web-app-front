@@ -9,8 +9,8 @@ interface UserDetails {
   position: string;
   username: string;
   points: number;
-  league: number;
-  competition: number;
+  daily_check_ins: number;
+  weekly_check_ins: number;
   avatar: string;
 }
 
@@ -24,7 +24,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
     const unwrapParams = async () => {
       const unwrappedParams = await params;
       setUserId(unwrappedParams.id);
-      console.log("harami",params)
+      
       
     };
 
@@ -37,7 +37,6 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
     const fetchUserDetails = async () => {
       try {
         const response = await getData(`profile/details-by-id/${userId}`);
-        console.log("response",response)
         if (response?.data?.success) {
           const user = response?.data?.data;
           setUserData({
@@ -45,15 +44,14 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
             position: user.rank || "unknown",
             username: user.user_name || "unknown",
             points: user.total_points || 0,
-            league: user.league || 0,
-            competition: user.activity_type || 0,
+            daily_check_ins: user.total_check_ins || 0,
+            weekly_check_ins: user.total_weekly_check_ins || 0,
             avatar: user.profile_url || "/avatar.jpeg",
           });
         } else {
           setError(response?.data?.message || "Failed to fetch user details.");
         }
       } catch (err: any) {
-        console.log("Error fetching user details:", err);
         setError(err.response?.data?.message || "Failed to load user details.");
       }
     };
@@ -122,14 +120,14 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                 </span>
               </div>
               <div className="flex items-center  justify-between">
-                <span className="font-semibold text-gray-300">League</span>
+                <span className="font-semibold text-gray-300">Daily Check-ins</span>
                 <span className="font-semibold text-xl">
-                  {userData.league.toLocaleString()}/2000
+                {userData.daily_check_ins.toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-300">Competition</span>
-                {userData.competition} / 100
+                <span className="font-semibold text-gray-300">Weekly Check-ins</span>
+                {userData.weekly_check_ins}
               </div>
             </div>
 

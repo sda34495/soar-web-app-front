@@ -63,10 +63,10 @@ const DashboardPage = () => {
 
         setLeaserboard(response.data.data.leaderboard);
 
-        console.log(data);
+        // console.log(data);
       }
     } catch (err) {
-      console.log("Error fetching leaderboard data:", err);
+      // console.log("Error fetching leaderboard data:", err);
       throw err;
     }finally{
       setLoading(false);

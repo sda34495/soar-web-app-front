@@ -23,7 +23,7 @@ const Communitypage = () => {
       const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        dispatch(postActions.updateNewData({ data:  [...posts,...postsData] }));
+        dispatch(postActions.updateNewData({ data:  [...postsData] }));
         setTotalPages(response.data.data.totalPages); // Set totalPages from the response
       }
     } catch (error) {
@@ -45,8 +45,8 @@ const Communitypage = () => {
 
   useEffect(() => {
     fetchPosts(currentPage);
-    console.log("this is current Page", currentPage);
-    console.log("this is current totalPages", totalPages);
+    // console.log("this is current Page", currentPage);
+    // console.log("this is current totalPages", totalPages);
     // Fetch posts on mount
   }, [currentPage]);
 

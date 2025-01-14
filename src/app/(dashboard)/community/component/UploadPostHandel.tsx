@@ -38,8 +38,8 @@ const UploadPostHandel = ({ nav = true }) => {
       const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        console.log("Post data before", postsData);
-        console.log("Post data after", postsData);
+        // console.log("Post data before", postsData);
+        // console.log("Post data after", postsData);
         dispatch(postActions.updateNewData({ data: postsData }));
       }
     } catch (error) {
@@ -54,14 +54,14 @@ const UploadPostHandel = ({ nav = true }) => {
     formData.append("description", postData.description);
     formData.append("allow_comments", postData.allowComments.toString());
     formData.append("media", selectedImage);
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
 
     try {
       setLoading(true);
       const response = await postImage(endpoints.CREATE_POST, formData);
-      console.log(response.data);
+      // console.log(response.data);
       if (response?.data?.success) {
         toast.success("Post created successfully.");
         handleCloseModal();

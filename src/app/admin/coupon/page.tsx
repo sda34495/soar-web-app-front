@@ -1,10 +1,13 @@
+'use client'
 import React from 'react'
 import AddCoupon from './components/AddCoupon'
+import useSidebarLoading from '@/Hook/useSidebarLoading';
 
-function page() {
+function CouponPage() {
+  useSidebarLoading();
   return (
     <AddCoupon/>
   )
 }
 
-export default page
+export default CouponPage

@@ -82,7 +82,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const formSubmission = async () => {
     setLoading(true);
     setError(null); // Clear previous errors
-    console.log("Submitting User Data:", formData);
+   
 
     const payload = {
       first_name: formData.firstName,
@@ -102,7 +102,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
           setShowSecondModal(true); // Open the success modal after a short delay
         }, 500);
 
-        console.log(response.data);
+        
       } else {
         // Handle failure (show error)
         setError("Booking failed. Please try again.");
@@ -210,7 +210,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                 <div>
                   <input
                     type="text"
-                    placeholder="Phone number"
+                    placeholder="(123) 456-7890"
                     name="phone"
                     value={formData.phone}
                     onChange={(e) => {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // Use useParams for dynamic route params
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getData, post } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
@@ -12,6 +12,7 @@ import { RiShareLine } from "react-icons/ri";
 import EditOrDeletePost from "../../component/EditOrDeletePost";
 import Comments from "../../component/Comments";
 import ShareModal from "@/components/ShareModal";
+import { navbarActions } from "@/store/navbar-slice";
 
 const PostDetail = () => {
   // push code
@@ -23,10 +24,12 @@ const PostDetail = () => {
   const [liked, setLiked] = useState(false);
   const [activeComments, setActiveComments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [commentsVisible, setCommentsVisible] = useState(false); // State to toggle comments visibility
-  const baseURL = `${window.location.origin}/community/post/`;
-  // const baseURL = `'http://localhost:3000/community/post/`;
-  const [shareModal, setShareModal] = useState(false);
+  const [commentsVisible, setCommentsVisible] = useState(true); // State to toggle comments visibility
+  // const baseURL = `${window.location.origin}/community/post/`;
+  const baseURL = `'http://localhost:3000/community/post/`;
+  const [shareModal, setShareModal] = useState(null);
+  const dispatch = useDispatch();
+
 
   // Fetch post data by ID
   useEffect(() => {
@@ -36,7 +39,7 @@ const PostDetail = () => {
       try {
         setLoading(true);
         const response = await getData(`${endpoints.GET_POST_BY_ID}/${id}`);
-        console.log("Fetched Post Response:", response);
+        // console.log("Fetched Post Response:", response);
 
         if (response?.data?.success) {
           const fetchedPost = response.data.data;
@@ -56,6 +59,13 @@ const PostDetail = () => {
     };
 
     fetchPost();
+    handleCommentToggle({ postId: id });
+      dispatch(
+    navbarActions.updateNavbar({
+      title: "Details Post",
+      description: "Your Post",
+    })
+  );
   }, [id]);
 
   // Handle like/unlike button click
@@ -93,7 +103,7 @@ const PostDetail = () => {
 
   // Toggle comment visibility
   const handleCommentToggle = async ({ postId }) => {
-    console.log(postId);
+    // console.log(postId);
     setCommentsVisible(true);
     try {
       const response = await getData(
@@ -110,12 +120,14 @@ const PostDetail = () => {
 
   if (loading) return <p className="text-center text-white">Loading post...</p>;
   if (!post) return <p className="text-center text-white">Post not found.</p>;
-  console.log("Post data", post);
+  // console.log("Post data", post);
   return (
-    <div className=" flex p-6 space-y-8 w-auto">
-      <div className="flex  items-center justify-center p-6 text-white space-y-6 ">
-        <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-full h-full">
-          <div className="flex items-start justify-between mb-4">
+    <div className=" flex p-6 space-y-8 w-auto bg-[#121212]">
+      <div
+        className={`flex  items-center justify-center p-6 text-white space-y-6 w-auto `}
+      >
+        <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-lg max-w-3xl w-auto h-auto">
+          <div className="flex items-start justify-between mb-4 w-auto">
             <div className="flex items-center space-x-4">
               <img
                 src={post?.user?.profile_url || "/avatar.jpeg"}
@@ -186,18 +198,21 @@ const PostDetail = () => {
             </button>
           </div>
         </div>
-        <div className="">
-          {commentsVisible && post.allow_comments && (
+
+        {commentsVisible && post.allow_comments && (
+          <div className="h-full  mt-2">
             <Comments
               postData={post}
+              setPostData={setPost}
               activePostId={post._id}
               activeComments={activeComments}
               setActiveComments={setActiveComments}
               setActivePostId={setCommentsVisible}
               handleCommentToggle={handleCommentToggle}
+              singlePost={true}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {/* Comments Section */}
 

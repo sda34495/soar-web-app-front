@@ -103,7 +103,6 @@ function AuthPage() {
     if (Object.keys(errors).length > 0) {
       setLoginErrors(errors);
     } else {
-      console.log("Login data submitted", loginData);
     }
   };
 
@@ -115,7 +114,7 @@ function AuthPage() {
       setSignupErrors(errors);
     } else {
       // Handle successful signup (e.g., API call)
-      console.log("Signup data submitted", signupData);
+      // console.log("Signup data submitted", signupData);
     }
   };
 

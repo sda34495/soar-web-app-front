@@ -9,21 +9,17 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     updateNewData: (state, action) => {
-      //   console.log("hello")
-      //   console.log("Payload",action.payload)
-      // state.posts = action.payload.data;
-      // console.log("Updated posts in Redux:", state.posts)
-      console.log("Payload:", action.payload);
+      state.posts = action.payload.data;
 
       // Filter out duplicates by checking the _id of the posts
-      const newPosts = action.payload.data.filter(
-        (newPost) =>
-          !state.posts.some((existingPost) => existingPost._id === newPost._id)
-      );
+      // const newPosts = action.payload.data.filter(
+      //   (newPost) =>
+      //     !state.posts.some((existingPost) => existingPost._id === newPost._id)
+      // );
 
-      // Add only unique posts to the state
-      state.posts = [...state.posts, ...newPosts];
-      console.log("Updated posts in Redux:", state.posts);
+      // // Add only unique posts to the state
+      // state.posts = [...state.posts, ...newPosts];
+      // console.log("Updated posts in Redux:", state.posts);
     },
     updateLike: (state, action) => {
       const { postId, selfLiked, likes } = action.payload;

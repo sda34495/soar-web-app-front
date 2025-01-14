@@ -16,12 +16,12 @@ const UserTable = ({ activeTab }) => {
   const fetchUsers = async () => {
     setLoading(true);
     setError(null);
-    console.log(activeTab);
+    
     try {
       const response = await getData(`admin/users?type=${activeTab}`); // Adjust endpoint as needed
       if (response.data && response.data.success) {
         setUsers(response.data.data);
-        console.log(response?.data.data);
+        
       } else {
         throw new Error(response.data.message || "Failed to fetch users");
       }

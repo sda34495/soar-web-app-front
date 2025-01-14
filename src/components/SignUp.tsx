@@ -88,20 +88,15 @@ function SignUp() {
     try {
       setLoading(true)
       localStorage.clear();
-      // console.log('Attempting login with:', loginData)
       const formdata = new FormData();
       formdata.append("first_name", signupData.firstName);
       formdata.append("last_name", signupData.lastName);
       formdata.append("email", signupData.email);
       formdata.append("password", signupData.password);
 
-      console.log(formdata);
       const response = await post(endpoints.REGISTER, formdata);
-      console.log("Singup in successfully:", response.data);
       if (!response) return;
-      console.log(response);
 
-      console.log("Signup response:", response.data);
 
       if (response.status !== 200) {
         throw new Error(response.data.message || "Signup failed");
@@ -118,7 +113,7 @@ function SignUp() {
      
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Signup failed";
-      console.log("Signup error:", error);
+      
 
       if (error.response) {
         
@@ -126,10 +121,8 @@ function SignUp() {
           error.response.data.message || "signup failed. Please try again."
         );
       } else if (error.request) {
-        // console.log("No response received:", error.request);
         setError("No response from server. Please check your connection.");
       } else {
-        // console.log("Error:", error.message);
         setError("An error occurred while logging in.");
       }
       toast.error(errorMessage);

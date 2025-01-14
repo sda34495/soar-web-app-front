@@ -36,8 +36,8 @@ const EditOrDeletePost = ({ post_id, postData }) => {
       const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        console.log("Post data before", postsData);
-        console.log("Post data after", postsData);
+        // console.log("Post data before", postsData);
+        // console.log("Post data after", postsData);
         dispatch(postActions.updateNewData({ data: postsData }));
       }
     } catch (error) {
