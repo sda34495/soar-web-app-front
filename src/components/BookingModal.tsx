@@ -218,12 +218,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     value={formData.phone}
                     onChange={(e) => {
                       const value = e.target.value;
-                      if (/^\d*$/.test(value) && value.length <= 11) {
+                      if (/^\d*$/.test(value) && value.length <= 50) {
                         // Allow only digits and max length of 15
                         handleInputChange(e);
                       }
                     }}
-                    maxLength={15} // Set max digits allowed
+                    // maxLength={15} // Set max digits allowed
                     className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
                   {loginErrors.phone && (
