@@ -23,7 +23,7 @@ const Communitypage = () => {
       const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        dispatch(postActions.updateNewData({ data:  [...postsData] }));
+        dispatch(postActions.updateNewData({ data:  [...posts,...postsData] }));
         setTotalPages(response.data.data.totalPages); // Set totalPages from the response
       }
     } catch (error) {
@@ -37,6 +37,7 @@ const Communitypage = () => {
 
     if (currentPage < totalPages) {
       const nextPage = currentPage + 1;
+      
    
       setCurrentPage(nextPage);
       fetchPosts(nextPage); // Fetch posts for the next page
