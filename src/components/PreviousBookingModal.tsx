@@ -1,5 +1,6 @@
 "use client";
 import { getData } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 
 const PreviousBookingsTable = () => {
@@ -12,7 +13,7 @@ const PreviousBookingsTable = () => {
     const fetchBookings = async () => {
       try {
         setLoading(true);
-        const response = await getData("/sessions/get-booking-sessions"); // Adjust the endpoint if needed
+        const response = await getData(endpoints.PREVIOUS_BOOKING_SESSION); // Adjust the endpoint if needed
         if (response?.data?.data) {
           // Map the data to extract only date and reason
           const formattedData = response.data.data.map((item) => ({
@@ -53,15 +54,15 @@ const PreviousBookingsTable = () => {
               <tr key={index} className="border-b border-gray-800">
                 <td className="py-2 px-3">{booking.date}</td>
                 <td className="py-2 px-3">{booking.reason}</td>
-                <span
-                    className={`px-2 py-1 text-xs rounded ${
+                <td
+                    className={`px-2 py-1 items-center text-xs rounded ${
                       booking.status === "Completed"
-                        ? "bg-green-500 text-black"
-                        : "bg-yellow-500 text-black"
+                        ? "text-green-500"
+                        : "text-yellow-500"
                     }`}
                   >
-                    Completed
-                  </span>
+                   Pending
+                  </td>
               </tr>
             ))}
           </tbody>

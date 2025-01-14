@@ -53,7 +53,7 @@ const Communitypage = () => {
   useSidebarLoading();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       {loading ? (
         <Loader isLoading={true} /> // Show skeleton loading
       ) : posts?.length > 0 ? (
