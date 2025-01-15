@@ -119,12 +119,11 @@ const Comments = ({
     reply_id = null
   ) => {
     const updatedLikeStatus = !currentLikeStatus;
-
+  
     // Optimistically update the like status immediately
     if (!is_reply) {
       const updatedComments = activeComments.map((comment) => {
         if (comment._id === id) {
-          // console.log("test");
           return {
             ...comment,
             self_liked: updatedLikeStatus,
@@ -135,46 +134,25 @@ const Comments = ({
       });
       setActiveComments(updatedComments);
     } else {
-      // console.log("active comm", activeComments);
-      // console.log("test2");
       const updatedComments = activeComments.map((comment) => {
         if (comment._id === id) {
-          // console.log("test3");
-          comment.replies.map((reply) => {
+          const updatedReplies = comment.replies.map((reply) => {
             if (reply._id === reply_id) {
-              // console.log(reply_id);
               return {
                 ...reply,
                 self_liked: updatedLikeStatus,
                 likes: updatedLikeStatus ? reply.likes + 1 : reply.likes - 1,
               };
-            } else {
-
-              return reply;
             }
+            return reply;
           });
-          // if(reply_id === comment.replies._id){
-          //               console.log("right Place")
-          // }
-          // console.log(comment);
-
-          // comment.replies.map((reply) => {
-          //   if (reply._id === id) {
-          //     return {
-          //       ...reply,
-          //       self_liked: updatedLikeStatus,
-          //       likes: updatedLikeStatus ? reply.likes + 1 : reply.likes - 1,
-          //     };
-          //   } else {
-          //     return reply;
-          //   }
-          // });
+          return { ...comment, replies: updatedReplies };
         }
         return comment;
       });
       setActiveComments(updatedComments);
     }
-
+  
     try {
       const formdata = new FormData();
       if (is_reply) {
@@ -182,24 +160,31 @@ const Comments = ({
       } else {
         formdata.append(`${type}_id`, id);
       }
-
+  
       await post(endpoints.POST_LIKE, formdata);
     } catch (error) {
       toast.error(error.message);
       // Rollback if there's an error
       const rollbackComments = activeComments.map((comment) => {
         if (comment._id === id) {
-          return {
-            ...comment,
-            self_liked: !updatedLikeStatus,
-            likes: updatedLikeStatus ? comment.likes - 1 : comment.likes + 1,
-          };
+          const rollbackReplies = comment.replies.map((reply) => {
+            if (reply._id === reply_id) {
+              return {
+                ...reply,
+                self_liked: !updatedLikeStatus,
+                likes: updatedLikeStatus ? reply.likes - 1 : reply.likes + 1,
+              };
+            }
+            return reply;
+          });
+          return { ...comment, replies: rollbackReplies };
         }
         return comment;
       });
       setActiveComments(rollbackComments);
     }
   };
+  
 
   // useEffect(() => {
   //   console.log(newComment);
@@ -280,7 +265,7 @@ const Comments = ({
                     <div className="flex items-center space-x-1">
                       {comment.self_liked ? (
                         <IoMdHeart
-                          className="text-white cursor-pointer"
+                          className="text-golden cursor-pointer"
                           onClick={() =>
                             handleLikeToggle(
                               comment._id,
@@ -302,7 +287,7 @@ const Comments = ({
                         />
                       )}
                       <span
-                        className={`text-sm ${
+                        className={`text-md ${
                           comment.self_liked ? "text-white" : "text-[#E0E0E0]"
                         }`}
                       >
@@ -379,7 +364,7 @@ const Comments = ({
                         <div className="flex items-center space-x-1">
                           {reply.self_liked ? (
                             <IoMdHeart
-                              className="text-white cursor-pointer"
+                              className="text-golden text-sm cursor-pointer"
                               onClick={() =>
                                 handleLikeToggle(
                                   comment._id,
@@ -392,7 +377,7 @@ const Comments = ({
                             />
                           ) : (
                             <IoMdHeartEmpty
-                              className="text-[#E0E0E0] cursor-pointer"
+                              className="text-[#E0E0E0] text-sm cursor-pointer"
                               onClick={() =>
                                 handleLikeToggle(
                                   comment._id,

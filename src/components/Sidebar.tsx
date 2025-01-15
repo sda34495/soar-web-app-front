@@ -242,7 +242,7 @@ const Sidebar = () => {
         case "/community/post/[id]":
           dispatch(
             navbarActions.updateNavbar({
-              title: "Details Post",
+              title: "Detail Post",
               description: "Your Post",
             })
           );
