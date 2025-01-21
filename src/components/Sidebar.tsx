@@ -13,6 +13,7 @@ import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import toast from "react-hot-toast";
 import { profileActions } from "@/store/profile-slice";
+import Image from "next/image";
 
 const Sidebar = () => {
   const [userRank, setUserRank] = useState(null); // Add state to store user rank
@@ -44,7 +45,7 @@ const Sidebar = () => {
         );
         
         setUserRank(response.data.data.rank)
-     
+        
         
       } else {
         toast.error("Failed to load user data.");
@@ -514,8 +515,8 @@ const Sidebar = () => {
             <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#c784269b] to-[#3d3e3d] ">
               <div className="bg-black/80 rounded-2xl">
                 <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
-                  <div className="text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
-                    {userRank}
+                  <div className=" flex items-center justify-between text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
+                     {userRank}<Image src={`/${userRank}badge.png`} alt="Ranking" height={40} width={40} />
                   </div>
                   <div className=" text-[#BDBDBD] font-semibold ">
                     Your Position
