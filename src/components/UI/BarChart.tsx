@@ -90,6 +90,7 @@ export default function CustomYAxisBarChart({
         borderColor: "#FFFFFF",
         borderWidth: 1,
         callbacks: {
+          title: () => "", // Hides the title (date)
           label: function (context) {
             const datasetLabel = context.dataset.label || "";
             const value = context.raw;
