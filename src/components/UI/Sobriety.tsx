@@ -72,7 +72,7 @@ const SobrietyCard = ({
   const progress = parseFloat(checkInStatus.progress.toFixed(1) || 0);
 
   const progressColor =
-    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+    progress < 50 ? "bg-red-600 text-red-600" : "bg-white text-green-500";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
@@ -91,11 +91,11 @@ const SobrietyCard = ({
             No Alcohol / Substance Check-ins
           </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-            <span className={"text-green-500 font-semibold" + progressColor}>
+            {/* <span className={"text-green-500 font-semibold" + progressColor}>
               {text}
-            </span>
+            </span> */}
             <div className="flex items-center">
-              <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
+              <div className="h-2 w-[250px] bg-gray-700 rounded-full relative">
                 <div
                   className={"h-full rounded-full " + progressColor}
                   style={{ width: `${progress}%` }}
@@ -136,12 +136,12 @@ const SobrietyCard = ({
                   </svg>
                 </span>
               </label>
-              <span className=" text-gray-400">No-substance (morning)</span>
+              <span className=" text-gray-400 text-xl">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400 ">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">No-sub</span>
-              <span className="w-20">6 hours</span>
+              <span className="w-20">1/2 day</span>
             </div>
           </div>
 
@@ -173,12 +173,12 @@ const SobrietyCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400">No-substance (evening)</span>
+              <span className="text-gray-400 text-xl">No-substance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">No-sub</span>
-              <span className="w-20">6 hours</span>
+              <span className="w-20">1 day</span>
             </div>
           </div>
         </div>
