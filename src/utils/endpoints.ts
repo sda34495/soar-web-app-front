@@ -51,6 +51,7 @@ const endpoints = {
   GET_DASHBOARD_DATA: "dashboard/details",
   GET_CHECK_IN_DATA: "checkin/details",
   OTP_VERIFY: "users/verify-otp",
+  OTP_RESEND:"users/resend-otp",
   POST_CHECK_IN_DATA: "checkin/add-remove-checkin",
   BOOK_COACHING_SESSION: "sessions/book-coaching-session",
   POST_REFERAL_DATA: "referals/create",

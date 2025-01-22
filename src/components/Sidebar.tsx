@@ -516,7 +516,7 @@ const Sidebar = () => {
               <div className="bg-black/80 rounded-2xl">
                 <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
                   <div className=" flex items-center justify-between text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
-                     {userRank}<Image src={`/${userRank}badge.png`} alt="Ranking" height={40} width={40} />
+                     {userRank}<Image src={parseInt(userRank) <= 4 ? `/${userRank}badge.png` : `/quality.png`}  alt="Ranking" height={40} width={40} />
                   </div>
                   <div className=" text-[#BDBDBD] font-semibold ">
                     Your Position
