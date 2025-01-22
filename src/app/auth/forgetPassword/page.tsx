@@ -34,6 +34,7 @@ function ForgetPassword() {
         const formdata = new FormData();
 
         formdata.append("email", email);
+        
 
         ;
         const response = await post(endpoints.FORGET_PASSWORD_REQUEST_OTP, formdata);

@@ -196,7 +196,7 @@ const PostCard = () => {
                 className="text-gray-400 text-sm flex items-center cursor-pointer"
               >
                 {likedPosts[post._id] ? (
-                  <IoMdHeart className="mr-2 text-golden" />
+                  <IoMdHeart className="mr-2 text-golden text-2xl transition-all " />
                 ) : (
                   <IoMdHeartEmpty className="mr-2 text-gray-400" />
                 )}

@@ -82,9 +82,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
   // Submit form data to the API
   const formSubmission = async () => {
+    if (!validate()) {
+      return; // Stop execution if validation fails
+    }
     setLoading(true);
     setError(null); // Clear previous errors
-   
+    
 
     const payload = {
       first_name: formData.firstName,
@@ -127,12 +130,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   const handleNext = () => {
-    if (!validate()) {
-      return; // Stop execution if validation fails
-    }
+   
 
     // Open the payment modal
-    setShowPaymentModal(true);
+    // setShowPaymentModal(true);
   };
 
   return (
@@ -263,7 +264,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
               </button>
               <button
                 className="px-10 w-full py-3 text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-semibold"
-                onClick={handleNext}
+                onClick={formSubmission}
                 disabled={loading} // Disable button while loading
               >
                 {loading ? "Booking..." : "Next"}
@@ -274,14 +275,14 @@ const BookingModal: React.FC<BookingModalProps> = ({
       )}
 
       {/* Payment Modal */}
-      {showPaymentModal && (
+      {/* {showPaymentModal && (
         <OneTimePaymentModal
           price={price}
           endpoint={endpoints.STRIPE_PAYMENT}
           onClose={() => setShowPaymentModal(false)}
           onPaymentSuccess={formSubmission} // Submit form after successful payment
         />
-      )}
+      )} */}
 
       {/* Second Modal (Success) */}
       {showSecondModal && (
