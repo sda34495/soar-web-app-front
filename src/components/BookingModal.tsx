@@ -11,6 +11,7 @@ interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   price: string;
+  setUpdatePost?: any;
 }
 
 interface FormErrors {
@@ -25,6 +26,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
   isOpen,
   onClose,
   price,
+  setUpdatePost
 }) => {
   const [showSecondModal, setShowSecondModal] = useState(false); // For the second modal
   const [showPaymentModal, setShowPaymentModal] = useState(false); // For Stripe Payment Modal
@@ -99,6 +101,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
         // Close the first modal and show the success modal
         onClose();
         setTimeout(() => {
+          setUpdatePost(true);
           setShowSecondModal(true); // Open the success modal after a short delay
         }, 500);
 

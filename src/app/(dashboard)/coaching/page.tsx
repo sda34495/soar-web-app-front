@@ -8,6 +8,7 @@ const CoachingPage = () => {
   useSidebarLoading();
 
   const [bookings, setBookings] = useState([]);
+  const [updatePost , setUpdatePost] = useState(false)
 
   useEffect(() => {
     // Simulated API call
@@ -34,10 +35,10 @@ const CoachingPage = () => {
 
   return (
     <div className="flex flex-col mb-5 lg:flex-row ">
-      <BookingCard />
+      <BookingCard setUpdatePost={setUpdatePost}/>
       <div className="flex items-center justify-center w-full  max-w-xl">
 
-      <PreviousBookingsTable />
+      <PreviousBookingsTable updatePost={updatePost} />
       </div>
     </div>
   );

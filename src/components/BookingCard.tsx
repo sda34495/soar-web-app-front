@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import BookingModal from "./BookingModal";
 
-const BookingCard = () => {
+const BookingCard = ({setUpdatePost}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Function to handle closing the modal
@@ -55,6 +55,7 @@ const BookingCard = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         price="50"
+        setUpdatePost={setUpdatePost}
       />
     </div>
   );

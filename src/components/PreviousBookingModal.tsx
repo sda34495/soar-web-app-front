@@ -3,7 +3,7 @@ import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import React, { useEffect, useState } from "react";
 
-const PreviousBookingsTable = () => {
+const PreviousBookingsTable = ({updatePost}) => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,7 +31,7 @@ const PreviousBookingsTable = () => {
     };
 
     fetchBookings();
-  }, []);
+  }, [updatePost]);
 
   return (
     <div className="p-4 bg-[#121212] border border-zinc-700 rounded-lg mt-6 w-full mx-auto">
