@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { GiMeditation } from "react-icons/gi";
+
 
 function GraphTabs({ updateActivityType }) {
   const [activeTab, setActiveTab] = useState("fitness");
@@ -77,8 +79,8 @@ function GraphTabs({ updateActivityType }) {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={` hover:text-black ${
-                  activeTab === "alcohol" ? "text-black" : "text-[#989898]"
+                className={`${
+                  activeTab === "sobriety" ? "text-black" : "text-[#989898]"
                 } fill-current`}
               >
                 <path
@@ -104,6 +106,8 @@ function GraphTabs({ updateActivityType }) {
             </label>
           </div>
         </button>
+
+        
         <button
           // disabled
           onClick={() => setActiveTab("praying")}
