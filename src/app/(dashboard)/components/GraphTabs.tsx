@@ -112,6 +112,7 @@ function GraphTabs({ updateActivityType }) {
           className={`w-[150px] text-[#989898] bg-[#262626]  cursor-pointer hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2 ${
             activeTab === "praying" ? "bg-[#EFEFEF] font-bold text-black" : ""
           }`}
+          
         >
           <div className="flex items-center gap-3">
             <div className="flex gap-1">
