@@ -16,7 +16,9 @@ import { profileActions } from "@/store/profile-slice";
 import Image from "next/image";
 
 const Sidebar = () => {
-  const [userRank, setUserRank] = useState(null); // Add state to store user rank
+  const [userRank, setUserRank] = useState(null);
+  const [userPoints, setUserPoints] = useState(null);
+  const [levelData, setLevelData] = useState({image:""});// Add state to store user rank
 
 
   const [activeItem, setActiveItem] = useState("");
@@ -45,6 +47,8 @@ const Sidebar = () => {
         );
         
         setUserRank(response.data.data.rank)
+        setUserPoints(response.data.data.points);
+
         
         
       } else {
@@ -70,9 +74,27 @@ const Sidebar = () => {
     } else {
       router.push("/");
     }
+   
+    
   }, []);
 
+  useEffect(() => {
+    const levelData =  ()=> {
+      if(userPoints <= 36) return {image:"/medal.png"}
+      if(userPoints > 36 || userPoints <=72) return {image:"/Novice.png"}
+      if(userPoints > 72 || userPoints <=108) return {image:"/Adept.png"}
+      if(userPoints > 108 || userPoints <=144) return {image:"/Challenger.png"}
+      if(userPoints > 144 || userPoints <=180) return {image:"/Prodigy.png"}
+      if(userPoints > 180 || userPoints <=216) return {image:"/Expert.png"}
+      if(userPoints > 216 || userPoints <=252) return {image:"/Veteran.png"}
+      if(userPoints > 252 || userPoints <=288) return {image:"/master.png"}
+      if(userPoints > 288 || userPoints <=324) return {image:"/Elite.png"}
+      if(userPoints > 324 || userPoints <=360) return {image:"/Ascendent.png"}
+      
+    }
 
+    setLevelData(levelData())
+},[])
 
   useEffect(() => {
     const fetchTotalUsers = async () => {
@@ -516,7 +538,7 @@ const Sidebar = () => {
               <div className="bg-black/80 rounded-2xl">
                 <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
                   <div className=" flex items-center justify-between text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
-                     {userRank}<Image src={parseInt(userRank) <= 4 ? `/${userRank}badge.png` : `/quality.png`}  alt="Ranking" height={40} width={40} />
+                    {userRank}<Image src={levelData?.image}  alt="userPoints" height={40} width={40} /> 
                   </div>
                   <div className=" text-[#BDBDBD] font-semibold ">
                     Your Position
