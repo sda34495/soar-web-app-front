@@ -60,7 +60,7 @@ const DashboardPage = () => {
           },
           {
             title: "Total hours in be still",
-            value: response.data.data.analysis.time_be_still,
+            value: response.data.data.analysis.time_stillness,
           },
         ]);
 
