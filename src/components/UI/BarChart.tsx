@@ -22,12 +22,15 @@ export default function CustomYAxisBarChart({
   updateFilter,
   activityType,
 }: any) {
+  console.log("this is data%^",data)
   const transformedData = data?.chartData.map((item: any) => ({
+    
     date: item.day, // Use the `day` field for the X-axis labels
     AM: item.morning ? 1 : 0, // Convert `morning` boolean to 0/1
     PM: item.evening ? 2 : 0, // Convert `evening` boolean to 0/1
     No: !item.morning && !item.evening ? 0.1 : null,
   }));
+
 
   const AM = activityType === "sobriety" ? "night" : "AM";
   const PM = activityType === "sobriety" ? "day" : "PM";

@@ -10,7 +10,7 @@ function GraphTabs({ updateActivityType }) {
   }, [activeTab]);
   return (
     <div>
-      <div className="space-x-4 items-center mt-6  mb-6">
+      <div className="space-x-4 flex items-center mt-6  mb-6">
         <button
           onClick={() => setActiveTab("fitness")}
           className={`w-[150px] text-[#989898] cursor-pointer bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2 ${
