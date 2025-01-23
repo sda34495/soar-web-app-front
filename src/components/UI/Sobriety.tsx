@@ -7,8 +7,11 @@ const SobrietyCard = ({
   checkInStatus,
   setCheckInStatus,
   fetchCheckInDetails,
+  goal, // Accept the goal prop here
+
 }: any) => {
   const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
+
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -88,8 +91,8 @@ const SobrietyCard = ({
         {/* Header Section */}
         <div className="flex justify-between items-center ">
           <h2 className="text-lg font-bold">
-            No Alcohol / Substance Check-ins
-          </h2>
+          No Alcohol / Substance Check-ins{" "}
+          <span className="text-yellow-500"> ({goal})</span> </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
             {/* <span className={"text-green-500 font-semibold" + progressColor}>
               {text}
@@ -136,7 +139,7 @@ const SobrietyCard = ({
                   </svg>
                 </span>
               </label>
-              <span className=" text-gray-400 text-xl">No-substance (morning)</span>
+              <span className=" text-gray-400 font-extrabold text-2xl">No-substance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400 ">
               <span className="w-20">{todayDate}</span>
@@ -173,12 +176,12 @@ const SobrietyCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 text-xl">No-substance (evening)</span>
+              <span className="text-gray-400 font-extrabold text-2xl">No-substance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
               <span className="w-20">No-sub</span>
-              <span className="w-20">1 day</span>
+              <span className="w-20">1/2 day</span>
             </div>
           </div>
         </div>

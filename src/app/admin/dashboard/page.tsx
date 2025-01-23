@@ -20,7 +20,9 @@ const DashboardPage = () => {
     try {
       setLoading(true);
       const response = await getData(endpoints.GET_ADMIN_DATA);
+      
       if (response?.data?.success) {
+        console.log("this is my response", response)
         setData(response.data.data);
         setUserCard([
           {

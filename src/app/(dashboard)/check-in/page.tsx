@@ -13,12 +13,14 @@ import endpoints from "@/utils/endpoints";
 import useSidebarLoading from "@/Hook/useSidebarLoading";
 
 interface CheckInDetails {
+  goals: any;
   morning: boolean;
   evening: boolean;
   progress: number;
 }
 
 interface CheckInData {
+  goals: any;
   pending_check_ins: number;
   total_done: number;
   total_minutes_spent: number;
@@ -105,23 +107,28 @@ const CheckInPage = () => {
             checkInStatus={checkInStatus?.check_in_details.fitness}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
-          />
+            goal={checkInStatus?.goals.fitness} // Pass the goal from response            
+            />
 
           <FinanceCard
             checkInStatus={checkInStatus?.check_in_details.finance}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
+            goal={checkInStatus?.goals.finance} // Pass the goal from response
           />
 
           <Sobriety
             checkInStatus={checkInStatus?.check_in_details.sobriety}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
+            goal={checkInStatus?.goals.sobriety} // Pass the goal from response
+
           />
           <BeStillCard
             checkInStatus={checkInStatus?.check_in_details.praying}
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
+            goal={checkInStatus?.goals.stillness} // Pass the goal from response
           />
         </>
       )}

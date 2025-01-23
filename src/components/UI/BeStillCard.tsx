@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 
 const BeStillCard = ({
   checkInStatus,
+  goal,
   setCheckInStatus,
   fetchCheckInDetails,
 }: any) => {
@@ -87,7 +88,9 @@ const BeStillCard = ({
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">Be Still Check-ins</h2>
+          <h2 className="text-lg font-bold">Be Still Check-ins{" "}
+          <span className="text-yellow-500"> ({goal})</span>
+          </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
             {/* <span className={"text-green-500 font-semibold" + progressColor}>
               {text}
@@ -133,7 +136,7 @@ const BeStillCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 text-xl">Be Still (morning)</span>
+              <span className="text-gray-400 font-extrabold text-2xl">Be Still (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
@@ -170,7 +173,7 @@ const BeStillCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 text-xl">Be Still (evening)</span>
+              <span className="text-gray-400 font-extrabold text-2xl">Be Still (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
