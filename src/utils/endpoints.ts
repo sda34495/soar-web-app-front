@@ -80,6 +80,7 @@ const endpoints = {
   GET_POST_BY_ID:"community/get-post",
   SET_COUPON_CODE:'/admin/create-coupon',
   USE_COUPON_CODE:'/profile/use-coupon',
+  ADMIN_USER_CHECKIN_DATA:"/admin/user-chart-data"
 
   
 };
