@@ -10,7 +10,7 @@ const BeStillCard = ({
   fetchCheckInDetails,
 }: any) => {
   const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
-
+  const [hideText , setHideText] = useState(false)
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
@@ -73,11 +73,17 @@ const BeStillCard = ({
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
   const progressColor =
-    progress < 50 ? "bg-red-600 text-red-600" : "bg-blue-600 text-green-500";
+    progress < 50 ? " text-red-600" : " text-green-500";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
       : "Hurray! You're making progress";
+
+      useEffect(() => {
+        if (checkInStatus.evening === true && checkInStatus.morning === true) {
+          setHideText(true);
+        } 
+      }, [checkInStatus]);
 
   return (
     <div
@@ -92,7 +98,7 @@ const BeStillCard = ({
           <span className="text-yellow-500"> ({goal})</span>
           </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-            {/* <span className={"text-green-500 font-semibold" + progressColor}>
+            <span className={`text-green-500 font-semibold" ${hideText && "hidden" } ${progressColor}`}>
               {text}
             </span> */}
             <div className="flex items-center">

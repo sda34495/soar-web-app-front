@@ -82,9 +82,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
   // Submit form data to the API
   const formSubmission = async () => {
+    if (!validate()) {
+      return; // Stop execution if validation fails
+    }
     setLoading(true);
     setError(null); // Clear previous errors
-   
+    
 
     const payload = {
       first_name: formData.firstName,
@@ -127,12 +130,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   const handleNext = () => {
-    if (!validate()) {
-      return; // Stop execution if validation fails
-    }
+   
 
     // Open the payment modal
-    setShowPaymentModal(true);
+    // setShowPaymentModal(true);
   };
 
   return (
@@ -218,12 +219,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     value={formData.phone}
                     onChange={(e) => {
                       const value = e.target.value;
-                      if (/^\d*$/.test(value) && value.length <= 11) {
+                      if (/^\d*$/.test(value) && value.length <= 50) {
                         // Allow only digits and max length of 15
                         handleInputChange(e);
                       }
                     }}
-                    maxLength={15} // Set max digits allowed
+                    // maxLength={15} // Set max digits allowed
                     className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
                   {loginErrors.phone && (
@@ -263,7 +264,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
               </button>
               <button
                 className="px-10 w-full py-3 text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-semibold"
-                onClick={handleNext}
+                onClick={formSubmission}
                 disabled={loading} // Disable button while loading
               >
                 {loading ? "Booking..." : "Next"}
@@ -274,14 +275,14 @@ const BookingModal: React.FC<BookingModalProps> = ({
       )}
 
       {/* Payment Modal */}
-      {showPaymentModal && (
+      {/* {showPaymentModal && (
         <OneTimePaymentModal
           price={price}
           endpoint={endpoints.STRIPE_PAYMENT}
           onClose={() => setShowPaymentModal(false)}
           onPaymentSuccess={formSubmission} // Submit form after successful payment
         />
-      )}
+      )} */}
 
       {/* Second Modal (Success) */}
       {showSecondModal && (
