@@ -16,12 +16,13 @@ const DashboardPage = () => {
   const [analysis, setAnalysis] = useState([]);
   const [leaderboard, setLeaserboard] = useState([]);
 
-
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await getData(endpoints.GET_ADMIN_DATA);
+      
       if (response?.data?.success) {
+        console.log("this is my response", response)
         setData(response.data.data);
         setUserCard([
           {
@@ -59,6 +60,10 @@ const DashboardPage = () => {
             title: "Total hours in soberiety",
             value: response.data.data.analysis.time_soberiety,
           },
+          {
+            title: "Total hours in be still",
+            value: response.data.data.analysis.time_stillness,
+          },
         ]);
 
         setLeaserboard(response.data.data.leaderboard);
@@ -68,7 +73,7 @@ const DashboardPage = () => {
     } catch (err) {
       // console.log("Error fetching leaderboard data:", err);
       throw err;
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -101,7 +106,7 @@ const DashboardPage = () => {
   useSidebarLoading();
   return (
     <>
-    {loading && <ScreenLoader/>}
+      {loading && <ScreenLoader />}
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {userCard?.map((card, index) => (
@@ -117,17 +122,16 @@ const DashboardPage = () => {
         </div>
 
         <div className="flex justify-start  w-full mb-5 items-center ">
-          <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full max-w-6xl grow">
             {analysis?.map((card, index) => {
               return (
-                <div className="flex-1 " key={index}>
+                <div key={index}>
                   <DashboardCard title={card.title} users={card.value} />
                 </div>
               );
             })}
           </div>
         </div>
-
 
         <div className="  flex justify-start  w-full mb-5 items-center">
           <div className="flex flex-wrap gap-4 w-full max-w-6xl grow">
@@ -141,7 +145,7 @@ const DashboardPage = () => {
                     username={item.user_name || "unknown"}
                     points={item.points || 0}
                     daily_check_ins={item.total_check_ins || 0}
-                      weekly_check_ins={item.total_weekly_check_ins || 0}
+                    weekly_check_ins={item.total_weekly_check_ins || 0}
                     avatar={item.profile_url || "/avatar.jpeg"}
                     color={color}
                   />

@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { GiMeditation } from "react-icons/gi";
 
 function GraphTabs({ updateActivityType }) {
   const [activeTab, setActiveTab] = useState("fitness");
@@ -9,7 +10,7 @@ function GraphTabs({ updateActivityType }) {
   }, [activeTab]);
   return (
     <div>
-      <div className="space-x-4 items-center mt-6  mb-6">
+      <div className="space-x-4 flex items-center mt-6  mb-6">
         <button
           onClick={() => setActiveTab("fitness")}
           className={`w-[150px] text-[#989898] cursor-pointer bg-[#262626] hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2 ${
@@ -38,7 +39,7 @@ function GraphTabs({ updateActivityType }) {
         <button
           onClick={() => setActiveTab("finance")}
           className={`w-[150px]  text-[#989898] bg-[#262626] cursor-pointer hover:bg-[#EFEFEF] hover:text-[#202020]   rounded-full px-3 py-2  ${
-            activeTab === "finance" ? "bg-[#EFEFEF]  text-black" : ""
+            activeTab === "finance" ? "bg-[#EFEFEF]  font-bold text-black" : ""
           } `}
         >
           <div className="flex items-center gap-3">
@@ -50,7 +51,7 @@ function GraphTabs({ updateActivityType }) {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 className={`${
-                  activeTab === "finance" ? "text-black" : "text-white"
+                  activeTab === "finance" ? "text-black" : "text-[#989898]"
                 } fill-current`}
               >
                 <path
@@ -77,8 +78,8 @@ function GraphTabs({ updateActivityType }) {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={` hover:text-black ${
-                  activeTab === "alcohol" ? "text-black" : "text-[#989898]"
+                className={`${
+                  activeTab === "sobriety" ? "text-black" : "text-[#989898]"
                 } fill-current`}
               >
                 <path
@@ -104,16 +105,18 @@ function GraphTabs({ updateActivityType }) {
             </label>
           </div>
         </button>
+
         <button
           // disabled
           onClick={() => setActiveTab("praying")}
           className={`w-[150px] text-[#989898] bg-[#262626]  cursor-pointer hover:bg-[#EFEFEF] hover:text-[#202020]  rounded-full px-3 py-2 ${
             activeTab === "praying" ? "bg-[#EFEFEF] font-bold text-black" : ""
           }`}
+          
         >
           <div className="flex items-center gap-3">
             <div className="flex gap-1">
-              <svg
+              {/* <svg
                 width="40"
                 height="40"
                 viewBox="0 0 24 24"
@@ -124,6 +127,19 @@ function GraphTabs({ updateActivityType }) {
                 } fill-current`}
               >
                 <path d="M5.48561 6.73074C5.3741 6.71521 5.25755 6.72179 5.14196 6.75275L3.46775 7.20135C3.00542 7.32528 2.73111 7.80039 2.85495 8.26275L2.96668 8.68088C3.02805 8.91176 2.891 9.14876 2.66027 9.21074L2.24215 9.32416C1.77981 9.44809 1.5055 9.9232 1.62934 10.3856L2.97514 15.4082C3.09907 15.8705 3.57418 16.1448 4.03654 16.021L4.45467 15.9093C4.6861 15.8468 4.92427 15.9841 4.98622 16.2157L5.09795 16.6338C5.22188 17.0961 5.69699 17.3704 6.15935 17.2466L7.83356 16.798C8.2959 16.6741 8.5702 16.199 8.44636 15.7366L7.60888 12.6121C7.54692 12.3809 7.67719 12.1221 7.90307 12.0431C9.00382 11.6577 10.3712 11.3572 11.9996 11.3572C13.628 11.3572 14.9955 11.6577 16.0962 12.0431C16.3221 12.1221 16.4523 12.3809 16.3903 12.6121L15.5529 15.7366C15.429 16.199 15.7033 16.6741 16.1657 16.798L17.8399 17.2466C18.3022 17.3704 18.7773 17.0961 18.9013 16.6338L19.013 16.2157C19.0749 15.9841 19.3131 15.8468 19.5445 15.9093L19.9627 16.021C20.425 16.1448 20.9001 15.8705 21.0241 15.4082L22.3699 10.3856C22.4937 9.9232 22.2194 9.44809 21.7571 9.32416L21.3389 9.21074C21.1082 9.14876 20.9712 8.91176 21.0325 8.68088L21.1443 8.26275C21.2681 7.80039 20.9938 7.32528 20.5315 7.20135L18.8573 6.75275C18.3949 6.62891 17.9198 6.90322 17.7959 7.36555L17.0633 10.1007C17.0013 10.3319 16.7698 10.4502 16.5432 10.3729C15.2919 9.94587 13.7634 9.62379 11.9996 9.62379C10.2358 9.62379 8.70731 9.94588 7.45591 10.373C7.22944 10.4503 6.99789 10.3319 6.93596 10.1007L6.20336 7.36555C6.11042 7.0188 5.82013 6.77734 5.48561 6.73074Z" />
+              </svg> */}
+              <svg
+                width="40px"
+                height="40px"
+                viewBox="0 0 500 550"
+                xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 className={`${
+                  activeTab === "praying" ? "text-black" : "text-[#989898]"
+                } fill-current`}
+              >
+                <path xmlns="http://www.w3.org/2000/svg" d="M243.458,153.771c0.085,0,0.171-0.006,0.257-0.006c0.087,0,0.172,0.006,0.258,0.006     c42.464,0,76.884-34.422,76.884-76.887c0-42.46-34.42-76.884-76.884-76.884c-0.086,0-0.171,0.006-0.258,0.006     c-0.086,0-0.171-0.006-0.257-0.006c-42.465,0-76.884,34.424-76.884,76.884C166.572,119.349,200.991,153.771,243.458,153.771z"/>
+                <path xmlns="http://www.w3.org/2000/svg" d="M436.565,311.038l-86.702-63.042l-27.417-66.953c-5.218-12.74-17.645-20.336-30.638-20.05l-0.004-0.03h-49.479h-49.477     l-0.004,0.03c-12.994-0.286-25.419,7.31-30.638,20.05l-27.418,66.953l-86.702,63.042c-14.443,10.502-17.64,30.724-7.136,45.169     c6.327,8.698,16.185,13.32,26.179,13.32c6.594,0,13.248-2.012,18.988-6.189l93.744-68.154l-2.389,24.675l-88.637,89.839     c-12.297,12.795-15.765,31.698-8.809,48.027c6.955,16.327,22.987,26.926,40.735,26.926h42.368     c-10.918-9.882-17.88-24.627-17.88-41.093c0-29.688,22.571-53.839,50.315-53.839c0,0,32.453,0,48.258,0     c15.807,0,28.35,12.922,28.35,12.922h-76.608c-21.085,0-38.24,18.354-38.24,40.917c0,22.562,17.155,40.916,38.24,40.916h74.192     c0.832-0.06,1.68-0.063,2.5-0.161h89.683c17.748,0,33.779-10.6,40.735-26.929c6.955-16.326,3.488-35.228-8.808-48.025     l-86.706-89.951h-0.024l-2.345-24.224l93.743,68.154c5.738,4.178,12.395,6.189,18.986,6.189c9.995,0,19.853-4.622,26.18-13.32     C454.205,341.762,451.009,321.54,436.565,311.038z"/>
               </svg>
             </div>
             <label className="text-xl cursor-pointer">Be Still </label>

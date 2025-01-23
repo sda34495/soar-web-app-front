@@ -13,7 +13,7 @@ const UserData = ({ color, usertype, users, text }: any) => {
             <div className="flex items-center w-full justify-between ">
               <div className="flex flex-col">
                 <h3 className="text-lg font-bold text-gray-300">{usertype}</h3>
-                <p className="text-sm mt-2 text-gray-300">Total users whe have signed in.</p>
+                <p className="text-sm mt-2 text-gray-300">Total users who have signed in.</p>
               </div>
               <p className={`text-4xl font-extrabold mt-2 text-[${text}] `}>{users}</p>
             </div>

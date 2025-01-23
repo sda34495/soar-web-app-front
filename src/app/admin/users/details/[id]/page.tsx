@@ -26,6 +26,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
   const [activityType, setActivityType] = useState("fitness");
   const [filterType, setFilterType] = useState("thisMonth");
   const [dashboardData, setDashboardData] = useState(); // State to store dashboard data
+  const [activeTab, setActiveTab] = useState("details"); // State for active tab
 
   useEffect(() => {
     const unwrapParams = async () => {
@@ -42,12 +43,11 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
       const response = await getData(
         `${endpoints.ADMIN_USER_CHECKIN_DATA}?activity_type=${activity}&filter_type=${filter}&user_id=${userId}`
       );
-
-      console.log("this is res", response.data);
-      return response.data; // Directly return the data
+      
+      return response.data;
     } catch (err) {
-      console.log("Error fetching dashboard data:", err);
-      throw err; // Re-throw the error to handle it in the caller
+      console.error("Error fetching dashboard data:", err);
+      throw err;
     }
   };
 
@@ -86,18 +86,14 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
 
     const loadDashboardData = async () => {
       try {
-        // setLoading(true); // Start loading
-        const response = await fetchDashboardData(activityType, filterType); // Fetch the data
+        const response = await fetchDashboardData(activityType, filterType);
         setDashboardData(response.data);
       } catch (err) {
-        setError("Failed to load dashboard data neakl . Please try again."); // Set error message
-      } finally {
-        // setLoading(false); // End loading
+        setError("Failed to load dashboard data. Please try again.");
       }
     };
-    // console.log("Fetching data for:", activityType, filterType);
-    loadDashboardData(); // Call the data-loading function
 
+    loadDashboardData();
     fetchUserDetails();
   }, [filterType, activityType, , userId]);
   useEffect(() => {
@@ -137,6 +133,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
     setLevelData(levelData());
   }, [userLevel]);
 
+  console.log("this is dashboardARA", dashboardData)
   return (
     <div className="flex flex-col text-white p-4">
       {/* Back Button */}
@@ -150,26 +147,47 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
         </button>
       </div>
 
-      {/* User Details Card */}
-      <div className="p-6 border border-zinc-800 space-y-6 max-w-30 sm:max-w-96 bg-[#141414] rounded-3xl shadow-lg">
-        {error ? (
-          <div className="text-red-500 text-center">{error}</div>
-        ) : userData ? (
-          <div className="flex gap-4">
+      {/* Tab Navigation */}
+      <div className="flex border-b border-gray-700 mb-4">
+        <button
+          className={`px-4 py-2 ${
+            activeTab === "details" ? "text-white border-b-2 border-white" : "text-gray-400"
+          }`}
+          onClick={() => setActiveTab("details")}
+        >
+          User Details
+        </button>
+        <button
+          className={`px-4 py-2 ${
+            activeTab === "analytics" ? "text-white border-b-2 border-white" : "text-gray-400"
+          }`}
+          onClick={() => setActiveTab("analytics")}
+        >
+          Analytics
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      <div className="p-6 border border-zinc-800 bg-[#141414] rounded-3xl shadow-lg">
+        {activeTab === "details" && (
+          error ? (
+            <div className="text-red-500 text-center">{error}</div>
+          ) : userData ? (
+            
             <div className="">
-              {/* Top Section: Avatar & Position */}
-              <div className="flex items-center gap-6 relative">
-                <div className="relative w-24 h-24">
-                  {/* Avatar */}
-                  <img
-                    src={userData.avatar}
-                    alt={userData.username}
-                    className="h-24 w-24 rounded-full object-cover border-2 border-white"
-                    onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
-                  />
-                  {/* Online Status Indicator */}
-                  <div className="absolute bottom-0 right-0 bg-[#09DE7A] h-5 w-5 rounded-full border-2 border-[#141414]"></div>
-                </div>
+            {/* Top Section: Avatar & Position */}
+            <div className="flex items-center gap-6 relative">
+              <div className="relative w-24 h-24">
+                {/* Avatar */}
+                <img
+                  src={userData.avatar}
+                  alt={userData.username}
+                  className="h-24 w-24 rounded-full object-cover border-2 border-white"
+                  onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
+                />
+                {/* Online Status Indicator */}
+                <div className="absolute bottom-0 right-0 bg-[#09DE7A] h-5 w-5 rounded-full border-2 border-[#141414]"></div>
+              </div>
 
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
@@ -194,11 +212,11 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               </div>
             </div>
 
-              {/* Divider */}
-              <hr className="border-zinc-600 opacity-20" />
+            {/* Divider */}
+            <hr className="border-zinc-600 opacity-20 mt-5" />
 
             {/* Points, League, and Competition */}
-            <div className="text-lg space-y-3 ">
+            <div className="text-lg space-y-3 mt-5 ">
               <div className="flex items-center  justify-between">
                 <div>
                   <span className="font-semibold text-gray-300">@</span>
@@ -227,36 +245,31 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               </div>
             </div>
 
-              {/* Instruction Text */}
-              <p className="text-sm text-gray-400 mt-4">
-                Complete the check-ins and increase your points to get a better
-                position.
-              </p>
-            </div>
-            {/* <div className="my-3">
-              {dashboardData ? (
-                <CustomChart
-                  user="user"
-                  data={dashboardData}
-                  updateActivity={updateActivityType}
-                  updateFilter={updateFilterType}
-                  activityType={activityType}
-                />
-              ) : (
-                // Render loading skeleton for the chart
-                <Skeleton
-                  height={300}
-                  baseColor="#2f2f2f"
-                  highlightColor="#3c3c3c"
-                />
-              )}
-            </div> */}
+            {/* Instruction Text */}
+            <p className="text-sm text-gray-400 mt-4">
+              Complete the check-ins and increase your points to get a better
+              position.
+            </p>
           </div>
-        ) : (
-          <div className="text-gray-500 text-center">Loading...</div>
+          ) : (
+            <div className="text-gray-500 text-center">Loading...</div>
+          )
+        )}
+
+        {activeTab === "analytics" && (
+          dashboardData ? (
+            <CustomChart
+              user="user"
+              data={dashboardData}
+              updateActivity={updateActivityType}
+              updateFilter={updateFilterType}
+              activityType={activityType}
+            />
+          ) : (
+            <Skeleton height={300} baseColor="#2f2f2f" highlightColor="#3c3c3c" />
+          )
         )}
       </div>
     </div>
   );
 }
-

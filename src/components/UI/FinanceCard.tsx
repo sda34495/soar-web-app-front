@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 
 const FinanceCard = ({
   checkInStatus,
+  goal,
   setCheckInStatus,
   fetchCheckInDetails,
 }: any) => {
@@ -96,13 +97,14 @@ const FinanceCard = ({
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">Finance Check-ins</h2>
+          <h2 className="text-lg font-bold">Finance Check-ins{" "}
+          <span className="text-yellow-500"> ({goal})</span> </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={`text-green-500 font-semibold ${hideText && "hidden" } ${progressColor}`}>
               {text}
             </span>
             <div className="flex  items-center">
-              <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
+              <div className="h-2 w-[250px] bg-gray-700 rounded-full relative">
                 <div
                   className={"h-full rounded-full " + progressColor}
                   style={{ width: `${progress}%` }}
@@ -143,7 +145,7 @@ const FinanceCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400">Finance (morning)</span>
+              <span className="text-gray-400 font-extrabold text-2xl">Finance (morning)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
@@ -180,7 +182,7 @@ const FinanceCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400">Finance (evening)</span>
+              <span className="text-gray-400 font-extrabold text-2xl">Finance (evening)</span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
