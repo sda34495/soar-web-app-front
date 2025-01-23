@@ -117,7 +117,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
       </div>
 
       {/* User Details Card */}
-      <div className="p-6 border border-zinc-800 space-y-6 max-w-30 sm:max-w-96 bg-[#141414] rounded-3xl shadow-lg">
+      <div className="p-6 border border-zinc-800 space-y-6 max-w-30 sm:max-w-[30rem] bg-[#141414] rounded-3xl shadow-lg">
         {error ? (
           <div className="text-red-500 text-center">{error}</div>
         ) : userData ? (
@@ -138,7 +138,7 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               </div>
 
                 <div className="flex flex-col">
-                  <div className="flex gap-12 ">
+                  <div className="flex gap-32 ">
 
                 <div className="flex items-center gap-2">
                   <p className="font-bold text-5xl">{userData.position}</p>
