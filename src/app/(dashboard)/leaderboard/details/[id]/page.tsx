@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getData } from "@/utils/axios";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { profileActions } from "@/store/profile-slice";
 
 interface UserDetails {
   
@@ -19,8 +21,10 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [userLevel, setuserLevel] = useState(null);
+    const [levelData, setLevelData] = useState({image:"",title:""});
   const router = useRouter();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const unwrapParams = async () => {
       const unwrappedParams = await params;
@@ -40,6 +44,9 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
         const response = await getData(`profile/details-by-id/${userId}`);
 
         if (response?.data?.success) {
+          console.log("level",response?.data?.data?.level) 
+          setuserLevel(response?.data?.data?.level)
+                  
           const user = response?.data?.data;
           setUserData({
             
@@ -61,6 +68,40 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
 
     fetchUserDetails();
   }, [userId]);
+
+  useEffect(() => {
+    const levelImages = {
+      1: "/medal.png",
+      2: "/Novice.png",
+      3: "/Adept.png",
+      4: "/Challenger.png",
+      5: "/Prodigy.png",
+      6: "/Expert.png",
+      7: "/Veteran.png",
+      8: "/master.png",
+      9: "/Elite.png",
+      10: "/Ascendent.png",
+      default:"/medal.png",
+    };
+    const title = {
+      1: "Initiate",
+      2: "Novice",
+      3: "Adept",
+      4: "Challenger",
+      5: "Prodigy",
+      6: "Expert",
+      7: "Veteran",
+      8: "master",
+      9: "Elite",
+      10: "Ascendent",
+      default:"Initiate",
+    }
+    const levelData = () => {
+      return { image: levelImages[userLevel] || levelImages.default , title: title[userLevel] || title.default };
+    };
+    
+    setLevelData(levelData());
+  },[userLevel])
 
   return (
     <div className="flex flex-col text-white p-4">
@@ -96,13 +137,20 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                 <div className="absolute bottom-0 right-0 bg-[#09DE7A] h-5 w-5 rounded-full border-2 border-[#141414]"></div>
               </div>
 
-              <div className="flex flex-col">
+                <div className="flex flex-col">
+                  <div className="flex gap-12 ">
+
                 <div className="flex items-center gap-2">
                   <p className="font-bold text-5xl">{userData.position}</p>
                   <p className="text-sm bg-zinc-700 rounded-full px-3 py-1">
                     position
                   </p>
-                </div>
+                  </div>
+                  <div className="flex  flex-col ">
+                                        <Image src={levelData?.image} alt={userLevel} height={40} width={40} /> 
+                                        <span className="text-xs text-zinc-300">{levelData?.title}</span>
+                                      </div>
+                  </div>
               </div>
             </div>
 

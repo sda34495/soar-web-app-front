@@ -265,7 +265,7 @@ function Verification() {
    
   };
   const maskEmail = (email) => {
-    return email?.replace(/^(.{1})(.*)(@.*)$/, "$1*****$3");
+    return email?.replace(/^(.)(.*)(.@.*)$/, "$1***$3");
   };
 
   return (

@@ -18,7 +18,7 @@ import Image from "next/image";
 const Sidebar = () => {
   const [userRank, setUserRank] = useState(null);
   const [userLevel, setuserLevel] = useState(null);
-  const [levelData, setLevelData] = useState({image:""});// Add state to store user rank
+  const [levelData, setLevelData] = useState({image:"",title:""});// Add state to store user rank
 
 
   const [activeItem, setActiveItem] = useState("");
@@ -92,9 +92,21 @@ const Sidebar = () => {
       10: "/Ascendent.png",
       default:"/medal.png",
     };
-    
+    const title = {
+      1: "Initiate",
+      2: "Novice",
+      3: "Adept",
+      4: "Challenger",
+      5: "Prodigy",
+      6: "Expert",
+      7: "Veteran",
+      8: "master",
+      9: "Elite",
+      10: "Ascendent",
+      default:"Initiate",
+    }
     const levelData = () => {
-      return { image: levelImages[userLevel] || levelImages.default };
+      return { image: levelImages[userLevel] || levelImages.default , title: title[userLevel] || title.default };
     };
     
     setLevelData(levelData());
@@ -542,8 +554,12 @@ const Sidebar = () => {
             <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#c784269b] to-[#3d3e3d] ">
               <div className="bg-black/80 rounded-2xl">
                 <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
-                  <div className=" flex items-center justify-between text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
-                    {userRank}<Image src={levelData?.image}  alt="userLevel" height={40} width={40} /> 
+                  <div className="  flex items-center justify-between text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
+                    {userRank}
+                    <div className="flex  flex-col">
+                      <Image src={levelData?.image} alt={userLevel} height={40} width={40} /> 
+                      <span className="text-xs text-zinc-300">{levelData?.title}</span>
+                    </div>
                   </div>
                   <div className=" text-[#BDBDBD] font-semibold ">
                     Your Position
