@@ -5,7 +5,6 @@ import { getData } from "@/utils/axios";
 import Image from "next/image";
 
 interface UserDetails {
-  
   position: string;
   username: string;
   points: number;
@@ -14,18 +13,22 @@ interface UserDetails {
   avatar: string;
 }
 
-export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function UserDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [userLevel, setuserLevel] = useState(null);
+  const [levelData, setLevelData] = useState({ image: "", title: "" });
   const router = useRouter();
 
   useEffect(() => {
     const unwrapParams = async () => {
       const unwrappedParams = await params;
       setUserId(unwrappedParams.id);
-      
-      
     };
 
     unwrapParams();
@@ -38,9 +41,9 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
       try {
         const response = await getData(`profile/details-by-id/${userId}`);
         if (response?.data?.success) {
+          setuserLevel(response?.data?.data?.level);
           const user = response?.data?.data;
           setUserData({
-            
             position: user.rank || "unknown",
             username: user.user_name || "unknown",
             points: user.total_points || 0,
@@ -58,6 +61,42 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
 
     fetchUserDetails();
   }, [userId]);
+  useEffect(() => {
+    const levelImages = {
+      1: "/medal.png",
+      2: "/Novice.png",
+      3: "/Adept.png",
+      4: "/Challenger.png",
+      5: "/Prodigy.png",
+      6: "/Expert.png",
+      7: "/Veteran.png",
+      8: "/master.png",
+      9: "/Elite.png",
+      10: "/Ascendent.png",
+      default: "/medal.png",
+    };
+    const title = {
+      1: "Initiate",
+      2: "Novice",
+      3: "Adept",
+      4: "Challenger",
+      5: "Prodigy",
+      6: "Expert",
+      7: "Veteran",
+      8: "master",
+      9: "Elite",
+      10: "Ascendent",
+      default: "Initiate",
+    };
+    const levelData = () => {
+      return {
+        image: levelImages[userLevel] || levelImages.default,
+        title: title[userLevel] || title.default,
+      };
+    };
+
+    setLevelData(levelData());
+  }, [userLevel]);
 
   return (
     <div className="flex flex-col text-white p-4">
@@ -83,12 +122,11 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
               <div className="relative w-24 h-24">
                 {/* Avatar */}
                 <img
-                src={userData.avatar}
-                alt={userData.username}
-                className="h-24 w-24 rounded-full object-cover border-2 border-white"
-                onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
-                
-              />
+                  src={userData.avatar}
+                  alt={userData.username}
+                  className="h-24 w-24 rounded-full object-cover border-2 border-white"
+                  onError={(e) => (e.currentTarget.src = "/avatar.jpeg")}
+                />
                 {/* Online Status Indicator */}
                 <div className="absolute bottom-0 right-0 bg-[#09DE7A] h-5 w-5 rounded-full border-2 border-[#141414]"></div>
               </div>
@@ -99,6 +137,19 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                   <p className="text-sm bg-zinc-700 rounded-full px-3 py-1">
                     position
                   </p>
+                  <div className="flex gap-32 ">
+                </div>
+                <div className="flex  flex-col ">
+                    <Image
+                      src={levelData?.image}
+                      alt={userLevel}
+                      height={40}
+                      width={40}
+                    />
+                    <span className="text-xs text-zinc-300">
+                      {levelData?.title}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -116,17 +167,22 @@ export default function UserDetailPage({ params }: { params: Promise<{ id: strin
                   </span>
                 </div>
                 <span className="font-semibold text-xl">
-                  {userData.points.toLocaleString()} <span className="text-sm opacity-45 ">pts</span>
+                  {userData.points.toLocaleString()}{" "}
+                  <span className="text-sm opacity-45 ">pts</span>
                 </span>
               </div>
               <div className="flex items-center  justify-between">
-                <span className="font-semibold text-gray-300">Daily Check-ins</span>
+                <span className="font-semibold text-gray-300">
+                  Daily Check-ins
+                </span>
                 <span className="font-semibold text-xl">
-                {userData.daily_check_ins.toLocaleString()}
+                  {userData.daily_check_ins.toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-300">Weekly Check-ins</span>
+                <span className="font-semibold text-gray-300">
+                  Weekly Check-ins
+                </span>
                 {userData.weekly_check_ins}
               </div>
             </div>
