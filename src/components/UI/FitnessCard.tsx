@@ -9,6 +9,8 @@ const FitnessCard = ({
   fetchCheckInDetails,
 }: any) => {
   const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
+  const [hideText , setHideText] = useState(false)
+
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -46,6 +48,7 @@ const FitnessCard = ({
         toast.success("Fitness Check-ins updated successfully", {
           id: loadingToast,
         });
+       
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.", {
@@ -70,13 +73,18 @@ const FitnessCard = ({
 
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
-  const progressColor =
-    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-600 text-green-500";
+  const progressColor = progress < 50 ? " text-red-600" : " text-green-500";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
       : "Hurray! You're making progress";
 
+      useEffect(() => {
+        if (checkInStatus.evening === true && checkInStatus.morning === true) {
+          setHideText(true);
+        } 
+      }, [checkInStatus]);
+ 
   return (
     <div
       className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ${
@@ -88,9 +96,7 @@ const FitnessCard = ({
         <div className="flex justify-between items-center  ">
           <h2 className="text-lg font-bold">Fitness Check-ins</h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-            <span className={"text-green-500  font-semibold" + progressColor}>
-              {text}
-            </span>
+            <span className={`  font-semibold ${hideText && "hidden"}  ${progressColor}`}>{text}</span>
             <div className="flex items-center">
               <div className="h-2 w-[300px] bg-gray-700 rounded-full relative">
                 <div
