@@ -16,15 +16,12 @@ interface UserDetails {
   avatar: string;
 }
 
-export default function UserDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const [loading, setLoading] = useState(false);
+export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [userLevel, setuserLevel] = useState(null);
+  const [levelData, setLevelData] = useState({ image: "", title: "" });
   const router = useRouter();
   const [activityType, setActivityType] = useState("fitness");
   const [filterType, setFilterType] = useState("thisMonth");
@@ -69,6 +66,7 @@ export default function UserDetailPage({
       try {
         const response = await getData(`profile/details-by-id/${userId}`);
         if (response?.data?.success) {
+          setuserLevel(response?.data?.data?.level);
           const user = response?.data?.data;
           setUserData({
             position: user.rank || "unknown",
@@ -102,6 +100,42 @@ export default function UserDetailPage({
 
     fetchUserDetails();
   }, [filterType, activityType, , userId]);
+  useEffect(() => {
+    const levelImages = {
+      1: "/medal.png",
+      2: "/Novice.png",
+      3: "/Adept.png",
+      4: "/Challenger.png",
+      5: "/Prodigy.png",
+      6: "/Expert.png",
+      7: "/Veteran.png",
+      8: "/master.png",
+      9: "/Elite.png",
+      10: "/Ascendent.png",
+      default: "/medal.png",
+    };
+    const title = {
+      1: "Initiate",
+      2: "Novice",
+      3: "Adept",
+      4: "Challenger",
+      5: "Prodigy",
+      6: "Expert",
+      7: "Veteran",
+      8: "master",
+      9: "Elite",
+      10: "Ascendent",
+      default: "Initiate",
+    };
+    const levelData = () => {
+      return {
+        image: levelImages[userLevel] || levelImages.default,
+        title: title[userLevel] || title.default,
+      };
+    };
+
+    setLevelData(levelData());
+  }, [userLevel]);
 
   return (
     <div className="flex flex-col text-white p-4">
@@ -137,48 +171,61 @@ export default function UserDetailPage({
                   <div className="absolute bottom-0 right-0 bg-[#09DE7A] h-5 w-5 rounded-full border-2 border-[#141414]"></div>
                 </div>
 
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-2">
-                    <p className="font-bold text-5xl">{userData.position}</p>
-                    <p className="text-sm bg-zinc-700 rounded-full px-3 py-1">
-                      position
-                    </p>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <p className="font-bold text-5xl">{userData.position}</p>
+                  <p className="text-sm bg-zinc-700 rounded-full px-3 py-1">
+                    position
+                  </p>
+                  <div className="flex gap-32 ">
+                </div>
+                <div className="flex  flex-col ">
+                    <Image
+                      src={levelData?.image}
+                      alt={userLevel || "level"}
+                      height={40}
+                      width={40}
+                    />
+                    <span className="text-xs text-zinc-300">
+                      {levelData?.title}
+                    </span>
                   </div>
                 </div>
               </div>
+            </div>
 
               {/* Divider */}
               <hr className="border-zinc-600 opacity-20" />
 
-              {/* Points, League, and Competition */}
-              <div className="text-lg space-y-3 ">
-                <div className="flex items-center  justify-between">
-                  <div>
-                    <span className="font-semibold text-gray-300">@</span>
-                    <span className="font-semibold">
-                      {userData.username.toLowerCase()}
-                    </span>
-                  </div>
-                  <span className="font-semibold text-xl">
-                    {userData.points.toLocaleString()}{" "}
-                    <span className="text-sm opacity-45 ">pts</span>
+            {/* Points, League, and Competition */}
+            <div className="text-lg space-y-3 ">
+              <div className="flex items-center  justify-between">
+                <div>
+                  <span className="font-semibold text-gray-300">@</span>
+                  <span className="font-semibold">
+                    {userData.username.toLowerCase()}
                   </span>
                 </div>
-                <div className="flex items-center  justify-between">
-                  <span className="font-semibold text-gray-300">
-                    Total Check-ins
-                  </span>
-                  <span className="font-semibold text-xl">
-                    {userData.daily_check_ins.toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold text-gray-300">
-                    Weekly Check-ins
-                  </span>
-                  {userData.weekly_check_ins}
-                </div>
+                <span className="font-semibold text-xl">
+                  {userData.points.toLocaleString()}{" "}
+                  <span className="text-sm opacity-45 ">pts</span>
+                </span>
               </div>
+              <div className="flex items-center  justify-between">
+                <span className="font-semibold text-gray-300">
+                  Daily Check-ins
+                </span>
+                <span className="font-semibold text-xl">
+                  {userData.daily_check_ins.toLocaleString()}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-gray-300">
+                  Weekly Check-ins
+                </span>
+                {userData.weekly_check_ins}
+              </div>
+            </div>
 
               {/* Instruction Text */}
               <p className="text-sm text-gray-400 mt-4">
@@ -212,3 +259,4 @@ export default function UserDetailPage({
     </div>
   );
 }
+

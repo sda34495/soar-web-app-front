@@ -17,8 +17,8 @@ import Image from "next/image";
 
 const Sidebar = () => {
   const [userRank, setUserRank] = useState(null);
-  const [userPoints, setUserPoints] = useState(null);
-  const [levelData, setLevelData] = useState({image:""});// Add state to store user rank
+  const [userLevel, setuserLevel] = useState(null);
+  const [levelData, setLevelData] = useState({image:"",title:""});// Add state to store user rank
 
 
   const [activeItem, setActiveItem] = useState("");
@@ -47,7 +47,7 @@ const Sidebar = () => {
         );
         
         setUserRank(response.data.data.rank)
-        setUserPoints(response.data.data.points);
+        setuserLevel(response.data.data.level);
 
         
         
@@ -79,22 +79,39 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    const levelData =  ()=> {
-      if(userPoints <= 36) return {image:"/medal.png"}
-      if(userPoints > 36 || userPoints <=72) return {image:"/Novice.png"}
-      if(userPoints > 72 || userPoints <=108) return {image:"/Adept.png"}
-      if(userPoints > 108 || userPoints <=144) return {image:"/Challenger.png"}
-      if(userPoints > 144 || userPoints <=180) return {image:"/Prodigy.png"}
-      if(userPoints > 180 || userPoints <=216) return {image:"/Expert.png"}
-      if(userPoints > 216 || userPoints <=252) return {image:"/Veteran.png"}
-      if(userPoints > 252 || userPoints <=288) return {image:"/master.png"}
-      if(userPoints > 288 || userPoints <=324) return {image:"/Elite.png"}
-      if(userPoints > 324 || userPoints <=360) return {image:"/Ascendent.png"}
-      
+    const levelImages = {
+      1: "/medal.png",
+      2: "/Novice.png",
+      3: "/Adept.png",
+      4: "/Challenger.png",
+      5: "/Prodigy.png",
+      6: "/Expert.png",
+      7: "/Veteran.png",
+      8: "/master.png",
+      9: "/Elite.png",
+      10: "/Ascendent.png",
+      default:"/medal.png",
+    };
+    const title = {
+      1: "Initiate",
+      2: "Novice",
+      3: "Adept",
+      4: "Challenger",
+      5: "Prodigy",
+      6: "Expert",
+      7: "Veteran",
+      8: "master",
+      9: "Elite",
+      10: "Ascendent",
+      default:"Initiate",
     }
-
-    setLevelData(levelData())
-},[])
+    const levelData = () => {
+      return { image: levelImages[userLevel] || levelImages.default , title: title[userLevel] || title.default };
+    };
+    
+    setLevelData(levelData());
+// console.log("Your Level",userLevel)    
+},[userLevel])
 
   useEffect(() => {
     const fetchTotalUsers = async () => {
@@ -537,8 +554,12 @@ const Sidebar = () => {
             <div className=" rounded-2xl overflow-hidden p-[1px]  bg-gradient-to-br from-[#c784269b] to-[#3d3e3d] ">
               <div className="bg-black/80 rounded-2xl">
                 <div className=" h-full py-4 rounded-2xl px-5 bg-custom-card-gradient ">
-                  <div className=" flex items-center justify-between text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
-                    {userRank}<Image src={levelData?.image}  alt="userPoints" height={40} width={40} /> 
+                  <div className="  flex items-center justify-between text-[#EFEFEF] font-bold font-Bricolage-Grotesque text-3xl">
+                    {userRank}
+                    <div className="flex  flex-col">
+                      <Image src={levelData?.image} alt={userLevel} height={40} width={40} /> 
+                      <span className="text-xs text-zinc-300">{levelData?.title}</span>
+                    </div>
                   </div>
                   <div className=" text-[#BDBDBD] font-semibold ">
                     Your Position
