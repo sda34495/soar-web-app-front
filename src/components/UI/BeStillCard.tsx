@@ -100,7 +100,7 @@ const BeStillCard = ({
           <div className="flex flex-col lg:flex-row items-center space-x-2">
             <span className={`text-green-500 font-semibold" ${hideText && "hidden" } ${progressColor}`}>
               {text}
-            </span> */}
+            </span>
             <div className="flex items-center">
               <div className="h-2 w-[250px] bg-gray-700 rounded-full relative">
                 <div
