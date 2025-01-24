@@ -57,7 +57,7 @@ const DashboardPage = () => {
             value: response.data.data.analysis.time_fitness,
           },
           {
-            title: "Total hours in soberiety",
+            title: "Total days in soberiety",
             value: response.data.data.analysis.time_soberiety,
           },
           {
