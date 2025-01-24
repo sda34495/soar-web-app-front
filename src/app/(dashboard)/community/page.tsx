@@ -12,18 +12,22 @@ import Loader from "./component/Loader";
 
 const Communitypage = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state: any) => state.postSlice.posts); 
-  const [loading, setLoading] = useState(true); 
-  const [currentPage, setCurrentPage] = useState(1); 
-  const [totalPages, setTotalPages] = useState(1); 
+  const posts = useSelector((state: any) => state.postSlice.posts);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const fetchPosts = async (page: number) => {
+  const fetchPosts = async (page: number, reset: boolean = false) => {
     try {
       const response = await getData(`${endpoints.GET_POSTS}?page=${page}`);
       const postsData = response.data.data.posts;
 
       if (response?.data?.success) {
-        dispatch(postActions.updateNewData({ data:  [...posts,...postsData] }));
+        if (reset) {
+          dispatch(postActions.updateNewData({ data: postsData })); // Replace posts if resetting
+        } else {
+          dispatch(postActions.updateNewData({ data: [...posts, ...postsData] })); // Append posts
+        }
         setTotalPages(response.data.data.totalPages); // Set totalPages from the response
       }
     } catch (error) {
@@ -34,27 +38,28 @@ const Communitypage = () => {
   };
 
   const handleShowMore = () => {
-
     if (currentPage < totalPages) {
       const nextPage = currentPage + 1;
-      
-   
       setCurrentPage(nextPage);
-      fetchPosts(nextPage); // Fetch posts for the next page
     }
   };
 
   useEffect(() => {
-    fetchPosts(currentPage);
-    // console.log("this is current Page", currentPage);
-    // console.log("this is current totalPages", totalPages);
-    // Fetch posts on mount
+    // Reset posts when the component mounts
+    dispatch(postActions.updateNewData({ data: [] }));
+    fetchPosts(1, true); // Fetch the first page and reset posts
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (currentPage > 1) {
+      fetchPosts(currentPage); // Fetch posts for subsequent pages
+    }
   }, [currentPage]);
 
   useSidebarLoading();
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       {loading ? (
         <Loader isLoading={true} /> // Show skeleton loading
       ) : posts?.length > 0 ? (
@@ -63,7 +68,7 @@ const Communitypage = () => {
           {currentPage < totalPages && (
             <button
               onClick={handleShowMore}
-              className="mt-4 bg-black/50 py-2 mx-auto mb-8 rounded-3xl w-[150px] border border-zinc-600  text-white hover:underline"
+              className="mt-4 bg-black/50 py-2 mx-auto mb-8 rounded-3xl w-[150px] border border-zinc-600 text-white hover:underline"
             >
               Show More..
             </button>
@@ -75,7 +80,7 @@ const Communitypage = () => {
           <div className="flex flex-col max-w-[250px] items-center justify-center p-3 space-y-2">
             <h3>No Post available</h3>
             <p className="text-xs text-[#BDBDBD]">
-              Posts will be shown when some people will upload
+              Posts will be shown when some people upload them
             </p>
           </div>
         </div>
