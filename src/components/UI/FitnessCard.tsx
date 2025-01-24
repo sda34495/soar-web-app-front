@@ -10,8 +10,7 @@ const FitnessCard = ({
   fetchCheckInDetails,
 }: any) => {
   const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
-  const [hideText , setHideText] = useState(false)
-
+  const [hideText, setHideText] = useState(false);
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -49,7 +48,6 @@ const FitnessCard = ({
         toast.success("Fitness Check-ins updated successfully", {
           id: loadingToast,
         });
-       
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.", {
@@ -74,18 +72,19 @@ const FitnessCard = ({
 
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
-  const progressColor = progress < 50 ? " text-red-600" : " text-green-500";
+  const progressColor =
+    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-500 text-green-500";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
       : "Hurray! You're making progress";
 
-      useEffect(() => {
-        if (checkInStatus.evening === true && checkInStatus.morning === true) {
-          setHideText(true);
-        } 
-      }, [checkInStatus]);
- 
+  useEffect(() => {
+    if (checkInStatus.evening === true && checkInStatus.morning === true) {
+      setHideText(true);
+    }
+  }, [checkInStatus]);
+
   return (
     <div
       className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ${
@@ -95,10 +94,13 @@ const FitnessCard = ({
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4">
         {/* Header Section */}
         <div className="flex justify-between items-center  ">
-          <h2 className="text-lg font-bold">Fitness Check-ins{" "}
-          <span className="text-yellow-500"> ({goal})</span> </h2>
+          <h2 className="text-lg font-bold">
+            Fitness Check-ins <span className="text-yellow-500"> ({goal})</span>{" "}
+          </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-            <span className={`  font-semibold ${hideText && "hidden"}  ${progressColor}`}>{text}</span>
+            <div className={hideText ? "hidden" : ""}>
+              <span className={"font-semibold" + progressColor}>{text}</span>
+            </div>
             <div className="flex items-center">
               <div className="h-2 w-[250px] bg-gray-700 rounded-full relative">
                 <div
@@ -141,7 +143,9 @@ const FitnessCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 font-extrabold text-2xl ">Fitness (morning)</span>
+              <span className="text-gray-400 font-extrabold text-2xl ">
+                Fitness (morning)
+              </span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
@@ -178,7 +182,9 @@ const FitnessCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 font-extrabold text-2xl">Fitness (evening)</span>
+              <span className="text-gray-400 font-extrabold text-2xl">
+                Fitness (evening)
+              </span>
             </div>
             <div className="flex space-x-28 text-gray-400">
               <span className="w-20">{todayDate}</span>
