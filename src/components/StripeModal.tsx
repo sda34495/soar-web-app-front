@@ -33,19 +33,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pri
   }
 
 
-  
-  return (
 
-    <Elements stripe={stripePromise}>
-      <StripePaymentModal
-        price={price}
-        endpoint={endpoints.STRIPE_PAYMENT}
-        onClose={onClose}
-        onPaymentSuccess={() => {
-          console.log("Payment Success");
-          setShowSecondModal(true);
-        }}
-      />
+  return (
+    <>
+      {isOpen && <Elements stripe={stripePromise}>
+        <StripePaymentModal
+          price={price}
+          endpoint={endpoints.STRIPE_PAYMENT}
+          onClose={onClose}
+          onPaymentSuccess={() => {
+            console.log("Payment Success");
+            setShowSecondModal(true);
+          }}
+        />
+      </Elements>}
       <CenterImageModal
         title="Congratulations"
         description="You have successfully subscribed to our service."
@@ -53,7 +54,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pri
         image="/cone.png"
         onClose={handelClose}
       />
-    </Elements>
+    </>
   );
 };
 
