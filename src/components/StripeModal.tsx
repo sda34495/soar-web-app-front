@@ -42,6 +42,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pri
         endpoint={endpoints.STRIPE_PAYMENT}
         onClose={onClose}
         onPaymentSuccess={() => {
+          
           setShowSecondModal(true);
         }}
       />
