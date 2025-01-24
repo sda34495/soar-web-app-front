@@ -24,7 +24,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pri
 
   const [showSecondModal, setShowSecondModal] = useState(false);
 
-
+  console.log(showSecondModal)
   const router = useRouter()
   const handelClose = () => {
     onClose();
@@ -33,7 +33,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pri
   }
 
 
-  if (!isOpen) return null;
+  
   return (
 
     <Elements stripe={stripePromise}>
@@ -42,6 +42,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, pri
         endpoint={endpoints.STRIPE_PAYMENT}
         onClose={onClose}
         onPaymentSuccess={() => {
+          console.log("Payment Success");
           setShowSecondModal(true);
         }}
       />
@@ -107,15 +108,7 @@ export const StripePaymentModal: React.FC<{
       }
 
       if (paymentIntent?.status === "succeeded") {
-        // await axios.post(
-        //   "http://localhost:8082/api/payments/confirm-subscription",
-        //   { setupIntentId: setupIntent.id, priceId: price },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer YOUR_JWT_TOKEN`,
-        //     },
-        //   }
-        // );
+
         onPaymentSuccess();
       } else {
         setError("Card setup was not completed successfully.");

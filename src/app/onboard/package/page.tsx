@@ -164,7 +164,7 @@ const Page = () => {
           onClose={handleClose}
         ></Modal>
 
-        <BookingModal isOpen={stripeModalOpen} onClose={() => setStripeModalOpen(false)} price={"50"} />
+        {stripeModalOpen && <BookingModal isOpen={stripeModalOpen} onClose={() => setStripeModalOpen(false)} price={"50"} />}
 
 
       </div>
