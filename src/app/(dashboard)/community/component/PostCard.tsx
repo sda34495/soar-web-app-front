@@ -12,12 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "@/store/post-data";
 import EditOrDeletePost from "./EditOrDeletePost";
 import ShareModal from "@/components/ShareModal";
+import DeletePost from "./DeletePostModal";
 
 const PostCard = () => {
   const posts = useSelector((state: any) => state.postSlice.posts);
   const currentUserId = useSelector(
     (state: any) => state.profileSlice.user._id
   );
+ 
   const [activePostId, setActivePostId] = useState(null);
   const [activeComments, setActiveComments] = useState([]);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -25,6 +27,7 @@ const PostCard = () => {
     postId: "",
     linkToShare: "",
   });
+  const [userType,setUserType]= useState(null)
 
   const baseURL = `${window.location.origin}/community/post/`;
   const [activeReply, setActiveReply] = useState("");
@@ -34,12 +37,15 @@ const PostCard = () => {
   // Fetch posts data from the server
   const fetchPosts = useCallback(async () => {
     try {
+      const user = localStorage.getItem("user")
       const response = await getData(endpoints.GET_POSTS);
       if (response?.data?.success) {
+        console.log("yeh User hy",user);
         const postsData = response.data.data.posts.map((post: any) => ({
           ...post,
           allow_comments: post.allow_comments ?? false, // Ensure allow_comments is boolean
         }));
+        setUserType(user);
 
         // Dispatch posts to Redux
 
@@ -131,6 +137,8 @@ const PostCard = () => {
       if (response.data?.success) {
         setActiveComments(response.data.data);
         setActiveReply(response?.data?.data);
+
+        
       }
     } catch (error) {
       toast.error(error.message);
@@ -143,6 +151,7 @@ const PostCard = () => {
       postId,
       linkToShare: `${baseURL}${postId}`,
     });
+
   };
 
 
@@ -153,6 +162,7 @@ const PostCard = () => {
     <div className="flex flex-col p-6 space-y-8 w-auto">
       {posts.map((post: any) => (
         <div key={post._id} className="flex text-white rounded-lg">
+        
           <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-l-lg max-w-[660px] w-full">
             <div className="flex items-start justify-between mb-4 max-w-[660px] w-full">
               <div className="flex items-center space-x-4">
@@ -167,9 +177,12 @@ const PostCard = () => {
                 </div>
               </div>
               <div className="relative">
-                {post?.user?._id === currentUserId && (
+                {post?.user?._id === currentUserId ?(
                   <EditOrDeletePost post_id={post._id} postData={post} />
+                ) : userType === "admin" &&(
+                  <DeletePost post_id={post._id} postData={post} />
                 )}
+                
               </div>
             </div>
 
