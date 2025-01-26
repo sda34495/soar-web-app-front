@@ -145,12 +145,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <img src="/laptop.png" alt="Laptop" className="h-16" />
-              <span className="border-2 border-golden bg-golden/10 rounded-xl py-2 px-3 text-xl font-semibold">
+              {/* <span className="border-2 border-golden bg-golden/10 rounded-xl py-2 px-3 text-xl font-semibold">
                 Premium{" "}
                 <span className="text-2xl ml-1 font-Bricolage-Grotesque">
                   ${price}
                 </span>
-              </span>
+              </span> */}
             </div>
 
             {/* Title */}

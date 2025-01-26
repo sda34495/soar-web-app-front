@@ -90,7 +90,7 @@ const Sidebar = () => {
       8: "/master.png",
       9: "/Elite.png",
       10: "/Ascendent.png",
-      default:"/medal.png",
+      // default:"/medal.png",
     };
     const title = {
       1: "Initiate",
@@ -103,10 +103,10 @@ const Sidebar = () => {
       8: "master",
       9: "Elite",
       10: "Ascendent",
-      default:"Initiate",
+      // default:"Initiate",
     }
     const levelData = () => {
-      return { image: levelImages[userLevel] || levelImages.default , title: title[userLevel] || title.default };
+      return { image: levelImages[userLevel]  , title: title[userLevel]  };
     };
     
     setLevelData(levelData());
