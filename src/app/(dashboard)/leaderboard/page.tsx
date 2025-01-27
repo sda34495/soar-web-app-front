@@ -16,6 +16,7 @@ const LeaderboardPage = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [loading, setLoading] = useState(true); // State for loading
 
+
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
@@ -32,6 +33,7 @@ const LeaderboardPage = () => {
             weekly_check_ins: entry.total_weekly_check_ins || 0,
             avatar: entry.profile_url || "/avatar.jpeg",
             color: getCardColor(entry.rank),
+            level: entry.level,
           }));
           setLeaderboardData(response?.data?.data);
 
@@ -90,17 +92,17 @@ const LeaderboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 grow">
           {loading
             ? Array.from({ length: 3 }).map((_, index) => (
-                <div className="flex-1" key={index}>
-                  <Skeleton
-                    height={200} // Adjust height to match card size
-                    baseColor="#2f2f2f"
-                    highlightColor="#3c3c3c"
-                    className="rounded-3xl"
-                  />
-                </div>
-              ))
+              <div className="flex-1" key={index}>
+                <Skeleton
+                  height={200} // Adjust height to match card size
+                  baseColor="#2f2f2f"
+                  highlightColor="#3c3c3c"
+                  className="rounded-3xl"
+                />
+              </div>
+            ))
             : fetchedLeaderboardData.length > 0
-            ? fetchedLeaderboardData.map((item, index) => (
+              ? fetchedLeaderboardData.map((item, index) => (
                 <div
                   onClick={() => router.push(`/leaderboard/details/${item.id}`)}
                   className="flex-1 cursor-pointer"
@@ -114,10 +116,11 @@ const LeaderboardPage = () => {
                     weekly_check_ins={item.weekly_check_ins}
                     avatar={item.avatar}
                     color={item.color}
+                    level={item.level}
                   />
                 </div>
               ))
-            : <div className="text-center text-gray-500">No leaderboard data available.</div>
+              : <div className="text-center text-gray-500">No leaderboard data available.</div>
           }
         </div>
       </div>

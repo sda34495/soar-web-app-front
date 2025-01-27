@@ -15,6 +15,20 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
   const [isTableLoading, setIsTableLoading] = useState(true);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const levelImages = {
+    1: "/medal.png",
+    2: "/Novice.png",
+    3: "/Adept.png",
+    4: "/Challenger.png",
+    5: "/Prodigy.png",
+    6: "/Expert.png",
+    7: "/Veteran.png",
+    8: "/master.png",
+    9: "/Elite.png",
+    10: "/Ascendent.png",
+    default: "/medal.png",
+  };
+
 
   useEffect(() => {
     const loadData = () => {
@@ -142,6 +156,11 @@ const LeaderboardTable = ({ leaderboardData }: any) => {
                       className="h-8 w-8 rounded-full object-cover"
                     />
                     <span>{entry.user_name || "unknown"}</span>
+                    <img
+                      src={levelImages[entry.level]} // Provide a default image if not available
+                      alt={entry.user_name}
+                      className="h-6 w-6 "
+                    />
                   </td>
                   <td className="p-3">{entry.points || 0}</td>
                   <td className="p-3">{entry.total_check_ins || 0}</td>

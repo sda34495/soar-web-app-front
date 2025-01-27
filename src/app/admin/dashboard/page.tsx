@@ -148,6 +148,7 @@ const DashboardPage = () => {
                     weekly_check_ins={item.total_weekly_check_ins || 0}
                     avatar={item.profile_url || "/avatar.jpeg"}
                     color={color}
+                    level={item.level}
                   />
                 </div>
               );
