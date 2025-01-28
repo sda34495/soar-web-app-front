@@ -71,7 +71,7 @@ const BeStillCard = ({
 
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
-  const progressColor = "bg-blue-500 text-blue-500";
+  const progressColor = "bg-blue-500 text-red-500 ";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"

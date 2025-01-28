@@ -72,7 +72,7 @@ const FitnessCard = ({
 
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
-  const progressColor = "bg-green-500 text-green-500";
+  const progressColor = "bg-green-500 text-red-500 ";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
