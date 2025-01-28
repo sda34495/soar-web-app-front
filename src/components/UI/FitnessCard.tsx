@@ -10,8 +10,7 @@ const FitnessCard = ({
   fetchCheckInDetails,
 }: any) => {
   const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
-  const [hideText , setHideText] = useState(false)
-
+  const [hideText, setHideText] = useState(false);
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -49,7 +48,6 @@ const FitnessCard = ({
         toast.success("Fitness Check-ins updated successfully", {
           id: loadingToast,
         });
-       
       }
     } catch (error) {
       toast.error("An error occurred while updating check-in status.", {
@@ -80,27 +78,34 @@ const FitnessCard = ({
       ? "Hey! You’re leaving things behind"
       : "Hurray! You're making progress";
 
-      useEffect(() => {
-        if (checkInStatus.evening === true && checkInStatus.morning === true) {
-          setHideText(true);
-        } 
-      }, [checkInStatus]);
- 
+  useEffect(() => {
+    if (checkInStatus.evening === true && checkInStatus.morning === true) {
+      setHideText(true);
+    }
+  }, [checkInStatus]);
+
   return (
     <div
-      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ${
+      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md space-x-2  rounded-2xl ${
         isProcessing ? "cursor-not-allowed blur-sm" : ""
       }`}
     >
-      <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4">
+      <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center  ">
-          <h2 className="text-lg font-bold">Fitness Check-ins{" "}
-          <span className="text-yellow-500"> ({goal})</span> </h2>
+          <h2 className="text-sm md:text-lg font-bold">
+            Fitness Check-ins <span className="text-yellow-500"> ({goal})</span>{" "}
+          </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-            <span className={`  font-semibold ${hideText && "hidden"}  ${progressColor}`}>{text}</span>
+            <span
+              className={` hidden sm:block  font-semibold ${
+                hideText && "hidden"
+              }  ${progressColor}`}
+            >
+              {text}
+            </span>
             <div className="flex items-center">
-              <div className="h-2 w-[250px] bg-gray-700 rounded-full relative">
+              <div className="h-2 w-[120px] sm:w-[200px] md:w-[250px] bg-gray-700 rounded-full relative">
                 <div
                   className={"h-full rounded-full " + progressColor}
                   style={{ width: `${progress}%` }}
@@ -114,7 +119,7 @@ const FitnessCard = ({
         {/* Fitness Items */}
         <div className="space-y-4">
           {/* Morning Check-in */}
-          <div className="flex items-center justify-between mr-20">
+          <div className="flex items-right justify-between mr-20">
             <div className="flex items-center space-x-3">
               <label className="flex items-center cursor-pointer relative">
                 <input
@@ -141,11 +146,13 @@ const FitnessCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 font-extrabold text-2xl ">Fitness (morning)</span>
+              <span className="text-gray-400 font-extrabold text-sm sm:text-lg lg:text-2xl ">
+                Fitness (morning)
+              </span>
             </div>
-            <div className="flex space-x-28 text-gray-400">
+            <div className="flex space-x-3 sm:space-x-8 md:space-x-28 ml-4 sm:ml-0 text-gray-400">
               <span className="w-20">{todayDate}</span>
-              <span className="w-20">Fitness</span>
+              <span className="w-20 hidden lg:block">Fitness</span>
               <span className="w-20">10 minutes</span>
             </div>
           </div>
@@ -178,11 +185,13 @@ const FitnessCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 font-extrabold text-2xl">Fitness (evening)</span>
+              <span className="text-gray-400 font-extrabold text-sm sm:text-lg lg:text-2xl">
+                Fitness (evening)
+              </span>
             </div>
-            <div className="flex space-x-28 text-gray-400">
+            <div className="flex space-x-3 sm:space-x-8 md:space-x-28 ml-4 sm:ml-0  text-gray-400">
               <span className="w-20">{todayDate}</span>
-              <span className="w-20">Fitness</span>
+              <span className="w-20 hidden lg:block">Fitness</span>
               <span className="w-20">10 minutes</span>
             </div>
           </div>
