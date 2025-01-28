@@ -71,7 +71,7 @@ const BeStillCard = ({
 
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
-  const progressColor = "bg-blue-500 text-red-500 ";
+  const progressColor = "bg-blue-500 ";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
@@ -96,8 +96,8 @@ const BeStillCard = ({
           <span className="text-yellow-500"> ({goal})</span>
           </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-          <div className={hideText ? "hidden" : ""}>
-              <span className={"font-semibold hidden sm:block" + progressColor}>{text}</span>
+          <div className={`hidden md:block ${hideText ? "hidden" : ""}`}>
+              <span className={"font-semibold  text-red-500 " }>{text}</span>
             </div>
             <div className="flex items-center">
               <div className="h-2 w-[120px] sm:w-[200px] md:w-[250px] bg-gray-700 rounded-full relative">
