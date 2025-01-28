@@ -172,7 +172,7 @@ function ForgetPassword() {
                   type="submit"
                   className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
                 >
-                  {loading ? <Spinner/> :  "Login"}
+                  {loading ? <Spinner/> :  "Submit"}
                 </button>
               </div>
             </form>

@@ -57,7 +57,7 @@ const DashboardPage = () => {
             value: response.data.data.analysis.time_fitness,
           },
           {
-            title: "Total hours in soberiety",
+            title: "Total days in soberiety",
             value: response.data.data.analysis.time_soberiety,
           },
           {
@@ -148,6 +148,7 @@ const DashboardPage = () => {
                     weekly_check_ins={item.total_weekly_check_ins || 0}
                     avatar={item.profile_url || "/avatar.jpeg"}
                     color={color}
+                    level={item.level}
                   />
                 </div>
               );

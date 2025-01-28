@@ -362,7 +362,7 @@ function Verification() {
                 <>
                   <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" /><p className=" -mt-6 text-sm sm:text-lg text-center text-[#989898] ">
                 If you don't get the code, resend it after{" "}
-                    <span className="text-[#C2A171] font-semibold">{counter}</span>
+                    <span className="text-[#C2A171] font-semibold">{counter}s</span>
               </p>
                 </>
              

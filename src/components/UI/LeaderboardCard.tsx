@@ -10,7 +10,23 @@ const LeaderboardCard = ({
   weekly_check_ins,
   avatar,
   color,
+  level
 }: any) => {
+  console.log(level,"Level")
+  const levelImages = {
+    1: "/medal.png",
+    2: "/Novice.png",
+    3: "/Adept.png",
+    4: "/Challenger.png",
+    5: "/Prodigy.png",
+    6: "/Expert.png",
+    7: "/Veteran.png",
+    8: "/master.png",
+    9: "/Elite.png",
+    10: "/Ascendent.png",
+    default: "/medal.png",
+  };
+  // level
   return (
     <div
       className={`rounded-2xl overflow-hidden p-[1px] ${color.card1} text-white min-w-[300px]`}
@@ -24,7 +40,12 @@ const LeaderboardCard = ({
               <span className="text-sm self-center bg-[#1919194D] rounded-full px-4 py-1 ml-4 font-normal">
                 position
               </span>
+              <img
+                src={levelImages[level]} // Provide a default image if not available
+                className="h-6 w-6 "
+              />
             </h1>
+
 
             {/* User Details */}
 

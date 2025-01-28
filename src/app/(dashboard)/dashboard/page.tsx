@@ -133,25 +133,25 @@ const DashboardPage = () => {
           {/* <SidebarLoading/> */}
           {dashboardData
             ? dashboardData?.stats.map((data: any, index) => (
-                <div className="flex-1" key={index}>
-                  <DashboardCard
-                    title={data?.name}
-                    time={data?.minutes}
-                    points={data.points}
-                    progressWidth={data.points}
-                  />
-                </div>
-              ))
+              <div className="flex-1" key={index}>
+                <DashboardCard
+                  title={data?.name}
+                  time={data?.minutes}
+                  points={data.points}
+                  progressWidth={data.points}
+                />
+              </div>
+            ))
             : // Render loading skeletons while stats are loading
-              Array.from({ length: 4 }).map((_, index) => (
-                <div className="flex-1" key={index}>
-                  <Skeleton
-                    height={150}
-                    baseColor="#2f2f2f"
-                    highlightColor="#3c3c3c"
-                  />
-                </div>
-              ))}
+            Array.from({ length: 4 }).map((_, index) => (
+              <div className="flex-1" key={index}>
+                <Skeleton
+                  height={150}
+                  baseColor="#2f2f2f"
+                  highlightColor="#3c3c3c"
+                />
+              </div>
+            ))}
         </div>
       </div>
 
@@ -174,36 +174,37 @@ const DashboardPage = () => {
         <div className="flex flex-wrap gap-4 w-full grow">
           {dashboardData
             ? dashboardData?.leaderboardUsers.map((item: any, index) => {
-                const color = leaderboardData[index]?.color; // Get color based on index
-                const total_check_ins = leaderboardData[index]?.total_check_ins || "1988 / 2000";
-                const total_weekly_check_ins =
-                  leaderboardData[index]?.total_weekly_check_ins || "89 / 100";
-                return (
-                  <div className="flex-1" key={index}>
-                    <LeaderboardCard
-                      position={item.rank}
-                      username={item.user_name || "unknown"}
-                      color={color}
-                      points={item.points}
-                      daily_check_ins={item.total_check_ins || 0}
-                      weekly_check_ins={item.total_weekly_check_ins || 0}
-                      avatar={
-                        item.profile_url || "https://via.placeholder.com/100"
-                      }
-                    />
-                  </div>
-                );
-              })
-            : // Render loading skeletons while leaderboard data is loading
-              Array.from({ length: 3 }).map((_, index) => (
+              const color = leaderboardData[index]?.color; // Get color based on index
+              const total_check_ins = leaderboardData[index]?.total_check_ins || "1988 / 2000";
+              const total_weekly_check_ins =
+                leaderboardData[index]?.total_weekly_check_ins || "89 / 100";
+              return (
                 <div className="flex-1" key={index}>
-                  <Skeleton
-                    height={150}
-                    baseColor="#2f2f2f"
-                    highlightColor="#3c3c3c"
+                  <LeaderboardCard
+                    position={item.rank}
+                    username={item.user_name || "unknown"}
+                    color={color}
+                    points={item.points}
+                    daily_check_ins={item.total_check_ins || 0}
+                    weekly_check_ins={item.total_weekly_check_ins || 0}
+                    avatar={
+                      item.profile_url || "https://via.placeholder.com/100"
+                    }
+                    level={item.level}
                   />
                 </div>
-              ))}
+              );
+            })
+            : // Render loading skeletons while leaderboard data is loading
+            Array.from({ length: 3 }).map((_, index) => (
+              <div className="flex-1" key={index}>
+                <Skeleton
+                  height={150}
+                  baseColor="#2f2f2f"
+                  highlightColor="#3c3c3c"
+                />
+              </div>
+            ))}
         </div>
       </div>
     </div>
