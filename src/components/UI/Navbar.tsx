@@ -17,12 +17,9 @@ const TitleSection = () => {
   const posts = useSelector((state: any) => state.postSlice.posts);
   const pathname = usePathname();
 
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-
-    
 
   return (
     <div className="flex flex-col justify-between min-w-[300px] w-full mx-auto lg:w-2/3 mr-8 h-full">
@@ -34,36 +31,37 @@ const TitleSection = () => {
               {navdetails.description}
             </p>
           </div>
-          {pathname === "/community" && posts?.length > 0 && (
-            <UploadPostHandel />
-          )}
-          <div className="relative">
-      {/* SVG Icon */}
+          <div className="flex items-center justify-center ">
+            {pathname === "/community" && posts?.length > 0 && (
+              <UploadPostHandel />
+            )}
+            <div className="ml-3 relative">
+              {/* SVG Icon */}
 
-         <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth="1.5"
-        stroke="currentColor"
-        className="size-6 lg:hidden cursor-pointer"
-        onClick={toggleSidebar} // Toggle the sidebar visibility
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3.75 9h16.5m-16.5 6.75h16.5"
-        />
-      </svg>
-    
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-8 lg:hidden cursor-pointer"
+                onClick={toggleSidebar} // Toggle the sidebar visibility
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 9h16.5m-16.5 6.75h16.5"
+                />
+              </svg>
 
-      {/* Sidebar */}
-      {isSidebarOpen && (
-        <div className="fixed top-0 left-0 w-64 h-full lg:hidden  z-50">
-          <SmallSideBar/>
-         </div>
-      )}
-    </div>
+              {/* Sidebar */}
+              {isSidebarOpen && (
+                <div className="fixed top-0 left-0 w-64 h-full lg:hidden  z-50">
+                  <SmallSideBar />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +86,9 @@ const ActionsSection = () => {
     dispatch(profileActions.setNewNotification({ data: false }));
   };
 
-  const notificationLogo = useSelector((state:any) => state.profileSlice.newNotification);
+  const notificationLogo = useSelector(
+    (state: any) => state.profileSlice.newNotification
+  );
 
   const searchBarRef = useRef<HTMLDivElement>(null);
 
@@ -135,15 +135,15 @@ const ActionsSection = () => {
       //   !dropdownRef.current.contains(event.target as Node)
       // ) {
       //   setIsDropdownOpen(false);
-      // } 
-      
+      // }
+
       if (
         searchBarRef.current &&
         !searchBarRef.current.contains(event.target as Node)
       ) {
         setIsSearchBarVisible(false);
-      } 
-      
+      }
+
       if (
         notificationRef.current &&
         !notificationRef.current.contains(event.target as Node)
@@ -245,19 +245,15 @@ const ActionsSection = () => {
               className="h-10 w-10 bg-gray-800 flex items-center justify-center rounded-xl"
               onClick={toggleNotificationDropdown}
             >
-              {
-                notificationLogo ? (
-
-                  <img
-                    src="/notification.svg"
-                    alt="Notification Icon"
-                    className="w-4 h-4 md:w-6 md:h-6"
-                  />
-                ):(
-                  <FaRegBell className="w-4 h-4 md:w-6 md:h-6" />
-
-                )
-              }
+              {notificationLogo ? (
+                <img
+                  src="/notification.svg"
+                  alt="Notification Icon"
+                  className="w-4 h-4 md:w-6 md:h-6"
+                />
+              ) : (
+                <FaRegBell className="w-4 h-4 md:w-6 md:h-6" />
+              )}
             </button>
           </div>
           {isNotificationOpen && <NotificationDropdown />}
@@ -296,12 +292,12 @@ const ActionsSection = () => {
               <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-400 rounded-full border-2 border-white"></span>
             </div>
           </div>
-        {/* Render the DropdownMenu component conditionally and this will close when click outside */}
-        {isDropdownOpen && (
-          <div className="">
-            <DropdownMenu setIsOpen={setIsDropdownOpen}/>
-          </div>
-        )}
+          {/* Render the DropdownMenu component conditionally and this will close when click outside */}
+          {isDropdownOpen && (
+            <div className="">
+              <DropdownMenu setIsOpen={setIsDropdownOpen} />
+            </div>
+          )}
         </div>
       </div>
     </div>

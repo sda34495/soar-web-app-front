@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <>
       <MainLayout>
-        <div className="mx-auto md:mx-0 max-w-[330px] sm:max-w-[500px] md:max-w-[745px] lg:max-w-full">{children}</div>
+        <div className="mx-auto md:mx-0 max-w-[430px] sm:max-w-[500px] md:max-w-[745px] lg:max-w-full">{children}</div>
       </MainLayout>
     </>
   );

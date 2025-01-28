@@ -11,25 +11,25 @@ const SettingPage = () => {
   useSidebarLoading();
   return (
     <div className="mb-5">
-      <div className="space-x-4 mb-6">
+      <div className=" mb-6">
         <button
           
           onClick={() => setActiveTab("general")}
-          className={`w-[160px]  bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[18px]   rounded-full p-3 mt-8 ${activeTab === "general" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
+          className={`w-[120px] md:w-[160px] mr-4 bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[13px] md:text-[18px]   rounded-full p-3 mt-8 ${activeTab === "general" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
         >
           General profile
         </button>
         <button
          
           onClick={() => setActiveTab("notification")}
-          className={`w-[160px]  bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[18px]   rounded-full p-3 mt-8 ${activeTab === "notification" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
+          className={`w-[120px] md:w-[160px] mr-4 bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[13px] md:text-[18px]   rounded-full p-3 mt-8 ${activeTab === "notification" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
         >
           Notification
         </button>
         <button
           
           onClick={() => setActiveTab("password")}
-          className={`w-[180px]  bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020] text-[18px]  rounded-full p-3 mt-8 ${activeTab === "password" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
+          className={` w-[140px] md:w-[180px] mr-4 bg-[#202020] hover:bg-[#EFEFEF] hover:text-[#202020]  text-[13px] md:text-[18px] rounded-full p-3 mt-8 ${activeTab === "password" ? "bg-[#EFEFEF] text-[#202020] font-bold" : "text-[#989898] font-normal "}`}
         >
           Password security
         </button>

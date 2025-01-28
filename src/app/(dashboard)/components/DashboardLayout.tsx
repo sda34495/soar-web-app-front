@@ -8,9 +8,8 @@ import Link from "next/link";
 import useSocket from "@/Hook/usesocket";
 
 const MainContent = ({ children }: any) => {
-  useSocket()
+  useSocket();
   const userData = useSelector((state: any) => state.profileSlice.user);
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -18,6 +17,11 @@ const MainContent = ({ children }: any) => {
       window.location.href = "/auth/login";
     }
   }, []);
+
+  const logout = () => {
+    localStorage.clear(); // Delete the token to log out the user
+    window.location.href = "/auth/login"; // Redirect to the login page
+  };
 
   const isSubscribed = userData?.is_subscribed;
 
@@ -47,19 +51,28 @@ const MainContent = ({ children }: any) => {
 
       {/* Blurry Overlay for Unsubscribed Users */}
       {userData.is_subscribed == false && (
-        <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="text-center text-white px-6 py-4 bg-gray-900 bg-opacity-80 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-2">Subscription Required</h2>
-            <p className="mb-4">
-              You need to subscribe to continue using this program.
-            </p>
-
-            <Link
-              href="/onboard/package"
-              className="px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-600"
-            >
-              Subscribe Now
-            </Link>
+        <div className="absolute inset-0 bg-black bg-opacity-70 z-50">
+          <div className=" flex items-center justify-center h-screen">
+            <div className="text-center text-white px-6 py-4 bg-gray-900 bg-opacity-80 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-2">Subscription Required</h2>
+              <p className="mb-4">
+                You need to subscribe to continue using this program.
+              </p>
+              <div className="space-x-2">
+                <Link
+                  href="/onboard/package"
+                  className="px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-600"
+                >
+                  Subscribe Now
+                </Link>
+                <button
+                  className="px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-600"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
