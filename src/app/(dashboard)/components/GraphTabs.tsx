@@ -12,7 +12,7 @@ function GraphTabs({ updateActivityType }) {
   return (
     <div className="">
 
-<div className="bg-red- mb-5 justify-between space-y-4 sm:space-x-4 sm:space-y-0">
+<div className="mb-5 justify-between space-y-4 md:space-x-4 sm:space-y-4 ">
 <TabButton
         label="Fitness"
         icon={  <svg

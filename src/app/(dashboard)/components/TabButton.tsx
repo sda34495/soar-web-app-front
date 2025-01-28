@@ -4,7 +4,7 @@ const TabButton = ({ label, icon, isActive, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`w-full sm:w-[150px] text-[#989898] bg-[#262626] cursor-pointer hover:bg-[#EFEFEF] hover:text-[#202020] rounded-full px-3 py-2 ${
+      className={`w-full md:w-[150px] text-[#989898] bg-[#262626] cursor-pointer hover:bg-[#EFEFEF] hover:text-[#202020] rounded-full px-3 py-2 ${
         isActive ? "bg-[#EFEFEF] font-bold text-black" : ""
       }`}
     >
