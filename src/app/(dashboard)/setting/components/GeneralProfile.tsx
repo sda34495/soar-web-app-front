@@ -85,6 +85,8 @@ const GeneralProfile = () => {
       setImageUrl(URL.createObjectURL(file)); // Display the selected image
     }
   };
+
+  
   if (loading) {
     return <p>Loading...</p>;
   }

@@ -88,22 +88,22 @@ const SobrietyCard = ({
 
   return (
     <div
-      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ${
+      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md space-x-2  rounded-2xl ${
         isProcessing ? "cursor-not-allowed blur-sm" : ""
       }`}
     >
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">
+          <h2 className="text-sm md:text-lg font-bold">
           No Alcohol / Substance Check-ins{" "}
           <span className="text-yellow-500"> ({goal})</span> </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-          <div className={hideText ? "hidden" : ""}>
-              <span className={"font-semibold" + progressColor}>{text}</span>
+          <div className={`hidden md:block ${hideText ? "hidden" : ""}`}>
+              <span className={"font-semibold  text-red-500 "}>{text}</span>
             </div>
             <div className="flex items-center">
-              <div className="h-2 w-[250px] bg-gray-700 rounded-full relative">
+              <div className="h-2 w-[120px] sm:w-[200px] md:w-[250px] bg-gray-700 rounded-full relative">
                 <div
                   className={"h-full rounded-full " + progressColor}
                   style={{ width: `${progress}%` }}
@@ -144,11 +144,11 @@ const SobrietyCard = ({
                   </svg>
                 </span>
               </label>
-              <span className=" text-gray-400 font-extrabold text-2xl">No-substance (morning)</span>
+              <span className=" text-gray-400 font-extrabold text-sm sm:text-lg lg:text-2xl">No-substance (morning)</span>
             </div>
-            <div className="flex space-x-28 text-gray-400 ">
+            <div className="flex space-x-3 sm:space-x-8 md:space-x-28 ml-4 sm:ml-0  text-gray-400 ">
               <span className="w-20">{todayDate}</span>
-              <span className="w-20">No-sub</span>
+              <span className="w-20 hidden lg:block">No-sub</span>
               <span className="w-20">1/2 day</span>
             </div>
           </div>
@@ -181,11 +181,11 @@ const SobrietyCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 font-extrabold text-2xl">No-substance (evening)</span>
+              <span className="text-gray-400 font-extrabold text-sm sm:text-lg lg:text-2xl">No-substance (evening)</span>
             </div>
-            <div className="flex space-x-28 text-gray-400">
+            <div className="flex space-x-3 sm:space-x-8 md:space-x-28 ml-4 sm:ml-0  text-gray-400">
               <span className="w-20">{todayDate}</span>
-              <span className="w-20">No-sub</span>
+              <span className="w-20 hidden lg:block">No-sub</span>
               <span className="w-20">1/2 day</span>
             </div>
           </div>
