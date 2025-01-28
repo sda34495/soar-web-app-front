@@ -161,7 +161,7 @@ const PostCard = () => {
   return (
     <div className="flex flex-col p-6 space-y-8 w-auto">
       {posts.map((post: any) => (
-        <div key={post._id} className="flex flex-col md:flex-row bg-[#121212]  text-white rounded-lg">
+        <div key={post._id} className="flex flex-col md:flex-row md:bg-transparent  bg-[#121212]    text-white rounded-lg">
         
           <div className="flex flex-col bg-[#121212] p-6 shadow-lg rounded-l-lg max-w-[660px] w-full">
             <div className="flex items-start justify-between mb-4 max-w-[660px] w-full">
