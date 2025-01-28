@@ -10,7 +10,7 @@ const FinanceCard = ({
   fetchCheckInDetails,
 }: any) => {
   const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
-  const [hideText , setHideText] = useState(false)
+  const [hideText, setHideText] = useState(false);
 
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -73,38 +73,37 @@ const FinanceCard = ({
 
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
-  const progressColor ="bg-green-500 text-red-500 ";
+  const progressColor = "bg-green-500 text-red-500 ";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
       : "Hurray! You're making progress";
 
-
-
-   useEffect(() => {
-          if (checkInStatus.evening === true && checkInStatus.morning === true) {
-            setHideText(true);
-          } 
-        }, [checkInStatus]);
+  useEffect(() => {
+    if (checkInStatus.evening === true && checkInStatus.morning === true) {
+      setHideText(true);
+    }
+  }, [checkInStatus]);
 
   return (
     <div
-      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md  rounded-2xl ${
+      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md space-x-2  rounded-2xl ${
         isProcessing ? "cursor-not-allowed blur-sm" : ""
       }`}
     >
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
-          <h2 className="text-lg font-bold">Finance Check-ins{" "}
-          <span className="text-yellow-500"> ({goal})</span> </h2>
+          <h2 className="text-sm md:text-lg font-bold">
+            Finance Check-ins <span className="text-yellow-500"> ({goal})</span>{" "}
+          </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-          <div className={hideText ? "hidden" : ""}>
-              <span className={"font-semibold" + progressColor}>{text}</span>
+            <div className={hideText ? "hidden" : ""}>
+              <span className={"font-semibold hidden sm:block" + progressColor}>{text}</span>
             </div>
-            
+
             <div className="flex  items-center">
-              <div className="h-2 w-[250px] bg-gray-700 rounded-full relative">
+              <div className="h-2 w-[120px] sm:w-[200px] md:w-[250px] bg-gray-700 rounded-full relative">
                 <div
                   className={"h-full rounded-full " + progressColor}
                   style={{ width: `${progress}%` }}
@@ -145,11 +144,13 @@ const FinanceCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 font-extrabold text-2xl">Finance (morning)</span>
+              <span className="text-gray-400 font-extrabold text-sm sm:text-lg lg:text-2xl">
+                Finance (morning)
+              </span>
             </div>
-            <div className="flex space-x-28 text-gray-400">
+            <div className="flex space-x-3 sm:space-x-8 md:space-x-28 ml-4 sm:ml-0 text-gray-400">
               <span className="w-20">{todayDate}</span>
-              <span className="w-20">Finance</span>
+              <span className="w-20 hidden lg:block">Finance</span>
               <span className="w-20">10 minutes</span>
             </div>
           </div>
@@ -182,11 +183,13 @@ const FinanceCard = ({
                   </svg>
                 </span>
               </label>
-              <span className="text-gray-400 font-extrabold text-2xl">Finance (evening)</span>
+              <span className="text-gray-400 font-extrabold text-sm sm:text-lg lg:text-2xl">
+                Finance (evening)
+              </span>
             </div>
-            <div className="flex space-x-28 text-gray-400">
+            <div className="flex space-x-3 sm:space-x-8 md:space-x-28 ml-4 sm:ml-0  text-gray-400">
               <span className="w-20">{todayDate}</span>
-              <span className="w-20">Finance</span>
+              <span className="w-20 hidden lg:block">Finance</span>
               <span className="w-20">10 minutes</span>
             </div>
           </div>

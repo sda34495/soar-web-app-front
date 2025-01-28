@@ -97,13 +97,9 @@ const FitnessCard = ({
             Fitness Check-ins <span className="text-yellow-500"> ({goal})</span>{" "}
           </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-            <span
-              className={` hidden sm:block  font-semibold ${
-                hideText && "hidden"
-              }  ${progressColor}`}
-            >
-              {text}
-            </span>
+          <div className={hideText ? "hidden" : ""}>
+              <span className={"font-semibold hidden sm:block" + progressColor}>{text}</span>
+            </div>
             <div className="flex items-center">
               <div className="h-2 w-[120px] sm:w-[200px] md:w-[250px] bg-gray-700 rounded-full relative">
                 <div
