@@ -108,10 +108,10 @@ const UploadPostHandel = ({ nav = true }) => {
       ) : (
         <button
           onClick={() => setIsModalOpen(true)}
-          className="cursor-pointer space-y-2 items-center justify-center bg-white text-black font-extrabold text-xl  border p-2  rounded-2xl "
+          className="cursor-pointer space-y-2 items-center justify-center md:bg-white text-black font-extrabold text-xl  border p-2 my-1  rounded-2xl "
         >
-          {/* <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} /> */}
-          <h3>Create Post</h3>
+          <Image className="block md:hidden" src="/plus.svg" alt="plus" width={30} height={30} />
+          <h3 className="hidden pb-2 md:block">Create Post</h3>
         </button>
       )}
 

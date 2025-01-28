@@ -39,7 +39,7 @@ const ShareModal: React.FC<ModalProps> = ({
           isOpen ? "flex" : "hidden"
         } overflow-y-auto overflow-x-hidden fixed inset-0 flex items-center justify-center z-50 w-full h-screen bg-gray-700 bg-opacity-50 backdrop-blur-sm`}
       >
-        <div className="relative p-4 w-full max-w-lg h-full md:h-auto mx-4 my-auto">
+        <div className="relative p-4 w-full max-w-lg  md:h-auto mx-4 my-auto   ">
           <div className="relative p-4 bg-[#202020] rounded-3xl shadow-md md:p-8 border border-[#7c7c7c]">
             <div className="mb- text-sm font-light">
               <img src={image_url} alt="" className="h-16 mx-auto" />
