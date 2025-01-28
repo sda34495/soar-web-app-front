@@ -23,10 +23,17 @@ const UploadPostHandel = ({ nav = true }) => {
 
   const dispatch = useDispatch();
   const [imageUrl, setImageUrl] = useState("");
+  
   // Handle Image Upload
   const handleImageChange = (event: any) => {
     const file = event.target?.files[0];
+  
     if (file) {
+      if (file.size > 1 * 1024 * 1024) { // 1 MB = 1024 * 1024 bytes
+        toast.error("Image size should be less than 1MB.");
+        return;
+      }
+  
       setSelectedImage(file);
       setImageUrl(URL.createObjectURL(file));
     }
