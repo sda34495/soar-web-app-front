@@ -73,8 +73,7 @@ const FinanceCard = ({
 
   const progress = parseFloat(checkInStatus?.progress.toFixed(1) || 0);
 
-  const progressColor =
-    progress < 50 ? "bg-red-600 text-red-600" : "bg-green-500 text-green-500";
+  const progressColor ="bg-green-500 text-green-500";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"

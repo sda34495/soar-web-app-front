@@ -74,8 +74,7 @@ const SobrietyCard = ({
 
   const progress = parseFloat(checkInStatus.progress.toFixed(1) || 0);
 
-  const progressColor =
-    progress < 50 ? "bg-red-600 text-red-600" : "bg-white text-white";
+  const progressColor = "bg-white text-white";
   const text =
     progress < 50
       ? "Hey! You’re leaving things behind"
