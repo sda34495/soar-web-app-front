@@ -17,32 +17,31 @@ const FitnessCard = ({
     timeOfDay: "morning" | "evening"
   ) => {
     const checked = event.target.checked;
-
-    // Prevent any further clicks if processing
+  
     if (isProcessing) return;
-
-    setIsProcessing(true); // Set processing state to true
-
-    // Show the loading toast
+    setIsProcessing(true);
+  
     const loadingToast = toast.loading("Updating...");
-
-    // Update only the 'fitness' part of the checkInStatus state
+  
     setCheckInStatus((prevStatus) => ({
       ...prevStatus,
       fitness: {
         ...prevStatus.fitness,
-        [timeOfDay]: !checked, // Dynamically update morning or evening
+        [timeOfDay]: !checked,
       },
     }));
-
+  
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's timezone
+  
     const data = {
       activity_type: "fitness",
       time_of_day: timeOfDay,
+      timezone: timezone, // Send timezone in API request
     };
-
+  
     try {
       const response = await post(endpoints.POST_CHECK_IN_DATA, data);
-
+  
       if (response?.data?.success) {
         fetchCheckInDetails();
         toast.success("Fitness Check-ins updated successfully", {
@@ -54,12 +53,12 @@ const FitnessCard = ({
         id: loadingToast,
       });
     } finally {
-      // Wait 2-3 seconds before re-enabling clicks
       setTimeout(() => {
-        setIsProcessing(false); // Reset processing state
-      }, 2000); // 2000ms (2 seconds) delay
+        setIsProcessing(false);
+      }, 2000);
     }
   };
+  
 
   const getFormattedDate = () => {
     const today = new Date();

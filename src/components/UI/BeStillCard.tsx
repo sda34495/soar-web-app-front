@@ -10,7 +10,7 @@ const BeStillCard = ({
   fetchCheckInDetails,
 }: any) => {
   const [isProcessing, setIsProcessing] = useState(false); // State to track loading status
-  const [hideText , setHideText] = useState(false)
+  const [hideText, setHideText] = useState(false)
   const handleCheckboxChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
     timeOfDay: "morning" | "evening"
@@ -33,10 +33,12 @@ const BeStillCard = ({
       },
     }));
 
-    // Prepare the request data
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's timezone
+
     const data = {
       activity_type: "praying",
       time_of_day: timeOfDay,
+      timezone: timezone, // Send timezone in API request
     };
 
     try {
@@ -77,27 +79,26 @@ const BeStillCard = ({
       ? "Hey! You’re leaving things behind"
       : "Hurray! You're making progress";
 
-      useEffect(() => {
-        if (checkInStatus.evening === true && checkInStatus.morning === true) {
-          setHideText(true);
-        } 
-      }, [checkInStatus]);
+  useEffect(() => {
+    if (checkInStatus.evening === true && checkInStatus.morning === true) {
+      setHideText(true);
+    }
+  }, [checkInStatus]);
 
   return (
     <div
-      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md space-x-2  rounded-2xl ${
-        isProcessing ? "cursor-not-allowed blur-sm" : ""
-      }`}
+      className={`bg-gradient-to-b from-[#454545] to-[#3c3c3c] p-[1px] text-white shadow-md space-x-2  rounded-2xl ${isProcessing ? "cursor-not-allowed blur-sm" : ""
+        }`}
     >
       <div className="bg-[#121212] text-white rounded-2xl shadow-md p-6 space-y-4 ">
         {/* Header Section */}
         <div className="flex justify-between items-center ">
           <h2 className="text-sm md:text-lg font-bold">Be Still Check-ins{" "}
-          <span className="text-yellow-500"> ({goal})</span>
+            <span className="text-yellow-500"> ({goal})</span>
           </h2>
           <div className="flex flex-col lg:flex-row items-center space-x-2">
-          <div className={`hidden md:block ${hideText ? "hidden" : ""}`}>
-              <span className={"font-semibold  text-red-500 " }>{text}</span>
+            <div className={`hidden md:block ${hideText ? "hidden" : ""}`}>
+              <span className={"font-semibold  text-red-500 "}>{text}</span>
             </div>
             <div className="flex items-center">
               <div className="h-2 w-[120px] sm:w-[200px] md:w-[250px] bg-gray-700 rounded-full relative">

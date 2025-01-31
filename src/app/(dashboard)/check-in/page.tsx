@@ -40,7 +40,8 @@ const CheckInPage = () => {
 
   const fetchCheckInDetails = async () => {
     try {
-      const response = await getData(endpoints.GET_CHECK_IN_DATA);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's timezone
+      const response = await getData(`${endpoints.GET_CHECK_IN_DATA}?timezone=${timezone}`);
       if (response.data?.success) {
         const checkInDetails = response.data?.data;
         setCheckInStatus(checkInDetails);
@@ -108,7 +109,7 @@ const CheckInPage = () => {
             setCheckInStatus={setCheckInStatus}
             fetchCheckInDetails={fetchCheckInDetails}
             goal={checkInStatus?.goals.fitness} // Pass the goal from response            
-            />
+          />
 
           <FinanceCard
             checkInStatus={checkInStatus?.check_in_details.finance}
