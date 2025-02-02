@@ -7,6 +7,7 @@ import CenterImageModal from "./UI/CenterImageModal";
 import { getData } from "@/utils/axios";
 import endpoints from "@/utils/endpoints";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 // Load Stripe with your publishable key
 const stripekey = process.env.NEXT_PUBLIC_STRIPE_KEY
@@ -67,68 +68,55 @@ export const StripePaymentModal: React.FC<{
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleSubscription = async () => {
     setLoading(true);
-    setError("");
     try {
       const { data: result } = await getData(endpoint);
-
-
       const clientSecret = result.data.clientSecret;
 
       if (!stripe || !elements) {
+        toast.error("Stripe is not loaded properly.");
         setLoading(false);
-        setError("Stripe is not loaded properly.");
         return;
       }
 
-      // 2. Get individual card elements
       const cardNumberElement = elements.getElement(CardNumberElement);
       const cardExpiryElement = elements.getElement(CardExpiryElement);
       const cardCvcElement = elements.getElement(CardCvcElement);
 
       if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
+        toast.error("One or more card elements are not loaded.");
         setLoading(false);
-        setError("One or more card elements are not loaded.");
         return;
       }
 
-      // 3. Confirm the card setup
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardNumberElement,
-        },
+        payment_method: { card: cardNumberElement },
       });
 
       if (error) {
-        setError(error.message || "Card setup confirmation failed.");
+        toast.error(error.message || "Card setup confirmation failed.");
         setLoading(false);
         return;
       }
 
       if (paymentIntent?.status === "succeeded") {
-
         onPaymentSuccess();
+        onClose(); // Close modal on successful payment
       } else {
-        setError("Card setup was not completed successfully.");
+        toast.error("Card setup was not completed successfully.");
       }
-
     } catch (err: any) {
-      setError(err?.response?.data?.message || "An error occurred.");
+      toast.error(err?.response?.data?.message || "An error occurred.");
     } finally {
-      onClose();
       setLoading(false);
     }
   };
 
-
   return (
-
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#202020] text-white rounded-3xl border border-zinc-700 max-w-md w-full p-6 relative">
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-semibold">Process Payment</h2>
           <button onClick={onClose} className="text-white text-2xl">&times;</button>
@@ -144,11 +132,7 @@ export const StripePaymentModal: React.FC<{
                 id="card-number"
                 options={{
                   style: {
-                    base: {
-                      color: "#fff",
-                      fontSize: "16px",
-                      "::placeholder": { color: "#7c7c7c" },
-                    },
+                    base: { color: "#fff", fontSize: "16px", "::placeholder": { color: "#7c7c7c" } },
                     invalid: { color: "#fa755a" },
                   },
                 }}
@@ -163,11 +147,7 @@ export const StripePaymentModal: React.FC<{
                   id="card-expiry"
                   options={{
                     style: {
-                      base: {
-                        color: "#fff",
-                        fontSize: "16px",
-                        "::placeholder": { color: "#7c7c7c" },
-                      },
+                      base: { color: "#fff", fontSize: "16px", "::placeholder": { color: "#7c7c7c" } },
                       invalid: { color: "#fa755a" },
                     },
                   }}
@@ -181,11 +161,7 @@ export const StripePaymentModal: React.FC<{
                   id="card-cvc"
                   options={{
                     style: {
-                      base: {
-                        color: "#fff",
-                        fontSize: "16px",
-                        "::placeholder": { color: "#7c7c7c" },
-                      },
+                      base: { color: "#fff", fontSize: "16px", "::placeholder": { color: "#7c7c7c" } },
                       invalid: { color: "#fa755a" },
                     },
                   }}
@@ -197,10 +173,7 @@ export const StripePaymentModal: React.FC<{
 
         {/* Footer */}
         <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <button
-            className="px-10 w-full py-1 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
-            onClick={onClose}
-          >
+          <button className="px-10 w-full py-1 text-white font-semibold rounded-full border-2 border-[#7c7c7c]" onClick={onClose}>
             Cancel
           </button>
           <button
@@ -211,7 +184,6 @@ export const StripePaymentModal: React.FC<{
             {loading ? "Processing..." : "Subscribe"}
           </button>
         </div>
-        {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
       </div>
     </div>
   );
