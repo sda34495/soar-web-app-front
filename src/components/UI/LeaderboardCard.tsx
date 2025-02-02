@@ -26,7 +26,7 @@ const LeaderboardCard = ({
     10: "/Ascendent.png",
     default: "/medal.png",
   };
-  // level
+
   return (
     <div
       className={`rounded-2xl overflow-hidden p-[1px] ${color.card1} text-white min-w-[300px]`}

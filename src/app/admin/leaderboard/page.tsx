@@ -28,6 +28,7 @@ const LeaderboardPage = () => {
           weekly_check_ins: entry.total_weekly_check_ins || 0,
           avatar: "/avatar.jpeg", // Add logic for dynamic avatar if available
           color: getCardColor(entry.rank), // Use rank to determine the color
+          level: entry.level,
         }));
 
         // Filter only the top 3 ranks

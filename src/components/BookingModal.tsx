@@ -69,7 +69,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required.";
-    } 
+    }
     // else if (formData.phone.length !== 11) {
     //   newErrors.phone = "Phone number must be exactly 11 digits.";
     // }
@@ -87,7 +87,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
     }
     setLoading(true);
     setError(null); // Clear previous errors
-    
+
 
     const payload = {
       first_name: formData.firstName,
@@ -108,7 +108,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
           setShowSecondModal(true); // Open the success modal after a short delay
         }, 500);
 
-        
+
       } else {
         // Handle failure (show error)
         setError("Booking failed. Please try again.");
@@ -125,12 +125,12 @@ const BookingModal: React.FC<BookingModalProps> = ({
         phone: "",
         consultationReason: "",
       })
-      
+
     }
   };
 
   const handleNext = () => {
-   
+
 
     // Open the payment modal
     // setShowPaymentModal(true);
@@ -218,11 +218,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                     name="phone"
                     value={formData.phone}
                     onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value) && value.length <= 50) {
-                        // Allow only digits and max length of 15
-                        handleInputChange(e);
-                      }
+                      handleInputChange(e);
                     }}
                     // maxLength={15} // Set max digits allowed
                     className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
