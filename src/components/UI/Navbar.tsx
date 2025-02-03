@@ -189,7 +189,7 @@ const ActionsSection = () => {
 
         <div
           ref={searchBarRef}
-          className={`absolute top-0 right-full z-50 transition-all duration-300 ease-in-out ${
+          className={`absolute top-16 right-0.5 md:top-0 md:right-full z-50 transition-all duration-300 ease-in-out ${
             isSearchBarVisible
               ? "w-full opacity-100 scale-100"
               : "w-0 opacity-0 scale-95"
