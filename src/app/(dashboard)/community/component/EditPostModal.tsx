@@ -41,10 +41,16 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   // Handle Image Upload
   const handleImageChange = (event: any) => {
     const file = event.target?.files[0];
+  
     if (file) {
+      if (file.size > 1 * 1024 * 1024) { // 1 MB = 1024 * 1024 bytes
+        toast.error("Image size should be less than 1MB.");
+        return;
+      }
+  
       setSelectedImage(file);
       setImageUrl(URL.createObjectURL(file));
-    } 
+    }
     
   };
 
@@ -96,7 +102,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
     
     }
   };
-
+  
 
   const handleCloseModal = () => {
     setEditMode(false);
@@ -108,7 +114,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   };
 
   return (
-    <div>
+    <div >
       <PostModal
         title="Edit post"
         description="Enter your details for setting up your session"
@@ -150,7 +156,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
               <label
                 htmlFor="upload"
                 className={`" border-2  border-dashed border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
-                  imageUrl ? "w-96 h-64" : "w-36 h-16 p-1"
+                  imageUrl ? "md:w-96 md:h-64 w-[200px] h-64" : "w-36 h-16 p-1"
                 }`}
               >
                 {imageUrl ? (

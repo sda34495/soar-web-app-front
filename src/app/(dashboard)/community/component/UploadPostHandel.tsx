@@ -157,8 +157,8 @@ const UploadPostHandel = ({ nav = true }) => {
               {/* Upload Button */}
               <label
                 htmlFor="upload"
-                className={`" border-2  border-dashed border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
-                  selectedImage ? "w-96 h-64" : "w-36 h-16 p-1"
+                className={`" border-2  border-dashed object-cover border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
+                  selectedImage ? "md:w-96 h-64 w-[200px]   " : "w-36 h-16 p-1"
                 }`}
               >
                 {imageUrl ? (
