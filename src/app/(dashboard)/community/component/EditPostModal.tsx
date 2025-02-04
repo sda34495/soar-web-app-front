@@ -156,7 +156,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
               <label
                 htmlFor="upload"
                 className={`" border-2  border-dashed border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
-                  imageUrl ? "md:w-96 md:h-64 w-[200px] h-64" : "w-36 h-16 p-1"
+                  imageUrl ? "md:w-96 md:h-64 w-[200px] h-32" : "w-36 h-16 p-1"
                 }`}
               >
                 {imageUrl ? (
