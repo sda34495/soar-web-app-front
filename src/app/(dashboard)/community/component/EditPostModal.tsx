@@ -12,7 +12,7 @@
 
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostModal from "./PostModal";
 import { CiCirclePlus } from "react-icons/ci";
 import { getData, post, postImage } from "@/utils/axios";
@@ -44,7 +44,8 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
     if (file) {
       setSelectedImage(file);
       setImageUrl(URL.createObjectURL(file));
-    }
+    } 
+    
   };
 
   const fetchPosts = async () => {
@@ -91,12 +92,19 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
       setLoading(false);
       handleCloseModal();
       editOpen(false);
+      
+    
     }
   };
+
 
   const handleCloseModal = () => {
     setEditMode(false);
     setSelectedImage(null);
+    // setImageUrl("");
+  
+    
+    
   };
 
   return (

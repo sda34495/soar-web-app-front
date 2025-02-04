@@ -109,7 +109,7 @@ const UploadPostHandel = ({ nav = true }) => {
 
           <h3>Create the post</h3>
           <p className="text-xs text-[#BDBDBD]">
-            For showing your success and watching other growing
+          To showcase your success and watch others grow.
           </p>
         </button>
       ) : (

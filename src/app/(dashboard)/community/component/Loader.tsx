@@ -58,7 +58,7 @@ const StaticPostCard = ({ isLoading }: { isLoading: boolean }) => {
 
           <div className="mt-4 items-center max-w-[640px] justify-center mx-auto px-4 bg-slate-400 w-full rounded-xl">
             {isLoading ? (
-              <Skeleton width={200}  baseColor="#3d3d3d" highlightColor="#555" className=" h-[400px] mb-2 w-full flex   rounded-md"  />
+              <Skeleton  baseColor="#3d3d3d" highlightColor="#555" className=" h-[400px] mb-2 md:w-full w-[200px] flex  rounded-md"  />
             ) : (
               <img
                 src="/placeholder-image.jpg" // Placeholder image
