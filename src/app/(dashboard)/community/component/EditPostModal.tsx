@@ -102,7 +102,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   return (
     <div>
       <PostModal
-        title="Create post"
+        title="Edit post"
         description="Enter your details for setting up your session"
         isOpen={editMode}
       >
