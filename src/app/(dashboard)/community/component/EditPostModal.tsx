@@ -12,7 +12,7 @@
 
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PostModal from "./PostModal";
 import { CiCirclePlus } from "react-icons/ci";
 import { getData, post, postImage } from "@/utils/axios";
@@ -36,6 +36,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   const [imageUrl, setImageUrl] = useState(
     postData.media ? postData.media : ""
   );
+  const fileInputRef = useRef(null);
   const dispatch = useDispatch();
 
   // Handle Image Upload
@@ -125,6 +126,14 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
     
     
   };
+  const clearImage = () => {
+    setSelectedImage(null);
+    setImageUrl("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the file input field
+    }
+  };
+
 
   return (
     <div >
@@ -188,6 +197,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
                 )}
               </label>
               <input
+                ref={fileInputRef}
                 id="upload"
                 type="file"
                 accept="image/*"
@@ -198,10 +208,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
               {/* Optional Clear Button */}
               {selectedImage && (
                 <button
-                  onClick={() => {
-                    setSelectedImage(null) 
-                    setImageUrl("")
-                  }}
+                  onClick={clearImage}
                   className="mt-1 text-sm text-red-500 hover:underline"
                 >
                   Remove Image
