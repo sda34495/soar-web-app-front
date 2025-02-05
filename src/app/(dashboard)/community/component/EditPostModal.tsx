@@ -102,12 +102,25 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
     
     }
   };
+  useEffect(() => {
+    if (editMode) {
+      setUpdatedPostData({
+        id: postData._id,
+        title: postData.header,
+        description: postData.description,
+        allowComments: postData.allow_comments,
+        media: postData.media,
+      });
+      setSelectedImage(null); // Reset image selection
+      setImageUrl(postData.media || ""); // Reset image URL to original data
+    }
+  }, [postData, editMode]);
   
 
   const handleCloseModal = () => {
     setEditMode(false);
     setSelectedImage(null);
-    // setImageUrl("");
+    setImageUrl("");
   
     
     
@@ -185,7 +198,10 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
               {/* Optional Clear Button */}
               {selectedImage && (
                 <button
-                  onClick={() => setSelectedImage(null)}
+                  onClick={() => {
+                    setSelectedImage(null) 
+                    setImageUrl("")
+                  }}
                   className="mt-1 text-sm text-red-500 hover:underline"
                 >
                   Remove Image
