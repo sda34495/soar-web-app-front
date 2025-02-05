@@ -197,7 +197,7 @@ const PostCard = () => {
                 <img
                   src={post.media}
                   alt="Post"
-                  className="rounded-xl w-[400px] h-[400px] object-cover items-center justify-center mx-auto"
+                  className="rounded-xl  w-[400px] h-[200px] md:h-[400px] object-cover items-center justify-center mx-auto"
                 />
               </div>
             )}
@@ -214,7 +214,7 @@ const PostCard = () => {
                 ) : (
                   <IoMdHeartEmpty className="mr-2 text-gray-400" />
                 )}
-                {post.likes.toLocaleString()} Likes
+                {post.likes.toLocaleString() } <span className="hidden md:block">Likes</span> 
               </button>
 
               <button
@@ -228,7 +228,7 @@ const PostCard = () => {
               >
                 <IoChatbubbleEllipsesOutline className="mr-2" />
                 {post.total_comments}{" "}
-                {post.total_comments >= 2 ? "Comments" : "Comment"}
+                <span className="hidden md:block">{post.total_comments >= 2 ? " Comments" : " Comment"}</span>
               </button>
 
               <button
@@ -236,7 +236,7 @@ const PostCard = () => {
                 onClick={() => openShareModal(post._id)}
               >
                 <RiShareLine className="mr-2" />
-                Share
+                <span className="hidden md:block">Share</span>
               </button>
             </div>
           </div>
