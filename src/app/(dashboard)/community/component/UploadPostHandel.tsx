@@ -187,7 +187,10 @@ const UploadPostHandel = ({ nav = true }) => {
               {/* Optional Clear Button */}
               {selectedImage && (
                 <button
-                  onClick={() => setSelectedImage(null)}
+                  onClick={() => {
+                    setSelectedImage(null)
+                    setImageUrl("");
+                  }}
                   className="mt-1 text-sm text-red-500 hover:underline"
                 >
                   Remove Image
