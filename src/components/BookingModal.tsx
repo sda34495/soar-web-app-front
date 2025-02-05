@@ -140,18 +140,10 @@ const BookingModal: React.FC<BookingModalProps> = ({
     <>
       {/* First Modal */}
       {isOpen && (
-       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center w-full mx-auto justify-center z-50">
+       <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center w-full mx-auto justify-center z-50">
        <div className="bg-[#202020] text-white rounded-3xl border border-zinc-700 max-w-md w-full sm:max-w-sm lg:max-w-md xl:max-w-lg p-6 relative">
          {/* Header */}
-         <div className="flex items-center justify-between mb-6">
-           <img src="/laptop.png" alt="Laptop" className="h-16" />
-           <span className="border-2 border-golden bg-golden/10 rounded-xl py-2 px-3 text-xl font-semibold">
-             Premium{" "}
-             <span className="text-2xl ml-1 font-Bricolage-Grotesque">
-               ${price}
-             </span>
-           </span>
-         </div>
+        
      
          {/* Title */}
          <h2 className="text-2xl font-semibold mb-2 font-Bricolage-Grotesque">
@@ -217,13 +209,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                  placeholder="(123) 456-7890"
                  name="phone"
                  value={formData.phone}
-                 onChange={(e) => {
-                   const value = e.target.value;
-                   if (/^\d*$/.test(value) && value.length <= 50) {
-                     // Allow only digits and max length of 15
-                     handleInputChange(e);
-                   }
-                 }}
+                 onChange={handleInputChange}
                  // maxLength={15} // Set max digits allowed
                  className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                />
