@@ -26,12 +26,14 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   // const [isModalOpen, setIsModalOpen] = useState(true);
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(false);
+  const [isMediaRemoved, setIsMediaRemoved] = useState(false);
   const [updatedpostData, setUpdatedPostData] = useState({
     id: postData._id,
     title: postData.header,
     description: postData.description,
     allowComments: postData.allow_comments,
     media: postData.media,
+    
   });
   const [imageUrl, setImageUrl] = useState(
     postData.media ? postData.media : ""
@@ -51,6 +53,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   
       setSelectedImage(file);
       setImageUrl(URL.createObjectURL(file));
+      setIsMediaRemoved(false);
     }
     
   };
@@ -77,9 +80,11 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
     formData.append("header", updatedpostData.title);
     formData.append("description", updatedpostData.description);
     formData.append("allow_comments", updatedpostData.allowComments.toString());
+    formData.append("is_media_removed", isMediaRemoved.toString());
     if (selectedImage) {
       formData.append("media", selectedImage);
     }
+    
     // for (const [key, value] of formData.entries()) {
     //   console.log(`${key}:`, value);
     // }
@@ -111,9 +116,11 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
         description: postData.description,
         allowComments: postData.allow_comments,
         media: postData.media,
+
       });
       setSelectedImage(null); // Reset image selection
-      setImageUrl(postData.media || ""); // Reset image URL to original data
+      setImageUrl(postData.media || "");
+      setIsMediaRemoved(false);// Reset image URL to original data
     }
   }, [postData, editMode]);
   
@@ -129,6 +136,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   const clearImage = () => {
     setSelectedImage(null);
     setImageUrl("");
+    setIsMediaRemoved(true);
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Reset the file input field
     }
