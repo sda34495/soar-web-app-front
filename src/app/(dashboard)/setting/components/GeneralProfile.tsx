@@ -116,7 +116,7 @@ const GeneralProfile = () => {
       }
     } catch (err) {
       console.error("Error updating profile:", err);
-      toast.error("username already taken");
+      toast.error(err);
     } finally {
       setLoading(false);
     }
