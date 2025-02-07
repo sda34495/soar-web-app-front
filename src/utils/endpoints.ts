@@ -1,45 +1,3 @@
-const LOGIN: string = "users/login";
-
-const REGISTER: string = "users/signup";
-
-const GET_CHECK_IN_DATA = "checkin/details";
-
-const GET_DASHBOARD_DATA = "dashboard/details";
-
-const FORGET_PASSWORD_REQUEST_OTP = "users/request-otp";
-
-const RESET_NEW_PASSWORD = "users/set-new-password";
-
-const OTP_VERIFY = "users/verify-otp";
-
-const Post_Check_IN_DATA = "checkin/add-remove-checkin";
-
-const Book_Coaching_Session = "sessions/book-coaching-session";
-
-const Post_Referal_Data = "referals/create";
-
-const Post_Support_Data = "support/create";
-
-
-// rizwan 
-
-
-
-
-export {
-  LOGIN,
-  REGISTER,
-  FORGET_PASSWORD_REQUEST_OTP,
-  RESET_NEW_PASSWORD,
-  OTP_VERIFY,
-  GET_DASHBOARD_DATA,
-  GET_CHECK_IN_DATA,
-  Post_Check_IN_DATA,
-  Book_Coaching_Session,
-  Post_Referal_Data,
-  Post_Support_Data,
-};
-
 const endpoints = {
   ADMIN_LOGIN: "admin/login",
   GET_ADMIN_LEADERBOARD:"admin/leaderboard",
@@ -81,9 +39,10 @@ const endpoints = {
   GET_POST_BY_ID:"community/get-post",
   SET_COUPON_CODE:'/admin/create-coupon',
   USE_COUPON_CODE:'/profile/use-coupon',
-  ADMIN_USER_CHECKIN_DATA:"/admin/user-chart-data"
-
-  
+  ADMIN_USER_CHECKIN_DATA:"/admin/user-chart-data",
+  GET_COUPONS:"/admin/get-coupons",
+  DELETE_COUPON:"/admin/delete-coupon/",
+  TOGGLE_COUPON:"/admin/toggle-coupon-one-time-use",
 };
 
 export default endpoints;
