@@ -4,7 +4,7 @@ import { post } from "@/utils/axios"; // Import the post function
 import toast from "react-hot-toast";
 import endpoints from "@/utils/endpoints";
 
-const AddCoupon: React.FC = () => {
+const AddCoupon = ({fetchCoupons}:any) => {
   const [couponCode, setCouponCode] = useState("");
   const [oneTime, setOneTime] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,6 +36,7 @@ const AddCoupon: React.FC = () => {
         toast.success(response.data.message || "Coupon created successfully!");
         setCouponCode(""); // Reset input field
         setOneTime(false); // Reset checkbox
+        fetchCoupons();
       } else {
         toast.error(response.data.error || "Failed to create the coupon.");
       }

@@ -83,7 +83,7 @@ function GraphTabs({ updateActivityType }) {
         onClick={() => setActiveTab("sobriety")}
       />
       <TabButton
-        label="Praying"
+        label="Stillness"
         icon={<svg
           width="40px"
           height="40px"
