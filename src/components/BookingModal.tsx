@@ -140,134 +140,125 @@ const BookingModal: React.FC<BookingModalProps> = ({
     <>
       {/* First Modal */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-[#202020] text-white rounded-3xl border border-zinc-700 max-w-md w-full p-6 relative">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-              <img src="/laptop.png" alt="Laptop" className="h-16" />
-              {/* <span className="border-2 border-golden bg-golden/10 rounded-xl py-2 px-3 text-xl font-semibold">
-                Premium{" "}
-                <span className="text-2xl ml-1 font-Bricolage-Grotesque">
-                  ${price}
-                </span>
-              </span> */}
-            </div>
-
-            {/* Title */}
-            <h2 className="text-2xl font-semibold mb-2 font-Bricolage-Grotesque">
-              Booking your session
-            </h2>
-            <p className="text-sm text-gray-400 mb-4">
-              Enter your details for setting up your session
-            </p>
-
-            {/* Form */}
-            <form className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="First name"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                  />
-                  {loginErrors.firstName && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {loginErrors.firstName}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Last name"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                  />
-                  {loginErrors.lastName && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {loginErrors.lastName}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                  />
-                  {loginErrors.email && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {loginErrors.email}
-                    </p>
-                  )}
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="(123) 456-7890"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={(e) => {
-                      handleInputChange(e);
-                    }}
-                    // maxLength={15} // Set max digits allowed
-                    className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                  />
-                  {loginErrors.phone && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {loginErrors.phone}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div>
-                <textarea
-                  placeholder="Your reason here"
-                  name="consultationReason"
-                  value={formData.consultationReason}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
-                ></textarea>
-                {loginErrors.consultationReason && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {loginErrors.consultationReason}
-                  </p>
-                )}
-              </div>
-
-              {/* Show general error message if there's any */}
-              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-            </form>
-
-            {/* Footer */}
-            <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <button
-                className="px-10 w-full py-1 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
-                onClick={onClose}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-10 w-full py-3 text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-semibold"
-                onClick={formSubmission}
-                disabled={loading} // Disable button while loading
-              >
-                {loading ? "Booking..." : "Next"}
-              </button>
-            </div>
-          </div>
-        </div>
+       <div className="fixed inset-0  bg-black bg-opacity-50 flex items-center w-full mx-auto justify-center z-50">
+       <div className="bg-[#202020] text-white rounded-3xl border border-zinc-700 max-w-md w-full sm:max-w-sm lg:max-w-md xl:max-w-lg p-6 relative">
+         {/* Header */}
+        
+     
+         {/* Title */}
+         <h2 className="text-2xl font-semibold mb-2 font-Bricolage-Grotesque">
+           Booking your session
+         </h2>
+         <p className="text-sm text-gray-400 mb-4">
+           Enter your details for setting up your session
+         </p>
+     
+         {/* Form */}
+         <form className="space-y-4">
+           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+             <div>
+               <input
+                 type="text"
+                 placeholder="First name"
+                 name="firstName"
+                 value={formData.firstName}
+                 onChange={handleInputChange}
+                 className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+               />
+               {loginErrors.firstName && (
+                 <p className="text-red-500 text-xs mt-1">
+                   {loginErrors.firstName}
+                 </p>
+               )}
+             </div>
+             <div>
+               <input
+                 type="text"
+                 placeholder="Last name"
+                 name="lastName"
+                 value={formData.lastName}
+                 onChange={handleInputChange}
+                 className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+               />
+               {loginErrors.lastName && (
+                 <p className="text-red-500 text-xs mt-1">
+                   {loginErrors.lastName}
+                 </p>
+               )}
+             </div>
+           </div>
+           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+             <div>
+               <input
+                 type="email"
+                 placeholder="Email address"
+                 name="email"
+                 value={formData.email}
+                 onChange={handleInputChange}
+                 className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+               />
+               {loginErrors.email && (
+                 <p className="text-red-500 text-xs mt-1">
+                   {loginErrors.email}
+                 </p>
+               )}
+             </div>
+             <div>
+               <input
+                 type="text"
+                 placeholder="(123) 456-7890"
+                 name="phone"
+                 value={formData.phone}
+                 onChange={handleInputChange}
+                 // maxLength={15} // Set max digits allowed
+                 className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+               />
+               {loginErrors.phone && (
+                 <p className="text-red-500 text-xs mt-1">
+                   {loginErrors.phone}
+                 </p>
+               )}
+             </div>
+           </div>
+           <div>
+             <textarea
+               placeholder="Your reason here"
+               name="consultationReason"
+               value={formData.consultationReason}
+               onChange={handleInputChange}
+               rows={3}
+               className="w-full px-4 py-2 bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
+             ></textarea>
+             {loginErrors.consultationReason && (
+               <p className="text-red-500 text-xs mt-1">
+                 {loginErrors.consultationReason}
+               </p>
+             )}
+           </div>
+     
+           {/* Show general error message if there's any */}
+           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+         </form>
+     
+         {/* Footer */}
+         <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+           <button
+             className="px-10 w-full py-3 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
+             onClick={onClose}
+           >
+             Cancel
+           </button>
+           <button
+             className="px-10 w-full py-3 text-black bg-custom-gradient hover:bg-custom-gradient-hover rounded-full font-semibold"
+             onClick={formSubmission}
+             disabled={loading} // Disable button while loading
+           >
+             {loading ? "Booking..." : "Next"}
+           </button>
+         </div>
+       </div>
+     </div>
+     
       )}
 
       {/* Payment Modal */}

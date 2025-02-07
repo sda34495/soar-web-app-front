@@ -37,13 +37,13 @@ const NotificationDropdown = () => {
   const notifications = useSelector((state:any) => state.profileSlice.notifications);
 
   return (
-    <div className="absolute top-14 right-0 bg-[#1e1e1e] border border-[#454545] rounded-xl shadow-lg py-2 w-64 z-50">
+    <div className="absolute top-14  md:top-14 md:right-0 bg-[#1e1e1e] border border-[#454545] rounded-xl shadow-lg py-2 w-64 z-50">
       <div className="px-4 py-2 text-sm font-semibold text-white border-b border-[#454545]">
         Notifications
       </div>
       {notifications.length > 0 ? (
-        <ul className="flex flex-col space-y-1">
-          {notifications.map((notification) => (
+        <ul className="flex flex-col space-y-1 max-h-40 sm:max-h-80 overflow-y-auto">
+        {notifications.map((notification) => (
             <li
               key={notification._id}
               className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-gray-300 border-b border-[#454545]"

@@ -109,7 +109,7 @@ const UploadPostHandel = ({ nav = true }) => {
 
           <h3>Create the post</h3>
           <p className="text-xs text-[#BDBDBD]">
-            For showing your success and watching other growing
+          To showcase your success and watch others grow.
           </p>
         </button>
       ) : (
@@ -157,8 +157,8 @@ const UploadPostHandel = ({ nav = true }) => {
               {/* Upload Button */}
               <label
                 htmlFor="upload"
-                className={`" border-2  border-dashed border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
-                  selectedImage ? "w-96 h-64" : "w-36 h-16 p-1"
+                className={`" border-2  border-dashed object-cover border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
+                  selectedImage ? "md:w-96 md:h-64 w-[200px] h-32 " : "w-36 h-16 p-1"
                 }`}
               >
                 {imageUrl ? (
@@ -187,7 +187,10 @@ const UploadPostHandel = ({ nav = true }) => {
               {/* Optional Clear Button */}
               {selectedImage && (
                 <button
-                  onClick={() => setSelectedImage(null)}
+                  onClick={() => {
+                    setSelectedImage(null)
+                    setImageUrl("");
+                  }}
                   className="mt-1 text-sm text-red-500 hover:underline"
                 >
                   Remove Image

@@ -12,7 +12,7 @@
 
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PostModal from "./PostModal";
 import { CiCirclePlus } from "react-icons/ci";
 import { getData, post, postImage } from "@/utils/axios";
@@ -26,25 +26,36 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
   // const [isModalOpen, setIsModalOpen] = useState(true);
   const [selectedImage, setSelectedImage] = useState();
   const [loading, setLoading] = useState(false);
+  const [isMediaRemoved, setIsMediaRemoved] = useState(false);
   const [updatedpostData, setUpdatedPostData] = useState({
     id: postData._id,
     title: postData.header,
     description: postData.description,
     allowComments: postData.allow_comments,
     media: postData.media,
+    
   });
   const [imageUrl, setImageUrl] = useState(
     postData.media ? postData.media : ""
   );
+  const fileInputRef = useRef(null);
   const dispatch = useDispatch();
 
   // Handle Image Upload
   const handleImageChange = (event: any) => {
     const file = event.target?.files[0];
+  
     if (file) {
+      if (file.size > 1 * 1024 * 1024) { // 1 MB = 1024 * 1024 bytes
+        toast.error("Image size should be less than 1MB.");
+        return;
+      }
+  
       setSelectedImage(file);
       setImageUrl(URL.createObjectURL(file));
+      setIsMediaRemoved(false);
     }
+    
   };
 
   const fetchPosts = async () => {
@@ -69,9 +80,11 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
     formData.append("header", updatedpostData.title);
     formData.append("description", updatedpostData.description);
     formData.append("allow_comments", updatedpostData.allowComments.toString());
+    formData.append("is_media_removed", isMediaRemoved.toString());
     if (selectedImage) {
       formData.append("media", selectedImage);
     }
+    
     // for (const [key, value] of formData.entries()) {
     //   console.log(`${key}:`, value);
     // }
@@ -91,18 +104,49 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
       setLoading(false);
       handleCloseModal();
       editOpen(false);
+      
+    
     }
   };
+  useEffect(() => {
+    if (editMode) {
+      setUpdatedPostData({
+        id: postData._id,
+        title: postData.header,
+        description: postData.description,
+        allowComments: postData.allow_comments,
+        media: postData.media,
+
+      });
+      setSelectedImage(null); // Reset image selection
+      setImageUrl(postData.media || "");
+      setIsMediaRemoved(false);// Reset image URL to original data
+    }
+  }, [postData, editMode]);
+  
 
   const handleCloseModal = () => {
     setEditMode(false);
     setSelectedImage(null);
+    setImageUrl("");
+  
+    
+    
+  };
+  const clearImage = () => {
+    setSelectedImage(null);
+    setImageUrl("");
+    setIsMediaRemoved(true);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the file input field
+    }
   };
 
+
   return (
-    <div>
+    <div >
       <PostModal
-        title="Create post"
+        title="Edit post"
         description="Enter your details for setting up your session"
         isOpen={editMode}
       >
@@ -142,7 +186,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
               <label
                 htmlFor="upload"
                 className={`" border-2  border-dashed border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
-                  imageUrl ? "w-96 h-64" : "w-36 h-16 p-1"
+                  imageUrl ? "md:w-96 md:h-64 w-[200px] h-32" : "w-36 h-16 p-1"
                 }`}
               >
                 {imageUrl ? (
@@ -161,6 +205,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
                 )}
               </label>
               <input
+                ref={fileInputRef}
                 id="upload"
                 type="file"
                 accept="image/*"
@@ -171,7 +216,7 @@ const EditPostModal = ({ postData, setEditMode,  editMode ,editOpen}) => {
               {/* Optional Clear Button */}
               {selectedImage && (
                 <button
-                  onClick={() => setSelectedImage(null)}
+                  onClick={clearImage}
                   className="mt-1 text-sm text-red-500 hover:underline"
                 >
                   Remove Image

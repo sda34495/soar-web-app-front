@@ -106,7 +106,7 @@ const EditOrDeletePost = ({ post_id, postData }) => {
       >
         <div className="mt-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
           <button
-            className="px-10 w-full py-1 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
+            className="px-10 w-full py-3 text-white font-semibold rounded-full border-2 border-[#7c7c7c]"
             onClick={() => setDeleteMode(false)}
           >
             Cancel

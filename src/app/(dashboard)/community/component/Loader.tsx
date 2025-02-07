@@ -58,7 +58,7 @@ const StaticPostCard = ({ isLoading }: { isLoading: boolean }) => {
 
           <div className="mt-4 items-center max-w-[640px] justify-center mx-auto px-4 bg-slate-400 w-full rounded-xl">
             {isLoading ? (
-              <Skeleton width={400}  baseColor="#3d3d3d" highlightColor="#555" className=" h-[400px] mb-2 w-full flex  ml-20 rounded-md"  />
+              <Skeleton  baseColor="#3d3d3d" highlightColor="#555" className=" h-[400px] mb-2 md:w-full w-[200px] flex  rounded-md"  />
             ) : (
               <img
                 src="/placeholder-image.jpg" // Placeholder image
@@ -70,7 +70,7 @@ const StaticPostCard = ({ isLoading }: { isLoading: boolean }) => {
 
           <div className="flex items-center justify-between mt-4 mr-2">
             {isLoading ? (
-              <Skeleton width={120} height={20} baseColor="#3d3d3d" highlightColor="#555" />
+              <Skeleton width={60} height={20} baseColor="#3d3d3d" highlightColor="#555" />
             ) : (
               <button className="text-gray-400 text-sm flex items-center cursor-pointer hover:text-blue-500">
                 <IoMdHeartEmpty className="mr-2" />
@@ -78,7 +78,7 @@ const StaticPostCard = ({ isLoading }: { isLoading: boolean }) => {
               </button>
             )}
             {isLoading ? (
-              <Skeleton width={120} height={20} baseColor="#3d3d3d" highlightColor="#555" />
+              <Skeleton width={60} height={20} baseColor="#3d3d3d" highlightColor="#555" />
             ) : (
               <button className="text-gray-400 hover:text-blue-500 text-sm flex items-center">
                 <IoChatbubbleEllipsesOutline className="mr-2" />
@@ -86,7 +86,7 @@ const StaticPostCard = ({ isLoading }: { isLoading: boolean }) => {
               </button>
             )}
             {isLoading ? (
-              <Skeleton width={120} height={20} baseColor="#3d3d3d" highlightColor="#555" />
+              <Skeleton width={60} height={20} baseColor="#3d3d3d" highlightColor="#555" />
             ) : (
               <button className="text-gray-400 hover:text-blue-500 flex items-center">
                 <RiShareLine className="mr-2" />
