@@ -41,9 +41,9 @@ const ShareModal: React.FC<ModalProps> = ({
       >
         <div className="relative p-4 w-full max-w-lg  md:h-auto mx-4 my-auto   ">
           <div className="relative p-4 bg-[#202020] rounded-3xl shadow-md md:p-8 border border-[#7c7c7c]">
-            <div className="mb- text-sm font-light">
+            <div className=" text-sm font-light">
               <img src={image_url} alt="" className="h-16 mx-auto" />
-              <h3 className="mb-3 text-center text-2xl font-bold text-white">{title}</h3>
+              <h3 className="mb-3 mt-2 text-center text-2xl font-bold text-white">{title}</h3>
               <p className="text-[#BDBDBD] text-center">{description}</p>
               <div className="mt-5 flex justify-center space-x-4">
                 <button

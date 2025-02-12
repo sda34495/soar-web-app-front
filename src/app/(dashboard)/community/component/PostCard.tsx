@@ -258,7 +258,7 @@ const PostCard = () => {
         title="Share This Post"
         description="Easily share this post with your friends."
         isOpen={isShareModalOpen}
-        image_url="/share-image.png" // Replace with your image URL
+        image_url="/share.svg" // Replace with your image URL
         linkToShare={sharePostDetails.linkToShare}
         onClose={() => setIsShareModalOpen(false)}
       />

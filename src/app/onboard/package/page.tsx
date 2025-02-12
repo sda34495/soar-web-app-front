@@ -87,7 +87,7 @@ const Page = () => {
           </div>
 
           <h1 className="text-2xl md:text-3xl tracking-tighter text-white font-semibold font-Bricolage-Grotesque">
-            $50
+            $9.99
           </h1>
 
           <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
