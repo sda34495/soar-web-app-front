@@ -8,7 +8,6 @@ const instance = axios.create({
   baseURL: url,
   headers: {
     "Content-Type": "application/json",
-
     // Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
@@ -38,7 +37,7 @@ export const post = async (endpoint: string, data: any): Promise<AxiosResponse> 
     const response = await instance.post(endpoint, data);
     return response;
   } catch (error) {
-    console.log(`Error in POST request to ${endpoint}:`, error);
+    // console.log(`Error in POST request to ${endpoint}:`, error);
     throw error;
   }
 };
@@ -48,7 +47,7 @@ export const getData = async (endpoint: string): Promise<AxiosResponse> => {
     const response = await instance.get(endpoint);
     return response;
   } catch (error) {
-    console.log(`Error in GET request to ${endpoint}:`, error);
+    // console.log(`Error in GET request to ${endpoint}:`, error);
     throw error;
   }
 };
@@ -112,7 +111,7 @@ export const postImage = async (endpoint: string, data: any): Promise<AxiosRespo
       }) 
     return response;    
     }catch(error) {
-    console.log("Error posting Image", error);
+    // console.log("Error posting Image", error);
     throw error;
     }
   

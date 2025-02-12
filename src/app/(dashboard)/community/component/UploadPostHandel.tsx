@@ -3,64 +3,167 @@ import Image from "next/image";
 import React, { useState } from "react";
 import PostModal from "./PostModal";
 import { CiCirclePlus } from "react-icons/ci";
+import { getData, post, postImage } from "@/utils/axios";
+import endpoints from "@/utils/endpoints";
+import toast from "react-hot-toast";
+import Spinner from "@/components/UI/Spinner";
+import { useDispatch } from "react-redux";
+import { postActions } from "@/store/post-data";
 
-const UploadPostHandel = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
+const UploadPostHandel = ({ nav = true }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState();
+  const [loading, setLoading] = useState(false);
   
+  const [postData, setPostData] = useState({
+    title: "",
+    description: "",
+    allowComments: true,
+  });
 
+  const dispatch = useDispatch();
+  const [imageUrl, setImageUrl] = useState("");
+  
   // Handle Image Upload
   const handleImageChange = (event: any) => {
-    const file = event.target.files[0];
+    const file = event.target?.files[0];
+  
     if (file) {
-      const reader: any = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      if (file.size > 1 * 1024 * 1024) { // 1 MB = 1024 * 1024 bytes
+        toast.error("Image size should be less than 1MB.");
+        return;
+      }
+  
+      setSelectedImage(file);
+      setImageUrl(URL.createObjectURL(file));
     }
   };
 
-  const handeleSubmit = (e: any) => {
+  const fetchPosts = async () => {
+    try {
+      const response = await getData(endpoints.GET_POSTS);
+      const postsData = response.data.data.posts;
+
+      if (response?.data?.success) {
+        // console.log("Post data before", postsData);
+        // console.log("Post data after", postsData);
+        dispatch(postActions.updateNewData({ data: postsData }));
+      }
+    } catch (error) {
+      toast.error(error.message || "Error fetching posts");
+    }
+  };
+  const handeleSubmit = async (e: any) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("header", postData.title);
+    formData.append("description", postData.description);
+    formData.append("allow_comments", postData.allowComments.toString());
+    formData.append("media", selectedImage);
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
+
+    try {
+      setLoading(true);
+      const response = await postImage(endpoints.CREATE_POST, formData);
+      // console.log(response.data);
+      if (response?.data?.success) {
+        toast.success("Post created successfully.");
+        handleCloseModal();
+        fetchPosts();
+      }
+    } catch {
+      toast.error("Failed to create post.");
+    } finally {
+      setLoading(false);
+      handleCloseModal();
+    }
+  };
+
+  const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedImage(null);
+    setPostData({
+      title: "",
+      description: "",
+      allowComments: true,
+    })
+    setImageUrl("");
   };
 
   return (
     <div>
-      <button onClick={() => setIsModalOpen(true)} className="flex flex-col cursor-pointer space-y-2 items-center justify-center bg-black border p-6 border-[#7c7c7c] border-dashed max-w-[660px] rounded-md w-full">
-        <Image src="/plus.svg" alt="plus icon w-5 h-5" width={30} height={30} />
-        <h3>Create the post</h3>
-        <p className="text-xs text-[#BDBDBD]">
-          For showing your success and watching other growing
-        </p>
-      </button>
+      {!nav ? (
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="flex flex-col cursor-pointer space-y-2 items-center justify-center bg-black border p-6 border-[#7c7c7c] border-dashed max-w-[660px] rounded-md w-full"
+        >
+          <Image
+            src="/plus.svg"
+            alt="plus icon w-5 h-5"
+            width={30}
+            height={30}
+          />
+
+          <h3>Create the post</h3>
+          <p className="text-xs text-[#BDBDBD]">
+          To showcase your success and watch others grow.
+          </p>
+        </button>
+      ) : (
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="cursor-pointer space-y-2 items-center justify-center md:bg-white text-black font-extrabold text-xl  border p-2 my-1  rounded-2xl "
+        >
+          <Image className="block md:hidden" src="/plus.svg" alt="plus" width={30} height={30} />
+          <h3 className="hidden pb-2 md:block">Create Post</h3>
+        </button>
+      )}
 
       <PostModal
-        title="Title"
+        title="Create post"
         description="Enter your details for setting up your session"
         isOpen={isModalOpen}
       >
-        <form onSubmit={handeleSubmit} action="">
-          <div className="flex flex-col space-y-4">
+        <form onSubmit={handeleSubmit}>
+          <div className="flex flex-col space-y-4 mt-2">
             <input
+              onChange={(e) =>
+                setPostData({ ...postData, title: e.target.value })
+              }
+              value={postData.title}
               type="text"
-              placeholder="Description"
+              placeholder="Title"
               required
               className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
             />
+          
+
+            <textarea
+              onChange={(e) =>
+                setPostData({ ...postData, description: e.target.value })
+              }
+              value={postData.description}
+              placeholder="Description"
+              required
+              className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"
+              rows={2} 
+            />
+
             {/* <input type="image" placeholder="Description" className="bg-transparent border-[#7c7c7c] border rounded-md p-3 text-sm w-full placeholder-[#7c7c7c] mt-2"/> */}
             <div className="flex flex-col items-start ">
               {/* Upload Button */}
               <label
                 htmlFor="upload"
-                className={`" border-2  border-dashed border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
-                  selectedImage ? "w-96 h-64" : "w-36 h-16 p-1"
+                className={`" border-2  border-dashed object-cover border-gray-500 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-800" ${
+                  selectedImage ? "md:w-96 md:h-64 w-[200px] h-32 " : "w-36 h-16 p-1"
                 }`}
               >
-                {selectedImage ? (
+                {imageUrl ? (
                   <img
-                    src={selectedImage}
+                    src={imageUrl}
                     alt="Uploaded"
                     className="object-contain w-full h-full rounded-md"
                   />
@@ -79,13 +182,15 @@ const UploadPostHandel = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
-                required
               />
 
               {/* Optional Clear Button */}
               {selectedImage && (
                 <button
-                  onClick={() => setSelectedImage(null)}
+                  onClick={() => {
+                    setSelectedImage(null)
+                    setImageUrl("");
+                  }}
                   className="mt-1 text-sm text-red-500 hover:underline"
                 >
                   Remove Image
@@ -96,6 +201,13 @@ const UploadPostHandel = () => {
               <label className="flex items-center cursor-pointer relative">
                 <input
                   type="checkbox"
+                  onChange={(e) =>
+                    setPostData({
+                      ...postData,
+                      allowComments: e.target.checked,
+                    })
+                  }
+                  checked={postData.allowComments}
                   className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  border-[#7C7C7C] border-2 checked:bg-green-600 checked:border-green-600"
                   id="check4"
                 />
@@ -122,16 +234,26 @@ const UploadPostHandel = () => {
             </div>
 
             <div className="flex items-center space-x-3 w-full ">
-              <button onClick={() => setIsModalOpen(false)} className="bg-transparent border-[#7C7C7C] border  rounded-full p-3 w-full">
+              <button
+                onClick={handleCloseModal}
+                className="bg-transparent border-[#7C7C7C] border  rounded-full p-3 w-full"
+              >
                 {" "}
                 Cancel
               </button>
               <button
                 type="submit"
                 className="bg-custom-gradient text-black font-extrabold rounded-full p-3 w-full"
+                disabled={loading}
               >
                 {" "}
-                {selectedImage ? "Publish Post" : "Next"}
+                {loading ? (
+                  <Spinner />
+                ) : selectedImage ? (
+                  "Publish Post"
+                ) : (
+                  "Next"
+                )}
               </button>
             </div>
           </div>

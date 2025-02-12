@@ -34,17 +34,18 @@ function ForgetPassword() {
         const formdata = new FormData();
 
         formdata.append("email", email);
+        
 
-        console.log({ email });
+        ;
         const response = await post(endpoints.FORGET_PASSWORD_REQUEST_OTP, formdata);
-        console.log("OTP Sent successfully:", response.data);
+        
         if (!response) return;
-        console.log(response);
+        
         
         if (response.status !== 200) {
           throw new Error(response.data.message || "Signup failed");
         }
-        console.log("Signup response:", response.data);
+        
         localStorage.setItem("email", email);
         localStorage.setItem("otp", "verified");
         toast.success("OTP sent successfully");
@@ -171,7 +172,7 @@ function ForgetPassword() {
                   type="submit"
                   className="w-full bg-custom-gradient hover:bg-custom-gradient-hover text-black font-semibold rounded-full p-3 mt-4"
                 >
-                  {loading ? <Spinner/> :  "Login"}
+                  {loading ? <Spinner/> :  "Submit"}
                 </button>
               </div>
             </form>

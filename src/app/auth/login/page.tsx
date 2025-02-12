@@ -1,11 +1,20 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import bgImage from "../../../../public/bg.png";
 import Tab_Switch from "@/components/Tab_Switch";
 import Login from "@/components/Login";
 import SignUp from "@/components/SignUp";
+import { useRouter } from "next/navigation";
 
-function page() {
+function Page() {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/check-in");
+    }
+  });
   return (
     <div className="bg-[#C2A171] min-h-screen text-white flex items-center justify-center px-4">
       {/* Container */}
@@ -62,4 +71,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

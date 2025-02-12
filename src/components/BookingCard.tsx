@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import BookingModal from "./BookingModal";
 
-const BookingCard = () => {
+const BookingCard = ({setUpdatePost}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Function to handle closing the modal
@@ -11,7 +11,7 @@ const BookingCard = () => {
     setIsModalOpen(false);
   };
   return (
-    <div className="max-w-lg mx-auto p-6 text-white rounded-lg mt-16  ml-2 ">
+    <div className="max-w-lg mx-auto md:p-6 text-white rounded-lg mt-16  ml-2 ">
       {/* First Card */}
       <div className="p-4 bg-[#121212] border-zinc-700 border rounded-xl flex flex-col items-start">
         <div className="flex flex-row">
@@ -55,6 +55,7 @@ const BookingCard = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         price="50"
+        setUpdatePost={setUpdatePost}
       />
     </div>
   );

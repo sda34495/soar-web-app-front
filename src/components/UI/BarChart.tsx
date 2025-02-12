@@ -20,30 +20,46 @@ export default function CustomYAxisBarChart({
   data,
   updateActivity,
   updateFilter,
+  activityType,
 }: any) {
+  console.log("this is data%^",data)
   const transformedData = data?.chartData.map((item: any) => ({
+    
     date: item.day, // Use the `day` field for the X-axis labels
     AM: item.morning ? 1 : 0, // Convert `morning` boolean to 0/1
     PM: item.evening ? 2 : 0, // Convert `evening` boolean to 0/1
     No: !item.morning && !item.evening ? 0.1 : null,
   }));
 
+
+  const AM = activityType === "sobriety" ? "night" : "AM";
+  const PM = activityType === "sobriety" ? "day" : "PM";
+
   // ChartJS data configuration
   const designdata = {
     labels: transformedData.map((item) => item.date), // X-axis labels (days)
     datasets: [
       {
-        label: "AM",
+        label: AM,
         data: transformedData.map((item) => item.AM),
-        backgroundColor: "#FFA500", // Orange
+        // backgroundColor: activityType === "sobriety" ? "#FFA500" : "#FFA500",// orange
+        backgroundColor: activityType === "sobriety" 
+        ? "#FFA500" 
+        : activityType === "praying" 
+          ? "#ffff" 
+          : "#FFA500",
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
       },
       {
-        label: "PM",
+        label: PM,
         data: transformedData.map((item) => item.PM),
-        backgroundColor: "#32CD32", // Green
+        backgroundColor: activityType === "sobriety" 
+        ? "#ffff" 
+        : activityType === "praying" 
+          ? "#005Db3" 
+          : "#00FF00", 
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -51,7 +67,7 @@ export default function CustomYAxisBarChart({
       {
         label: "NO",
         data: transformedData.map((item) => item.No),
-        backgroundColor: "red", // red
+        backgroundColor:"red",// Red
         borderWidth: 1,
         barThickness: 15,
         borderRadius: 5,
@@ -76,6 +92,23 @@ export default function CustomYAxisBarChart({
         bodyColor: "#FFFFFF",
         borderColor: "#FFFFFF",
         borderWidth: 1,
+        callbacks: {
+          title: () => "", // Hides the title (date)
+          label: function (context) {
+            const datasetLabel = context.dataset.label || "";
+            const value = context.raw;
+  
+            // Customize tooltips for AM and PM
+            if (datasetLabel === "AM" && value === 1) {
+              return "AM";
+            } else if (datasetLabel === "PM" && value === 2) {
+              return "PM";
+            } else if (datasetLabel === "NO" && value === 0.1) {
+              return "No Activity";
+            }
+            return "";
+          },
+        },
       },
     },
     scales: {
@@ -90,7 +123,7 @@ export default function CustomYAxisBarChart({
       y: {
         ticks: {
           callback: (value: any) => {
-            const labels = ["", "AM", "PM"];
+            const labels = ["", AM, PM];
             return labels[value]; // Map numeric values to custom labels
           },
           color: "#7C7C7C", // White labels for Y-axis
@@ -117,10 +150,12 @@ export default function CustomYAxisBarChart({
             <div className="flex flex-row gap-5 items-center">
               <p className="text-sm text-[#7C7C7C]">Last month</p>
               <DropDownChat updateFilter={updateFilter} />
-              <img src="/vertical.svg" />
+             
             </div>
           </div>
-          <div style={{ width: "100%", height: "320px" }}>
+          <div style={{ width: "100%", height: "320px" }}
+          // className="relative w-full h-80 sm:h-96 md:h-[400px]"
+          >
             <Bar data={designdata} options={options} />
           </div>
         </div>

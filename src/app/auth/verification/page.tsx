@@ -148,8 +148,19 @@ function Verification() {
   const router = useRouter();
   const [email, setEmail] = React.useState<any>();
   const [otp, setOtp] = React.useState();
-  const [loading , setLoading ] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [counter, setCounter] = useState(60);
+  const [resendEnabled, setResendEnabled] = useState(false);
+  
   useEffect(() => {
+    let timer;
+    if (counter > 0) {
+      timer = setInterval(() => {
+        setCounter((prevCounter) => prevCounter - 1);
+      }, 1000);
+    } else {
+      setResendEnabled(true);
+    }
     let otp = localStorage.getItem("otp");
     const Useremail = localStorage.getItem("email");
     if (otp !== "verified") {
@@ -161,8 +172,17 @@ function Verification() {
     }
 
     setEmail(Useremail);
-  }, []);
-
+    return () => clearInterval(timer); 
+  }, [counter]);
+  const handleResend = async ()  => {
+    const formData = new FormData();
+    formData.append("email", email);
+    const response = await post(endpoints.OTP_RESEND, formData);
+    if (response.status === 200) {
+      setCounter(60); // Reset counter to 60 seconds
+      setResendEnabled(false);
+    }  // Disable resend button
+  };
   // Handle input change
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -220,14 +240,14 @@ function Verification() {
       formData.append("email", email);
       formData.append("otp", otpValue);
 
-      console.log(formData);
+      
       const response = await post(endpoints.OTP_VERIFY, formData);
-      console.log(" verification in successfully:", response.data);
+      
       if (!response) return;
-      console.log(response);
+      
 
       toast.success("OTP verified successfully");
-      console.log("OTP response:", response.data);
+      
 
       if (response.status !== 200) {
         throw new Error(response.data.message || " failed");
@@ -237,12 +257,15 @@ function Verification() {
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Verification failed";
       toast.error(errorMessage);
-      console.log(error)
+      
     } finally{
       setLoading(false)
     }
 
    
+  };
+  const maskEmail = (email) => {
+    return email?.replace(/^(.)(.*)(.@.*)$/, "$1***$3");
   };
 
   return (
@@ -296,7 +319,7 @@ function Verification() {
               </h2>
               <p className=" text-center text-lg mb-8 text-[#BDBDBD] ">
                 Enter the code number we sent to{" "}
-                <span className="text-white"> anders*******.com</span>
+                <span className="text-white">{maskEmail(email)}</span>
               </p>
             </div>
             <form onSubmit={handleSubmit}>
@@ -330,12 +353,20 @@ function Verification() {
                 </button>
               </div>
             </form>
-            <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-
-            <p className=" -mt-6 text-sm sm:text-lg text-center text-[#989898] ">
-              If you don't get the code, resend it in{" "}
-              <span className="text-[#C2A171] font-semibold">24 seconds.</span>
-            </p>
+            {resendEnabled ? (
+              <><hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" /><p className=" -mt-6 text-sm sm:text-lg text-center text-[#989898] ">
+                If you don't get the code,{" "}
+                <button onClick={handleResend} className="text-[#C2A171] font-semibold">Resend</button>
+              </p></>
+            ): (
+                <>
+                  <hr className="my-12 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" /><p className=" -mt-6 text-sm sm:text-lg text-center text-[#989898] ">
+                If you don't get the code, resend it after{" "}
+                    <span className="text-[#C2A171] font-semibold">{counter}s</span>
+              </p>
+                </>
+             
+            )}
           </div>
         </div>
       </div>
