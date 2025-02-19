@@ -1,15 +1,17 @@
 "use client";
-import { post } from "@/utils/axios";
+import { getData, post } from "@/utils/axios";
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation"; // Import useRouter for redirection
 import endpoints from "@/utils/endpoints";
+import useSidebarLoading from "@/Hook/useSidebarLoading";
 
 interface FormData {
   fitness_plan_description: string;
   finance_plan_description: string;
   sobriety_plan_description: string;
   be_still_plan_description: string;
+
 }
 
 interface Errors {
@@ -17,6 +19,27 @@ interface Errors {
   finance_plan_description?: string;
   sobriety_plan_description?: string;
   be_still_plan_description?: string;
+}
+
+interface CheckInDetails {
+  goals: any;
+  morning: boolean;
+  evening: boolean;
+  progress: number;
+}
+
+interface CheckInData {
+  goals: any;
+  pending_check_ins: number;
+  total_done: number;
+  total_minutes_spent: number;
+  total_progress: number;
+  check_in_details: {
+    sobriety: CheckInDetails;
+    finance: CheckInDetails;
+    fitness: CheckInDetails;
+    praying: CheckInDetails;
+  };
 }
 
 const Page = () => {
@@ -29,13 +52,38 @@ const Page = () => {
 
   const [errors, setErrors] = useState<Errors>({});
   const router = useRouter(); // Initialize the router for redirection
+  const [checkInStatus, setCheckInStatus]=useState<CheckInData | null>(null)
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+
+  useEffect(() => {
+    const fetchCheckInDetails = async () => {
+      try {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const response = await getData(`${endpoints.GET_CHECK_IN_DATA}?timezone=${timezone}`);
+        if (response.data?.success) {
+          const goals = response.data?.data?.goals;
+          if (goals) {
+            setFormData({
+              fitness_plan_description: goals.fitness || "",
+              finance_plan_description: goals.finance || "",
+              sobriety_plan_description: goals.sobriety || "",
+              be_still_plan_description: goals.stillness || "",
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch check-in details:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCheckInDetails();
+  }, []);
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const validateForm = (): Errors => {
@@ -55,7 +103,7 @@ const Page = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // Perform validation
+    
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
@@ -65,37 +113,30 @@ const Page = () => {
     try {
       const response = await post(endpoints.POST_ONBOARDING_PLANS, formData);
 
-      toast.success("Submitted");
-
-      // Redirect to the next page (replace '/next-page' with your actual target page)
-      router.push("/onboard/package");
+      toast.success("Updated Successfully");
+  
     } catch (error) {
-      console.error("Error submitting form:", error);
+
       toast.error("Something went wrong");
     }
   };
 
+  useSidebarLoading();
+
   return (
     <>
-      <div className="relative w-full min-h-screen  bg-image bg-cover bg-center bg-zinc-900 dark:bg-zinc-900">
-        <div className="flex flex-col  mx-6 sm:mx-40 lg:mx-auto">
-          <div className="sm:mx-auto  md:mx-20 w-full sm:w-2/3 lg:w-1/2">
-            <header className="w-full mt-10 bg-red">
-              <div className="w-[120px] text-center">
-                <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-                <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#fbedd3] to-[#c3a374]">
-                  SOAR
-                </h1>
-                <hr className="my-3 h-[2px] border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-45 dark:via-neutral-400" />
-              </div>
+      <div className="relative w-full min-h-screen  bg-cover bg-cente">
+        <div className="flex flex-col  ">
+          <div className="">
+            <header className="w-full mt-5 bg-red">
+              
             </header>
-            <div className="mt-10 items-start">
+            <div className="items-start">
               <h2 className="text-white text-2xl">
-                How are you planning to use SOAR?
+                Update your Goals
               </h2>
               <p className="text-zinc-500 mt-2">
-                We&apos;ll fit the experience to your needs. Don&apos;t worry,
-                you can change it later.
+              Update your goals to stay on track and make the most out of SOAR.
               </p>
             </div>
 
@@ -115,7 +156,7 @@ const Page = () => {
                     name="fitness_plan_description"
                     value={formData.fitness_plan_description}
                     onChange={handleInputChange}
-                    placeholder="Enter your fitness goal here"
+                    // placeholder={checkInStatus?.goals.fitness}
                     className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
                   {errors.fitness_plan_description && (
@@ -138,7 +179,7 @@ const Page = () => {
                     name="finance_plan_description"
                     value={formData.finance_plan_description}
                     onChange={handleInputChange}
-                    placeholder="Enter your finance goal here"
+                    // placeholder={checkInStatus?.goals.finance}
                     className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
                   {errors.finance_plan_description && (
@@ -163,7 +204,7 @@ const Page = () => {
                     name="sobriety_plan_description"
                     value={formData.sobriety_plan_description}
                     onChange={handleInputChange}
-                    placeholder="Enter your alcohol/No-substance goal here"
+                    // placeholder={checkInStatus?.goals.sobriety}
                     className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
                   {errors.sobriety_plan_description && (
@@ -202,7 +243,7 @@ const Page = () => {
                     name="be_still_plan_description"
                     value={formData.be_still_plan_description}
                     onChange={handleInputChange}
-                    placeholder="Enter your be still goal here"
+                    // placeholder={checkInStatus?.goals.stillness}
                     className="py-3 px-4 block w-full bg-zinc-600/30 opacity-90 border-[#7c7c7c] rounded-lg placeholder-[#7c7c7c] font-semibold border"
                   />
                   {errors.be_still_plan_description && (
