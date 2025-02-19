@@ -45,6 +45,8 @@ const CheckInPage = () => {
       if (response.data?.success) {
         const checkInDetails = response.data?.data;
         setCheckInStatus(checkInDetails);
+      
+        
       }
     } catch (error) {
       console.error("Failed to fetch check-in details:", error);
