@@ -213,6 +213,17 @@ const Sidebar = () => {
 
         break;
 
+        case "/editgoal":
+        setActiveItem("Edit your Goal");
+        dispatch(
+          navbarActions.updateNavbar({
+            title: "Edit your Goal",
+            description: "Update your goal to stay on track.",
+          })
+        );
+
+        break;
+
       case "/setting":
         setActiveItem("Settings");
         dispatch(
@@ -448,6 +459,30 @@ const Sidebar = () => {
                       className="mr-4"
                     />
                     <p>Talk to Doctor</p>
+                  </li>
+                </Link>
+              </button>
+
+
+              <button onClick={() => updateloader("Edit your Goal")}>
+                <Link href="/editgoal">
+                  <li
+                    className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
+                      activeItem === "Edit your Goal"
+                        ? "bg-custom-gradient lg:rounded-xl p-1 text-black font-semibold"
+                        : "text-[#BDBDBD]"
+                    }`}
+                  >
+                    <img
+                      src={
+                        activeItem === "Edit your Goal"
+                          ? "/sidebar/darkgoal.svg"
+                          : "/sidebar/goal.svg"
+                      }
+                      alt="Edit your goal"
+                      className="mr-4"
+                    />
+                    <p>Edit your Goal</p>
                   </li>
                 </Link>
               </button>

@@ -187,6 +187,33 @@ function SmallSideBar() {
           </Link>
         </button>
 
+
+
+        <button onClick={() => {updateloader("Edit your Goal");
+          setIsOpen(false);
+        }}>
+          <Link href="/editgoal">
+            <li
+              className={`flex items-center px-1 py-2 cursor-pointer font-semibold ${
+                activeItem === "Edit your Goal"
+                  ? "bg-custom-gradient rounded-xl p-1 text-black font-semibold"
+                  : "text-[#BDBDBD]"
+              }`}
+            >
+              <img
+                src={
+                  activeItem === "Edit your Goal"
+                    ? "/sidebar/health-dark.svg"
+                    : "/sidebar/health.svg"
+                }
+                alt="Talk to doc"
+                className="mr-4"
+              />
+              <p>Edit your Goal</p>
+            </li>
+          </Link>
+        </button>
+
         <button onClick={() => {updateloader("Settings");
           setIsOpen(false);
         }}>
